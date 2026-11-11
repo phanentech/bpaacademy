@@ -3,9 +3,16 @@
 <head>
 <base target="_top">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1b3f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Great+Vibes&family=Montserrat:wght@500;700;800;900&family=Bebas+Neue&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 <style>
@@ -213,6 +220,100 @@ footer.pub a{color:#cbd5e1;text-decoration:none}footer.pub a:hover{color:#fff}
 @keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
 .prov{border:1px solid var(--line);border-radius:16px;padding:1rem;background:#fff;height:100%;display:flex;flex-direction:column;gap:.55rem}
 .prov .pn{font-weight:700}
+
+/* ===== speed + mobile ===== */
+.min-w-0{min-width:0}
+.cls-card>.flex-fill{min-width:0;flex:1 1 140px}
+.cls-card .fw-bold,.p-body h5,.l-card h6{overflow-wrap:anywhere}
+button,.btn,a,.nav-i,.chip,.lesson{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body{overflow-x:clip}
+img,video,canvas{max-width:100%}
+.card-x,.bubble,.tbl td,.notif,.mat{overflow-wrap:anywhere}
+.skel{background:linear-gradient(90deg,#eceff5 25%,#f6f8fb 50%,#eceff5 75%);background-size:200% 100%;animation:shim 1.1s linear infinite;border-radius:14px}
+@keyframes shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.stick-xl{position:sticky;top:88px}
+.sb-close{display:none}
+.bnav{display:none}
+@media(max-width:1199.98px){.stick-xl{position:static}}
+@media(max-width:991.98px){
+  .bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:1036;background:rgba(255,255,255,.97);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px -18px rgba(15,23,42,.35)}
+  .bnav a{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:54px;padding:4px 2px;border-radius:14px;color:#64748b;text-decoration:none;font-size:.68rem;font-weight:700;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bnav a i{font-size:1.18rem;width:46px;height:30px;display:grid;place-items:center;border-radius:99px;transition:background .15s,color .15s}
+  .bnav a.active{color:#6d28d9}
+  .bnav a.active i{background:#ede9fe;color:#6d28d9}
+  .bnav a:active i{transform:scale(.92)}
+  .bnav.pub-bn a.bn-cta i{background:var(--grad);color:#fff}.bnav.pub-bn a.bn-cta{color:#4c1d95}
+  .app .main{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+  footer.pub{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  .sb-close{display:grid;margin-left:auto;width:36px;height:36px;border-radius:10px;border:0;background:rgba(255,255,255,.08);color:#fff;place-items:center}
+  .sidebar{width:min(300px,86vw);padding-bottom:env(safe-area-inset-bottom)}
+  .topbar{padding:.6rem .9rem;padding-top:calc(.6rem + env(safe-area-inset-top))}
+  #toasts{left:12px;right:12px;top:auto;bottom:calc(86px + env(safe-area-inset-bottom));max-width:none}
+}
+@media(max-width:767.98px){
+  .form-control,.form-select,textarea,input{font-size:16px!important}
+  .content{padding:.85rem .8rem}
+  .topbar h4{font-size:1.02rem}
+  .page-head{flex-direction:column;align-items:stretch;gap:.75rem;margin-bottom:1rem}
+  .page-head h3{font-size:1.3rem}
+  .page-head>div:last-child{width:100%}
+  .page-head>div:last-child>.btn{flex:1 1 auto}
+  .page-head input,.page-head select{width:100%!important;max-width:none!important}
+  .tools .form-control,.tools .form-select{max-width:none;flex:1 1 100%}
+  .card-x{padding:1rem;border-radius:16px}
+  .welcome{padding:1.25rem;border-radius:18px}
+  .welcome h3{font-size:1.35rem}
+  .stat{padding:.8rem;gap:.65rem;border-radius:14px}
+  .stat .ic{width:38px;height:38px;border-radius:11px;font-size:.95rem}
+  .stat .v{font-size:1.15rem}.stat .k{font-size:.7rem}
+  .kv{grid-template-columns:1fr;gap:.1rem}.kv dd{margin-bottom:.45rem}
+  .cls-card{flex-wrap:wrap}
+  .cls-card>.d-flex:last-child{width:100%}
+  .cls-card>.d-flex:last-child .btn{flex:1}
+  .mat{flex-wrap:wrap}
+  .mat>.d-flex:last-child{width:100%}
+  .mat>.d-flex:last-child .btn{flex:1}
+  .nav-pills{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .nav-pills::-webkit-scrollbar{display:none}
+  .nav-pills .nav-link{white-space:nowrap}
+  .chat-wrap{height:calc(100dvh - 268px);min-height:360px}
+  .bubble{max-width:90%}
+  .switch-card{padding:.9rem}
+  .act .btn{padding:.42rem .65rem}
+  .sec{padding:56px 0}
+  .row.g-5{--bs-gutter-x:1.5rem;--bs-gutter-y:2rem}
+  .mock-wrap{padding:0}
+  .hero{padding:44px 0 70px}
+  .hero p.lead{font-size:1rem}
+  .hero .btn-lg{flex:1 1 100%}
+  .cta{padding:2rem 1.3rem;border-radius:22px}
+  .center-card{margin:4vh 12px;padding:1.6rem}
+  .modal-footer{flex-wrap:wrap;gap:.5rem}
+  .modal-footer>.btn{flex:1 1 auto}
+  /* tables become cards */
+  .tbl-stack thead{display:none}
+  .tbl-stack,.tbl-stack tbody,.tbl-stack tr{display:block;width:100%}
+  .tbl-stack tr{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;padding:.3rem 0;box-shadow:0 4px 14px -12px rgba(15,23,42,.3)}
+  .tbl-stack td{display:flex;align-items:center;justify-content:space-between;gap:.9rem;border:0!important;padding:.45rem .85rem!important;text-align:right!important;width:100%;box-sizing:border-box}
+  .tbl-stack td::before{content:attr(data-label);flex-shrink:0;max-width:42%;text-align:left;font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .tbl-stack td[data-label=""]::before{display:none}
+  .tbl-stack td[data-label=""]{justify-content:flex-end}
+  .tbl-stack td:first-child{display:block;text-align:left!important;border-bottom:1px solid #f1f5f9!important;padding-bottom:.6rem!important;margin-bottom:.15rem}
+  .tbl-stack td:first-child::before{display:none}
+  .tbl-stack tr:hover td{background:transparent}
+  .tbl-stack .act{justify-content:flex-end;flex-wrap:wrap}
+  .tbl-wrap:has(.tbl-stack){border:0;overflow:visible;border-radius:0}
+  .tbl-wrap{-webkit-overflow-scrolling:touch}
+}
+@media(max-width:575.98px){
+  #appModal .modal-dialog{margin:0;max-width:none;width:100%;height:100%;min-height:100%;align-items:stretch}
+  #appModal .modal-content{border-radius:0;min-height:100%;max-height:100%}
+  #appModal .modal-dialog-scrollable .modal-content{max-height:100%}
+  #appModal .modal-header{padding-top:calc(1rem + env(safe-area-inset-top))}
+  #appModal .modal-footer{padding-bottom:calc(.75rem + env(safe-area-inset-bottom))}
+  .row.g-4{--bs-gutter-y:1rem;--bs-gutter-x:1rem}
+}
+@media(max-width:380px){.bnav a{font-size:.62rem}.bnav a i{width:40px}.stat .v{font-size:1.02rem}}
 </style>
 </head>
 <body>
@@ -242,7 +343,6 @@ footer.pub a{color:#cbd5e1;text-decoration:none}footer.pub a:hover{color:#fff}
 <div id="loader"><div class="box"><div class="spinner-border text-primary"></div><span id="loaderText">Please wait…</span></div></div>
 
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 window.__booted = false;
 function bootFail(msg) {
@@ -315,6 +415,7 @@ const STATUS_COLORS = { Active: 'success', Success: 'success', Completed: 'succe
 const badge = s => `<span class="badge-s bs-${STATUS_COLORS[s] || 'secondary'}">${esc(s || '—')}</span>`;
 const yesNo = v => isT(v) ? '<span class="badge-s bs-success">Yes</span>' : '<span class="badge-s bs-secondary">No</span>';
 const spin = () => '<div class="py-5 text-center text-muted"><div class="spinner-border text-primary"></div></div>';
+const skeleton = () => '<div aria-busy="true"><div class="skel" style="height:26px;width:42%"></div><div class="skel" style="height:14px;width:68%;margin-top:12px"></div><div class="row g-3 mt-1">' + [1, 2, 3, 4].map(() => '<div class="col-6 col-lg-3"><div class="skel" style="height:86px"></div></div>').join('') + '</div><div class="skel mt-3" style="height:220px"></div></div>';
 const empty = (icon, title, text, btn) => `<div class="empty"><div class="ic"><i class="fa-solid ${icon}"></i></div><h6 class="fw-bold text-dark">${esc(title)}</h6><p class="mb-3">${esc(text || '')}</p>${btn || ''}</div>`;
 const iconCls = ic => { ic = String(ic || '').trim(); if (!ic) return 'fa-solid fa-book'; if (!/^[a-z0-9\- ]+$/i.test(ic)) return 'fa-solid fa-book'; return /fa-(solid|regular|brands)/.test(ic) ? ic : 'fa-solid ' + ic; };
 
@@ -350,9 +451,99 @@ function callHttp(action, payload) {
     catch (e) { throw new Error('The backend returned an unexpected response. Check BACKEND_URL and that the web app is deployed with access for "Anyone".'); }
   });
 }
+const READS = new Set(['publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff']);
+const NO_DIRTY = new Set(['batch', 'getMaterialFile', 'getVideo', 'getAssignmentFile', 'getCertificateData', 'getStaffFile', 'aiTutor', 'aiGenerate', 'aiTestModel', 'imageData', 'verifyCertificate', 'markNotificationsRead', 'joinClass', 'login', 'register', 'logout', 'forgotPassword']);
+const RC = { mem: {}, at: {}, uid: '', dirty: 0, pending: {} };
+function rcKey(a, p) { return a + '|' + JSON.stringify(p || {}); }
+function saveUser() { try { if (S.user) store.set('bpa_user', JSON.stringify(S.user)); } catch (e) {} }
+function rcLoad() {
+  RC.mem = {}; RC.at = {}; RC.pending = {}; RC.uid = S.user ? S.user.userId : '';
+  if (!RC.uid) return;
+  try { RC.mem = JSON.parse(store.get('bpa_rc_' + RC.uid) || '{}') || {}; } catch (e) { RC.mem = {}; }
+}
+let _rcT = null;
+function rcSave() {
+  clearTimeout(_rcT);
+  _rcT = setTimeout(() => {
+    if (!RC.uid) return;
+    try { let j = JSON.stringify(RC.mem); if (j.length > 2500000) { RC.mem = {}; j = '{}'; } store.set('bpa_rc_' + RC.uid, j); } catch (e) {}
+  }, 500);
+}
+function rcSet(k, d) { if (!RC.uid) return; RC.mem[k] = d; RC.at[k] = Date.now(); rcSave(); }
+function rcClear() { if (RC.uid) store.del('bpa_rc_' + RC.uid); RC.mem = {}; RC.at = {}; RC.pending = {}; RC.uid = ''; store.del('bpa_user'); }
+function rawCall(action, payload) { return IN_GAS ? callGas(action, payload) : callHttp(action, payload); }
+function callBatch(calls) { return call('batch', { calls: calls }); }
+// Read with instant cache: returns saved data at once, then refreshes it in the background.
+function rcall(action, payload) {
+  const k = rcKey(action, payload);
+  if (RC.uid && S.user && Object.prototype.hasOwnProperty.call(RC.mem, k) && (RC.at[k] || 0) >= RC.dirty) {
+    if (Date.now() - (RC.at[k] || 0) > 20000) rcRevalidate(k, action, payload);
+    return Promise.resolve(RC.mem[k]);
+  }
+  if (RC.uid && S.user && Object.prototype.hasOwnProperty.call(RC.mem, k) && !RC.at[k] && !RC.dirty) {
+    rcRevalidate(k, action, payload);
+    return Promise.resolve(RC.mem[k]);
+  }
+  return call(action, payload);
+}
+const RCQ = []; let _rcqT = null;
+function rcRevalidate(k, action, payload) {
+  if (RC.pending[k]) return;
+  RC.pending[k] = 1;
+  RCQ.push({ k: k, action: action, payload: payload, tok: S.navToken, sec: S.sec });
+  clearTimeout(_rcqT); _rcqT = setTimeout(flushRevalidate, 25);
+}
+function busyTyping() { const a = document.activeElement; return !!(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && a.closest('#main')); }
+function flushRevalidate() {
+  const q = RCQ.splice(0, 20);
+  if (!q.length) return;
+  const old = q.map(x => JSON.stringify(RC.mem[x.k]));
+  callBatch(q.map(x => ({ action: x.action, payload: x.payload }))).then(res => {
+    let changed = false;
+    (res || []).forEach((r, i) => {
+      delete RC.pending[q[i].k];
+      if (r && r.ok) { if (JSON.stringify(r.data) !== old[i]) changed = true; rcSet(q[i].k, r.data); }
+      else if (r && r.code === 'AUTH' && S.user) forceLogout(r.error);
+    });
+    if (changed && q[0].tok === S.navToken && q[0].sec === S.sec && S.view !== 'public' && !document.querySelector('.modal.show') && !busyTyping()) softRefresh();
+  }).catch(() => q.forEach(x => { delete RC.pending[x.k]; RC.at[x.k] = 0; }));
+  if (RCQ.length) _rcqT = setTimeout(flushRevalidate, 25);
+}
+function softRefresh() { const y = window.scrollY; nav(S.sec, S.navArg, true).then(() => window.scrollTo(0, y)); }
+// Loads the main screens in one background request so every menu tap opens instantly.
+let _preT = null;
+function prefetchAll() {
+  clearTimeout(_preT);
+  _preT = setTimeout(async () => {
+    if (!S.user || !RC.uid) return;
+    try { if (navigator.connection && navigator.connection.saveData) return; } catch (e) {}
+    const st = S.user.role === 'STUDENT', adm = S.user.role === 'ADMIN';
+    const calls = st ? ['studentDashboard', 'myLearning', 'myClasses', 'myMaterials', 'myRecordings', 'myAssignments', 'myCertificates', 'myPayments', 'myAnnouncements', 'myNotifications', 'myHistory'].map(a => ({ action: a, payload: {} }))
+      : [{ action: 'adminStats', payload: {} }, { action: 'adminLookups', payload: {} }, { action: 'aiStatus', payload: {} }, { action: 'myNotifications', payload: {} }]
+        .concat((adm ? ['Programmes', 'Students', 'Enrolments', 'Payments', 'Classes', 'Materials'] : ['Classes', 'Materials', 'Recordings', 'Assignments']).map(e => ({ action: 'adminList', payload: { entity: e } })));
+    const want = calls.filter(c => { const k = rcKey(c.action, c.payload); return !RC.pending[k] && !(RC.at[k] && Date.now() - RC.at[k] < 20000); });
+    if (!want.length) return;
+    try {
+      const res = await callBatch(want);
+      res.forEach((r, i) => { if (r && r.ok) rcSet(rcKey(want[i].action, want[i].payload), r.data); });
+      if (st) {
+        const li = res[want.findIndex(c => c.action === 'myLearning')];
+        const ids = li && li.ok ? li.data.filter(l => ['Enrolled', 'In Progress', 'Completed'].includes(l.status)).slice(0, 6).map(l => l.programmeId) : [];
+        if (ids.length) {
+          const r2 = await callBatch(ids.map(id => ({ action: 'programmeContent', payload: { programmeId: id } })));
+          r2.forEach((r, i) => { if (r && r.ok) rcSet(rcKey('programmeContent', { programmeId: ids[i] }), r.data); });
+        }
+      }
+    } catch (e) {}
+  }, 700);
+}
 function call(action, payload) {
-  return (IN_GAS ? callGas(action, payload) : callHttp(action, payload)).then(r => {
-    if (r && r.ok) return r.data;
+  return rawCall(action, payload).then(r => {
+    if (r && r.ok) {
+      if (READS.has(action)) { if (S.user) rcSet(rcKey(action, payload), r.data); }
+      else if (!NO_DIRTY.has(action)) RC.dirty = Date.now();
+      return r.data;
+    }
     if (r && r.code === 'AUTH' && S.user) forceLogout(r.error);
     throw new Error((r && r.error) || 'Something went wrong. Please try again.');
   });
@@ -695,7 +886,8 @@ function renderPublic() {
     </div>
   </footer>`;
 
-  $('#app').innerHTML = nav + hero + cats + progs + tuts + why + how + classes + testi + faq + cta + footer;
+  const pubNav = `<nav class="bnav pub-bn" aria-label="Main"><a class="active" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-house"></i><span>Home</span></a><a onclick="go('programmes')"><i class="fa-solid fa-compass"></i><span>Courses</span></a>${P.tutorialsEnabled ? `<a onclick="go('tutorials')"><i class="fa-solid fa-graduation-cap"></i><span>Tutorials</span></a>` : ''}<a onclick="joinAClass()"><i class="fa-solid fa-video"></i><span>Classes</span></a>${S.user ? `<a class="bn-cta" onclick="goApp()"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>` : `<a class="bn-cta" onclick="openAuth('login')"><i class="fa-solid fa-user"></i><span>Login</span></a>`}</nav>`;
+  $('#app').innerHTML = nav + hero + cats + progs + tuts + why + how + classes + testi + faq + cta + footer + pubNav;
   drawCatChips(); drawProgGrid(); if (P.tutorialsEnabled) drawTutGrid();
   bindReveal();
   window.scrollTo(0, 0);
@@ -764,7 +956,7 @@ function showPolicy(k) { const s = S.pub.settings; modal(k === 'privacy' ? 'Priv
 async function openProgramme(id) {
   modal('Programme details', spin(), '', 'lg');
   try {
-    const p = await call('programmeDetails', { id });
+    const p = await rcall('programmeDetails', { id });
     const t = p.tutorial, cover = safeUrl(p.cover);
     const objectives = String(p.objectives || '').split('\n').map(x => x.trim()).filter(Boolean);
     $('#mTitle').innerHTML = esc(p.title);
@@ -875,7 +1067,7 @@ async function doAuth(ev, mode) {
   try {
     if (mode === 'login' || mode === 'register') {
       const r = await call(mode, d);
-      S.token = r.token; store.set('bpa_lms_token', r.token); S.user = r.user;
+      S.token = r.token; store.set('bpa_lms_token', r.token); S.user = r.user; saveUser(); rcLoad();
       closeModal();
       toast(mode === 'register' ? 'Welcome aboard! Check your email to verify your account.' : 'Welcome back, ' + (r.user.name || '').split(' ')[0] + '!');
       if (S.pendingEnrol && r.user.role === 'STUDENT') { const id = S.pendingEnrol; S.pendingEnrol = null; renderPublic(); return setTimeout(() => openProgramme(id), 400); }
@@ -893,11 +1085,11 @@ async function doAuth(ev, mode) {
 }
 async function logout() {
   try { await call('logout'); } catch (e) {}
-  S.token = ''; S.user = null; store.del('bpa_lms_token'); S.lk = null; S.rows = {};
+  rcClear(); S.token = ''; S.user = null; store.del('bpa_lms_token'); S.lk = null; S.rows = {}; S.ai = null; S.tutor = null;
   toast('You have been logged out.', 'info');
   await refreshPublic(); renderPublic();
 }
-function forceLogout(msg) { S.token = ''; S.user = null; store.del('bpa_lms_token'); toast(msg || 'Session expired. Please log in.', 'warning'); renderPublic(); setTimeout(() => openAuth('login'), 300); }
+function forceLogout(msg) { rcClear(); S.token = ''; S.user = null; store.del('bpa_lms_token'); toast(msg || 'Session expired. Please log in.', 'warning'); renderPublic(); setTimeout(() => openAuth('login'), 300); }
 async function refreshPublic() { try { S.pub = await call('publicData'); try { store.set('bpa_pub', JSON.stringify(S.pub)); } catch (e) {} } catch (e) {} }
 async function doVerifyEmail(token) {
   S.view = 'verify';
@@ -963,7 +1155,7 @@ function buildShell(kind) {
   $('#app').innerHTML = `
   <div class="app">
     <aside class="sidebar" id="sidebar">
-      <div class="sb-brand">${brandHtml(true)}</div>
+      <div class="sb-brand">${brandHtml(true)}<button class="sb-close" onclick="toggleSb(false)" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button></div>
       ${kind === 'admin' ? `<div class="px-4 mb-1"><span class="badge-s bs-purple">${S.user.isSuper ? '<i class="fa-solid fa-crown me-1"></i>Platform Owner' : S.user.role === 'ADMIN' ? 'Administrator' : 'Instructor'}</span></div>` : ''}
       <nav>${items}</nav>
       <div class="sb-foot"><a class="nav-i" onclick="renderPublic()"><i class="fa-solid fa-globe"></i><span>View website</span></a><a class="nav-i" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i><span>Log out</span></a></div>
@@ -971,7 +1163,6 @@ function buildShell(kind) {
     <div class="sb-backdrop" id="sbBack" onclick="toggleSb(false)"></div>
     <div class="main">
       <div class="topbar">
-        <button class="icon-btn d-lg-none" onclick="toggleSb(true)"><i class="fa-solid fa-bars"></i></button>
         <h4 id="pageTitle" class="flex-fill text-truncate"></h4>
         <button class="icon-btn" onclick="openNotifications()" title="Notifications"><i class="fa-regular fa-bell"></i><span class="dot d-none" id="bellDot"></span></button>
         <div class="dropdown um-wrap"><button type="button" class="btn p-0 d-flex align-items-center gap-2" onclick="toggleUserMenu(event)" aria-haspopup="true"><div class="avatar">${esc(initials(S.user.name))}</div><div class="text-start d-none d-md-block"><div class="fw-bold small lh-1">${esc(S.user.name)}</div><div class="small-muted">${esc(S.user.email)}</div></div><i class="fa-solid fa-chevron-down small text-muted d-none d-md-inline"></i></button>
@@ -979,25 +1170,45 @@ function buildShell(kind) {
       </div>
       <div class="content" id="main"></div>
     </div>
+    ${bottomNav(kind)}
   </div>`;
   refreshBell();
+  prefetchAll();
   if (kind === 'admin') loadAi();
 }
-async function loadAi() { try { S.ai = await call('aiStatus'); } catch (e) { S.ai = null; } }
-function toggleSb(open) { $('#sidebar').classList.toggle('open', open); $('#sbBack').classList.toggle('show', open); }
+async function loadAi() { try { S.ai = await rcall('aiStatus'); } catch (e) { S.ai = null; } }
+function bottomNav(kind) {
+  const isAdmin = S.user.role === 'ADMIN';
+  const tabs = kind === 'student'
+    ? [['overview', 'Home', 'fa-house'], ['learning', 'Learning', 'fa-book-open'], ['classes', 'Classes', 'fa-video'], (S.pub && S.pub.aiTutor) ? ['tutor', 'AI Tutor', 'fa-wand-magic-sparkles'] : ['materials', 'Materials', 'fa-folder-open']]
+    : isAdmin ? [['dashboard', 'Home', 'fa-house'], ['students', 'Students', 'fa-user-graduate'], ['programmes', 'Courses', 'fa-book'], ['payments', 'Payments', 'fa-credit-card']]
+    : [['dashboard', 'Home', 'fa-house'], ['classes', 'Classes', 'fa-video'], ['materials', 'Materials', 'fa-folder-open'], ['assignments', 'Tasks', 'fa-file-pen']];
+  return `<nav class="bnav" aria-label="Main">${tabs.map(t => `<a data-tab="${t[0]}" onclick="nav('${t[0]}')"><i class="fa-solid ${t[2]}"></i><span>${t[1]}</span></a>`).join('')}<a data-tab="more" onclick="toggleSb(true)"><i class="fa-solid fa-grip"></i><span>More</span></a></nav>`;
+}
+function toggleSb(open) { const sb = $('#sidebar'), bk = $('#sbBack'); if (sb) sb.classList.toggle('open', open); if (bk) bk.classList.toggle('show', open); }
 const TITLES = { flyers: 'Flyer Studio', tutor: 'AI Study Assistant', ai: 'AI Models', overview: 'Dashboard', learning: 'My Learning', materials: 'My Learning Materials', classes: 'My Classes', recordings: 'Recorded Classes', assignments: 'Assignments', certificates: 'Certificates', history: 'Learning History', payments: 'Payments', announcements: 'Announcements', catalog: 'Browse Programmes', profile: 'My Profile', course: 'Course', dashboard: 'Dashboard', students: 'Students', programmes: 'Programmes', categories: 'Course Categories', tutorials: 'Academic Tutorials', enrolments: 'Enrolments', testimonials: 'Testimonials', website: 'Website Content', reports: 'Reports', settings: 'System Settings' };
-async function nav(sec, arg) {
+async function nav(sec, arg, silent) {
+  const host = $('#main'); if (!host) return;
+  if (silent && (!host.firstElementChild || S.sec !== sec)) return;
   const token = (S.navToken = (S.navToken || 0) + 1);
-  S.sec = sec; destroyCharts();
-  $$('.nav-i[data-sec]').forEach(a => a.classList.toggle('active', a.dataset.sec === sec || (sec === 'course' && a.dataset.sec === 'learning')));
+  S.sec = sec; S.navArg = arg; destroyCharts();
+  const hit = a => a === sec || (sec === 'course' && a === 'learning');
+  $$('.nav-i[data-sec]').forEach(a => a.classList.toggle('active', hit(a.dataset.sec)));
+  const tabs = $$('.bnav a[data-tab]');
+  let any = false;
+  tabs.forEach(a => { const on = a.dataset.tab !== 'more' && hit(a.dataset.tab); a.classList.toggle('active', on); any = any || on; });
+  tabs.forEach(a => { if (a.dataset.tab === 'more') a.classList.toggle('active', !any); });
   const pt = $('#pageTitle'); if (pt) pt.textContent = TITLES[sec] || '';
   toggleSb(false);
-  const host = $('#main'); if (!host) return;
-  host.innerHTML = '';
-  const page = document.createElement('div');
-  page.innerHTML = spin();
-  host.appendChild(page);
-  window.scrollTo(0, 0);
+  let page;
+  if (silent) page = host.firstElementChild;
+  else {
+    host.innerHTML = '';
+    page = document.createElement('div');
+    page.innerHTML = skeleton();
+    host.appendChild(page);
+    window.scrollTo(0, 0);
+  }
   const fn = (S.view === 'student' ? STUDENT_PAGES : ADMIN_PAGES)[sec];
   if (!fn) { page.innerHTML = empty('fa-circle-question', 'Page not found', ''); return; }
   try { await fn(page, arg); }
@@ -1010,11 +1221,11 @@ async function nav(sec, arg) {
 async function quickAdd(sec, ent) { await nav(sec); if (S.sec === sec && S.lk) editRecord(ent); }
 function pageHead(title, sub, actions) { return `<div class="page-head"><div><h3>${title}</h3>${sub ? `<p>${sub}</p>` : ''}</div><div class="d-flex flex-wrap gap-2">${actions || ''}</div></div>`; }
 function statCard(icon, color, value, label) { return `<div class="stat"><div class="ic ic-${color}"><i class="fa-solid ${icon}"></i></div><div><div class="v">${value}</div><div class="k">${label}</div></div></div>`; }
-async function refreshBell() { try { const n = await call('myNotifications'); const u = n.filter(x => !x.read).length; const d = $('#bellDot'); if (d) { d.textContent = u > 9 ? '9+' : u; d.classList.toggle('d-none', !u); } S.notifs = n; } catch (e) {} }
+async function refreshBell() { try { const n = await rcall('myNotifications'); const u = n.filter(x => !x.read).length; const d = $('#bellDot'); if (d) { d.textContent = u > 9 ? '9+' : u; d.classList.toggle('d-none', !u); } S.notifs = n; } catch (e) {} }
 async function openNotifications() {
   modal('<i class="fa-regular fa-bell me-2"></i>Notifications', spin(), '', 'lg');
   try {
-    const n = await call('myNotifications');
+    const n = await rcall('myNotifications');
     $('#mBody').innerHTML = n.length ? n.map(x => `<div class="notif ${x.read ? '' : 'unread'}"><div class="d-flex justify-content-between gap-2"><div class="fw-bold small">${esc(x.title)}</div><div class="small-muted text-nowrap">${ago(x.date)}</div></div><div class="small text-muted mt-1">${esc(x.message)}</div></div>`).join('') : empty('fa-bell-slash', 'No notifications yet', 'Updates about your programmes will appear here.');
     if (n.some(x => !x.read)) { await call('markNotificationsRead'); refreshBell(); }
   } catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
@@ -1095,8 +1306,8 @@ async function resendVerify(btn) { await busy(btn, async () => { const r = await
 
 const STUDENT_PAGES = {
   async overview(main) {
-    const d = await call('studentDashboard');
-    S.user = Object.assign(S.user, d.profile);
+    const d = await rcall('studentDashboard');
+    S.user = Object.assign(S.user, d.profile); saveUser();
     const st = d.stats, first = (d.profile.name || '').split(' ')[0];
     main.innerHTML = `
       ${!d.profile.emailVerified ? `<div class="alert alert-warning d-flex flex-wrap align-items-center gap-2"><i class="fa-solid fa-envelope"></i><div class="flex-fill">Please verify your email address (<b>${esc(d.profile.email)}</b>) to enrol in programmes.</div><button class="btn btn-sm btn-warning" onclick="resendVerify(this)">Resend verification email</button></div>` : ''}
@@ -1126,13 +1337,13 @@ const STUDENT_PAGES = {
     refreshBell();
   },
   async learning(main) {
-    const list = await call('myLearning');
+    const list = await rcall('myLearning');
     main.innerHTML = pageHead('My Learning', 'All programmes you are enrolled in or have been given access to.', `<button class="btn btn-grad" onclick="nav('catalog')"><i class="fa-solid fa-plus me-1"></i>Enrol in a programme</button>`) +
       (list.length ? `<div class="row g-3">${list.map(learnCard).join('')}</div>` : `<div class="card-x">${empty('fa-book-open', 'You have not enrolled yet', 'Browse available programmes to get started.', `<button class="btn btn-grad" onclick="nav('catalog')">Browse programmes</button>`)}</div>`);
   },
   async course(main, pid) {
     S.course = pid;
-    const c = await call('programmeContent', { programmeId: pid });
+    const c = await rcall('programmeContent', { programmeId: pid });
     S.cc = c;
     const p = c.programme, e = c.enrolment;
     if (document.body.contains(main)) { const pt = $('#pageTitle'); if (pt) pt.textContent = p.title; }
@@ -1152,46 +1363,46 @@ const STUDENT_PAGES = {
     if (c.lessons.length) { const next = c.lessons.find(l => !l.done) || c.lessons[0]; showLesson(next.id); }
   },
   async materials(main) {
-    const groups = await call('myMaterials');
+    const groups = await rcall('myMaterials');
     main.innerHTML = pageHead('My Learning Materials', 'Lecture notes, workbooks, slides, datasets and past questions for your programmes.', `<input class="form-control" style="width:260px" placeholder="Search materials…" oninput="filterMats(this.value)">`) +
       (groups.length ? groups.map(g => `<div class="card-x mb-4 mat-group"><h6 class="ttl"><i class="fa-solid fa-book text-primary"></i>${esc(g.programme)}<span class="badge bg-light text-dark ms-auto">${g.materials.length}</span></h6>${materialsGrouped(g.materials, true)}</div>`).join('')
         : `<div class="card-x">${empty('fa-folder-open', 'No materials yet', 'Materials for your enrolled programmes will appear here.')}</div>`);
   },
   async classes(main) {
-    const c = await call('myClasses');
+    const c = await rcall('myClasses');
     main.innerHTML = pageHead('My Classes', 'Join live classes on Google Meet and catch up on previous sessions.') +
       `<ul class="nav nav-pills mb-3 gap-1"><li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#up">Upcoming <span class="badge bg-light text-dark ms-1">${c.upcoming.length}</span></button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pv">Previous <span class="badge bg-light text-dark ms-1">${c.previous.length}</span></button></li></ul>
       <div class="tab-content"><div class="tab-pane fade show active" id="up">${c.upcoming.length ? c.upcoming.map(x => classRow(x)).join('') : `<div class="card-x">${empty('fa-calendar', 'No upcoming classes', 'New classes will appear here once scheduled.')}</div>`}</div>
       <div class="tab-pane fade" id="pv">${c.previous.length ? c.previous.map(x => classRow(x, true)).join('') : `<div class="card-x">${empty('fa-clock-rotate-left', 'No previous classes', '')}</div>`}</div></div>`;
   },
   async recordings(main) {
-    const r = await call('myRecordings');
+    const r = await rcall('myRecordings');
     main.innerHTML = pageHead('Recorded Classes', 'Watch class recordings for your programmes. Sign in with the Google account linked to your registered email if prompted.') +
       (r.length ? `<div class="row g-3">${r.map(recCard).join('')}</div>` : `<div class="card-x">${empty('fa-circle-play', 'No recordings yet', 'Recordings appear here after each recorded class.')}</div>`);
   },
   async assignments(main) {
-    const a = await call('myAssignments');
+    const a = await rcall('myAssignments');
     main.innerHTML = pageHead('Assignments', 'View instructions, submit your work and read feedback.') + (a.length ? a.map(asgCard).join('') : `<div class="card-x">${empty('fa-file-pen', 'No assignments', 'Assignments for your programmes will appear here.')}</div>`);
   },
   async certificates(main) {
-    const c = await call('myCertificates');
+    const c = await rcall('myCertificates');
     main.innerHTML = pageHead('Certificates', 'Download and share your verifiable certificates.') + (c.length ? `<div class="row g-3">${c.map(x => `
       <div class="col-md-6 col-xl-4"><div class="card-x h-100"><div class="d-flex gap-3"><div class="big-ic ic-amber m-0" style="width:56px;height:56px;font-size:1.4rem"><i class="fa-solid fa-award"></i></div><div class="min-w-0"><h6 class="fw-bold mb-1">${esc(x.programme)}</h6><div class="small-muted">Completed ${fdate(x.date)}</div><div class="small mt-1">ID <b>${esc(x.id)}</b> · Code <b>${esc(x.code)}</b></div><div class="mt-1">${badge(x.status)}</div></div></div>
       <div class="d-flex gap-2 mt-3">${x.status === 'Issued' ? `<button class="btn btn-grad btn-sm flex-fill" onclick="dlCertificate('${esc(x.id)}')"><i class="fa-solid fa-eye me-1"></i>View & download</button><button class="btn btn-light btn-sm" title="Copy verification link" onclick="copyText('${esc(x.verifyUrl)}')"><i class="fa-solid fa-link"></i></button>` : ''}</div></div></div>`).join('')}</div>`
       : `<div class="card-x">${empty('fa-award', 'No certificates yet', 'Complete all lessons and assignments in a certificate programme to earn one.')}</div>`);
   },
   async history(main) {
-    const h = await call('myHistory');
+    const h = await rcall('myHistory');
     main.innerHTML = pageHead('Learning History', 'Everything you have done on the platform — enrolments, payments, lessons, classes and more.') +
       `<div class="row g-4"><div class="col-lg-5"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-book text-primary"></i>Programmes</h6>${h.enrolments.length ? h.enrolments.map(e => `<div class="py-2 border-bottom"><div class="d-flex justify-content-between gap-2"><div class="fw-semibold small">${esc(e.title)}</div>${badge(e.status)}</div><div class="small-muted">Enrolled ${fdate(e.enrolledAt)}${e.completedAt ? ' · Completed ' + fdate(e.completedAt) : ''}</div><div class="prog mt-2"><i style="width:${e.progress}%"></i></div></div>`).join('') : '<div class="small-muted">No programmes yet.</div>'}</div></div>
       <div class="col-lg-7"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-timeline text-primary"></i>Timeline</h6>${h.timeline.length ? `<div class="tl">${h.timeline.map(t => `<div class="tl-i"><div class="dot"><i class="fa-solid ${esc(t.icon)}"></i></div><div class="fw-semibold small">${esc(t.title)}</div><div class="small-muted">${fdt(t.date)}${t.detail ? ' · ' + esc(t.detail) : ''}</div></div>`).join('')}</div>` : '<div class="small-muted">No activity yet.</div>'}</div></div></div>`;
   },
   async payments(main) {
-    const p = await call('myPayments');
+    const p = await rcall('myPayments');
     main.innerHTML = pageHead('Payments', 'Your payment history and references.') + (p.length ? `<div class="card-x p-0"><div class="tbl-wrap border-0"><table class="tbl"><thead><tr><th>Date</th><th>Programme</th><th>Amount</th><th>Reference</th><th>Method</th><th>Status</th></tr></thead><tbody>${p.map(x => `<tr><td>${fdate(x.date)}</td><td>${esc(x.programme)}</td><td class="fw-semibold">${money(x.amount, x.currency)}</td><td><code class="small">${esc(x.reference)}</code></td><td>${esc(x.channel)}</td><td>${badge(x.status)}${x.status === 'Pending' ? ` <button class="btn btn-link btn-sm p-0 ms-1" onclick="showPaymentReturn('${esc(x.reference)}')">Check</button>` : ''}</td></tr>`).join('')}</tbody></table></div></div>` : `<div class="card-x">${empty('fa-receipt', 'No payments yet', '')}</div>`);
   },
   async announcements(main) {
-    const [a, n] = await Promise.all([call('myAnnouncements'), call('myNotifications')]);
+    const [a, n] = await Promise.all([rcall('myAnnouncements'), rcall('myNotifications')]);
     main.innerHTML = pageHead('Announcements', 'Updates from the academy and your facilitators.') +
       `<div class="row g-4"><div class="col-lg-7">${a.length ? a.map(x => `<div class="card-x mb-3"><div class="d-flex justify-content-between gap-2"><h6 class="fw-bold mb-1">${esc(x.title)}</h6><span class="small-muted text-nowrap">${fdate(x.date)}</span></div><div class="small-muted mb-2">By ${esc(x.by)}</div><div class="content-body">${esc(x.message)}</div></div>`).join('') : `<div class="card-x">${empty('fa-bullhorn', 'No announcements', '')}</div>`}</div>
       <div class="col-lg-5"><div class="card-x"><h6 class="ttl"><i class="fa-regular fa-bell text-primary"></i>Notifications</h6>${n.length ? n.map(x => `<div class="notif ${x.read ? '' : 'unread'}"><div class="d-flex justify-content-between gap-2"><div class="fw-bold small">${esc(x.title)}</div><div class="small-muted text-nowrap">${ago(x.date)}</div></div><div class="small text-muted">${esc(x.message)}</div></div>`).join('') : '<div class="small-muted">No notifications.</div>'}</div></div></div>`;
@@ -1268,7 +1479,7 @@ async function saveProfile(ev) { ev.preventDefault(); const btn = $('button[type
 async function changePw(ev) { ev.preventDefault(); const d = Object.fromEntries(new FormData(ev.target).entries()); if (d.password !== d.password2) return toast('New passwords do not match.', 'danger'); const btn = $('button[type=submit]', ev.target); await busy(btn, async () => { await call('changePassword', d); ev.target.reset(); toast('Password updated. Other sessions have been signed out.'); }); }
 
 
-async function loadLookups(force) { if (!S.lk || force) S.lk = await call('adminLookups'); return S.lk; }
+async function loadLookups(force) { if (!S.lk || force) S.lk = await rcall('adminLookups'); return S.lk; }
 const optProg = () => [['', '— Select programme —']].concat((S.lk.programmes || []).map(p => [p.id, p.title + (p.type === 'Tutorial' ? ' (Tutorial)' : '')]));
 const optModules = () => [['', '— None —']].concat((S.lk.modules || []).map(m => [m.id, (progTitle(m.programmeId)) + ' › ' + m.title]));
 const optLessons = () => [['', '— None —']].concat((S.lk.lessons || []).map(m => [m.id, (progTitle(m.programmeId)) + ' › ' + m.title]));
@@ -1397,7 +1608,7 @@ async function entityPage(ent, main) {
     `<div class="card-x"><div class="tools"><input class="form-control" placeholder="Search…" value="${esc((S.filt[ent] || {}).q || '')}" oninput="setFilt('${ent}','q',this.value)">
       ${cfg.byProgramme ? `<select class="form-select" onchange="setFilt('${ent}','prog',this.value)">${[['', 'All programmes']].concat(optProg().slice(1)).map(o => `<option value="${esc(o[0])}" ${(S.filt[ent] || {}).prog === o[0] ? 'selected' : ''}>${esc(o[1])}</option>`).join('')}</select>` : ''}
       <div class="form-check form-switch ms-auto align-self-center"><input class="form-check-input" type="checkbox" id="arch_${ent}" ${(S.filt[ent] || {}).arch ? 'checked' : ''} onchange="setFilt('${ent}','arch',this.checked)"><label class="form-check-label small" for="arch_${ent}">Show archived</label></div></div><div id="tbl_${ent}">${spin()}</div></div>`;
-  S.rows[ent] = await call('adminList', { entity: ent });
+  S.rows[ent] = await rcall('adminList', { entity: ent });
   drawEntity(ent);
 }
 function setFilt(ent, k, v) { S.filt[ent] = S.filt[ent] || {}; S.filt[ent][k] = v; drawEntity(ent); }
@@ -1433,16 +1644,16 @@ async function saveRecord() {
     closeModal(); toast(isNew ? 'Created successfully.' : 'Changes saved.');
     if (['Programmes', 'Modules', 'Lessons', 'Classes', 'AcademicSessions', 'Categories'].includes(ent)) await loadLookups(true);
     if (after) return after();
-    if ($('#tbl_' + ent)) { S.rows[ent] = await call('adminList', { entity: ent }); drawEntity(ent); }
+    if ($('#tbl_' + ent)) { S.rows[ent] = await rcall('adminList', { entity: ent }); drawEntity(ent); }
   });
 }
 async function archiveRecord(ent, id, after) {
   if (!await confirmBox('Archive this record? It will be hidden but all history (enrolments, payments, progress) is preserved.', 'Archive', true)) return;
-  try { await call('adminDelete', { entity: ent, id }); toast('Archived.'); if (after) return after(); S.rows[ent] = await call('adminList', { entity: ent }); drawEntity(ent); } catch (e) { toast(e.message, 'danger'); }
+  try { await call('adminDelete', { entity: ent, id }); toast('Archived.'); if (after) return after(); S.rows[ent] = await rcall('adminList', { entity: ent }); drawEntity(ent); } catch (e) { toast(e.message, 'danger'); }
 }
 async function curriculum(pid) {
   modal('Curriculum', spin(), '', 'lg');
-  const [mods, less, mats] = await Promise.all([call('adminList', { entity: 'Modules' }), call('adminList', { entity: 'Lessons' }), call('adminList', { entity: 'Materials' })]);
+  const [mods, less, mats] = await Promise.all([rcall('adminList', { entity: 'Modules' }), rcall('adminList', { entity: 'Lessons' }), rcall('adminList', { entity: 'Materials' })]);
   S.rows.Modules = mods; S.rows.Lessons = less;
   const M = mods.filter(m => m.ProgrammeID === pid && m.Status !== 'Archived').sort((a, b) => (+a.SortOrder || 0) - (+b.SortOrder || 0));
   const L = less.filter(l => l.ProgrammeID === pid && l.Status !== 'Archived').sort((a, b) => (+a.SortOrder || 0) - (+b.SortOrder || 0));
@@ -1497,10 +1708,17 @@ const pickedId = v => String(v || '').split('·')[0].trim();
 
 
 const chartColors = ['#2563eb', '#7c3aed', '#06b6d4', '#22c55e', '#f59e0b', '#ef4444', '#ec4899', '#0b1b3f'];
+function ensureChart() { return window.Chart ? Promise.resolve() : (window._chartP = window._chartP || loadScript('https:\/\/cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js').catch(e => { window._chartP = null; throw e; })); }
+function ensureDesignFonts() {
+  if (document.getElementById('dzFonts')) return;
+  const l = document.createElement('link'); l.id = 'dzFonts'; l.rel = 'stylesheet';
+  l.href = 'https:\/\/fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Great+Vibes&family=Montserrat:wght@500;700;800;900&family=Bebas+Neue&family=Space+Grotesk:wght@500;700&display=swap';
+  document.head.appendChild(l);
+}
 function mkChart(id, cfg) { const el = document.getElementById(id); if (!el || !window.Chart) return; Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif"; S.charts.push(new Chart(el, cfg)); }
 const ADMIN_PAGES = {
   async dashboard(main) {
-    const d = await call('adminStats'), s = d.stats, isA = d.isAdmin;
+    const d = await rcall('adminStats'), s = d.stats, isA = d.isAdmin;
     main.innerHTML = `<div class="welcome mb-4"><div class="d-flex flex-wrap justify-content-between align-items-center gap-3"><div><div class="small" style="color:#c7d2fe">${new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div><h3 class="fw-bold my-1">Hello, ${esc((S.user.name || '').split(' ')[0])} 👋</h3><div style="color:#c7d2fe">Here's what's happening across your academy.</div></div>
       <div class="d-flex gap-2 flex-wrap">${isA ? `<button class="btn btn-light fw-semibold" onclick="quickAdd('programmes','Programmes')"><i class="fa-solid fa-plus me-1"></i>Programme</button>` : ''}<button class="btn btn-light fw-semibold" onclick="quickAdd('classes','Classes')"><i class="fa-solid fa-video me-1"></i>Schedule class</button></div></div></div>
       <div class="row g-3 mb-4">
@@ -1524,6 +1742,8 @@ const ADMIN_PAGES = {
       </div>
       ${isA ? `<div class="row g-4"><div class="col-lg-7"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-receipt text-primary"></i>Recent payments <a class="small ms-auto fw-semibold" onclick="nav('payments')">View all</a></h6>${d.recentPayments.length ? `<div class="tbl-wrap"><table class="tbl"><tbody>${d.recentPayments.map(p => `<tr><td><div class="fw-semibold">${esc(p.student)}</div><div class="small-muted">${esc(p.programme)}</div></td><td class="fw-semibold">${money(p.amount, p.currency)}</td><td>${badge(p.status)}</td><td class="small-muted">${ago(p.date)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="small-muted">No payments yet.</div>'}</div></div>
       <div class="col-lg-5"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-user-plus text-primary"></i>New students <a class="small ms-auto fw-semibold" onclick="nav('students')">View all</a></h6>${d.recentStudents.length ? d.recentStudents.map(s => `<div class="d-flex align-items-center gap-2 py-2 border-bottom"><div class="avatar" style="width:34px;height:34px;font-size:.75rem">${esc(initials(s.name))}</div><div class="flex-fill min-w-0"><div class="fw-semibold small text-truncate">${esc(s.name)}</div><div class="small-muted text-truncate">${esc(s.category)}</div></div><div class="small-muted">${ago(s.date)}</div></div>`).join('') : '<div class="small-muted">No students yet.</div>'}</div></div></div>` : ''}`;
+    await ensureChart().catch(() => null);
+    if (!document.body.contains(main)) return;
     const c = d.charts;
     mkChart('cReg', { type: 'line', data: { labels: c.labels, datasets: [{ label: 'Registrations', data: c.registrations, borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,.12)', fill: true, tension: .4, pointRadius: 4 }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
     if (isA) mkChart('cRev', { type: 'bar', data: { labels: c.labels, datasets: [{ label: 'Revenue', data: c.revenue, backgroundColor: '#2563eb', borderRadius: 8 }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: x => money(x.raw) } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => '₦' + Number(v).toLocaleString() } } } } });
@@ -1534,7 +1754,7 @@ const ADMIN_PAGES = {
     await loadLookups();
     main.innerHTML = pageHead('Students', 'All registered students, their status and learning records.', `<button class="btn btn-light" onclick="exportEntity('Students')"><i class="fa-solid fa-file-csv me-1"></i>Export</button>`) +
       `<div class="card-x"><div class="tools"><input class="form-control" placeholder="Search name, email, ID…" oninput="S.filt.stq=this.value;drawStudents()"><select class="form-select" onchange="S.filt.stc=this.value;drawStudents()"><option value="">All categories</option>${['Professional learner', 'University student', 'ABU DLC student', 'Graduate', 'Other'].map(c => `<option>${c}</option>`).join('')}</select></div><div id="stTbl">${spin()}</div></div>`;
-    S.rows.Students = await call('adminList', { entity: 'Students' }); drawStudents();
+    S.rows.Students = await rcall('adminList', { entity: 'Students' }); drawStudents();
   },
   async programmes(main) { await entityPage('Programmes', main); },
   async categories(main) { await entityPage('Categories', main); },
@@ -1545,7 +1765,7 @@ const ADMIN_PAGES = {
   async testimonials(main) { await entityPage('Testimonials', main); },
   async tutorials(main) {
     await loadLookups();
-    const st = await call('getSettings'); S.adm = st;
+    const st = await rcall('getSettings'); S.adm = st;
     const s = st.settings;
     main.innerHTML = pageHead('Academic Tutorials', 'ABU DLC tutorials — independent from professional programmes. Switching tutorials off never deletes records or removes access already paid for.', `<button class="btn btn-grad" onclick="editTutorial()"><i class="fa-solid fa-plus me-1"></i>New tutorial batch</button>`) + `
       <div class="row g-3 mb-4">
@@ -1554,7 +1774,7 @@ const ADMIN_PAGES = {
       </div>
       <div class="row g-4"><div class="col-xl-9"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-graduation-cap text-primary"></i>Tutorial batches</h6><div class="tools"><input class="form-control" placeholder="Search course code, title…" oninput="S.filt.tq=this.value;drawTutorials()"><select class="form-select" onchange="S.filt.ts=this.value;drawTutorials()"><option value="">All statuses</option>${['Active', 'Suspended', 'Completed', 'Archived'].map(x => `<option>${x}</option>`).join('')}</select></div><div id="tutTbl">${spin()}</div></div></div>
       <div class="col-xl-3"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-calendar text-primary"></i>Academic sessions <button class="btn btn-sm btn-soft ms-auto" onclick="editRecord('AcademicSessions',null,{Status:'Active'},()=>nav('tutorials'))"><i class="fa-solid fa-plus"></i></button></h6><div id="sesList">${spin()}</div></div></div></div>`;
-    const [tuts, ses] = await Promise.all([call('adminList', { entity: 'Tutorials' }), call('adminList', { entity: 'AcademicSessions' })]);
+    const [tuts, ses] = await Promise.all([rcall('adminList', { entity: 'Tutorials' }), rcall('adminList', { entity: 'AcademicSessions' })]);
     S.rows.Tutorials = tuts; S.rows.AcademicSessions = ses;
     $('#sesList').innerHTML = ses.filter(x => x.Status !== 'Archived').map(x => `<div class="d-flex align-items-center gap-2 py-2 border-bottom"><span class="flex-fill fw-semibold small">${esc(x.Name)}</span>${badge(x.Status)}<button class="btn btn-sm btn-light" onclick="editRecord('AcademicSessions','${esc(x.SessionID)}',null,()=>nav('tutorials'))"><i class="fa-solid fa-pen"></i></button></div>`).join('') || '<div class="small-muted">Add a session (e.g. 2025/2026) first.</div>';
     drawTutorials();
@@ -1563,13 +1783,13 @@ const ADMIN_PAGES = {
     await loadLookups();
     main.innerHTML = pageHead('Enrolments', 'Manage student access to programmes. Payment records are never deleted when access changes.', `<button class="btn btn-light" onclick="exportEntity('Enrolments')"><i class="fa-solid fa-file-csv me-1"></i>Export</button><button class="btn btn-grad" onclick="grantDialog()"><i class="fa-solid fa-gift me-1"></i>Grant enrolment</button>`) +
       `<div class="card-x"><div class="tools"><input class="form-control" placeholder="Search student, programme…" oninput="S.filt.eq=this.value;drawEnrolments()"><select class="form-select" onchange="S.filt.ep=this.value;drawEnrolments()">${[['', 'All programmes']].concat(optProg().slice(1)).map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select><select class="form-select" onchange="S.filt.es=this.value;drawEnrolments()"><option value="">All statuses</option>${['Enrolled', 'In Progress', 'Completed', 'Suspended', 'Expired', 'Revoked'].map(x => `<option>${x}</option>`).join('')}</select></div><div id="enTbl">${spin()}</div></div>`;
-    S.rows.Enrolments = await call('adminList', { entity: 'Enrolments' }); drawEnrolments();
+    S.rows.Enrolments = await rcall('adminList', { entity: 'Enrolments' }); drawEnrolments();
   },
   async payments(main) {
     await loadLookups();
     main.innerHTML = pageHead('Payments', 'All transactions. Online payments are verified server-side with Paystack before access is granted.', `<button class="btn btn-light" onclick="exportPayments()"><i class="fa-solid fa-file-csv me-1"></i>Export</button><button class="btn btn-grad" onclick="offlineDialog()"><i class="fa-solid fa-building-columns me-1"></i>Record offline payment</button>`) +
       `<div class="row g-3 mb-3" id="payStats"></div><div class="card-x"><div class="tools"><input class="form-control" placeholder="Search student, reference…" oninput="S.filt.pq=this.value;drawPayments()"><select class="form-select" onchange="S.filt.ps=this.value;drawPayments()"><option value="">All statuses</option>${['Success', 'Pending', 'Failed', 'Abandoned', 'Flagged', 'Reversed'].map(x => `<option>${x}</option>`).join('')}</select><select class="form-select" onchange="S.filt.pp=this.value;drawPayments()">${[['', 'All programmes']].concat(optProg().slice(1)).map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select><input type="date" class="form-control" style="max-width:170px" title="From" onchange="S.filt.pf=this.value;drawPayments()"><input type="date" class="form-control" style="max-width:170px" title="To" onchange="S.filt.pt=this.value;drawPayments()"></div><div id="payTbl">${spin()}</div></div>`;
-    S.rows.Payments = await call('adminList', { entity: 'Payments' }); drawPayments();
+    S.rows.Payments = await rcall('adminList', { entity: 'Payments' }); drawPayments();
   },
   async certificates(main, arg) {
     await loadLookups();
@@ -1578,16 +1798,16 @@ const ADMIN_PAGES = {
     const box = $('#certTab', main);
     if (arg === 'templates') return certTemplatesTab(box);
     box.innerHTML = `<div class="card-x"><div class="tools"><input class="form-control" placeholder="Search…" oninput="S.filt.cq=this.value;drawCerts()"></div><div id="ceTbl">${spin()}</div></div>`;
-    S.rows.Certificates = await call('adminList', { entity: 'Certificates' }); drawCerts();
+    S.rows.Certificates = await rcall('adminList', { entity: 'Certificates' }); drawCerts();
   },
   async announcements(main) {
     await loadLookups();
     main.innerHTML = pageHead('Announcements', 'Send updates to all students, a programme or tutorial batch, or an individual student.', `<button class="btn btn-grad" onclick="annDialog()"><i class="fa-solid fa-bullhorn me-1"></i>New announcement</button>`) + `<div id="annList">${spin()}</div>`;
-    const list = await call('adminList', { entity: 'Announcements' });
+    const list = await rcall('adminList', { entity: 'Announcements' });
     $('#annList').innerHTML = list.filter(a => a.Status !== 'Archived').map(a => `<div class="card-x mb-3"><div class="d-flex flex-wrap justify-content-between gap-2"><div><h6 class="fw-bold mb-1">${esc(a.Title)}</h6><div class="small-muted">${fdt(a.CreatedAt)} · by ${esc(a.PostedBy)} · To: <b>${a.AudienceType === 'All' ? 'All students' : a.AudienceType === 'Programme' ? esc(progTitle(a.AudienceID)) : 'Student ' + esc(a.AudienceID)}</b>${isT(a.SendEmail) ? ' · <i class="fa-solid fa-envelope"></i> emailed' : ''}</div></div><button class="btn btn-sm btn-light text-danger" onclick="archiveRecord('Announcements','${esc(a.AnnouncementID)}',()=>nav('announcements'))"><i class="fa-solid fa-box-archive"></i></button></div><div class="content-body small mt-2">${esc(a.Message)}</div></div>`).join('') || `<div class="card-x">${empty('fa-bullhorn', 'No announcements yet', '')}</div>`;
   },
   async website(main) {
-    const st = await call('getSettings'); S.adm = st; const s = st.settings;
+    const st = await rcall('getSettings'); S.adm = st; const s = st.settings;
     const F = [['HERO_TITLE', 'Hero headline', 'text'], ['HERO_SUBTITLE', 'Hero supporting text', 'textarea'], ['TAGLINE', 'Tagline chip', 'text'], ['ABOUT_TEXT', 'About the academy', 'textarea'], ['CONTACT_EMAIL', 'Contact email', 'text'], ['CONTACT_PHONE', 'Contact phone', 'text'], ['WHATSAPP', 'WhatsApp number (international format)', 'text'], ['CONTACT_ADDRESS', 'Address', 'text'], ['SOCIAL_FACEBOOK', 'Facebook URL', 'text'], ['SOCIAL_INSTAGRAM', 'Instagram URL', 'text'], ['SOCIAL_LINKEDIN', 'LinkedIn URL', 'text'], ['SOCIAL_X', 'X (Twitter) URL', 'text'], ['SOCIAL_YOUTUBE', 'YouTube URL', 'text'], ['PRIVACY_POLICY', 'Privacy policy', 'textarea'], ['TERMS', 'Terms & conditions', 'textarea']];
     main.innerHTML = pageHead('Website Content', 'Edit landing page text, contact details, policies and FAQs — no code changes needed.', `<button class="btn btn-light" onclick="previewSite()"><i class="fa-solid fa-eye me-1"></i>Preview website</button>`) +
       `<ul class="nav nav-pills mb-3 gap-1"><li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#wc1">Page content</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#wc2" onclick="entityPage('FAQs',$('#faqBox'))">FAQs</button></li><li class="nav-item"><button class="nav-link" onclick="nav('testimonials')">Testimonials</button></li><li class="nav-item"><button class="nav-link" onclick="nav('categories')">Categories</button></li></ul>
@@ -1596,7 +1816,7 @@ const ADMIN_PAGES = {
   },
   async reports(main) {
     await loadLookups();
-    const d = await call('adminStats');
+    const d = await rcall('adminStats');
     main.innerHTML = pageHead('Reports', 'Export data for analysis (e.g. in Excel or Power BI) and review the audit trail.') + `
       <div class="row g-3 mb-4">${[['Students', 'fa-user-graduate', 'blue'], ['Enrolments', 'fa-user-check', 'purple'], ['Payments', 'fa-credit-card', 'green'], ['Certificates', 'fa-award', 'amber'], ['Programmes', 'fa-book', 'cyan']].map(x => `<div class="col-6 col-lg"><div class="card-x text-center h-100"><div class="big-ic ic-${x[2]}" style="width:54px;height:54px;font-size:1.3rem;margin-bottom:.7rem"><i class="fa-solid ${x[1]}"></i></div><div class="fw-bold mb-2">${x[0]}</div><button class="btn btn-sm btn-soft" onclick="${x[0] === 'Payments' ? 'exportPayments(true)' : `exportEntity('${x[0]}')`}"><i class="fa-solid fa-file-csv me-1"></i>Export CSV</button></div></div>`).join('')}</div>
       <div class="row g-4"><div class="col-lg-5"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-ranking-star text-primary"></i>Enrolments by programme</h6>${d.charts.programmes.length ? `<table class="tbl"><tbody>${d.charts.programmes.map(p => `<tr><td>${esc(p.title)}</td><td class="text-end fw-bold">${p.count}</td></tr>`).join('')}</tbody></table>` : '<div class="small-muted">No enrolments yet.</div>'}</div></div>
@@ -1605,7 +1825,7 @@ const ADMIN_PAGES = {
     $('#auditTbl').innerHTML = logs.length ? `<table class="tbl"><tbody>${logs.map(l => `<tr><td class="small text-nowrap">${fdt(l.CreatedAt)}</td><td class="small"><b>${esc(l.Action)}</b> <span class="small-muted">${esc(l.Entity)} ${esc(l.EntityID)}</span><div class="small-muted">${esc(l.Email)}${l.Details ? ' · ' + esc(l.Details) : ''}</div></td></tr>`).join('')}</tbody></table>` : '<div class="small-muted">No actions logged yet.</div>';
   },
   async settings(main) {
-    const st = await call('getSettings'); S.adm = st; const s = st.settings;
+    const st = await rcall('getSettings'); S.adm = st; const s = st.settings;
     const sw = [['REGISTRATION_OPEN', 'Student registration', 'Allow new students to create accounts.'], ['ENROLMENT_OPEN', 'Course enrolment', 'Allow enrolment in professional programmes (tutorials have their own switch).'], ['PAYMENTS_ENABLED', 'Online payments', 'Accept Paystack payments.'], ['EMAIL_NOTIFICATIONS', 'Email notifications', 'Send emails for enrolments, classes, materials, feedback, etc.'], ['REQUIRE_EMAIL_VERIFICATION', 'Require email verification', 'Students must verify their email before enrolling.'], ['MAINTENANCE_MODE', 'Maintenance mode', 'Block student portal access (website stays visible; staff can still log in).'], ['TUTORIALS_ENABLED', 'Academic tutorials', 'Show tutorials and allow tutorial registration.']];
     main.innerHTML = pageHead('System Settings', 'Configure the academy without editing code.') + `
       <ul class="nav nav-pills mb-3 gap-1 flex-nowrap overflow-auto"><li class="nav-item"><button class="nav-link active text-nowrap" data-bs-toggle="pill" data-bs-target="#s1">General</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s2">Access & switches</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s3">Payments</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s4" onclick="loadStaff()">Staff accounts</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s5">System</button></li></ul>
@@ -1643,7 +1863,7 @@ function drawStudents() {
 }
 async function userStatus(uid, status) {
   if (!await confirmBox(status === 'Suspended' ? 'Suspend this account? The user will be logged out and unable to sign in. Their records are kept.' : 'Reactivate this account?', status === 'Suspended' ? 'Suspend' : 'Activate', status === 'Suspended')) return;
-  try { await call('setUserStatus', { userId: uid, status }); toast('Account updated.'); if (S.sec === 'students') { S.rows.Students = await call('adminList', { entity: 'Students' }); drawStudents(); } else if (S.sec === 'settings') loadStaff(); } catch (e) { toast(e.message, 'danger'); }
+  try { await call('setUserStatus', { userId: uid, status }); toast('Account updated.'); if (S.sec === 'students') { S.rows.Students = await rcall('adminList', { entity: 'Students' }); drawStudents(); } else if (S.sec === 'settings') loadStaff(); } catch (e) { toast(e.message, 'danger'); }
 }
 async function studentView(sid) {
   modal('Student record', spin(), '', 'xl');
@@ -1689,7 +1909,7 @@ function drawPayments() {
   $('#payTbl').innerHTML = rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Date</th><th>Student</th><th>Programme</th><th>Amount</th><th>Reference</th><th>Method</th><th>Status</th><th></th></tr></thead><tbody>${rows.map(p => `<tr><td class="small">${fdt(p.PaidAt || p.CreatedAt)}</td><td><div class="fw-semibold">${esc(p.StudentName)}</div><div class="small-muted">${esc(p.StudentEmail)}</div></td><td class="small">${esc(p.Programme)}</td><td class="fw-semibold">${money(p.Amount, p.Currency)}</td><td><code class="small">${esc(p.Reference)}</code>${p.Notes ? `<div class="small-muted">${esc(p.Notes)}</div>` : ''}</td><td class="small">${esc(p.Gateway)}${p.Channel ? ' · ' + esc(p.Channel) : ''}</td><td>${badge(p.Status)}</td>
     <td>${p.Gateway === 'Paystack' && p.Status !== 'Success' ? `<button class="btn btn-sm btn-soft" onclick="reverify('${esc(p.Reference)}',this)"><i class="fa-solid fa-rotate me-1"></i>Verify</button>` : ''}</td></tr>`).join('')}</tbody></table></div><div class="small-muted mt-2">${rows.length} transactions</div>` : empty('fa-credit-card', 'No transactions found', '');
 }
-async function reverify(ref, btn) { await busy(btn, async () => { const r = await call('reverifyPayment', { reference: ref }); toast('Paystack status: ' + r.status + (r.message ? ' — ' + r.message : ''), r.status === 'Success' ? 'success' : 'info'); S.rows.Payments = await call('adminList', { entity: 'Payments' }); drawPayments(); }); }
+async function reverify(ref, btn) { await busy(btn, async () => { const r = await call('reverifyPayment', { reference: ref }); toast('Paystack status: ' + r.status + (r.message ? ' — ' + r.message : ''), r.status === 'Success' ? 'success' : 'info'); S.rows.Payments = await rcall('adminList', { entity: 'Payments' }); drawPayments(); }); }
 function offlineDialog() {
   modal('Record offline payment', `<div class="row g-3"><div class="col-12"><label class="form-label">Student</label>${studentOptions('opStu')}</div><div class="col-12"><label class="form-label">Programme / tutorial</label><select class="form-select" id="opProg">${optProg().map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select></div>
     <div class="col-md-6"><label class="form-label">Amount</label><input class="form-control" type="number" min="0" id="opAmt"></div><div class="col-md-6"><label class="form-label">Payment date</label><input class="form-control" type="date" id="opDate" value="${new Date().toISOString().slice(0, 10)}"></div>
@@ -1702,10 +1922,10 @@ async function saveOffline(btn) {
   if (!d.studentId || !d.programmeId || !d.amount) return toast('Student, programme and amount are required.', 'warning');
   await busy(btn, async () => { await call('recordOfflinePayment', d); closeModal(); toast('Payment recorded and student enrolled.'); nav('payments'); });
 }
-function exportPayments(all) { const go2 = rows => exportCSV('payments', rows, [['PaymentID', 'Payment ID'], ['Reference'], ['StudentID', 'Student ID'], ['StudentName', 'Student'], ['StudentEmail', 'Email'], ['Programme'], ['Amount'], ['Currency'], ['Gateway'], ['Channel', 'Method'], ['Status'], ['PaidAt', 'Paid at'], ['CreatedAt', 'Created'], ['Notes']]); if (all || !S.rows.Payments) call('adminList', { entity: 'Payments' }).then(go2).catch(e => toast(e.message, 'danger')); else go2(payFiltered()); }
+function exportPayments(all) { const go2 = rows => exportCSV('payments', rows, [['PaymentID', 'Payment ID'], ['Reference'], ['StudentID', 'Student ID'], ['StudentName', 'Student'], ['StudentEmail', 'Email'], ['Programme'], ['Amount'], ['Currency'], ['Gateway'], ['Channel', 'Method'], ['Status'], ['PaidAt', 'Paid at'], ['CreatedAt', 'Created'], ['Notes']]); if (all || !S.rows.Payments) rcall('adminList', { entity: 'Payments' }).then(go2).catch(e => toast(e.message, 'danger')); else go2(payFiltered()); }
 async function exportEntity(ent) {
   try {
-    const rows = await call('adminList', { entity: ent });
+    const rows = await rcall('adminList', { entity: ent });
     const cols = { Students: [['StudentID', 'Student ID'], ['FullName', 'Name'], ['Email'], ['Phone'], ['Category'], ['Enrolments'], ['EmailVerified', 'Verified'], ['AccountStatus', 'Status'], ['CreatedAt', 'Registered'], ['LastLogin', 'Last login']], Enrolments: [['EnrolmentID', 'Enrolment ID'], ['StudentID', 'Student ID'], ['StudentName', 'Student'], ['StudentEmail', 'Email'], ['Programme'], ['Source'], ['EnrolledAt', 'Enrolled'], ['ExpiresAt', 'Expires'], ['Progress'], ['Status'], ['CompletedAt', 'Completed']], Certificates: [['CertificateID', 'Certificate ID'], ['StudentName', 'Student'], ['StudentEmail', 'Email'], ['ProgrammeTitle', 'Programme'], ['CompletionDate', 'Completed'], ['VerificationCode', 'Code'], ['Status'], ['IssuedBy', 'Issued by']], Programmes: [['ProgrammeID', 'ID'], ['Title'], ['Type'], ['Category'], ['Price'], ['Enrolled'], ['Published'], ['EnrolmentOpen', 'Enrolment open'], ['Status'], ['StartDate', 'Start'], ['Instructor']] }[ent];
     exportCSV(ent.toLowerCase(), rows, cols); toast('Export ready.');
   } catch (e) { toast(e.message, 'danger'); }
@@ -1759,7 +1979,7 @@ async function saveSettingsForm(form) {
 async function savePaystack(btn) { const k = $('#psKey').value.trim(); if (!k) return toast('Paste your secret key.', 'warning'); await busy(btn, async () => { const r = await call('setPaystackKey', { key: k }); $('#psKey').value = ''; toast('Paystack connected in ' + r.mode + ' mode.'); nav('settings'); }); }
 async function loadStaff() {
   try {
-    const list = await call('listStaff');
+    const list = await rcall('listStaff');
     $('#staffTbl').innerHTML = `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Name</th><th>Role</th><th>Status</th><th>Last login</th><th></th></tr></thead><tbody>${list.map(s => `<tr><td><div class="fw-semibold">${esc(s.name)}</div><div class="small-muted">${esc(s.email)}</div></td><td>${s.role === 'SUPERADMIN' ? '<span class="badge-s bs-purple"><i class="fa-solid fa-crown me-1"></i>Platform Owner</span>' : badge(s.role === 'ADMIN' ? 'Administrator' : 'Instructor')}</td><td>${badge(s.status)}</td><td class="small">${fdt(s.lastLogin)}</td><td>${s.userId !== S.user.userId ? `<button class="btn btn-sm btn-light" onclick="userStatus('${esc(s.userId)}','${s.status === 'Active' ? 'Suspended' : 'Active'}')">${s.status === 'Active' ? 'Suspend' : 'Activate'}</button>` : '<span class="small-muted">You</span>'}</td></tr>`).join('')}</tbody></table></div>`;
   } catch (e) { $('#staffTbl').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
 }
@@ -1898,7 +2118,7 @@ async function sendTutor(ev) {
 }
 function growInput(el) { el.style.height = 'auto'; el.style.height = Math.min(160, el.scrollHeight) + 'px'; }
 STUDENT_PAGES.tutor = async function (main) {
-  const list = (await call('myLearning')).filter(l => ['Enrolled', 'In Progress', 'Completed'].includes(l.status));
+  const list = (await rcall('myLearning')).filter(l => ['Enrolled', 'In Progress', 'Completed'].includes(l.status));
   if (!S.tutor) S.tutor = { programmeId: list.length ? list[0].programmeId : '', messages: [], busy: false };
   main.innerHTML = pageHead('AI Study Assistant', 'Ask about your lessons and get explanations, worked examples and practice questions, any time of day.') + `
     <div class="card-x p-0 chat-wrap">
@@ -1914,7 +2134,7 @@ STUDENT_PAGES.tutor = async function (main) {
 
 ADMIN_PAGES.ai = async function (main) {
   S.aiMain = main;
-  S.aiCfg = await call('aiConfig');
+  S.aiCfg = await rcall('aiConfig');
   drawAiPage();
 };
 function drawAiPage() {
@@ -1998,7 +2218,7 @@ async function aiTest(id, btn) {
 function aiRecord(m) { return { ModelID: m.id, Provider: m.provider, ModelName: m.model, Label: m.label, Tier: m.tier, Description: m.description, Enabled: m.enabled, SortOrder: m.sort, Status: m.status }; }
 async function aiModelToggle(id, el) {
   const m = S.aiCfg.models.find(x => x.id === id); if (!m) return;
-  try { await call('aiSaveModel', { record: Object.assign(aiRecord(m), { Enabled: el.checked }) }); aiAfterChange(await call('aiConfig')); }
+  try { await call('aiSaveModel', { record: Object.assign(aiRecord(m), { Enabled: el.checked }) }); aiAfterChange(await rcall('aiConfig')); }
   catch (e) { el.checked = !el.checked; toast(e.message, 'danger'); }
 }
 function aiEditModel(id) {
@@ -2019,7 +2239,7 @@ async function aiSaveModelForm(id, btn) {
   const rec = { ModelID: id || undefined };
   ['Provider', 'Tier', 'ModelName', 'Label', 'SortOrder', 'Description', 'Status'].forEach(k => { rec[k] = $('#am_' + k).value; });
   rec.Enabled = $('#am_Enabled').checked;
-  await busy(btn, async () => { await call('aiSaveModel', { record: rec }); closeModal(); toast(id ? 'Model updated.' : 'Model added.'); aiAfterChange(await call('aiConfig')); });
+  await busy(btn, async () => { await call('aiSaveModel', { record: rec }); closeModal(); toast(id ? 'Model updated.' : 'Model added.'); aiAfterChange(await rcall('aiConfig')); });
 }
 
 
@@ -2197,6 +2417,7 @@ const CERT_DESIGNS = {
     </div>` }
 };
 function certHtml(tpl, d) {
+  ensureDesignFonts();
   const t = CERT_DESIGNS[tpl] || CERT_DESIGNS.classic;
   const dd = Object.assign({}, d, { accent: d.accent || t.accent, qr: qrData(d.verifyUrl), dateText: longDate(d.date) });
   return `<div style="position:relative;width:${CERT_W}px;height:${CERT_H}px">${t.render(dd)}${d.revoked ? `<div style="position:absolute;left:0;top:0;width:${CERT_W}px;height:${CERT_H}px;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(-24deg);border:8px solid #dc2626;color:#dc2626;font-family:${FONT.wide};font-weight:900;font-size:110px;padding:6px 40px;opacity:.75">REVOKED</div></div>` : ''}</div>`;
@@ -2273,7 +2494,7 @@ async function openCertificate(id) {
 
 async function certTemplatesTab(box) {
   box.innerHTML = spin();
-  const [st] = await Promise.all([call('getSettings'), loadLib('qr').catch(() => null)]);
+  const [st] = await Promise.all([rcall('getSettings'), loadLib('qr').catch(() => null)]);
   S.adm = st;
   await loadLogoData();
   S.certDraft = { CERT_ACCENT: st.settings.CERT_ACCENT, CERT_SIGNATORY: st.settings.CERT_SIGNATORY, CERT_SIGNATORY_TITLE: st.settings.CERT_SIGNATORY_TITLE, CERT_SIGNATORY2: st.settings.CERT_SIGNATORY2, CERT_SIGNATORY2_TITLE: st.settings.CERT_SIGNATORY2_TITLE };
@@ -2289,7 +2510,7 @@ function drawCertTemplates() {
         <div class="d-flex align-items-start gap-2 mt-2 px-1"><div class="flex-fill"><div class="fw-bold">${esc(CERT_DESIGNS[k].name)} ${k === cur ? '<span class="badge-s bs-success ms-1">Default</span>' : ''}</div><div class="small-muted">${esc(CERT_DESIGNS[k].desc)}</div></div></div>
         <div class="d-flex gap-2 px-1 pb-1 mt-2"><button class="btn btn-sm btn-light" onclick="previewCertTemplate('${k}')"><i class="fa-solid fa-expand me-1"></i>Preview</button>${k === cur ? '' : `<button class="btn btn-sm btn-grad" onclick="setCertTemplate('${k}',this)">Use as default</button>`}</div>
       </div></div>`).join('')}</div></div>
-    <div class="col-xl-4"><div class="card-x" style="position:sticky;top:90px"><h6 class="ttl"><i class="fa-solid fa-pen-nib text-primary"></i>Design settings</h6>
+    <div class="col-xl-4"><div class="card-x stick-xl"><h6 class="ttl"><i class="fa-solid fa-pen-nib text-primary"></i>Design settings</h6>
       <label class="form-label">Accent colour</label>
       <div class="d-flex gap-2 align-items-center mb-1"><input type="color" class="form-control form-control-color" value="${esc(dr.CERT_ACCENT || '#7c3aed')}" oninput="S.certDraft.CERT_ACCENT=this.value;drawCertTemplates()" ${dr.CERT_ACCENT ? '' : 'disabled'}>
         <div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="ownCol" ${dr.CERT_ACCENT ? '' : 'checked'} onchange="S.certDraft.CERT_ACCENT=this.checked?'':'#7c3aed';drawCertTemplates()"><label class="form-check-label small" for="ownCol">Use each design's own colour</label></div></div>
@@ -2521,6 +2742,7 @@ const FLYER_DESIGNS = {
   } }
 };
 function flyerHtml(tpl, data, size) {
+  ensureDesignFonts();
   const t = FLYER_DESIGNS[tpl] || FLYER_DESIGNS.bold, sz = FLYER_SIZES[size] || FLYER_SIZES.square;
   const d = flyPrep(Object.assign({}, data, { primary: data.primary || t.primary, accent: data.accent || t.accent }), sz[0]);
   return t.render(d, sz[0], sz[1]);
@@ -2544,7 +2766,7 @@ ADMIN_PAGES.flyers = async function (main, arg) {
     <h6 class="fw-bold mb-3">My designs</h6><div id="flyList">${spin()}</div>`;
   fitDesigns(main);
   try {
-    S.flyers = await call('flyerList');
+    S.flyers = await rcall('flyerList');
     const el = $('#flyList'); if (!el) return;
     el.innerHTML = S.flyers.length ? `<div class="row g-3">${S.flyers.map(f => { const sz = FLYER_SIZES[f.size] || FLYER_SIZES.square; return `<div class="col-6 col-md-4 col-xl-3"><div class="card-x p-2 h-100 d-flex flex-column">${fitBox(flyerHtml(f.template, f.data, f.size), sz[0], sz[1], 'border-radius:8px;max-height:340px')}
       <div class="px-1 mt-2"><div class="fw-semibold small text-truncate">${esc(f.title)}</div><div class="small-muted">${esc(FLYER_DESIGNS[f.template] ? FLYER_DESIGNS[f.template].name : '')} · ${esc(sz[2].split(' · ')[0])} · ${ago(f.updated)}</div></div>
@@ -2604,7 +2826,7 @@ function drawFlyEditor() {
         <div><label class="form-label">Accent</label><input type="color" class="form-control form-control-color" value="${esc(d.accent || t.accent)}" oninput="flySet('accent',this.value)"></div>
         <button class="btn btn-sm btn-light" onclick="S.fly.data.primary='';S.fly.data.accent='';drawFlyEditor()">Use template colours</button></div></div>
     </div>
-    <div class="col-xl-7"><div class="card-x" style="position:sticky;top:86px"><div class="d-flex align-items-center mb-2"><h6 class="fw-bold mb-0 me-auto"><i class="fa-solid fa-eye text-primary me-2"></i>Live preview</h6><span class="small-muted" id="flySizeLbl"></span></div><div id="flyPreview" class="mx-auto"></div></div></div></div>`;
+    <div class="col-xl-7 order-first order-xl-0"><div class="card-x stick-xl"><div class="d-flex align-items-center mb-2"><h6 class="fw-bold mb-0 me-auto"><i class="fa-solid fa-eye text-primary me-2"></i>Live preview</h6><span class="small-muted" id="flySizeLbl"></span></div><div id="flyPreview" class="mx-auto"></div></div></div></div>`;
   drawFlyPreview();
   fitDesigns($('#flyTpls'));
 }
@@ -2637,7 +2859,7 @@ async function fillFromProgramme(id) {
   if (!id) return;
   showLoader('Loading programme…');
   try {
-    const p = await call('programmeDetails', { id });
+    const p = await rcall('programmeDetails', { id });
     const d = S.fly.data;
     const typeMap = { Cohort: 'Bootcamp', 'Self-paced': 'Training', Workshop: 'Workshop', Tutorial: 'Tutorial' };
     Object.assign(d, {
@@ -2689,6 +2911,14 @@ async function init() {
   let cached = null;
   try { cached = JSON.parse(store.get('bpa_pub') || 'null'); } catch (e) { cached = null; }
   const plainLanding = !S.token && !p.page;
+  let savedUser = null;
+  try { savedUser = JSON.parse(store.get('bpa_user') || 'null'); } catch (e) { savedUser = null; }
+  if (S.token && savedUser && cached && !p.page) {
+    S.pub = cached; S.user = savedUser; rcLoad(); window.__booted = true; goApp();
+    call('me').then(u => { if (u && S.user) { Object.assign(S.user, u); saveUser(); } }).catch(() => {});
+    call('publicData').then(f => { S.pub = f; try { store.set('bpa_pub', JSON.stringify(f)); } catch (e) {} }).catch(() => {});
+    return;
+  }
   if (cached && plainLanding) { S.pub = cached; window.__booted = true; renderPublic(); }
   const meReq = S.token ? call('me').then(u => u, () => null) : Promise.resolve(null);
   let fresh;
@@ -2708,13 +2938,23 @@ async function init() {
     return;
   }
   S.pub = fresh;
-  if (S.token) { S.user = await meReq; if (!S.user) { S.token = ''; store.del('bpa_lms_token'); } }
+  if (S.token) { S.user = await meReq; if (!S.user) { S.token = ''; store.del('bpa_lms_token'); } else { saveUser(); rcLoad(); } }
   if (p.page === 'payment' && (p.reference || p.trxref)) return showPaymentReturn(p.reference || p.trxref);
   if (p.page === 'verify-email' && p.token) return doVerifyEmail(p.token);
   if (p.page === 'reset' && p.token) { renderPublic(); return setTimeout(() => openAuth('reset', p.token), 300); }
   if (p.page === 'cert') return renderCertVerify(p.code || '');
   if (S.user) goApp(); else renderPublic();
 }
+function labelTables() {
+  $$('table.tbl').forEach(t => {
+    const ths = $$('thead th', t).map(th => th.textContent.trim());
+    if (!ths.length) return;
+    t.classList.add('tbl-stack');
+    $$('tbody tr', t).forEach(tr => Array.from(tr.children).forEach((td, i) => { if (!td.hasAttribute('data-label')) td.setAttribute('data-label', ths[i] || ''); }));
+  });
+}
+let _labT = null;
+try { new MutationObserver(() => { clearTimeout(_labT); _labT = setTimeout(labelTables, 30); }).observe(document.body, { childList: true, subtree: true }); } catch (e) {}
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 </script>
 </body>
