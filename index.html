@@ -355,6 +355,34 @@ img,video,canvas{max-width:100%}
 .pm-ic{width:40px;height:40px;border-radius:12px;background:#eef2ff;color:#4338ca;display:grid;place-items:center;flex-shrink:0}.pm-opt.on .pm-ic{background:var(--grad);color:#fff}
 .bk-box{border:1px solid var(--line);border-radius:14px;overflow:hidden}.bk-row{display:flex;justify-content:space-between;align-items:center;gap:.75rem;padding:.6rem .85rem;border-bottom:1px solid var(--line)}.bk-row:last-child{border-bottom:0}.bk-ref{background:#f5f3ff}
 .rv-banner{background:linear-gradient(90deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:14px;padding:.8rem 1rem}
+.ptn-logo{width:46px;height:46px;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;flex-shrink:0;overflow:hidden;padding:4px}.ptn-logo img{max-width:100%;max-height:100%;object-fit:contain}.ptn-logo.lg{width:64px;height:64px}
+.bk-tbl td,.bk-tbl th{padding:.45rem .6rem;vertical-align:middle;font-size:.88rem}.bk-tbl thead th{position:sticky;top:0;background:#f8fafc;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+@media (max-width:575.98px){.bk-tbl th:nth-child(4),.bk-tbl td:nth-child(4){display:none}}
+.form-switch{padding-left:3.25em}.form-switch .form-check-input{margin-left:-3.25em}.form-switch.ps-0 .form-check-input,.form-switch .form-check-input.m-0{margin-left:0}
+.hub-head{background:linear-gradient(135deg,#0b1b3f,#312e81 60%,#7c3aed);border-radius:18px;padding:1.1rem 1.2rem;color:#fff}
+.hub-head .date-blk{background:rgba(255,255,255,.14);color:#fff}.hub-head .date-blk .m{color:#c7d2fe}
+.hub-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}
+.hub-tab{position:relative;border:1px solid var(--line);background:#fff;border-radius:14px;padding:.6rem .3rem;display:flex;flex-direction:column;align-items:center;gap:.25rem;font-size:.8rem;font-weight:600;color:#334155}
+.hub-tab>i:first-child{font-size:1.15rem;color:var(--purple)}.hub-tab.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 10px 22px -12px rgba(124,58,237,.8)}.hub-tab.on>i:first-child{color:#fff}
+.hub-tab .ok{position:absolute;top:6px;right:8px;color:#16a34a;font-size:.8rem}.hub-tab.on .ok{color:#bbf7d0}
+.att-time{display:inline-block;background:#f5f3ff;border:1px dashed #c4b5fd;border-radius:14px;padding:.6rem 1.2rem}
+.fb-q{padding:.85rem 0;border-bottom:1px solid var(--line)}.fb-q:last-of-type{border-bottom:0}
+.stars{display:flex;align-items:center;gap:.25rem;margin-top:.35rem}.stars button{border:0;background:transparent;font-size:1.7rem;color:#e2e8f0;padding:0 .1rem;line-height:1}.stars button.on{color:#f59e0b}
+.scale,.nps{display:flex;gap:.35rem;margin-top:.4rem;flex-wrap:wrap}.scale button,.nps button{flex:1;min-width:34px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:.45rem 0;font-weight:700;color:#334155}
+.scale button.on,.nps button.on{background:var(--grad);color:#fff;border-color:transparent}.nps button.lo.on{background:#ef4444}.nps button.mid.on{background:#f59e0b}.nps button.hi.on{background:#16a34a}
+.quiz-bar{position:sticky;top:64px;z-index:5}.quiz-timer{font-variant-numeric:tabular-nums;font-weight:800;font-size:1.3rem;background:#eef2ff;color:#3730a3;border-radius:12px;padding:.35rem .8rem}.quiz-timer.low{background:#fee2e2;color:#b91c1c}
+.q-opt{display:flex;align-items:center;gap:.7rem;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:.6rem .8rem;width:100%}.q-opt.on{border-color:#7c3aed;background:#f5f3ff}
+.q-mark{width:28px;height:28px;border-radius:8px;background:#eef2ff;color:#4338ca;display:grid;place-items:center;font-weight:800;flex-shrink:0;font-size:.85rem}.q-opt.on .q-mark{background:var(--grad);color:#fff}
+.q-right{border-left:4px solid #16a34a}.q-wrong{border-left:4px solid #ef4444}
+.score-ring{--p:0;width:130px;height:130px;border-radius:50%;margin:0 auto;display:grid;place-items:center;background:conic-gradient(#16a34a calc(var(--p)*1%),#e2e8f0 0)}.score-ring.fail{background:conic-gradient(#f59e0b calc(var(--p)*1%),#e2e8f0 0)}.score-ring span{width:104px;height:104px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1.7rem;font-weight:800}
+.q-edit .q-num{width:30px;height:30px;border-radius:9px;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.q-correct{border:0;background:transparent;font-size:1.25rem;color:#cbd5e1;padding:0 .2rem}.q-correct.on{color:#16a34a}
+.link-card .kit-qr{width:150px;height:150px}
+.qr-present{position:fixed;inset:0;z-index:3000;background:linear-gradient(160deg,#0b1b3f,#312e81 60%,#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem}
+.qr-present .qp-x{position:absolute;top:1rem;right:1rem;border:0;background:rgba(255,255,255,.15);color:#fff;width:46px;height:46px;border-radius:50%;font-size:1.3rem}
+.qp-t{font-size:clamp(1.8rem,5vw,3.4rem);font-weight:900}.qp-s{color:#c7d2fe;font-size:clamp(1rem,2.2vw,1.4rem)}.qp-qr{background:#fff;border-radius:28px;padding:1.2rem;display:inline-block;margin:1.4rem 0}.qp-qr img{width:min(62vh,78vw);height:min(62vh,78vw);display:block;image-rendering:pixelated}
+.qp-c{font-size:clamp(1.3rem,3vw,2rem);font-weight:800;background:rgba(255,255,255,.12);border-radius:99px;padding:.5rem 1.5rem;display:inline-block}
+@media (max-width:575.98px){.hub-tab span{font-size:.72rem}.quiz-bar{top:56px}}
 </style>
 </head>
 <body>
@@ -492,8 +520,8 @@ function callHttp(action, payload) {
     catch (e) { throw new Error('The backend returned an unexpected response. Check BACKEND_URL and that the web app is deployed with access for "Anyone".'); }
   });
 }
-const READS = new Set(['publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff', 'couponList']);
-const NO_DIRTY = new Set(['batch', 'validateCoupon', 'getMaterialFile', 'getVideo', 'getAssignmentFile', 'getCertificateData', 'getStaffFile', 'getTransferProof', 'transferInfo', 'aiTutor', 'aiGenerate', 'aiTestModel', 'imageData', 'verifyCertificate', 'markNotificationsRead', 'joinClass', 'login', 'register', 'logout', 'forgotPassword']);
+const READS = new Set(['publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff', 'couponList', 'partnerList', 'myQuizzes', 'quizList']);
+const NO_DIRTY = new Set(['batch', 'validateCoupon', 'getMaterialFile', 'getVideo', 'getAssignmentFile', 'getCertificateData', 'getStaffFile', 'getTransferProof', 'transferInfo', 'aiTutor', 'aiGenerate', 'aiTestModel', 'imageData', 'verifyCertificate', 'certCandidates', 'classHub', 'classLinks', 'classFeedback', 'quizResults', 'quizStart', 'markNotificationsRead', 'joinClass', 'login', 'register', 'logout', 'forgotPassword']);
 const RC = { mem: {}, at: {}, uid: '', dirty: 0, pending: {} };
 function rcKey(a, p) { return a + '|' + JSON.stringify(p || {}); }
 function saveUser() { try { if (S.user) store.set('bpa_user', JSON.stringify(S.user)); } catch (e) {} }
@@ -1105,6 +1133,7 @@ async function doAuth(ev, mode) {
       S.token = r.token; store.set('bpa_lms_token', r.token); S.user = r.user; saveUser(); rcLoad();
       closeModal();
       toast(mode === 'register' ? 'Welcome aboard! Check your email to verify your account.' : 'Welcome back, ' + (r.user.name || '').split(' ')[0] + '!');
+      if (S.hub && S.hub.c && !S.hub._used && r.user.role === 'STUDENT') { S.hub._used = 1; return goApp('classhub'); }
       if (S.pendingEnrol && r.user.role === 'STUDENT') { const id = S.pendingEnrol; S.pendingEnrol = null; renderPublic(); return setTimeout(() => openProgramme(id), 400); }
       goApp();
     } else if (mode === 'forgot') {
@@ -1150,7 +1179,7 @@ async function checkCert(code) {
   try {
     const r = await call('verifyCertificate', { code });
     $('#certRes').innerHTML = r.valid
-      ? `<div class="alert alert-success text-start"><div class="fw-bold mb-2"><i class="fa-solid fa-circle-check me-2"></i>Valid certificate</div><dl class="kv mb-0"><dt>Awarded to</dt><dd>${esc(r.name)}</dd><dt>Programme</dt><dd>${esc(r.programme)}</dd><dt>Completed</dt><dd>${fdate(r.date)}</dd><dt>Certificate ID</dt><dd>${esc(r.certificateId)}</dd><dt>Issued by</dt><dd>${esc(r.academy)}</dd></dl></div>`
+      ? `<div class="alert alert-success text-start"><div class="fw-bold mb-2"><i class="fa-solid fa-circle-check me-2"></i>Valid certificate</div><dl class="kv mb-0"><dt>Awarded to</dt><dd>${esc(r.name)}</dd><dt>Programme</dt><dd>${esc(r.programme)}</dd><dt>Completed</dt><dd>${fdate(r.date)}</dd><dt>Certificate ID</dt><dd>${esc(r.certificateId)}</dd><dt>Issued by</dt><dd>${esc(r.academy)}</dd>${r.partners && r.partners.length ? `<dt>In partnership with</dt><dd>${esc(r.partners.join(', '))}</dd>` : ''}</dl></div>`
       : `<div class="alert alert-danger"><i class="fa-solid fa-circle-xmark me-2"></i>${r.status ? 'This certificate has been ' + esc(String(r.status).toLowerCase()) + '.' : 'No certificate matches this code.'}</div>`;
   } catch (e) { $('#certRes').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
 }
@@ -1158,7 +1187,7 @@ async function checkCert(code) {
 
 const STUDENT_MENU = [
   ['Learning'], ['overview', 'Dashboard', 'fa-gauge-high'], ['learning', 'My Learning', 'fa-book-open'], ['materials', 'My Learning Materials', 'fa-folder-open'],
-  ['classes', 'My Classes', 'fa-video'], ['recordings', 'Recorded Classes', 'fa-circle-play'], ['assignments', 'Assignments', 'fa-file-pen'], ['tutor', 'AI Study Assistant', 'fa-wand-magic-sparkles'],
+  ['classes', 'My Classes', 'fa-video'], ['recordings', 'Recorded Classes', 'fa-circle-play'], ['assignments', 'Assignments', 'fa-file-pen'], ['quizzes', 'Quizzes', 'fa-circle-question'], ['tutor', 'AI Study Assistant', 'fa-wand-magic-sparkles'],
   ['Progress'], ['certificates', 'Certificates', 'fa-award'], ['history', 'Learning History', 'fa-clock-rotate-left'], ['payments', 'Payments', 'fa-receipt'],
   ['More'], ['announcements', 'Announcements', 'fa-bullhorn'], ['catalog', 'Browse Programmes', 'fa-compass'], ['profile', 'My Profile', 'fa-user-gear']
 ];
@@ -1166,7 +1195,7 @@ const ADMIN_MENU = [
   ['Overview'], ['dashboard', 'Dashboard', 'fa-gauge-high', 1], ['students', 'Students', 'fa-user-graduate'],
   ['Learning'], ['programmes', 'Programmes', 'fa-book', 1], ['categories', 'Course Categories', 'fa-layer-group'], ['tutorials', 'Academic Tutorials', 'fa-graduation-cap'],
   ['enrolments', 'Enrolments', 'fa-user-check'], ['payments', 'Payments', 'fa-credit-card'], ['coupons', 'Coupons & Promos', 'fa-ticket'], ['materials', 'Learning Materials', 'fa-folder-open', 1],
-  ['classes', 'Live Classes', 'fa-video', 1], ['recordings', 'Class Recordings', 'fa-circle-play', 1], ['assignments', 'Assignments', 'fa-file-pen', 1], ['certificates', 'Certificates', 'fa-award'],
+  ['classes', 'Live Classes', 'fa-video', 1], ['recordings', 'Class Recordings', 'fa-circle-play', 1], ['assignments', 'Assignments', 'fa-file-pen', 1], ['quizzes', 'Quizzes', 'fa-circle-question', 1], ['certificates', 'Certificates', 'fa-award'],
   ['Engagement'], ['flyers', 'Flyer Studio', 'fa-palette', 1], ['announcements', 'Announcements', 'fa-bullhorn', 1], ['testimonials', 'Testimonials', 'fa-quote-left'], ['website', 'Website Content', 'fa-globe'],
   ['System'], ['ai', 'AI Models', 'fa-robot'], ['reports', 'Reports', 'fa-chart-column'], ['settings', 'System Settings', 'fa-sliders'], ['profile', 'My Profile', 'fa-user-gear', 1]
 ];
@@ -1221,7 +1250,7 @@ function bottomNav(kind) {
   return `<nav class="bnav" aria-label="Main">${tabs.map(t => `<a data-tab="${t[0]}" onclick="nav('${t[0]}')"><i class="fa-solid ${t[2]}"></i><span>${t[1]}</span></a>`).join('')}<a data-tab="more" onclick="toggleSb(true)"><i class="fa-solid fa-grip"></i><span>More</span></a></nav>`;
 }
 function toggleSb(open) { const sb = $('#sidebar'), bk = $('#sbBack'); if (sb) sb.classList.toggle('open', open); if (bk) bk.classList.toggle('show', open); }
-const TITLES = { coupons: 'Coupons & Promos', flyers: 'Flyer Studio', tutor: 'AI Study Assistant', ai: 'AI Models', overview: 'Dashboard', learning: 'My Learning', materials: 'My Learning Materials', classes: 'My Classes', recordings: 'Recorded Classes', assignments: 'Assignments', certificates: 'Certificates', history: 'Learning History', payments: 'Payments', announcements: 'Announcements', catalog: 'Browse Programmes', profile: 'My Profile', course: 'Course', dashboard: 'Dashboard', students: 'Students', programmes: 'Programmes', categories: 'Course Categories', tutorials: 'Academic Tutorials', enrolments: 'Enrolments', testimonials: 'Testimonials', website: 'Website Content', reports: 'Reports', settings: 'System Settings' };
+const TITLES = { classhub: 'Class', quizzes: 'Quizzes', coupons: 'Coupons & Promos', flyers: 'Flyer Studio', tutor: 'AI Study Assistant', ai: 'AI Models', overview: 'Dashboard', learning: 'My Learning', materials: 'My Learning Materials', classes: 'My Classes', recordings: 'Recorded Classes', assignments: 'Assignments', certificates: 'Certificates', history: 'Learning History', payments: 'Payments', announcements: 'Announcements', catalog: 'Browse Programmes', profile: 'My Profile', course: 'Course', dashboard: 'Dashboard', students: 'Students', programmes: 'Programmes', categories: 'Course Categories', tutorials: 'Academic Tutorials', enrolments: 'Enrolments', testimonials: 'Testimonials', website: 'Website Content', reports: 'Reports', settings: 'System Settings' };
 async function nav(sec, arg, silent) {
   const host = $('#main'); if (!host) return;
   if (silent && (!host.firstElementChild || S.sec !== sec)) return;
@@ -1284,7 +1313,8 @@ function classRow(c, past) {
     <div class="flex-fill min-w-0"><div class="fw-bold">${esc(c.title)} ${c.status !== 'Scheduled' ? badge(c.status) : ''}</div><div class="small text-muted text-truncate">${esc(c.programme)}</div>
     <div class="small mt-1"><i class="fa-regular fa-clock text-primary me-1"></i>${ftime(c.start)}${c.end ? ' – ' + ftime(c.end) : ''}${c.instructor ? ' · ' + esc(c.instructor) : ''}${c.attended ? ' · ' + badge(c.attended) : ''}</div></div>
     <div class="d-flex gap-1 flex-shrink-0">${!past && link ? `<a class="btn btn-grad btn-sm" href="${esc(link)}" target="_blank" rel="noopener" onclick="markJoin('${esc(c.id)}')"><i class="fa-solid fa-video me-1"></i>Join</a>` : ''}
-    ${!past && !link && c.status === 'Scheduled' ? '<span class="small-muted">Link coming soon</span>' : ''}${c.recordingId ? `<button class="btn btn-soft btn-sm" onclick="watch('${esc(c.recordingId)}')"><i class="fa-solid fa-circle-play me-1"></i>Recording</button>` : ''}</div></div>`;
+    ${!past && !link && c.status === 'Scheduled' ? '<span class="small-muted">Link coming soon</span>' : ''}${c.recordingId ? `<button class="btn btn-soft btn-sm" onclick="watch('${esc(c.recordingId)}')"><i class="fa-solid fa-circle-play me-1"></i>Recording</button>` : ''}
+    ${c.token ? (c.checkinOpen && !c.attended ? `<button class="btn btn-sm btn-success" onclick="goHub('${esc(c.id)}','${esc(c.token)}','attend')"><i class="fa-solid fa-clipboard-user me-1"></i>Check in</button>` : '') + `<button class="btn btn-sm btn-light" title="Attendance, feedback, assignment & quiz" onclick="goHub('${esc(c.id)}','${esc(c.token)}')"><i class="fa-solid fa-list-check me-1"></i>Class hub</button>` : ''}</div></div>`;
 }
 function markJoin(id) { call('joinClass', { classId: id }).catch(() => {}); }
 async function watch(recordingId, lessonId) {
@@ -1333,7 +1363,7 @@ async function doSubmit(id, btn) {
     const file = await readFile(f);
     const r = await call('submitAssignment', { assignmentId: id, file, comment: $('#subComment').value });
     closeModal(); toast(r.late ? 'Submitted (after the deadline).' : 'Assignment submitted successfully.', r.late ? 'warning' : 'success');
-    nav(S.sec, S.sec === 'course' ? S.course : undefined);
+    nav(S.sec, S.sec === 'course' ? S.course : S.navArg);
   });
 }
 function dlCertificate(id) { openCertificate(id); }
@@ -1573,7 +1603,7 @@ const ENT = {
       { k: 'Audience', l: 'Restrict to specific students (optional)', h: 'Comma-separated Student IDs (e.g. STU-00004, STU-00009). Leave blank for all enrolled students.' },
       { k: '_autoMeet', l: 'Create Google Meet link & calendar event automatically', t: 'bool', virtual: 1 }, { k: '_notify', l: 'Notify & email enrolled students (new / rescheduled / cancelled)', t: 'bool', virtual: 1, def: true }],
     defaults: { Status: 'Scheduled' },
-    actions: r => `<button class="btn btn-soft" title="Attendance" onclick="attendance('${esc(r.ClassID)}')"><i class="fa-solid fa-clipboard-user"></i></button><button class="btn btn-light" title="Add recording" onclick="editRecord('Recordings',null,{ProgrammeID:'${esc(r.ProgrammeID)}',ClassID:'${esc(r.ClassID)}',Title:'${esc(String(r.Title).replace(/'/g, ''))}',RecordedOn:'${esc(r.Date)}',Instructor:'${esc(String(r.Instructor || '').replace(/'/g, ''))}'})"><i class="fa-solid fa-circle-play"></i></button>`
+    actions: r => `<button class="btn btn-grad" title="QR codes & links" onclick="classLinksDialog('${esc(r.ClassID)}')"><i class="fa-solid fa-qrcode"></i></button><button class="btn btn-soft" title="Attendance" onclick="attendance('${esc(r.ClassID)}')"><i class="fa-solid fa-clipboard-user"></i></button><button class="btn btn-light" title="Feedback results" onclick="classFeedbackDialog('${esc(r.ClassID)}')"><i class="fa-solid fa-comments"></i></button><button class="btn btn-light" title="Add recording" onclick="editRecord('Recordings',null,{ProgrammeID:'${esc(r.ProgrammeID)}',ClassID:'${esc(r.ClassID)}',Title:'${esc(String(r.Title).replace(/'/g, ''))}',RecordedOn:'${esc(r.Date)}',Instructor:'${esc(String(r.Instructor || '').replace(/'/g, ''))}'})"><i class="fa-solid fa-circle-play"></i></button>`
   },
   Recordings: {
     title: 'Class Recordings', single: 'recording', sub: 'Link Google Meet recordings saved in Drive to programmes. Students stream them with their own Google account.', byProgramme: true,
@@ -1588,7 +1618,7 @@ const ENT = {
   Assignments: {
     title: 'Assignments', single: 'assignment', sub: 'Create assignments, review submissions and give feedback.', byProgramme: true,
     cols: [['Title', 'Assignment', r => `<div class="fw-semibold">${esc(r.Title)}</div><div class="small-muted">${esc(r.Programme)}</div>`], ['DueDate', 'Due', r => fdate(r.DueDate)], ['MaxScore', 'Max'], ['Status', 'Status', r => badge(r.Status)]],
-    fields: [{ k: 'ProgrammeID', l: 'Programme / tutorial', t: 'select', o: optProg, req: 1 }, { k: 'Title', l: 'Title', req: 1 }, { k: 'Instructions', l: 'Instructions', t: 'textarea', rows: 5 },
+    fields: [{ k: 'ProgrammeID', l: 'Programme / tutorial', t: 'select', o: optProg, req: 1, col: 'col-md-6' }, { k: 'ClassID', l: 'Class (optional: shows on its QR page)', t: 'select', o: optClasses, col: 'col-md-6' }, { k: 'Title', l: 'Title', req: 1 }, { k: 'Instructions', l: 'Instructions', t: 'textarea', rows: 5 },
       { k: 'DriveFileID', l: 'Instruction file (optional)', t: 'drive' }, { k: 'DueDate', l: 'Due date', t: 'date', col: 'col-md-6' }, { k: 'MaxScore', l: 'Maximum score', t: 'number', col: 'col-md-6' },
       { k: '_notify', l: 'Email enrolled students', t: 'bool', virtual: 1, newOnly: 1 }, { k: 'Status', l: 'Status', t: 'select', o: ST }],
     actions: r => `<button class="btn btn-soft" title="Submissions" onclick="submissions('${esc(r.AssignmentID)}')"><i class="fa-solid fa-inbox me-1"></i>Submissions</button>`
@@ -1713,7 +1743,7 @@ async function attendance(cid) {
     const r = await call('classAttendance', { classId: cid });
     $('#mTitle').innerHTML = 'Attendance · ' + esc(r.cls.Title) + ` <span class="small-muted">${fdate(r.cls.Date)}</span>`;
     const present = r.rows.filter(x => ['Present', 'Late'].includes(x.status)).length;
-    $('#mBody').innerHTML = `<div class="small mb-2"><b>${present}</b> of ${r.rows.length} enrolled students attended. Students who click "Join" are marked present automatically.</div>` + (r.rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Student</th><th>Joined</th><th>Status</th></tr></thead><tbody>${r.rows.map(x => `<tr><td><div class="fw-semibold">${esc(x.name)}</div><div class="small-muted">${esc(x.studentId)} · ${esc(x.email)}</div></td><td class="small">${x.joinedAt ? fdt(x.joinedAt) : '—'}</td>
+    $('#mBody').innerHTML = `<div class="small mb-2"><b>${present}</b> of ${r.rows.length} enrolled students attended. Students are marked automatically when they scan the attendance QR code or click "Join". The check-in time is set by the system.</div>` + (r.rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Student</th><th>Joined</th><th>Status</th></tr></thead><tbody>${r.rows.map(x => `<tr><td><div class="fw-semibold">${esc(x.name)}</div><div class="small-muted">${esc(x.studentId)} · ${esc(x.email)}</div></td><td class="small">${x.joinedAt ? fdt(x.joinedAt) : '—'}</td>
       <td><select class="form-select form-select-sm" style="width:130px" onchange="setAtt('${esc(cid)}','${esc(x.studentId)}',this.value)">${['Not marked', 'Present', 'Late', 'Absent', 'Excused'].map(s => `<option ${s === x.status ? 'selected' : ''} ${s === 'Not marked' ? 'disabled' : ''}>${s}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table></div>` : empty('fa-users', 'No enrolled students', ''));
   } catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
 }
@@ -1828,7 +1858,7 @@ const ADMIN_PAGES = {
   },
   async certificates(main, arg) {
     await loadLookups();
-    main.innerHTML = pageHead('Certificates', 'Certificates are issued automatically when students complete certificate-enabled programmes. Choose the design, or issue and revoke them manually.', `<button class="btn btn-light" onclick="renderCertVerify('')"><i class="fa-solid fa-magnifying-glass me-1"></i>Verification page</button><button class="btn btn-grad" onclick="issueDialog()"><i class="fa-solid fa-award me-1"></i>Issue certificate</button>`) +
+    main.innerHTML = pageHead('Certificates', 'Certificates are issued automatically when students complete certificate-enabled programmes. Choose the design, or issue and revoke them manually.', `<button class="btn btn-light" onclick="renderCertVerify('')"><i class="fa-solid fa-magnifying-glass me-1"></i>Verification page</button><button class="btn btn-soft" onclick="issueDialog()"><i class="fa-solid fa-award me-1"></i>Issue one</button><button class="btn btn-grad" onclick="bulkCertDialog()"><i class="fa-solid fa-users me-1"></i>Bulk issue</button>`) +
       `<ul class="nav nav-pills mb-3 gap-1"><li class="nav-item"><button class="nav-link ${arg === 'templates' ? '' : 'active'}" onclick="nav('certificates')">Issued certificates</button></li><li class="nav-item"><button class="nav-link ${arg === 'templates' ? 'active' : ''}" onclick="nav('certificates','templates')"><i class="fa-solid fa-swatchbook me-1"></i>Templates & design</button></li></ul><div id="certTab"></div>`;
     const box = $('#certTab', main);
     if (arg === 'templates') return certTemplatesTab(box);
@@ -2309,12 +2339,33 @@ function logoImg(logo, size, bg, fg) {
 
 
 const CERT_W = 1123, CERT_H = 794;
-function certSig(name, title, ink, line, w) {
+function certSig(name, title, ink, line, w, img) {
   if (!name) return '';
-  const fs = Math.max(18, Math.min(34, Math.round(34 * 15 / Math.max(15, String(name).length))));
-  return `<div style="width:${w || 220}px;text-align:center"><div style="font-family:${FONT.script};font-size:${fs}px;color:${ink};line-height:42px;height:42px;white-space:nowrap">${esc(name)}</div>
-    <div style="border-top:1.5px solid ${line};margin-top:4px;padding-top:7px;font-family:${FONT.sans};font-size:13px;font-weight:700;color:${ink}">${esc(name)}</div>
-    <div style="font-family:${FONT.sans};font-size:11.5px;color:#64748b;margin-top:2px">${esc(title || '')}</div></div>`;
+  w = w || 220;
+  const fs = Math.max(14, Math.min(34, Math.round(34 * 15 / Math.max(15, String(name).length) * Math.min(1, w / 210))));
+  const mark = img ? `<div style="height:42px;display:flex;align-items:flex-end;justify-content:center"><img src="${esc(img)}" style="max-height:46px;max-width:${w - 10}px;object-fit:contain;display:block"></div>`
+    : `<div data-fit style="font-family:${FONT.script};font-size:${fs}px;color:${ink};line-height:42px;height:42px;white-space:nowrap;overflow:hidden;width:100%">${esc(name)}</div>`;
+  return `<div style="width:${w}px;text-align:center">${mark}
+    <div style="border-top:1.5px solid ${line};margin-top:4px;padding-top:7px;font-family:${FONT.sans};font-size:${w < 170 ? 12 : 13}px;font-weight:700;color:${ink};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(name)}</div>
+    <div style="font-family:${FONT.sans};font-size:${w < 170 ? 10.5 : 11.5}px;color:#64748b;margin-top:2px;line-height:1.3">${esc(title || '')}</div></div>`;
+}
+function certSigList(list, ink, line, w, gap) {
+  const n = list.length; if (!n) return '';
+  const ww = Math.round(w * (n <= 2 ? 1 : n === 3 ? .8 : .6));
+  return `<div style="display:flex;gap:${n > 3 ? 14 : gap || 28}px;align-items:flex-end">${list.map(x => certSig(x.name, x.title, ink, line, ww, x.img)).join('')}</div>`;
+}
+function certSigs(d, ink, line, w, gap) { return certSigList(d.signers || [], ink, line, w, gap); }
+function partnerLogos(d) { return (d.partners || []).filter(p => p.logo); }
+function certLogos(d, size, bg, fg, sep) {
+  const ps = partnerLogos(d);
+  if (!ps.length) return logoImg(d.logo, size, bg, fg);
+  return `<div style="display:flex;align-items:center;gap:16px">${logoImg(d.logo, size, bg, fg)}${ps.map(p => `<div style="width:1.5px;height:${Math.round(size * .8)}px;background:${sep}"></div><img src="${esc(p.logo)}" style="height:${size}px;max-width:${Math.round(size * 2.6)}px;object-fit:contain;display:block">`).join('')}</div>`;
+}
+function certPartnerBlock(d, color, h, boxed) {
+  const ps = partnerLogos(d), names = (d.partners || []).map(p => p.name);
+  if (!names.length) return '';
+  return `<div><div style="font-family:${FONT.wide};font-size:10px;font-weight:800;letter-spacing:.2em;color:${color};margin-bottom:8px">IN PARTNERSHIP WITH</div>
+    ${ps.length ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">${ps.map(p => `<div style="${boxed ? 'background:#fff;border-radius:8px;padding:6px 10px;' : ''}display:flex;align-items:center"><img src="${esc(p.logo)}" style="height:${h}px;max-width:${h * 3}px;object-fit:contain;display:block"></div>`).join('')}</div>` : `<div style="font-family:${FONT.sans};font-size:13px;font-weight:700;color:${color}">${esc(names.join(' · '))}</div>`}</div>`;
 }
 function certQr(d, size, color) { return d.qr ? `<div style="text-align:center"><img src="${d.qr}" style="width:${size}px;height:${size}px;display:block;margin:0 auto"><div style="font-family:${FONT.sans};font-size:10px;color:${color || '#64748b'};margin-top:4px;letter-spacing:.05em">SCAN TO VERIFY</div></div>` : ''; }
 function certMeta(d, color, align) { return `<div style="font-family:${FONT.sans};font-size:11.5px;color:${color || '#64748b'};line-height:1.65;text-align:${align || 'left'}">Certificate ID: <b>${esc(d.id)}</b><br>Verification code: <b>${esc(d.code)}</b></div>`; }
@@ -2334,7 +2385,7 @@ const CERT_DESIGNS = {
       <div style="position:absolute;left:48px;top:48px;right:48px;bottom:48px;border:2px solid ${d.accent}"></div>
       ${['left:39px;top:39px', 'right:39px;top:39px', 'left:39px;bottom:39px', 'right:39px;bottom:39px'].map(p => `<div style="position:absolute;${p};width:20px;height:20px;background:${d.accent};transform:rotate(45deg)"></div>`).join('')}
       <div style="position:absolute;left:90px;right:90px;top:80px;text-align:center">
-        <div style="display:flex;justify-content:center;margin-bottom:12px">${logoImg(d.logo, 60, '#0b1b3f', '#fff')}</div>
+        <div style="display:flex;justify-content:center;margin-bottom:12px">${certLogos(d, 60, '#0b1b3f', '#fff', '#cbd5e1')}</div>
         <div style="font-family:${FONT.wide};font-size:14px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:${shade(d.accent, -.2)}">${esc(d.academy)}</div>
         <div style="font-family:${FONT.serif};font-size:54px;font-weight:700;margin-top:12px">Certificate of Completion</div>
         <div style="font-family:${FONT.sans};font-size:16px;color:#475569;margin-top:14px">This is to certify that</div>
@@ -2345,7 +2396,7 @@ const CERT_DESIGNS = {
         <div style="font-family:${FONT.sans};font-size:14px;color:#64748b;margin-top:8px">Awarded on ${esc(d.dateText)}${d.duration ? ' · Duration: ' + esc(d.duration) : ''}</div>
       </div>
       <div style="position:absolute;left:96px;right:96px;bottom:78px;display:flex;align-items:flex-end;justify-content:space-between">
-        <div style="display:flex;gap:28px;align-items:flex-end">${certSig(d.sig1, d.sig1t, '#0b1b3f', '#0b1b3f', 210)}${certSig(d.sig2, d.sig2t, '#0b1b3f', '#0b1b3f', 210)}</div>
+        ${certSigs(d, '#0b1b3f', '#0b1b3f', 210, 28)}
         ${certSeal(d.accent)}
         <div style="display:flex;gap:14px;align-items:flex-end">${certMeta(d, '#64748b', 'right')}${certQr(d, 82)}</div>
       </div>
@@ -2357,6 +2408,7 @@ const CERT_DESIGNS = {
         <div style="position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06);left:-90px;bottom:120px"></div>
         <div style="position:relative">${logoImg(d.logo, 70, 'rgba(255,255,255,.16)', '#fff')}</div>
         <div style="position:relative;font-family:${FONT.wide};font-size:16px;font-weight:800;letter-spacing:.1em;margin-top:22px;line-height:1.45;text-transform:uppercase">${esc(d.academy)}</div>
+        ${(d.partners || []).length ? `<div style="position:relative;margin-top:26px">${certPartnerBlock(d, 'rgba(255,255,255,.8)', 40, true)}</div>` : ''}
         <div style="position:relative;margin-top:auto;font-family:${FONT.wide};font-weight:900;font-size:104px;line-height:.9;color:rgba(255,255,255,.2)">${esc(String(d.date || '').slice(0, 4))}</div>
         <div style="position:relative;margin-top:16px">${certMeta(d, 'rgba(255,255,255,.85)')}</div>
       </div>
@@ -2372,7 +2424,7 @@ const CERT_DESIGNS = {
           ${d.duration ? `<div><div style="font-size:11px;letter-spacing:.14em;color:#94a3b8;font-weight:700">DURATION</div><div style="font-size:16px;font-weight:700;color:#0f172a;margin-top:3px">${esc(d.duration)}</div></div>` : ''}
         </div>
         <div style="margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between">
-          <div style="display:flex;gap:30px;align-items:flex-end">${certSig(d.sig1, d.sig1t, '#0f172a', '#cbd5e1', 210)}${certSig(d.sig2, d.sig2t, '#0f172a', '#cbd5e1', 210)}</div>
+          ${certSigs(d, '#0f172a', '#cbd5e1', 200, 30)}
           ${certQr(d, 86)}
         </div>
       </div>
@@ -2383,7 +2435,7 @@ const CERT_DESIGNS = {
       <div style="position:absolute;left:38px;top:38px;right:38px;bottom:38px;border:1px solid ${rgba(d.accent, .7)}"></div>
       ${[['left:52px;top:52px', 'border-left', 'border-top'], ['right:52px;top:52px', 'border-right', 'border-top'], ['left:52px;bottom:52px', 'border-left', 'border-bottom'], ['right:52px;bottom:52px', 'border-right', 'border-bottom']].map(c => `<div style="position:absolute;${c[0]};width:60px;height:60px;${c[1]}:3px solid ${d.accent};${c[2]}:3px solid ${d.accent}"></div>`).join('')}
       <div style="position:absolute;left:110px;right:110px;top:74px;text-align:center">
-        <div style="display:flex;justify-content:center;margin-bottom:6px">${logoImg(d.logo, 54, d.accent, '#fff')}</div>
+        <div style="display:flex;justify-content:center;margin-bottom:6px">${certLogos(d, 54, d.accent, '#fff', rgba(d.accent, .6))}</div>
         <div style="font-family:${FONT.serif};font-size:15px;letter-spacing:.3em;text-transform:uppercase;color:${shade(d.accent, -.25)}">${esc(d.academy)}</div>
         <div style="font-family:${FONT.script};font-size:96px;line-height:1.05;color:${d.accent};margin-top:6px">Certificate</div>
         <div style="font-family:${FONT.serif};font-size:18px;letter-spacing:.42em;font-weight:700;color:#3b2f1e">OF ACHIEVEMENT</div>
@@ -2395,18 +2447,18 @@ const CERT_DESIGNS = {
         <div style="font-family:${FONT.serif};font-size:14px;color:#6b5b45;margin-top:8px">${esc(d.dateText)}${d.duration ? ' · ' + esc(d.duration) : ''}</div>
       </div>
       <div style="position:absolute;left:96px;right:96px;bottom:66px;display:flex;align-items:flex-end;justify-content:space-between">
-        ${certSig(d.sig1, d.sig1t, '#3b2f1e', d.accent, 220) || '<div style="width:220px"></div>'}
+        ${certSigList(d.sigL, '#3b2f1e', d.accent, 220, 20) || '<div style="width:220px"></div>'}
         ${certRibbon(d.accent)}
-        ${d.sig2 ? certSig(d.sig2, d.sig2t, '#3b2f1e', d.accent, 220) : `<div style="width:220px;display:flex;gap:12px;align-items:flex-end;justify-content:flex-end">${certMeta(d, '#6b5b45', 'right')}${certQr(d, 70, '#6b5b45')}</div>`}
+        ${d.sigR.length ? certSigList(d.sigR, '#3b2f1e', d.accent, 220, 20) : `<div style="width:220px;display:flex;gap:12px;align-items:flex-end;justify-content:flex-end">${certMeta(d, '#6b5b45', 'right')}${certQr(d, 70, '#6b5b45')}</div>`}
       </div>
-      ${d.sig2 ? `<div style="position:absolute;right:66px;top:66px;display:flex;gap:10px;align-items:flex-start">${certMeta(d, '#6b5b45', 'right')}${certQr(d, 62, '#6b5b45')}</div>` : ''}
+      ${d.sigR.length ? `<div style="position:absolute;right:66px;top:66px;display:flex;gap:10px;align-items:flex-start">${certMeta(d, '#6b5b45', 'right')}${certQr(d, 62, '#6b5b45')}</div>` : ''}
     </div>` },
   minimal: { name: 'Minimal', accent: '#2563eb', desc: 'Lots of white space, big name, a single accent line.', render: d => `
     <div style="width:${CERT_W}px;height:${CERT_H}px;background:#fff;position:relative;overflow:hidden;color:#0f172a;box-sizing:border-box;padding:70px 90px 64px 104px;display:flex;flex-direction:column;font-family:${FONT.sans}">
       <div style="position:absolute;left:0;top:0;bottom:0;width:14px;background:${d.accent}"></div>
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div style="display:flex;align-items:center;gap:14px">${logoImg(d.logo, 46, d.accent, '#fff')}<div style="font-weight:800;font-size:18px">${esc(d.academy)}</div></div>
-        ${certQr(d, 76)}
+        <div style="display:flex;align-items:center;gap:28px">${certPartnerBlock(d, '#94a3b8', 38)}${certQr(d, 76)}</div>
       </div>
       <div style="margin-top:56px;font-size:14px;font-weight:800;letter-spacing:.34em;color:${d.accent}">CERTIFICATE</div>
       <div style="font-size:66px;font-weight:800;line-height:1.05;margin-top:16px;letter-spacing:-.02em">${esc(d.name)}</div>
@@ -2415,7 +2467,7 @@ const CERT_DESIGNS = {
       <div style="margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between">
         <div style="display:flex;gap:40px;align-items:flex-end">
           <div><div style="font-size:11px;letter-spacing:.14em;color:#94a3b8;font-weight:700">AWARDED</div><div style="font-size:16px;font-weight:700;margin-top:3px">${esc(d.dateText)}</div></div>
-          ${certSig(d.sig1, d.sig1t, '#0f172a', '#e2e8f0', 200)}${certSig(d.sig2, d.sig2t, '#0f172a', '#e2e8f0', 200)}
+          ${certSigs(d, '#0f172a', '#e2e8f0', 200, 40)}
         </div>
         ${certMeta(d, '#94a3b8', 'right')}
       </div>
@@ -2425,7 +2477,7 @@ const CERT_DESIGNS = {
       <div style="position:absolute;left:0;top:0;right:0;height:170px;background:#0b1b3f;overflow:hidden">
         <div style="position:absolute;right:-60px;top:-120px;width:380px;height:420px;background:${d.accent};transform:rotate(28deg)"></div>
         <div style="position:absolute;right:250px;top:-140px;width:60px;height:420px;background:${rgba(d.accent, .45)};transform:rotate(28deg)"></div>
-        <div style="position:absolute;left:70px;top:46px;display:flex;align-items:center;gap:18px;color:#fff">${logoImg(d.logo, 72, 'rgba(255,255,255,.12)', '#fff')}<div><div style="font-family:${FONT.wide};font-size:22px;font-weight:800">${esc(d.academy)}</div><div style="font-size:13px;opacity:.75;margin-top:4px;letter-spacing:.06em">Professional Training & Academic Tutorials</div></div></div>
+        <div style="position:absolute;left:70px;top:46px;display:flex;align-items:center;gap:18px;color:#fff">${logoImg(d.logo, 72, 'rgba(255,255,255,.12)', '#fff')}<div><div style="font-family:${FONT.wide};font-size:22px;font-weight:800">${esc(d.academy)}</div><div style="font-size:13px;opacity:.75;margin-top:4px;letter-spacing:.06em">${(d.partners || []).length ? 'In partnership with ' + esc(d.partners.map(p => p.name).join(' & ')) : 'Professional Training & Academic Tutorials'}</div></div>${partnerLogos(d).length ? `<div style="display:flex;gap:10px;margin-left:10px">${partnerLogos(d).map(p => `<div style="background:#fff;border-radius:10px;padding:8px 12px;display:flex;align-items:center"><img src="${esc(p.logo)}" style="height:48px;max-width:150px;object-fit:contain;display:block"></div>`).join('')}</div>` : ''}</div>
       </div>
       <div style="position:absolute;left:70px;right:70px;top:208px">
         <div style="font-family:${FONT.bebas};font-size:84px;line-height:.9;letter-spacing:.02em;color:#0b1b3f">CERTIFICATE <span style="color:${shade(d.accent, -.15)}">OF COMPLETION</span></div>
@@ -2434,7 +2486,7 @@ const CERT_DESIGNS = {
         <div style="font-size:17px;color:#64748b;margin-top:18px">has successfully completed <b style="color:#0b1b3f">${esc(d.programme)}</b>${d.duration ? ' (' + esc(d.duration) + ')' : ''} on ${esc(d.dateText)}.</div>
       </div>
       <div style="position:absolute;left:70px;right:70px;bottom:62px;display:flex;align-items:flex-end;justify-content:space-between">
-        <div style="display:flex;gap:30px;align-items:flex-end">${certSig(d.sig1, d.sig1t, '#0b1b3f', '#0b1b3f', 210)}${certSig(d.sig2, d.sig2t, '#0b1b3f', '#0b1b3f', 210)}</div>
+        ${certSigs(d, '#0b1b3f', '#0b1b3f', 210, 30)}
         <div style="display:flex;gap:14px;align-items:flex-end">${certMeta(d, '#64748b', 'right')}${certQr(d, 82)}</div>
       </div>
       <div style="position:absolute;left:0;right:0;bottom:0;height:14px;background:linear-gradient(90deg,#0b1b3f 0%,${d.accent} 100%)"></div>
@@ -2445,7 +2497,7 @@ const CERT_DESIGNS = {
       <div style="position:absolute;left:38px;top:38px;right:38px;bottom:38px;border:6px double ${d.accent}"></div>
       <div style="position:absolute;left:311px;top:147px;width:500px;height:500px;border-radius:50%;border:30px solid ${rgba(d.accent, .05)}"></div>
       <div style="position:absolute;left:100px;right:100px;top:70px;text-align:center">
-        <div style="display:flex;justify-content:center"><div style="width:96px;height:96px;border-radius:50%;border:3px solid ${d.accent};display:flex;align-items:center;justify-content:center;background:#fff">${logoImg(d.logo, 62, d.accent, '#fff')}</div></div>
+        <div style="display:flex;justify-content:center;align-items:center;gap:22px"><div style="width:96px;height:96px;border-radius:50%;border:3px solid ${d.accent};display:flex;align-items:center;justify-content:center;background:#fff">${logoImg(d.logo, 62, d.accent, '#fff')}</div>${partnerLogos(d).map(p => `<div style="width:1.5px;height:70px;background:${rgba(d.accent, .5)}"></div><img src="${esc(p.logo)}" style="height:70px;max-width:190px;object-fit:contain;display:block">`).join('')}</div>
         <div style="font-family:${FONT.serif};font-size:22px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-top:14px;color:${d.accent}">${esc(d.academy)}</div>
         <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px"><div style="width:120px;height:1px;background:${d.accent}"></div><div style="font-family:${FONT.serif};font-size:14px;letter-spacing:.3em;color:#6b7280">CERTIFICATE OF COMPLETION</div><div style="width:120px;height:1px;background:${d.accent}"></div></div>
         <div style="font-family:${FONT.serif};font-size:18px;font-style:italic;color:#4b5563;margin-top:28px;line-height:1.7">This is to certify that</div>
@@ -2453,21 +2505,25 @@ const CERT_DESIGNS = {
         <div style="font-family:${FONT.serif};font-size:18px;font-style:italic;color:#4b5563;line-height:1.7;max-width:760px;margin:0 auto">having satisfactorily fulfilled all the requirements of the programme<br><b style="font-style:normal;color:#111827;font-size:22px">${esc(d.programme)}</b><br>is hereby awarded this certificate on ${esc(d.dateText)}.</div>
       </div>
       <div style="position:absolute;left:100px;right:100px;bottom:70px;display:flex;align-items:flex-end;justify-content:space-between">
-        ${certSig(d.sig1, d.sig1t, '#111827', d.accent, 220) || '<div style="width:220px"></div>'}
+        ${certSigList(d.sigL, '#111827', d.accent, 220, 20) || '<div style="width:220px"></div>'}
         <div style="display:flex;flex-direction:column;align-items:center;gap:8px">${certSeal(d.accent, 'OFFICIAL', 104)}${certMeta(d, '#6b7280', 'center')}</div>
-        ${d.sig2 ? certSig(d.sig2, d.sig2t, '#111827', d.accent, 220) : `<div style="width:220px;display:flex;justify-content:flex-end">${certQr(d, 82, '#6b7280')}</div>`}
+        ${d.sigR.length ? certSigList(d.sigR, '#111827', d.accent, 220, 20) : `<div style="width:220px;display:flex;justify-content:flex-end">${certQr(d, 82, '#6b7280')}</div>`}
       </div>
+      ${d.sigR.length ? `<div style="position:absolute;right:70px;top:70px">${certQr(d, 70, '#6b7280')}</div>` : ''}
     </div>` }
 };
 function certHtml(tpl, d) {
   ensureDesignFonts();
   const t = CERT_DESIGNS[tpl] || CERT_DESIGNS.classic;
-  const dd = Object.assign({}, d, { accent: d.accent || t.accent, qr: qrData(d.verifyUrl), dateText: longDate(d.date) });
+  const signers = [[d.sig1, d.sig1t], [d.sig2, d.sig2t]].filter(x => x[0]).map(x => ({ name: x[0], title: x[1] }))
+    .concat((d.partners || []).filter(p => p.sigName).map(p => ({ name: p.sigName, title: p.sigTitle, img: p.sigImg }))).slice(0, 4);
+  const half = Math.ceil(signers.length / 2);
+  const dd = Object.assign({}, d, { accent: d.accent || t.accent, qr: qrData(d.verifyUrl), dateText: longDate(d.date), signers: signers, sigL: signers.slice(0, half), sigR: signers.slice(half) });
   return `<div style="position:relative;width:${CERT_W}px;height:${CERT_H}px">${t.render(dd)}${d.revoked ? `<div style="position:absolute;left:0;top:0;width:${CERT_W}px;height:${CERT_H}px;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(-24deg);border:8px solid #dc2626;color:#dc2626;font-family:${FONT.wide};font-weight:900;font-size:110px;padding:6px 40px;opacity:.75">REVOKED</div></div>` : ''}</div>`;
 }
 function certSampleData() {
   const s = Object.assign({}, S.pub.settings, (S.adm && S.adm.settings) || {}, S.certDraft || {});
-  return { name: 'Adaeze Okafor', programme: 'Power BI for Business Intelligence', date: new Date().toISOString().slice(0, 10), id: 'CRT-00042', code: '7KQ2M9XH4P', verifyUrl: appBase() + '?page=cert&code=7KQ2M9XH4P', duration: '6 weeks', academy: s.ACADEMY_NAME, logo: S.logoData || '', accent: s.CERT_ACCENT || '', sig1: s.CERT_SIGNATORY, sig1t: s.CERT_SIGNATORY_TITLE, sig2: s.CERT_SIGNATORY2, sig2t: s.CERT_SIGNATORY2_TITLE };
+  return { name: 'Adaeze Okafor', programme: 'Power BI for Business Intelligence', date: new Date().toISOString().slice(0, 10), id: 'CRT-00042', code: '7KQ2M9XH4P', verifyUrl: appBase() + '?page=cert&code=7KQ2M9XH4P', duration: '6 weeks', academy: s.ACADEMY_NAME, logo: S.logoData || '', accent: s.CERT_ACCENT || '', sig1: s.CERT_SIGNATORY, sig1t: s.CERT_SIGNATORY_TITLE, sig2: s.CERT_SIGNATORY2, sig2t: s.CERT_SIGNATORY2_TITLE, partners: (S.partners || []).filter(p => (S.certPrevPartners || []).includes(p.PartnerID)).map(partnerPreviewData) };
 }
 
 
@@ -2548,7 +2604,7 @@ async function openCertificate(id) {
 
 async function certTemplatesTab(box) {
   box.innerHTML = spin();
-  const [st] = await Promise.all([rcall('getSettings'), loadLib('qr').catch(() => null)]);
+  const [st] = await Promise.all([rcall('getSettings'), loadLib('qr').catch(() => null), loadPartners(), loadLookups()]);
   S.adm = st;
   await loadLogoData();
   S.certDraft = { CERT_ACCENT: st.settings.CERT_ACCENT, CERT_SIGNATORY: st.settings.CERT_SIGNATORY, CERT_SIGNATORY_TITLE: st.settings.CERT_SIGNATORY_TITLE, CERT_SIGNATORY2: st.settings.CERT_SIGNATORY2, CERT_SIGNATORY2_TITLE: st.settings.CERT_SIGNATORY2_TITLE };
@@ -2573,7 +2629,9 @@ function drawCertTemplates() {
       <div class="small-muted mb-3">Your logo comes from System Settings. A QR code linking to the verification page is added automatically.</div>
       <button class="btn btn-grad w-100" onclick="saveCertSettings(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save design settings</button>
       <div class="small-muted mt-3">Each programme can use a different design: edit the programme and choose <b>Certificate design</b>.</div>
+      <hr class="my-4"><div id="ptnBox"></div>
     </div></div></div>`;
+  drawPartnersCard();
   setTimeout(() => fitDesigns(box), 20);
 }
 function previewCertTemplate(k) {
@@ -3568,6 +3626,552 @@ async function saveBankSettings(btn) {
   await busy(btn, async () => { S.adm = await call('saveSettings', { settings: d }); await refreshPublic(); toast(d.BANK_TRANSFER_ENABLED ? 'Bank transfer is on. Students will see it at checkout.' : 'Bank details saved.'); });
 }
 
+function partnerPreviewData(p) { return { id: p.PartnerID, name: p.Name, logo: isYes(p.ShowLogo) ? (p.logoData || safeUrl(p.LogoURL)) : '', sigName: isYes(p.ShowSignature) ? p.SignatoryName : '', sigTitle: isYes(p.ShowSignature) ? p.SignatoryTitle : '', sigImg: isYes(p.ShowSignature) ? (p.sigData || safeUrl(p.SignatureURL)) : '' }; }
+async function loadPartners(force) { if (!S.partners || force) S.partners = await rcall('partnerList'); return S.partners; }
+
+async function bulkCertDialog(pid) {
+  await Promise.all([loadLookups(), loadPartners(), loadLib('qr').catch(() => null), loadLogoData(), S.adm ? null : rcall('getSettings').then(x => { S.adm = x; })]);
+  S.bulk = { pid: pid || '', rows: [], sel: new Set(), filter: 'eligible', q: '', partners: [], date: new Date().toISOString().slice(0, 10), complete: true, email: true };
+  modal('<i class="fa-solid fa-award text-primary me-2"></i>Issue certificates in bulk', `<div class="row g-4">
+    <div class="col-lg-7"><label class="form-label fw-semibold" for="bkProg">Programme</label><select class="form-select mb-3" id="bkProg" onchange="bulkLoad(this.value)">${optProg().map(o => `<option value="${esc(o[0])}" ${o[0] === pid ? 'selected' : ''}>${esc(o[1])}</option>`).join('')}</select><div id="bkList"><div class="small-muted">Choose a programme to see everyone registered for it.</div></div></div>
+    <div class="col-lg-5"><div id="bkOpts"></div></div></div>`,
+    `<div class="me-auto small-muted" id="bkCount"></div><button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-grad" id="bkGo" onclick="bulkIssue(this)" disabled><i class="fa-solid fa-award me-1"></i>Issue certificates</button>`, 'xl');
+  if (pid) bulkLoad(pid); else drawBulkOpts();
+}
+async function bulkLoad(pid) {
+  const B = S.bulk; B.pid = pid; B.sel = new Set(); B.rows = [];
+  if (!pid) { $('#bkList').innerHTML = '<div class="small-muted">Choose a programme to see everyone registered for it.</div>'; drawBulkOpts(); return; }
+  $('#bkList').innerHTML = spin();
+  try {
+    const r = await call('certCandidates', { programmeId: pid });
+    if (S.bulk !== B) return;
+    B.rows = r.students; B.programme = r.programme; B.partners = r.partners.slice();
+    B.rows.forEach(x => { if (!x.certificateId && x.status === 'Completed') B.sel.add(x.studentId); });
+    if (!B.sel.size) B.rows.forEach(x => { if (!x.certificateId) B.sel.add(x.studentId); });
+    drawBulkList(); drawBulkOpts();
+  } catch (e) { $('#bkList').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
+}
+function bulkVisible() {
+  const B = S.bulk, q = B.q.toLowerCase();
+  return B.rows.filter(x => (B.filter === 'all' || (B.filter === 'eligible' ? !x.certificateId : B.filter === 'completed' ? x.status === 'Completed' && !x.certificateId : !!x.certificateId)) && (!q || (x.name + ' ' + x.email).toLowerCase().includes(q)));
+}
+function drawBulkList() {
+  const B = S.bulk, el = $('#bkList'); if (!el) return;
+  const vis = bulkVisible(), avail = vis.filter(x => !x.certificateId), allOn = avail.length && avail.every(x => B.sel.has(x.studentId));
+  const cnt = k => B.rows.filter(x => k === 'all' ? 1 : k === 'eligible' ? !x.certificateId : k === 'completed' ? x.status === 'Completed' && !x.certificateId : !!x.certificateId).length;
+  el.innerHTML = B.rows.length ? `<div class="d-flex flex-wrap gap-2 mb-2">${[['eligible', 'No certificate yet'], ['completed', 'Completed'], ['issued', 'Already issued'], ['all', 'Everyone']].map(f => `<span class="chip py-1 px-2 small ${B.filter === f[0] ? 'active' : ''}" onclick="S.bulk.filter='${f[0]}';drawBulkList()">${f[1]} <span style="opacity:.6">${cnt(f[0])}</span></span>`).join('')}</div>
+    <input class="form-control form-control-sm mb-2" placeholder="Search name or email…" value="${esc(B.q)}" oninput="S.bulk.q=this.value;drawBulkList();this.focus();this.setSelectionRange(this.value.length,this.value.length)">
+    <div class="border rounded-3" style="max-height:340px;overflow:auto"><table class="table table-sm table-hover mb-0 bk-tbl"><thead><tr><th style="width:36px"><input class="form-check-input" type="checkbox" ${allOn ? 'checked' : ''} ${avail.length ? '' : 'disabled'} onchange="bulkToggleAll(this.checked)" aria-label="Select all"></th><th>Student</th><th>Status</th><th>Progress</th></tr></thead><tbody>
+    ${vis.map(x => `<tr><td><input class="form-check-input" type="checkbox" ${x.certificateId ? 'disabled' : ''} ${B.sel.has(x.studentId) ? 'checked' : ''} onchange="bulkToggle('${esc(x.studentId)}',this.checked)" aria-label="Select ${esc(x.name)}"></td><td><div class="fw-semibold small">${esc(x.name)}</div><div class="small-muted">${esc(x.email)}</div></td><td>${x.certificateId ? '<span class="badge-s bs-success"><i class="fa-solid fa-award me-1"></i>Issued</span>' : badge(x.status)}</td><td style="min-width:90px"><div class="cpn-bar"><i style="width:${Math.min(100, x.progress)}%"></i></div><div class="small-muted">${Math.round(x.progress)}%</div></td></tr>`).join('') || `<tr><td colspan="4" class="text-center small-muted py-3">Nobody in this view.</td></tr>`}</tbody></table></div>`
+    : `<div class="card-x text-center small-muted">${empty('fa-users', 'No one has registered yet', 'Students appear here once they enrol in this programme.')}</div>`;
+  bulkCount();
+}
+function bulkToggle(id, on) { if (on) S.bulk.sel.add(id); else S.bulk.sel.delete(id); bulkCount(); drawBulkPreview(); }
+function bulkToggleAll(on) { bulkVisible().filter(x => !x.certificateId).forEach(x => { if (on) S.bulk.sel.add(x.studentId); else S.bulk.sel.delete(x.studentId); }); drawBulkList(); drawBulkPreview(); }
+function bulkCount() { const n = S.bulk.sel.size, b = $('#bkGo'), c = $('#bkCount'); if (c) c.textContent = n ? n + ' selected' : ''; if (b) { b.disabled = !n; b.innerHTML = `<i class="fa-solid fa-award me-1"></i>Issue ${n || ''} certificate${n === 1 ? '' : 's'}`; } }
+function drawBulkOpts() {
+  const B = S.bulk, el = $('#bkOpts'); if (!el) return;
+  const ps = (S.partners || []).filter(p => p.Status === 'Active');
+  el.innerHTML = `<div class="card-x bg-light">
+    <div class="row g-2"><div class="col-sm-6"><label class="form-label small" for="bkDate">Completion date</label><input class="form-control form-control-sm" type="date" id="bkDate" value="${esc(B.date)}" onchange="S.bulk.date=this.value;drawBulkPreview()"></div>
+    <div class="col-sm-6 d-grid gap-1 align-content-end"><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="bkDone" ${B.complete ? 'checked' : ''} onchange="S.bulk.complete=this.checked"><label class="form-check-label small" for="bkDone">Mark as completed</label></div><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="bkMail" ${B.email ? 'checked' : ''} onchange="S.bulk.email=this.checked"><label class="form-check-label small" for="bkMail">Email students</label></div></div></div>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-1"><span class="small fw-semibold"><i class="fa-solid fa-handshake text-primary me-1"></i>Partners on these certificates</span><a class="small" role="button" onclick="closeModal();nav('certificates','templates')">Manage</a></div>
+    ${ps.length ? ps.map(p => `<label class="d-flex align-items-center gap-2 py-1 m-0" style="cursor:pointer"><input class="form-check-input m-0" type="checkbox" ${B.partners.includes(p.PartnerID) ? 'checked' : ''} onchange="bulkPartner('${esc(p.PartnerID)}',this.checked)">${safeUrl(p.LogoURL) ? `<img src="${esc(p.LogoURL)}" style="height:22px;max-width:60px;object-fit:contain">` : ''}<span class="small">${esc(p.Name)}</span></label>`).join('') : `<div class="small-muted">No partners yet. Add sponsors (e.g. a scholarship partner) under <b>Templates & design</b> to show their logo and signature.</div>`}
+    <div class="small fw-semibold mt-3 mb-1">Preview</div><div id="bkPrev"></div></div>`;
+  drawBulkPreview();
+}
+function bulkPartner(id, on) { const P = S.bulk.partners; const i = P.indexOf(id); if (on && i < 0) P.push(id); if (!on && i >= 0) P.splice(i, 1); drawBulkPreview(); }
+function drawBulkPreview() {
+  const B = S.bulk, el = $('#bkPrev'); if (!el) return;
+  if (!B.pid || !B.programme) { el.innerHTML = '<div class="small-muted">Pick a programme to preview.</div>'; return; }
+  const first = B.rows.find(x => B.sel.has(x.studentId)) || { name: 'Student Name' };
+  const d = Object.assign(certSampleData(), { name: first.name, programme: B.programme.title, date: B.date, partners: (S.partners || []).filter(p => B.partners.includes(p.PartnerID)).map(partnerPreviewData) });
+  el.innerHTML = fitBox(certHtml(B.programme.template, d), CERT_W, CERT_H, 'border-radius:8px;box-shadow:0 8px 24px -14px rgba(15,23,42,.5)');
+  fitDesigns(el); setTimeout(() => fitDesigns(el), 300);
+}
+async function bulkIssue(btn) {
+  const B = S.bulk, ids = Array.from(B.sel);
+  if (!ids.length) return;
+  const tot = { issued: 0, skipped: 0, failed: [] }, size = 20;
+  btn.disabled = true;
+  try {
+    for (let i = 0; i < ids.length; i += size) {
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Issuing ${Math.min(i + size, ids.length)} of ${ids.length}…`;
+      const r = await call('bulkIssueCertificates', { programmeId: B.pid, studentIds: ids.slice(i, i + size), partnerIds: (S.partners || []).some(p => p.Status === 'Active') ? B.partners : undefined, date: B.date, markCompleted: B.complete, sendEmail: B.email });
+      tot.issued += r.issued; tot.skipped += r.skipped; tot.failed = tot.failed.concat(r.failed);
+    }
+    const name = id => (B.rows.find(x => x.studentId === id) || {}).name || id;
+    modal('Certificates issued 🎉', `<div class="text-center p-2"><div class="big-ic ic-green"><i class="fa-solid fa-award"></i></div><h4 class="fw-bold">${tot.issued} certificate${tot.issued === 1 ? '' : 's'} issued</h4><p class="text-muted mb-2">${esc(B.programme.title)}${B.email ? ' · students have been emailed' : ''}</p>${tot.skipped ? `<div class="small-muted">${tot.skipped} already had a certificate and were skipped.</div>` : ''}</div>${tot.failed.length ? `<div class="alert alert-warning small mt-3"><b>${tot.failed.length} could not be issued:</b><ul class="mb-0 mt-1">${tot.failed.map(f => `<li>${esc(name(f.studentId))}: ${esc(f.error)}</li>`).join('')}</ul></div>` : ''}`, `<button class="btn btn-grad w-100" onclick="closeModal();nav('certificates')">Done</button>`);
+  } catch (e) {
+    toast((tot.issued ? tot.issued + ' issued before an error: ' : '') + e.message, 'danger');
+    btn.disabled = false; bulkCount();
+  }
+}
+
+function drawPartnersCard() {
+  const el = $('#ptnBox'); if (!el) return;
+  const L = (S.partners || []);
+  el.innerHTML = `<div class="d-flex justify-content-between align-items-center mb-2"><h6 class="fw-bold mb-0"><i class="fa-solid fa-handshake text-primary me-2"></i>Partners & sponsors</h6><button class="btn btn-sm btn-grad" onclick="partnerDialog()"><i class="fa-solid fa-plus me-1"></i>Add</button></div>
+    <div class="small-muted mb-2">Co-brand certificates with a partner's logo and signature, e.g. a scholarship sponsor.</div>
+    ${L.length ? L.map(p => `<div class="d-flex align-items-center gap-2 py-2 border-top"><div class="ptn-logo">${safeUrl(p.LogoURL) ? `<img src="${esc(p.LogoURL)}" alt="">` : '<i class="fa-solid fa-building text-muted"></i>'}</div>
+      <div class="min-w-0 flex-fill"><div class="fw-semibold small text-truncate">${esc(p.Name)} ${p.Status !== 'Active' ? badge('Inactive') : ''}</div><div class="small-muted text-truncate">${isYes(p.AllProgrammes) ? 'All programmes' : p.Programmes.length ? esc(p.Programmes.join(', ')) : 'Only when chosen in bulk issue'}</div>
+      <div class="d-flex gap-1 mt-1">${isYes(p.ShowLogo) ? '<span class="badge-s bs-purple">Logo</span>' : ''}${isYes(p.ShowSignature) ? '<span class="badge-s bs-info">Signature</span>' : ''}</div></div>
+      <div class="form-check form-switch m-0" title="Show in preview"><input class="form-check-input" type="checkbox" ${(S.certPrevPartners || []).includes(p.PartnerID) ? 'checked' : ''} onchange="togglePrevPartner('${esc(p.PartnerID)}',this.checked)" aria-label="Show in preview"></div>
+      <button class="btn btn-sm btn-light" title="Edit" onclick="partnerDialog('${esc(p.PartnerID)}')"><i class="fa-solid fa-pen"></i></button></div>`).join('') : `<div class="text-center small-muted py-3 border-top">No partners yet.</div>`}
+    ${L.length ? '<div class="small-muted mt-1"><i class="fa-solid fa-eye me-1"></i>The switch shows a partner on the previews on this page.</div>' : ''}`;
+}
+function togglePrevPartner(id, on) { const a = S.certPrevPartners = S.certPrevPartners || []; const i = a.indexOf(id); if (on && i < 0) a.push(id); if (!on && i >= 0) a.splice(i, 1); drawCertTemplates(); }
+function partnerDialog(id) {
+  const p = id ? (S.partners || []).find(x => x.PartnerID === id) : { Name: '', ShowLogo: 'TRUE', ShowSignature: 'FALSE', AllProgrammes: 'FALSE', ProgrammeIDs: '', Status: 'Active' };
+  if (!p) return;
+  const ids = String(p.ProgrammeIDs || '').split(',').filter(Boolean);
+  S._ptn = p;
+  modal(id ? 'Edit partner' : 'Add partner', `<div class="row g-3">
+    <div class="col-12"><label class="form-label" for="ptName">Organisation name</label><input class="form-control" id="ptName" maxlength="150" value="${esc(p.Name)}" placeholder="e.g. Ford Foundation"></div>
+    <div class="col-12"><div class="d-flex justify-content-between align-items-center"><label class="form-label mb-1" for="ptLogoF">Logo</label><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="ptShowLogo" ${isYes(p.ShowLogo) ? 'checked' : ''}><label class="form-check-label small" for="ptShowLogo">Show logo on certificates</label></div></div>
+      <div class="d-flex gap-2 align-items-center"><div class="ptn-logo lg" id="ptLogoPrev">${safeUrl(p.LogoURL) ? `<img src="${esc(p.LogoURL)}" alt="">` : '<i class="fa-solid fa-image text-muted"></i>'}</div><div class="flex-fill min-w-0"><input class="form-control form-control-sm mb-1" type="file" id="ptLogoF" accept="image/png,image/jpeg,image/webp" onchange="ptPreview(this,'ptLogoPrev')"><input class="form-control form-control-sm" id="ptLogoU" value="${esc(p.LogoURL || '')}" placeholder="…or paste an https image link"></div></div>
+      <div class="form-text">A PNG with a transparent background looks best.</div></div>
+    <div class="col-12"><div class="d-flex justify-content-between align-items-center"><span class="form-label mb-1">Signature</span><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="ptShowSig" ${isYes(p.ShowSignature) ? 'checked' : ''}><label class="form-check-label small" for="ptShowSig">Partner signs the certificate</label></div></div>
+      <div class="row g-2"><div class="col-sm-6"><input class="form-control" id="ptSigName" maxlength="120" value="${esc(p.SignatoryName || '')}" placeholder="Signatory name" aria-label="Signatory name"></div><div class="col-sm-6"><input class="form-control" id="ptSigTitle" maxlength="160" value="${esc(p.SignatoryTitle || '')}" placeholder="Title, e.g. Programme Director" aria-label="Signatory title"></div>
+      <div class="col-12 d-flex gap-2 align-items-center"><div class="ptn-logo lg" id="ptSigPrev">${safeUrl(p.SignatureURL) ? `<img src="${esc(p.SignatureURL)}" alt="">` : '<i class="fa-solid fa-signature text-muted"></i>'}</div><div class="flex-fill min-w-0"><input class="form-control form-control-sm" type="file" id="ptSigF" accept="image/png,image/jpeg,image/webp" onchange="ptPreview(this,'ptSigPrev')" aria-label="Signature image"><div class="form-text">Optional image of the real signature. Without it, the name is written in signature style.</div></div></div></div></div>
+    <div class="col-12"><label class="form-label mb-1">Show on certificates for</label>
+      <div class="d-flex gap-3 mb-2"><div class="form-check m-0"><input class="form-check-input" type="radio" name="ptScope" id="ptAll" ${isYes(p.AllProgrammes) ? 'checked' : ''} onchange="$('#ptProgs').style.display='none'"><label class="form-check-label small" for="ptAll">All programmes</label></div><div class="form-check m-0"><input class="form-check-input" type="radio" name="ptScope" id="ptSome" ${isYes(p.AllProgrammes) ? '' : 'checked'} onchange="$('#ptProgs').style.display=''"><label class="form-check-label small" for="ptSome">Selected programmes</label></div></div>
+      <div class="border rounded-3 px-2 py-1" id="ptProgs" style="max-height:170px;overflow:auto;${isYes(p.AllProgrammes) ? 'display:none' : ''}">${(S.lk.programmes || []).map(x => `<label class="d-flex gap-2 align-items-center py-1 m-0" style="cursor:pointer"><input class="form-check-input m-0 pt-prog" type="checkbox" value="${esc(x.id)}" ${ids.includes(x.id) ? 'checked' : ''}><span class="small">${esc(x.title)}</span></label>`).join('')}</div>
+      <div class="form-text">Certificates for these programmes include this partner automatically. You can also add or remove partners when bulk issuing.</div></div>
+    <div class="col-12"><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="ptActive" ${p.Status !== 'Inactive' ? 'checked' : ''}><label class="form-check-label small" for="ptActive">Active</label></div></div></div>`,
+    `${id ? `<button class="btn btn-light text-danger me-auto" onclick="deletePartner('${esc(id)}')"><i class="fa-solid fa-trash me-1"></i>Remove</button>` : ''}<button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-grad" onclick="savePartner(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save partner</button>`, 'lg');
+}
+function ptPreview(inp, box) { const f = inp.files[0]; if (!f) return; const u = URL.createObjectURL(f); $('#' + box).innerHTML = `<img src="${u}" alt="">`; }
+async function savePartner(btn) {
+  const lf = $('#ptLogoF').files[0], sf = $('#ptSigF').files[0];
+  const rec = { PartnerID: S._ptn.PartnerID || '', Name: $('#ptName').value, LogoURL: $('#ptLogoU').value.trim(), SignatoryName: $('#ptSigName').value, SignatoryTitle: $('#ptSigTitle').value, SignatureURL: S._ptn.SignatureURL || '',
+    ShowLogo: $('#ptShowLogo').checked, ShowSignature: $('#ptShowSig').checked, AllProgrammes: $('#ptAll').checked, ProgrammeIDs: $$('.pt-prog:checked').map(x => x.value), Status: $('#ptActive').checked ? 'Active' : 'Inactive' };
+  if (!rec.Name.trim()) return toast('Enter the partner name.', 'warning');
+  await busy(btn, async () => {
+    const up = {};
+    if (lf) up.logo = await readFile(lf);
+    if (sf) up.signature = await readFile(sf);
+    const r = await call('partnerSave', { record: rec, _uploads: up });
+    S.partners = await rcall('partnerList');
+    const p = S.partners.find(x => x.PartnerID === r.PartnerID); if (p) { p.logoData = r.logoData; p.sigData = r.sigData; }
+    S.certPrevPartners = Array.from(new Set((S.certPrevPartners || []).concat([r.PartnerID])));
+    closeModal(); toast('Partner saved. It now shows in the previews.'); drawCertTemplates();
+  });
+}
+async function deletePartner(id) {
+  closeModal(); await new Promise(r => setTimeout(r, 350));
+  if (!await confirmBox('Remove this partner? New certificates will no longer show them. Certificates already issued keep their partners.', 'Remove', true)) return;
+  try { await call('partnerDelete', { id }); S.partners = await rcall('partnerList'); toast('Partner removed.'); drawCertTemplates(); } catch (e) { toast(e.message, 'danger'); }
+}
+
+function goHub(cid, tok, tab) { S.hub = { c: cid, t: tok, a: tab || '' }; if (S.view === 'student' && S.sec === 'classhub') return nav('classhub'); goApp('classhub'); }
+function openHubLink(p) {
+  S.hub = { c: p.c, t: p.t, a: p.a || '' };
+  if (S.user && S.user.role === 'STUDENT') return goApp('classhub');
+  if (S.user) { toast('This is a student class link. As staff, open Live Classes to see QR codes, attendance and feedback.', 'info'); return goApp('classes'); }
+  renderPublic();
+  setTimeout(() => { openAuth('login'); toast('Log in with your student account to continue to your class.', 'info'); }, 300);
+}
+const HUB_TABS = [['attend', 'Attendance', 'fa-clipboard-user'], ['feedback', 'Feedback', 'fa-comment-dots'], ['assignment', 'Assignment', 'fa-file-pen'], ['quiz', 'Quiz', 'fa-circle-question']];
+STUDENT_PAGES.classhub = async function (main) {
+  if (!S.hub) return nav('classes');
+  const d = await call('classHub', { classId: S.hub.c, token: S.hub.t });
+  S.hubData = d; S.clockOffset = new Date(d.serverTime) - Date.now();
+  if (!HUB_TABS.some(t => t[0] === S.hub.a)) S.hub.a = d.checkin.open && !d.checkin.record ? 'attend' : d.feedback.open && !d.feedback.mine ? 'feedback' : 'attend';
+  S.hubMain = main;
+  drawHub();
+};
+function hubDone(k) { const d = S.hubData; return k === 'attend' ? !!d.checkin.record : k === 'feedback' ? !!d.feedback.mine : k === 'assignment' ? d.assignments.length && d.assignments.every(a => a.submission) : d.quizzes.length && d.quizzes.every(q => q.attemptsUsed > 0); }
+function drawHub() {
+  const d = S.hubData, c = d.cls, main = S.hubMain; if (!main || !document.body.contains(main)) return;
+  const dt = toDate(c.date), link = safeUrl(c.meetLink);
+  main.innerHTML = `<div class="hub-head mb-3"><div class="d-flex gap-3 align-items-start"><div class="date-blk flex-shrink-0"><div class="d">${dt ? dt.getDate() : ''}</div><div class="m">${dt ? dt.toLocaleString('en-GB', { month: 'short' }) : ''}</div></div>
+      <div class="min-w-0 flex-fill"><div class="small" style="color:#c7d2fe">${esc(c.programme)}</div><h4 class="fw-bold mb-1 text-white">${esc(c.title)}</h4><div class="small" style="color:#e0e7ff"><i class="fa-regular fa-clock me-1"></i>${dt ? dt.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) : ''} · ${ftime(c.start)}${c.end ? ' – ' + ftime(c.end) : ''}${c.instructor ? ' · ' + esc(c.instructor) : ''}</div></div>
+      ${link ? `<a class="btn btn-light btn-sm fw-semibold flex-shrink-0" href="${esc(link)}" target="_blank" rel="noopener" onclick="markJoin('${esc(c.id)}')"><i class="fa-solid fa-video me-1"></i>Join</a>` : ''}</div></div>
+    <div class="hub-tabs mb-3">${HUB_TABS.map(t => `<button class="hub-tab ${S.hub.a === t[0] ? 'on' : ''}" onclick="S.hub.a='${t[0]}';drawHub()"><i class="fa-solid ${t[2]}"></i><span>${t[1]}</span>${hubDone(t[0]) ? '<i class="fa-solid fa-circle-check ok"></i>' : ''}</button>`).join('')}</div>
+    <div id="hubBody"></div>`;
+  const b = $('#hubBody');
+  if (S.hub.a === 'attend') b.innerHTML = hubAttend(d);
+  else if (S.hub.a === 'feedback') { b.innerHTML = hubFeedback(d); }
+  else if (S.hub.a === 'assignment') b.innerHTML = d.assignments.length ? d.assignments.map(asgCard).join('') : `<div class="card-x">${empty('fa-file-pen', 'No assignment for this class', 'If your facilitator sets one, it will appear here and under Assignments.')}</div>`;
+  else b.innerHTML = d.quizzes.length ? d.quizzes.map(quizCard).join('') : `<div class="card-x">${empty('fa-circle-question', 'No quiz for this class', 'If your facilitator sets one, it will appear here and under Quizzes.')}</div>`;
+}
+function serverNow() { return new Date(Date.now() + (S.clockOffset || 0)); }
+function hubAttend(d) {
+  const ck = d.checkin, rec = ck.record;
+  if (rec && rec.at) return `<div class="card-x text-center py-4"><div class="big-ic ${rec.status === 'Late' ? 'ic-amber' : 'ic-green'}"><i class="fa-solid fa-circle-check"></i></div><h4 class="fw-bold mb-1">You're checked in</h4><div class="mb-3">${badge(rec.status)}</div>
+    <div class="att-time"><div class="small-muted">Recorded on</div><div class="fw-bold fs-5">${esc(fmtAt(rec.at))}</div></div><div class="small-muted mt-3"><i class="fa-solid fa-lock me-1"></i>The date and time were set automatically by the system and can't be changed.</div></div>`;
+  if (rec && !rec.at) return `<div class="card-x text-center py-4"><div class="big-ic ic-blue"><i class="fa-solid fa-clipboard-user"></i></div><h5 class="fw-bold">Your attendance: ${badge(rec.status)}</h5><div class="small-muted">Marked by ${esc(rec.method || 'your facilitator')}.</div>${ck.open ? `<button class="btn btn-grad btn-lg mt-3" onclick="doCheckIn(this)"><i class="fa-solid fa-fingerprint me-2"></i>Check me in now</button>` : ''}</div>`;
+  if (!ck.open) return `<div class="card-x text-center py-4"><div class="big-ic ic-amber"><i class="fa-solid fa-clock"></i></div><h5 class="fw-bold">Check-in isn't open</h5><p class="text-muted mb-0">${esc(ck.reason || '')}</p></div>`;
+  return `<div class="card-x text-center py-4"><div class="big-ic ic-purple"><i class="fa-solid fa-clipboard-user"></i></div><h4 class="fw-bold">Mark your attendance</h4><p class="text-muted">Tap the button to record that you're in class.</p>
+    <div class="att-time mb-3"><div class="small-muted"><i class="fa-solid fa-lock me-1"></i>Date & time (set by the system)</div><div class="fw-bold fs-5" id="hubClock">${esc(fmtNow())}</div></div>
+    <button class="btn btn-grad btn-lg px-5" onclick="doCheckIn(this)"><i class="fa-solid fa-fingerprint me-2"></i>Check me in</button>
+    <div class="small-muted mt-3">Arriving more than 15 minutes after the start is recorded as <b>Late</b>.</div></div>`;
+}
+function fmtAt(iso) { const n = new Date(iso); return isNaN(n) ? '' : n.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + n.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true }); }
+function fmtNow() { const n = serverNow(); return n.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + n.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true }); }
+setInterval(() => { const el = document.getElementById('hubClock'); if (el) el.textContent = fmtNow(); }, 1000);
+async function doCheckIn(btn) {
+  await busy(btn, async () => {
+    const r = await call('classCheckIn', { classId: S.hub.c, token: S.hub.t });
+    S.hubData.checkin.record = r.record;
+    toast(r.already ? 'You were already checked in.' : 'Checked in! ✅');
+    if (!r.already && S.hubData.feedback.open === false) { drawHub(); return; }
+    drawHub();
+  });
+}
+function starRow(k, label, help) {
+  const v = Number((S.fb || {})[k] || 0);
+  return `<div class="fb-q"><div class="fw-semibold">${label}</div>${help ? `<div class="small-muted">${help}</div>` : ''}<div class="stars" role="radiogroup" aria-label="${esc(label)}">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${n <= v ? 'on' : ''}" aria-label="${n} of 5" onclick="fbSet('${k}',${n})"><i class="fa-solid fa-star"></i></button>`).join('')}<span class="small-muted ms-2">${v ? ['', 'Poor', 'Fair', 'Good', 'Very good', 'Excellent'][v] : ''}</span></div></div>`;
+}
+function scaleRow(k, label, lo, hi) {
+  const v = (S.fb || {})[k];
+  return `<div class="fb-q"><div class="fw-semibold">${label}</div><div class="scale">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${String(v) === String(n) ? 'on' : ''}" onclick="fbSet('${k}',${n})">${n}</button>`).join('')}</div><div class="d-flex justify-content-between small-muted mt-1"><span>${lo}</span><span>${hi}</span></div></div>`;
+}
+function hubFeedback(d) {
+  const fs = d.feedback;
+  if (!fs.open && !fs.mine) return `<div class="card-x text-center py-4"><div class="big-ic ic-amber"><i class="fa-solid fa-comment-slash"></i></div><h5 class="fw-bold">Feedback isn't open</h5><p class="text-muted mb-0">${esc(fs.reason || '')}</p></div>`;
+  if (!S.fb || S.fb._cls !== d.cls.id) {
+    const m = fs.mine || {};
+    S.fb = { _cls: d.cls.id, Overall: m.Overall || '', Instructor: m.Instructor || '', Content: m.Content || '', Confidence: m.Confidence || '', Pace: m.Pace || '', NPS: m.NPS == null ? '' : m.NPS, Valuable: m.Valuable || '', Improve: m.Improve || '', NextTopics: m.NextTopics || '', TechIssues: String(m.TechIssues || '').split(',').map(x => x.trim()).filter(Boolean), Anonymous: isYes(m.Anonymous), TestimonialOK: isYes(m.TestimonialOK) };
+  }
+  const f = S.fb, tech = d.techOptions;
+  return `<div class="card-x">${fs.mine ? `<div class="co-ok mb-3"><i class="fa-solid fa-circle-check me-1"></i>Thanks! We have your feedback. You can update it below.</div>` : `<p class="text-muted small mb-3">Your honest feedback helps us improve every class. It takes about 1 minute.</p>`}
+    ${!fs.open ? `<div class="alert alert-warning small">${esc(fs.reason)}</div>` : ''}
+    ${starRow('Overall', 'Overall, how would you rate this class? *')}
+    ${starRow('Instructor', 'How clear and engaging was the facilitator? *')}
+    ${starRow('Content', 'How useful was the content for your goals? *')}
+    ${scaleRow('Confidence', 'How confident are you to apply what you learned? *', 'Not confident', 'Very confident')}
+    <div class="fb-q"><div class="fw-semibold">How was the pace? *</div><div class="d-flex flex-wrap gap-2 mt-1">${d.paceOptions.map(o => `<span class="chip ${f.Pace === o ? 'active' : ''}" onclick="fbSet('Pace','${o}')">${o}</span>`).join('')}</div></div>
+    <div class="fb-q"><div class="fw-semibold">How likely are you to recommend this class to a friend or colleague? *</div><div class="nps">${Array.from({ length: 11 }, (x, n) => `<button type="button" class="${String(f.NPS) === String(n) ? 'on' : ''} ${n <= 6 ? 'lo' : n <= 8 ? 'mid' : 'hi'}" onclick="fbSet('NPS',${n})">${n}</button>`).join('')}</div><div class="d-flex justify-content-between small-muted mt-1"><span>Not likely</span><span>Extremely likely</span></div></div>
+    <div class="fb-q"><label class="fw-semibold" for="fbVal">What was the most valuable part?</label><textarea class="form-control mt-1" id="fbVal" rows="2" maxlength="1500" oninput="S.fb.Valuable=this.value">${esc(f.Valuable)}</textarea></div>
+    <div class="fb-q"><label class="fw-semibold" for="fbImp">What could we do better?</label><textarea class="form-control mt-1" id="fbImp" rows="2" maxlength="1500" oninput="S.fb.Improve=this.value">${esc(f.Improve)}</textarea></div>
+    <div class="fb-q"><label class="fw-semibold" for="fbNext">Which topics would you like next?</label><input class="form-control mt-1" id="fbNext" maxlength="1000" value="${esc(f.NextTopics)}" oninput="S.fb.NextTopics=this.value"></div>
+    <div class="fb-q"><div class="fw-semibold">Any technical issues?</div><div class="d-flex flex-wrap gap-2 mt-1">${tech.map(o => `<span class="chip ${f.TechIssues.includes(o) ? 'active' : ''}" onclick="fbTech('${o}')">${o}</span>`).join('')}</div></div>
+    <div class="d-grid gap-2 mb-3"><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="fbAnon" ${f.Anonymous ? 'checked' : ''} onchange="S.fb.Anonymous=this.checked"><label class="form-check-label small" for="fbAnon">Submit anonymously <span class="small-muted">(your name is hidden from facilitators)</span></label></div>
+      <div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="fbTesti" ${f.TestimonialOK ? 'checked' : ''} onchange="S.fb.TestimonialOK=this.checked"><label class="form-check-label small" for="fbTesti">You may quote my comments as a testimonial</label></div></div>
+    ${fs.open ? `<button class="btn btn-grad btn-lg w-100" onclick="sendFeedback(this)"><i class="fa-solid fa-paper-plane me-2"></i>${fs.mine ? 'Update feedback' : 'Submit feedback'}</button>` : ''}</div>`;
+}
+function fbSet(k, v) { S.fb[k] = v; const y = window.scrollY; $('#hubBody').innerHTML = hubFeedback(S.hubData); window.scrollTo(0, y); }
+function fbTech(o) { const t = S.fb.TechIssues; const i = t.indexOf(o); if (i >= 0) t.splice(i, 1); else { if (o === 'None') t.length = 0; else { const n = t.indexOf('None'); if (n >= 0) t.splice(n, 1); } t.push(o); } fbSet('TechIssues', t); }
+async function sendFeedback(btn) {
+  const f = S.fb, miss = [['Overall', 'overall rating'], ['Instructor', 'facilitator rating'], ['Content', 'content rating'], ['Confidence', 'confidence'], ['Pace', 'pace'], ['NPS', 'recommendation score']].filter(x => f[x[0]] === '' || f[x[0]] == null);
+  if (miss.length) return toast('Please answer: ' + miss.map(x => x[1]).join(', ') + '.', 'warning');
+  await busy(btn, async () => {
+    const r = await call('submitFeedback', { classId: S.hub.c, token: S.hub.t, feedback: f });
+    S.hubData.feedback.mine = Object.assign({}, f, { TechIssues: f.TechIssues.join(', '), Anonymous: f.Anonymous ? 'TRUE' : 'FALSE', TestimonialOK: f.TestimonialOK ? 'TRUE' : 'FALSE' });
+    toast(r.updated ? 'Feedback updated. Thank you!' : 'Thank you for your feedback! 🙏');
+    drawHub(); window.scrollTo(0, 0);
+  });
+}
+
+function quizCard(q) {
+  return `<div class="card-x mb-3"><div class="d-flex flex-wrap justify-content-between gap-2"><div class="min-w-0"><div class="small text-primary fw-semibold">${esc(q.programme)}${q.classTitle ? ' · ' + esc(q.classTitle) : ''}</div><h6 class="fw-bold mb-1">${esc(q.title)}</h6>
+    <div class="small-muted">${q.questions} question${q.questions === 1 ? '' : 's'}${q.timeLimit ? ` · <i class="fa-regular fa-clock"></i> ${q.timeLimit} min` : ' · No time limit'}${q.passMark ? ' · Pass mark ' + q.passMark + '%' : ''} · ${q.maxAttempts ? q.attemptsUsed + ' of ' + q.maxAttempts + ' attempts used' : 'Unlimited attempts'}</div></div>
+    <div class="text-end">${q.best !== null ? `<div class="fw-bold fs-5 ${q.passed ? 'text-success' : 'text-danger'}">${q.best}%</div><div class="small-muted">best score</div>` : (q.status === 'Closed' ? badge('Closed') : '<span class="badge-s bs-warning">Not taken</span>')}</div></div>
+    ${q.instructions ? `<div class="small text-muted mt-2 content-body">${esc(q.instructions)}</div>` : ''}
+    <div class="mt-3">${q.canStart ? `<button class="btn btn-grad btn-sm" onclick="startQuiz('${esc(q.id)}',this)"><i class="fa-solid fa-play me-1"></i>${q.inProgress ? 'Resume quiz' : q.attemptsUsed ? 'Try again' : 'Start quiz'}</button>` : `<span class="small-muted">${q.status === 'Closed' ? 'This quiz is closed.' : 'No attempts left.'}</span>`}</div></div>`;
+}
+async function startQuiz(id, btn) {
+  if (S.qRun && S.qRun.quizId === id && !S.qRun.done) { S.qRun.hostEl = btn.closest('#hubBody') || S.quizMain; S.qRun.host = btn.closest('#hubBody') ? 'hub' : 'page'; return drawQuizRun(); }
+  await busy(btn, async () => {
+    const r = await call('quizStart', { quizId: id });
+    let saved = {};
+    try { saved = JSON.parse(store.get('bpa_qz_' + r.attemptId) || '{}'); } catch (e) { saved = {}; }
+    S.qRun = { quizId: id, attemptId: r.attemptId, quiz: r.quiz, questions: r.questions, answers: saved, deadline: r.deadline, offset: new Date(r.serverTime) - Date.now(), host: btn.closest('#hubBody') ? 'hub' : 'page', hostEl: btn.closest('#hubBody') || S.quizMain };
+    drawQuizRun();
+  });
+}
+function qLeft() { const R = S.qRun; return R && R.deadline ? new Date(R.deadline) - (Date.now() + R.offset) : null; }
+function drawQuizRun() {
+  const R = S.qRun, host = R.hostEl; if (!host || !document.body.contains(host)) return;
+  const n = R.questions.length, done = R.questions.filter(q => qAnswered(q)).length;
+  host.innerHTML = `<div class="quiz-bar card-x mb-3"><div class="d-flex align-items-center gap-3"><div class="min-w-0 flex-fill"><div class="fw-bold text-truncate">${esc(R.quiz.title)}</div><div class="small-muted"><span id="qProg">${done}</span> of ${n} answered</div><div class="cpn-bar mt-1"><i id="qBar" style="width:${Math.round(done / n * 100)}%"></i></div></div>
+    ${R.deadline ? `<div class="quiz-timer" id="qTimer">--:--</div>` : ''}</div></div>
+    ${R.quiz.instructions ? `<div class="small text-muted mb-3">${esc(R.quiz.instructions)}</div>` : ''}
+    ${R.questions.map((q, i) => `<div class="card-x mb-3 quiz-q"><div class="d-flex justify-content-between gap-2 mb-2"><div class="fw-semibold">${i + 1}. ${nl2br(q.q)}</div><span class="small-muted text-nowrap">${q.points} pt${q.points === 1 ? '' : 's'}</span></div>
+      ${q.type === 'short' ? `<input class="form-control" maxlength="300" placeholder="Type your answer" value="${esc(R.answers[q.id] || '')}" oninput="qSet('${esc(q.id)}',this.value)">`
+        : `${q.type === 'multi' ? '<div class="small-muted mb-1">Select all that apply</div>' : ''}<div class="d-grid gap-2">${q.options.map((o, k) => { const on = q.type === 'multi' ? (R.answers[q.id] || []).includes(k) : String(R.answers[q.id]) === String(k); return `<button type="button" class="q-opt ${on ? 'on' : ''}" onclick="qPick('${esc(q.id)}',${k},${q.type === 'multi'})"><span class="q-mark">${q.type === 'multi' ? `<i class="fa-${on ? 'solid' : 'regular'} fa-square${on ? '-check' : ''}"></i>` : String.fromCharCode(65 + k)}</span><span>${esc(o)}</span></button>`; }).join('')}</div>`}</div>`).join('')}
+    <button class="btn btn-grad btn-lg w-100 mb-4" onclick="submitQuiz(this)"><i class="fa-solid fa-paper-plane me-2"></i>Submit answers</button>`;
+  tickQuiz();
+}
+function qAnswered(q) { const a = S.qRun.answers[q.id]; return Array.isArray(a) ? a.length > 0 : a !== undefined && a !== ''; }
+function qSave() { const R = S.qRun; try { store.set('bpa_qz_' + R.attemptId, JSON.stringify(R.answers)); } catch (e) {} const done = R.questions.filter(qAnswered).length; const p = $('#qProg'), b = $('#qBar'); if (p) p.textContent = done; if (b) b.style.width = Math.round(done / R.questions.length * 100) + '%'; }
+function qSet(id, v) { S.qRun.answers[id] = v; qSave(); }
+function qPick(id, k, multi) {
+  const R = S.qRun;
+  if (multi) { const a = R.answers[id] = R.answers[id] || []; const i = a.indexOf(k); if (i >= 0) a.splice(i, 1); else a.push(k); } else R.answers[id] = k;
+  qSave(); const y = window.scrollY; drawQuizRun(); window.scrollTo(0, y);
+}
+function tickQuiz() {
+  const R = S.qRun, el = $('#qTimer'); if (!R || R.done || !el) return;
+  const ms = qLeft();
+  if (ms === null) return;
+  const s = Math.max(0, Math.floor(ms / 1000));
+  el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  el.classList.toggle('low', s <= 60);
+  if (s <= 0 && !R.autoSent) { R.autoSent = true; toast("Time's up! Submitting your answers…", 'warning'); submitQuiz(null, true); }
+}
+setInterval(tickQuiz, 1000);
+async function submitQuiz(btn, auto) {
+  const R = S.qRun; if (!R || R.done) return;
+  const left = R.questions.filter(q => !qAnswered(q)).length;
+  if (!auto && left && !await confirmBox(left + ' question' + (left === 1 ? ' is' : 's are') + ' unanswered. Submit anyway?', 'Submit')) return;
+  const go = async () => {
+    const r = await call('quizSubmit', { attemptId: R.attemptId, answers: R.answers });
+    R.done = true; store.del('bpa_qz_' + R.attemptId);
+    drawQuizResult(r);
+  };
+  if (btn) await busy(btn, go); else { showLoader('Submitting…'); try { await go(); } catch (e) { toast(e.message, 'danger'); } finally { hideLoader(); } }
+}
+function drawQuizResult(r) {
+  const R = S.qRun, host = R.hostEl; if (!host || !document.body.contains(host)) return;
+  const ansText = x => x.type === 'short' ? esc(x.answer).split('|').join(' / ') : x.type === 'tf' ? (x.answer ? 'True' : 'False') : (Array.isArray(x.answer) ? x.answer : [x.answer]).map(k => esc(x.options[k])).join(', ');
+  const givenText = x => x.given === null || x.given === '' ? '<i>No answer</i>' : x.type === 'short' ? esc(x.given) : x.type === 'tf' ? (String(x.given) === '0' || String(x.given) === 'true' ? 'True' : 'False') : (Array.isArray(x.given) ? x.given : [x.given]).map(k => esc(x.options[Number(k)])).join(', ');
+  host.innerHTML = `<div class="card-x text-center py-4 mb-3"><div class="score-ring ${r.passed ? 'pass' : 'fail'}" style="--p:${r.percent}"><span>${r.percent}%</span></div>
+    <h4 class="fw-bold mt-3 mb-1">${r.passed ? 'Well done! You passed 🎉' : 'Keep going! You can do this 💪'}</h4><div class="text-muted">You scored <b>${r.score}</b> of ${r.total} points${r.passMark ? ' · pass mark ' + r.passMark + '%' : ''}</div>${r.overtime ? '<div class="small text-danger mt-1">Submitted after the time limit.</div>' : ''}
+    <button class="btn btn-light mt-3" onclick="S.qRun=null;${R.host === 'hub' ? "nav('classhub')" : "nav('quizzes')"}"><i class="fa-solid fa-arrow-left me-1"></i>Back</button></div>
+    ${r.review ? `<h6 class="fw-bold mb-2">Review your answers</h6>${r.review.map((x, i) => `<div class="card-x mb-2 ${x.correct ? 'q-right' : 'q-wrong'}"><div class="d-flex gap-2"><i class="fa-solid ${x.correct ? 'fa-circle-check text-success' : 'fa-circle-xmark text-danger'} mt-1"></i><div class="min-w-0"><div class="fw-semibold">${i + 1}. ${nl2br(x.q)}</div>
+      <div class="small mt-1">Your answer: ${givenText(x)}</div>${x.correct ? '' : `<div class="small text-success">Correct answer: ${ansText(x)}</div>`}${x.explain ? `<div class="small text-muted mt-1"><i class="fa-solid fa-lightbulb text-warning me-1"></i>${esc(x.explain)}</div>` : ''}</div></div></div>`).join('')}` : ''}`;
+  window.scrollTo(0, 0);
+}
+STUDENT_PAGES.quizzes = async function (main) {
+  S.quizMain = main;
+  const q = await rcall('myQuizzes');
+  if (S.qRun && !S.qRun.done && S.qRun.host === 'page') { S.qRun.hostEl = main; return drawQuizRun(); }
+  main.innerHTML = pageHead('Quizzes', 'Test yourself on what you learned in class.') + (q.length ? q.map(quizCard).join('') : `<div class="card-x">${empty('fa-circle-question', 'No quizzes yet', 'Quizzes your facilitators set will appear here.')}</div>`);
+};
+
+const LINK_KINDS = [['attend', 'Attendance', 'fa-clipboard-user', 'Scan to check in', 'Students scan this in class. The system records the date and time.'], ['feedback', 'Feedback', 'fa-comment-dots', 'Scan to give feedback', 'Share at the end of class. Takes students about a minute.'], ['assignment', 'Assignment', 'fa-file-pen', 'Scan for your assignment', 'Opens the assignment(s) linked to this class.'], ['quiz', 'Quiz', 'fa-circle-question', 'Scan to take the quiz', 'Opens the quiz(zes) linked to this class.']];
+async function classLinksDialog(cid) {
+  modal('<i class="fa-solid fa-qrcode text-primary me-2"></i>Class QR codes & links', spin(), '', 'xl');
+  try {
+    const [r] = await Promise.all([call('classLinks', { classId: cid }), loadLib('qr').catch(() => null), loadLogoData()]);
+    S.cl = r; drawClassLinks();
+  } catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
+}
+function drawClassLinks() {
+  const r = S.cl, c = r.cls, ck = r.checkin;
+  const modes = [['Auto', 'Automatic', 'Opens 30 min before class, closes 1 hour after it ends'], ['Open', 'Open now', 'Students can check in right now'], ['Closed', 'Closed', 'Nobody can check in']];
+  $('#mTitle').innerHTML = `<i class="fa-solid fa-qrcode text-primary me-2"></i>${esc(c.title)} <span class="small-muted">· ${fdate(c.date)} ${ftime(c.start)}</span>`;
+  $('#mBody').innerHTML = `<div class="row g-3 mb-3">
+      <div class="col-6 col-md-3">${statCard('fa-clipboard-user', 'green', `${r.counts.checkedIn}<span class="small-muted fw-normal"> / ${r.counts.enrolled}</span>`, 'Checked in')}</div>
+      <div class="col-6 col-md-3">${statCard('fa-clock', 'amber', r.counts.late, 'Late arrivals')}</div>
+      <div class="col-6 col-md-3">${statCard('fa-comment-dots', 'purple', r.counts.feedback, 'Feedback responses')}</div>
+      <div class="col-6 col-md-3">${statCard(ck.open ? 'fa-door-open' : 'fa-door-closed', ck.open ? 'blue' : 'red', ck.open ? 'Open' : 'Closed', 'Check-in now')}</div></div>
+    <div class="card-x mb-3"><div class="d-flex flex-wrap align-items-center gap-2"><span class="fw-semibold small me-1"><i class="fa-solid fa-clipboard-user text-primary me-1"></i>Attendance check-in:</span>${modes.map(m => `<button class="btn btn-sm ${c.mode === m[0] ? 'btn-grad' : 'btn-light'}" title="${esc(m[2])}" onclick="setAttMode('${m[0]}',this)">${m[1]}</button>`).join('')}
+      <span class="small-muted ms-md-2">${esc(ck.open ? (ck.closesAt ? 'Closes ' + fdt(ck.closesAt) : 'Open until you close it') : ck.reason || '')}</span></div>
+      <div class="small-muted mt-2"><i class="fa-solid fa-lock me-1"></i>Check-in time always comes from the server clock and can't be typed or changed by students. Arrivals more than 15 minutes after the start are marked Late.</div></div>
+    <div class="row g-3">${LINK_KINDS.map(k => { const url = r.links[k[0]], items = k[0] === 'assignment' ? r.assignments : k[0] === 'quiz' ? r.quizzes : null; return `<div class="col-md-6 col-xl-3"><div class="card-x h-100 d-flex flex-column text-center link-card">
+      <div class="fw-bold mb-2"><i class="fa-solid ${k[2]} text-primary me-1"></i>${k[1]}</div>
+      <img class="mx-auto kit-qr" src="${qrData(url)}" alt="QR code for ${k[1]}">
+      <div class="small-muted my-2">${esc(k[4])}</div>
+      ${items ? `<div class="small text-start mb-2">${items.length ? items.map(x => `<div class="text-truncate"><i class="fa-solid fa-check text-success me-1"></i>${esc(x.title)}${x.status && x.status !== 'Active' ? ' ' + badge(x.status) : ''}</div>`).join('') : `<div class="text-warning"><i class="fa-solid fa-triangle-exclamation me-1"></i>None linked yet</div>`}
+        <a role="button" class="small fw-semibold" onclick="${k[0] === 'assignment' ? `closeModal();editRecord('Assignments',null,{ProgrammeID:'${esc(c.programmeId)}',ClassID:'${esc(c.id)}',Status:'Active'})` : `closeModal();newQuiz({ProgrammeID:'${esc(c.programmeId)}',ClassID:'${esc(c.id)}',Title:'Quiz: ${esc(String(c.title).replace(/'/g, ''))}'})`}"><i class="fa-solid fa-plus me-1"></i>Create ${k[0] === 'assignment' ? 'an assignment' : 'a quiz'} for this class</a></div>` : ''}
+      <div class="mt-auto d-grid gap-1"><div class="input-group input-group-sm"><input class="form-control" readonly value="${esc(url)}" onclick="this.select()" aria-label="${k[1]} link"><button class="btn btn-light" title="Copy link" onclick="copyText('${esc(url)}')"><i class="fa-regular fa-copy"></i></button></div>
+        <div class="d-flex gap-1"><button class="btn btn-sm btn-soft flex-fill" onclick="presentQr('${k[0]}')"><i class="fa-solid fa-display me-1"></i>Show on screen</button><button class="btn btn-sm btn-light" title="Download poster" onclick="qrPoster('${k[0]}')"><i class="fa-solid fa-download"></i></button></div></div></div></div>`; }).join('')}</div>`;
+  $('#mFoot').style.display = '';
+  $('#mFoot').innerHTML = `<button class="btn btn-light me-auto" onclick="copyText(classLinksText())"><i class="fa-brands fa-whatsapp me-1"></i>Copy all links for WhatsApp</button><button class="btn btn-soft" onclick="attendance('${esc(c.id)}')"><i class="fa-solid fa-clipboard-user me-1"></i>Attendance list</button><button class="btn btn-grad" onclick="classFeedbackDialog('${esc(c.id)}')"><i class="fa-solid fa-chart-simple me-1"></i>Feedback results</button>`;
+}
+function classLinksText() {
+  const r = S.cl, c = r.cls;
+  return `📚 ${c.title}\n🗓️ ${fdate(c.date)} · ${ftime(c.start)}${c.end ? ' – ' + ftime(c.end) : ''}\n\n✅ Check in: ${r.links.attend}\n💬 Feedback: ${r.links.feedback}${r.assignments.length ? '\n📝 Assignment: ' + r.links.assignment : ''}${r.quizzes.length ? '\n🧠 Quiz: ' + r.links.quiz : ''}`;
+}
+async function setAttMode(mode, btn) {
+  await busy(btn, async () => { const st = await call('setAttendanceMode', { classId: S.cl.cls.id, mode }); S.cl.cls.mode = mode; S.cl.checkin = st; drawClassLinks(); toast(mode === 'Open' ? 'Check-in is open.' : mode === 'Closed' ? 'Check-in is closed.' : 'Check-in follows the class time automatically.'); });
+}
+function posterHtml(kind, W, H) {
+  ensureDesignFonts();
+  const r = S.cl, c = r.cls, k = LINK_KINDS.find(x => x[0] === kind), url = r.links[kind], s = S.pub.settings;
+  const dt = toDate(c.date);
+  return `<div style="width:${W}px;height:${H}px;background:linear-gradient(160deg,#0b1b3f 0%,#312e81 55%,#7c3aed 100%);color:#fff;font-family:${FONT.sans};display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:70px 60px;box-sizing:border-box;text-align:center">
+    <div style="display:flex;align-items:center;gap:16px">${logoImg(S.logoData || '', 64, 'rgba(255,255,255,.16)', '#fff')}<div style="font-family:${FONT.wide};font-weight:800;font-size:28px">${esc(s.ACADEMY_NAME)}</div></div>
+    <div><div style="font-family:${FONT.wide};font-weight:900;font-size:64px;line-height:1.05">${esc(k[3])}</div><div style="font-size:30px;color:#c7d2fe;margin-top:18px;font-weight:600">${esc(c.title)}</div><div style="font-size:24px;color:#a5b4fc;margin-top:8px">${dt ? dt.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) : ''} · ${ftime(c.start)}</div></div>
+    <div style="background:#fff;padding:26px;border-radius:32px"><img src="${qrData(url)}" style="width:520px;height:520px;display:block"></div>
+    <div style="font-size:22px;color:#c7d2fe">Log in with your student account · ${esc(c.programme)}</div></div>`;
+}
+function qrPoster(kind) { exportDesign(posterHtml(kind, 1080, 1350), 1080, 1350, S.cl.cls.title + '-' + kind + '-qr', 'png'); }
+function presentQr(kind) {
+  const r = S.cl, k = LINK_KINDS.find(x => x[0] === kind);
+  closeModal();
+  const ov = document.createElement('div'); ov.className = 'qr-present'; ov.id = 'qrPresent';
+  ov.innerHTML = `<button class="qp-x" onclick="closePresent()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div class="qp-in"><div class="qp-t">${esc(k[3])}</div><div class="qp-s">${esc(r.cls.title)} · ${esc(r.cls.programme)}</div>
+    <div class="qp-qr"><img src="${qrData(r.links[kind])}" alt="QR code"></div>
+    ${kind === 'attend' ? `<div class="qp-c"><i class="fa-solid fa-user-check me-2"></i><span id="qpCount">${r.counts.checkedIn}</span> of ${r.counts.enrolled} checked in</div><div class="qp-s mt-2" id="qpClock"></div>` : `<div class="qp-s">Log in with your student account when asked.</div>`}</div>`;
+  document.body.appendChild(ov);
+  try { if (ov.requestFullscreen) ov.requestFullscreen().catch(() => {}); } catch (e) {}
+  if (kind === 'attend') {
+    S._qpT = setInterval(async () => {
+      if (!document.getElementById('qrPresent')) return clearInterval(S._qpT);
+      const ck = document.getElementById('qpClock'); if (ck) ck.textContent = new Date().toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true });
+    }, 1000);
+    S._qpP = setInterval(async () => {
+      if (!document.getElementById('qrPresent')) return clearInterval(S._qpP);
+      try { const x = await call('classLinks', { classId: r.cls.id }); S.cl = x; const el = document.getElementById('qpCount'); if (el) el.textContent = x.counts.checkedIn; } catch (e) {}
+    }, 8000);
+  }
+}
+function closePresent() { clearInterval(S._qpT); clearInterval(S._qpP); try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {} const o = $('#qrPresent'); if (o) o.remove(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#qrPresent')) closePresent(); });
+
+async function classFeedbackDialog(cid) {
+  modal('<i class="fa-solid fa-chart-simple text-primary me-2"></i>Class feedback', spin(), '', 'xl');
+  try { const r = await call('classFeedback', { classId: cid }); S.cfb = r; drawClassFeedback(); }
+  catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
+}
+function fbBars(obj, color) {
+  const tot = Object.values(obj).reduce((a, b) => a + b, 0) || 1;
+  return Object.keys(obj).map(k => `<div class="d-flex align-items-center gap-2 small mb-1"><span style="width:120px" class="text-truncate">${esc(k)}</span><div class="cpn-bar flex-fill"><i style="width:${Math.round(obj[k] / tot * 100)}%;background:${color || 'var(--grad)'}"></i></div><span style="width:28px" class="text-end fw-semibold">${obj[k]}</span></div>`).join('');
+}
+function starsTxt(n) { n = Math.round(Number(n) || 0); return '<span class="text-warning">' + '★'.repeat(n) + '</span><span class="text-muted" style="opacity:.35">' + '★'.repeat(5 - n) + '</span>'; }
+function drawClassFeedback() {
+  const r = S.cfb, s = r.summary;
+  $('#mTitle').innerHTML = `<i class="fa-solid fa-chart-simple text-primary me-2"></i>Feedback · ${esc(r.cls.title)} <span class="small-muted">${fdate(r.cls.date)}</span>`;
+  if (!s.responses) { $('#mBody').innerHTML = empty('fa-comment-dots', 'No feedback yet', 'Share the feedback QR code or link at the end of class.'); $('#mFoot').style.display = 'none'; return; }
+  const npsCol = s.nps >= 50 ? 'green' : s.nps >= 0 ? 'amber' : 'red';
+  $('#mBody').innerHTML = `<div class="row g-3 mb-3">
+      <div class="col-6 col-lg-2">${statCard('fa-users', 'blue', s.responses, 'Responses')}</div>
+      <div class="col-6 col-lg-2">${statCard('fa-star', 'amber', s.overall + '<span class="small-muted fw-normal">/5</span>', 'Overall')}</div>
+      <div class="col-6 col-lg-2">${statCard('fa-chalkboard-user', 'purple', s.instructor + '<span class="small-muted fw-normal">/5</span>', 'Facilitator')}</div>
+      <div class="col-6 col-lg-2">${statCard('fa-book-open', 'cyan', s.content + '<span class="small-muted fw-normal">/5</span>', 'Content')}</div>
+      <div class="col-6 col-lg-2">${statCard('fa-person-running', 'pink', s.confidence + '<span class="small-muted fw-normal">/5</span>', 'Confidence')}</div>
+      <div class="col-6 col-lg-2">${statCard('fa-gauge-high', npsCol, (s.nps > 0 ? '+' : '') + s.nps, 'NPS')}</div></div>
+    <div class="row g-3 mb-3"><div class="col-md-4"><div class="card-x h-100"><h6 class="ttl small">Overall rating</h6>${fbBars({ '5 ★': s.overallDist[5], '4 ★': s.overallDist[4], '3 ★': s.overallDist[3], '2 ★': s.overallDist[2], '1 ★': s.overallDist[1] }, '#f59e0b')}</div></div>
+      <div class="col-md-4"><div class="card-x h-100"><h6 class="ttl small">Pace</h6>${fbBars(s.pace)}</div></div>
+      <div class="col-md-4"><div class="card-x h-100"><h6 class="ttl small">Technical issues</h6>${fbBars(s.tech, '#ef4444')}</div></div></div>
+    <div class="small-muted mb-2">NPS = % who would recommend (9–10) minus % who wouldn't (0–6). Above +30 is good; above +50 is excellent.</div>
+    <h6 class="fw-bold mt-3">Responses</h6>${r.responses.map(x => `<div class="card-x mb-2"><div class="d-flex flex-wrap justify-content-between gap-2"><div><b>${esc(x.name)}</b> ${x.email ? `<span class="small-muted">${esc(x.email)}</span>` : ''} ${x.attended ? '<span class="badge-s bs-success">Attended</span>' : '<span class="badge-s bs-secondary">Not checked in</span>'}</div><div class="small-muted">${ago(x.date)}</div></div>
+      <div class="small mt-1">Overall ${starsTxt(x.overall)} · Facilitator ${x.instructor}/5 · Content ${x.content}/5 · Confidence ${x.confidence}/5 · Pace: ${esc(x.pace)} · Recommend: <b>${x.nps}</b>/10${x.tech && x.tech !== 'None' ? ' · <span class="text-danger">Issues: ' + esc(x.tech) + '</span>' : ''}</div>
+      ${x.valuable ? `<div class="small mt-2"><b class="text-success">Most valuable:</b> ${esc(x.valuable)}</div>` : ''}${x.improve ? `<div class="small mt-1"><b class="text-warning">Could be better:</b> ${esc(x.improve)}</div>` : ''}${x.next ? `<div class="small mt-1"><b class="text-primary">Next topics:</b> ${esc(x.next)}</div>` : ''}
+      ${x.testimonialOK && x.valuable ? `<button class="btn btn-sm btn-soft mt-2" onclick="fbToTestimonial('${esc(x.id)}')"><i class="fa-solid fa-quote-left me-1"></i>Use as testimonial</button>` : ''}</div>`).join('')}`;
+  $('#mFoot').style.display = '';
+  $('#mFoot').innerHTML = `<button class="btn btn-light" onclick="exportCSV('feedback-${esc(r.cls.id)}',S.cfb.responses,[['name','Student'],['email','Email'],['attended','Attended'],['overall','Overall'],['instructor','Facilitator'],['content','Content'],['confidence','Confidence'],['pace','Pace'],['nps','Recommend (0-10)'],['valuable','Most valuable'],['improve','Could be better'],['next','Next topics'],['tech','Technical issues'],['date','Date']])"><i class="fa-solid fa-file-csv me-1"></i>Export CSV</button>`;
+}
+function fbToTestimonial(id) {
+  const x = S.cfb.responses.find(r => r.id === id); if (!x) return;
+  closeModal();
+  setTimeout(() => editRecord('Testimonials', null, { Name: x.name, Role: S.cfb.cls.programme, Message: x.valuable, Rating: String(x.overall || 5), Status: 'Active' }), 350);
+}
+
+ADMIN_PAGES.quizzes = async function (main) {
+  S.qzMain = main;
+  await loadLookups();
+  if (S.qz) return drawQuizBuilder();
+  const list = await rcall('quizList');
+  S.qzList = list;
+  main.innerHTML = pageHead('<i class="fa-solid fa-circle-question text-primary me-2"></i>Quizzes', 'Create auto-marked quizzes for any class or programme. Students take them from the class QR code or their Quizzes page.', `<button class="btn btn-grad" onclick="newQuiz()"><i class="fa-solid fa-plus me-1"></i>New quiz</button>`) +
+    (list.length ? `<div class="card-x p-0"><div class="tbl-wrap border-0"><table class="tbl"><thead><tr><th>Quiz</th><th>Questions</th><th>Status</th><th>Attempts</th><th>Average</th><th>Pass rate</th><th></th></tr></thead><tbody>${list.map(q => `<tr><td><div class="fw-semibold">${esc(q.Title)}</div><div class="small-muted">${esc(q.Programme)}${q.ClassTitle ? ' · ' + esc(q.ClassTitle) : ''}</div></td><td>${q.QuestionsList.length}${Number(q.TimeLimit) ? `<div class="small-muted">${esc(q.TimeLimit)} min</div>` : ''}</td><td>${badge(q.Status === 'Active' ? 'Active' : q.Status === 'Draft' ? 'Draft' : 'Closed')}</td><td>${q.Attempts}<div class="small-muted">${q.Students} student${q.Students === 1 ? '' : 's'}</div></td><td>${q.AvgPercent === null ? '—' : q.AvgPercent + '%'}</td><td>${q.PassRate === null ? '—' : q.PassRate + '%'}</td>
+      <td><div class="act"><button class="btn btn-soft" title="Results" onclick="quizResults('${esc(q.QuizID)}')"><i class="fa-solid fa-chart-column"></i></button><button class="btn btn-light" title="Edit" onclick="editQuiz('${esc(q.QuizID)}')"><i class="fa-solid fa-pen"></i></button><button class="btn btn-light" title="Duplicate" onclick="editQuiz('${esc(q.QuizID)}',true)"><i class="fa-solid fa-copy"></i></button><button class="btn btn-light text-danger" title="Archive" onclick="archiveQuiz('${esc(q.QuizID)}')"><i class="fa-solid fa-box-archive"></i></button></div></td></tr>`).join('')}</tbody></table></div></div>`
+      : `<div class="card-x">${empty('fa-circle-question', 'No quizzes yet', 'Create a quiz by hand or let AI draft the questions from your class topic.', `<button class="btn btn-grad" onclick="newQuiz()"><i class="fa-solid fa-plus me-1"></i>New quiz</button>`)}</div>`);
+};
+function newQuiz(preset) {
+  S.qz = Object.assign({ QuizID: '', ProgrammeID: '', ClassID: '', Title: '', Instructions: 'Answer all questions. Your score is shown as soon as you submit.', TimeLimit: '10', PassMark: '50', MaxAttempts: '1', ShowAnswers: true, Status: 'Active', Questions: [], _notify: true }, preset || {});
+  if (!S.qz.Questions.length) S.qz.Questions.push(blankQ('single'));
+  if (S.sec === 'quizzes') drawQuizBuilder(); else nav('quizzes');
+}
+function editQuiz(id, dup) {
+  const q = (S.qzList || []).find(x => x.QuizID === id); if (!q) return;
+  S.qz = { QuizID: dup ? '' : q.QuizID, ProgrammeID: q.ProgrammeID, ClassID: q.ClassID, Title: q.Title + (dup ? ' (copy)' : ''), Instructions: q.Instructions, TimeLimit: q.TimeLimit, PassMark: q.PassMark, MaxAttempts: q.MaxAttempts, ShowAnswers: isYes(q.ShowAnswers), Status: dup ? 'Draft' : q.Status, Questions: JSON.parse(JSON.stringify(q.QuestionsList)), _notify: false };
+  if (dup) S.qz.Questions.forEach(x => { delete x.id; });
+  drawQuizBuilder();
+}
+async function archiveQuiz(id) { if (!await confirmBox('Archive this quiz? Students will no longer see it. Results are kept.', 'Archive', true)) return; try { await call('quizArchive', { id }); toast('Quiz archived.'); nav('quizzes'); } catch (e) { toast(e.message, 'danger'); } }
+function blankQ(type) { return type === 'tf' ? { type: 'tf', q: '', answer: true, points: 1, explain: '' } : type === 'short' ? { type: 'short', q: '', answer: '', points: 1, explain: '' } : { type: type, q: '', options: ['', '', '', ''], answer: type === 'multi' ? [] : 0, points: 1, explain: '' }; }
+const QTYPE_LABEL = { single: 'One correct answer', multi: 'Several correct answers', tf: 'True / False', short: 'Short answer' };
+function qzSet(k, v) { S.qz[k] = v; }
+function qqSet(i, k, v) { S.qz.Questions[i][k] = v; }
+function qqOpt(i, j, v) { S.qz.Questions[i].options[j] = v; }
+function qqRedraw() { const y = window.scrollY; drawQuizBuilder(); window.scrollTo(0, y); }
+function qqType(i, t) { const old = S.qz.Questions[i], n = blankQ(t); n.q = old.q; n.points = old.points; n.explain = old.explain; if ((t === 'single' || t === 'multi') && old.options) n.options = old.options.slice(); S.qz.Questions[i] = n; qqRedraw(); }
+function qqCorrect(i, j) { const q = S.qz.Questions[i]; if (q.type === 'multi') { const a = q.answer = q.answer || []; const k = a.indexOf(j); if (k >= 0) a.splice(k, 1); else a.push(j); } else q.answer = j; qqRedraw(); }
+function qqAddOpt(i) { const q = S.qz.Questions[i]; if (q.options.length < 8) q.options.push(''); qqRedraw(); }
+function qqDelOpt(i, j) { const q = S.qz.Questions[i]; if (q.options.length <= 2) return toast('A question needs at least 2 options.', 'warning'); q.options.splice(j, 1); if (q.type === 'multi') q.answer = (q.answer || []).filter(k => k !== j).map(k => k > j ? k - 1 : k); else if (q.answer >= q.options.length || q.answer === j) q.answer = 0; else if (q.answer > j) q.answer--; qqRedraw(); }
+function qqMove(i, d) { const Q = S.qz.Questions, j = i + d; if (j < 0 || j >= Q.length) return; [Q[i], Q[j]] = [Q[j], Q[i]]; qqRedraw(); }
+function qqDel(i) { S.qz.Questions.splice(i, 1); qqRedraw(); }
+function qqDup(i) { const c = JSON.parse(JSON.stringify(S.qz.Questions[i])); delete c.id; S.qz.Questions.splice(i + 1, 0, c); qqRedraw(); }
+function qqAdd(t) { S.qz.Questions.push(blankQ(t)); qqRedraw(); }
+function drawQuizBuilder() {
+  const main = S.qzMain, Q = S.qz; if (!main || !document.body.contains(main)) return;
+  const classes = (S.lk.classes || []).filter(c => !Q.ProgrammeID || c.programmeId === Q.ProgrammeID);
+  const total = Q.Questions.reduce((a, x) => a + (Number(x.points) || 1), 0);
+  main.innerHTML = pageHead(`<a class="text-decoration-none" role="button" onclick="S.qz=null;nav('quizzes')"><i class="fa-solid fa-arrow-left me-2 text-muted"></i></a>${Q.QuizID ? 'Edit quiz' : 'New quiz'}`, `${Q.Questions.length} question${Q.Questions.length === 1 ? '' : 's'} · ${total} point${total === 1 ? '' : 's'}`, `<button class="btn btn-light" onclick="S.qz=null;nav('quizzes')">Cancel</button><button class="btn btn-grad" onclick="saveQuiz(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save quiz</button>`) + `
+    <div class="row g-4"><div class="col-lg-4 order-lg-2"><div class="card-x stick-xl"><h6 class="ttl"><i class="fa-solid fa-sliders text-primary"></i>Settings</h6>
+      <label class="form-label" for="qzProg">Programme *</label><select class="form-select mb-2" id="qzProg" onchange="qzSet('ProgrammeID',this.value);qzSet('ClassID','');qqRedraw()">${optProg().map(o => `<option value="${esc(o[0])}" ${o[0] === Q.ProgrammeID ? 'selected' : ''}>${esc(o[1])}</option>`).join('')}</select>
+      <label class="form-label" for="qzCls">Class <span class="small-muted">(optional: shows on that class's QR page)</span></label><select class="form-select mb-2" id="qzCls" onchange="qzSet('ClassID',this.value)"><option value="">— Not linked to a class —</option>${classes.map(c => `<option value="${esc(c.id)}" ${c.id === Q.ClassID ? 'selected' : ''}>${esc(c.title)}</option>`).join('')}</select>
+      <div class="row g-2"><div class="col-4"><label class="form-label small" for="qzTime">Time (min)</label><input class="form-control" type="number" min="0" id="qzTime" value="${esc(Q.TimeLimit)}" oninput="qzSet('TimeLimit',this.value)"></div><div class="col-4"><label class="form-label small" for="qzPass">Pass %</label><input class="form-control" type="number" min="0" max="100" id="qzPass" value="${esc(Q.PassMark)}" oninput="qzSet('PassMark',this.value)"></div><div class="col-4"><label class="form-label small" for="qzAtt">Attempts</label><input class="form-control" type="number" min="0" id="qzAtt" value="${esc(Q.MaxAttempts)}" oninput="qzSet('MaxAttempts',this.value)"></div></div>
+      <div class="form-text mb-2">0 minutes = no time limit · 0 attempts = unlimited.</div>
+      <div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" id="qzShow" ${Q.ShowAnswers ? 'checked' : ''} onchange="qzSet('ShowAnswers',this.checked)"><label class="form-check-label small" for="qzShow">Show correct answers after submitting</label></div>
+      <label class="form-label" for="qzStatus">Status</label><select class="form-select mb-2" id="qzStatus" onchange="qzSet('Status',this.value)">${[['Active', 'Active: students can take it'], ['Draft', 'Draft: hidden from students'], ['Closed', 'Closed: visible, no new attempts']].map(o => `<option value="${o[0]}" ${Q.Status === o[0] ? 'selected' : ''}>${o[1]}</option>`).join('')}</select>
+      ${Q.QuizID ? '' : `<div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="qzNotify" ${Q._notify ? 'checked' : ''} onchange="qzSet('_notify',this.checked)"><label class="form-check-label small" for="qzNotify">Notify & email enrolled students</label></div>`}
+    </div></div>
+    <div class="col-lg-8 order-lg-1">
+      <div class="card-x mb-3"><label class="form-label" for="qzTitle">Quiz title *</label><input class="form-control mb-2" id="qzTitle" maxlength="200" value="${esc(Q.Title)}" oninput="qzSet('Title',this.value)" placeholder="e.g. Week 3 check: DAX basics">
+        <label class="form-label" for="qzIns">Instructions</label><textarea class="form-control" id="qzIns" rows="2" oninput="qzSet('Instructions',this.value)">${esc(Q.Instructions)}</textarea></div>
+      ${aiReady() ? `<div class="ai-box mt-0 mb-3"><div class="fw-semibold small mb-2"><i class="fa-solid fa-wand-magic-sparkles text-primary me-1"></i>Draft questions with AI</div><div class="d-flex flex-wrap gap-2"><input class="form-control form-control-sm" style="flex:1;min-width:200px" id="qzAiTopic" placeholder="Topic, e.g. DAX CALCULATE and filter context" value="${esc(qzTopicGuess())}"><input class="form-control form-control-sm" style="width:80px" type="number" min="1" max="20" id="qzAiN" value="5" aria-label="Number of questions"><select class="form-select form-select-sm" style="max-width:190px" id="qzAiModel">${aiModelOptions()}</select><button class="btn btn-sm btn-grad" onclick="qzAi(this)">Generate</button></div><div class="small-muted mt-1">New questions are added below. Check every answer before publishing.</div></div>` : ''}
+      ${Q.Questions.map((q, i) => qEditor(q, i)).join('')}
+      <div class="d-flex flex-wrap gap-2 mb-4"><span class="small fw-semibold align-self-center me-1">Add question:</span>${Object.keys(QTYPE_LABEL).map(t => `<button class="btn btn-sm btn-soft" onclick="qqAdd('${t}')"><i class="fa-solid fa-plus me-1"></i>${QTYPE_LABEL[t]}</button>`).join('')}</div>
+    </div></div>`;
+}
+function qzTopicGuess() { const c = (S.lk.classes || []).find(x => x.id === S.qz.ClassID); return c ? String(c.title).replace(/\s*\(\d{4}-\d\d-\d\d\)$/, '') : (S.qz.ProgrammeID ? progTitle(S.qz.ProgrammeID) : ''); }
+function qEditor(q, i) {
+  const opts = q.type === 'single' || q.type === 'multi';
+  return `<div class="card-x mb-3 q-edit"><div class="d-flex flex-wrap align-items-center gap-2 mb-2"><span class="q-num">${i + 1}</span><select class="form-select form-select-sm" style="max-width:220px" onchange="qqType(${i},this.value)" aria-label="Question type">${Object.keys(QTYPE_LABEL).map(t => `<option value="${t}" ${q.type === t ? 'selected' : ''}>${QTYPE_LABEL[t]}</option>`).join('')}</select>
+      <div class="input-group input-group-sm" style="width:110px"><input class="form-control" type="number" min="0.5" step="0.5" value="${esc(q.points)}" oninput="qqSet(${i},'points',this.value)" aria-label="Points"><span class="input-group-text">pts</span></div>
+      <div class="ms-auto d-flex gap-1"><button class="btn btn-sm btn-light" title="Move up" onclick="qqMove(${i},-1)"><i class="fa-solid fa-arrow-up"></i></button><button class="btn btn-sm btn-light" title="Move down" onclick="qqMove(${i},1)"><i class="fa-solid fa-arrow-down"></i></button><button class="btn btn-sm btn-light" title="Duplicate" onclick="qqDup(${i})"><i class="fa-solid fa-copy"></i></button><button class="btn btn-sm btn-light text-danger" title="Delete" onclick="qqDel(${i})"><i class="fa-solid fa-trash"></i></button></div></div>
+    <textarea class="form-control mb-2" rows="2" placeholder="Type the question" oninput="qqSet(${i},'q',this.value)" aria-label="Question ${i + 1}">${esc(q.q)}</textarea>
+    ${opts ? `<div class="small-muted mb-1">${q.type === 'multi' ? 'Tick every correct option' : 'Click the circle next to the correct option'}</div>${q.options.map((o, j) => { const on = q.type === 'multi' ? (q.answer || []).includes(j) : Number(q.answer) === j; return `<div class="d-flex gap-2 align-items-center mb-1"><button type="button" class="q-correct ${on ? 'on' : ''}" title="Mark as correct" onclick="qqCorrect(${i},${j})"><i class="fa-${q.type === 'multi' ? (on ? 'solid fa-square-check' : 'regular fa-square') : (on ? 'solid fa-circle-check' : 'regular fa-circle')}"></i></button><input class="form-control form-control-sm" value="${esc(o)}" placeholder="Option ${String.fromCharCode(65 + j)}" oninput="qqOpt(${i},${j},this.value)" aria-label="Option ${String.fromCharCode(65 + j)}"><button type="button" class="btn btn-sm btn-light" title="Remove option" onclick="qqDelOpt(${i},${j})"><i class="fa-solid fa-xmark"></i></button></div>`; }).join('')}${q.options.length < 8 ? `<button class="btn btn-sm btn-link px-0" onclick="qqAddOpt(${i})"><i class="fa-solid fa-plus me-1"></i>Add option</button>` : ''}`
+      : q.type === 'tf' ? `<div class="d-flex gap-2">${[[true, 'True'], [false, 'False']].map(o => `<button type="button" class="btn btn-sm ${q.answer === o[0] ? 'btn-grad' : 'btn-light'}" onclick="qqSet(${i},'answer',${o[0]});qqRedraw()">${o[1]}${q.answer === o[0] ? ' <i class="fa-solid fa-check ms-1"></i>' : ''}</button>`).join('')}<span class="small-muted align-self-center">← correct answer</span></div>`
+      : `<input class="form-control form-control-sm" value="${esc(q.answer)}" placeholder="Accepted answer(s), separate alternatives with |  e.g. CALCULATE|calculate()" oninput="qqSet(${i},'answer',this.value)" aria-label="Accepted answers"><div class="form-text">Marking ignores capital letters and extra spaces.</div>`}
+    <input class="form-control form-control-sm mt-2" value="${esc(q.explain || '')}" placeholder="Explanation shown after submitting (optional)" oninput="qqSet(${i},'explain',this.value)" aria-label="Explanation"></div>`;
+}
+async function qzAi(btn) {
+  const topic = $('#qzAiTopic').value.trim(), n = Math.max(1, Math.min(20, Number($('#qzAiN').value) || 5));
+  if (!topic) return toast('Enter the topic first.', 'warning');
+  await busy(btn, async () => {
+    const r = await call('aiGenerate', { entity: 'Quizzes', field: 'Questions', modelId: $('#qzAiModel').value, instructions: 'Write ' + n + ' questions.', context: { Topic: topic, Programme: progTitle(S.qz.ProgrammeID), 'Quiz title': S.qz.Title } });
+    const out = [];
+    String(r.text).split(/\n\s*\n/).forEach(block => {
+      const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+      const q = { type: 'single', q: '', options: [], answer: 0, points: 1, explain: '' };
+      lines.forEach(l => { let m;
+        if ((m = l.match(/^Q\d*[:.)]\s*(.+)/i))) q.q = m[1];
+        else if ((m = l.match(/^([A-H])[).:]\s*(.+)/))) q.options.push(m[2]);
+        else if ((m = l.match(/^ANSWER[:\s]+([A-H])/i))) q.answer = m[1].toUpperCase().charCodeAt(0) - 65;
+        else if ((m = l.match(/^WHY[:\s]+(.+)/i))) q.explain = m[1]; });
+      if (q.q && q.options.length >= 2 && q.answer < q.options.length) out.push(q);
+    });
+    if (!out.length) throw new Error('The AI reply could not be turned into questions. Try again or pick another model.');
+    S.qz.Questions = S.qz.Questions.filter(x => String(x.q).trim()).concat(out);
+    toast(out.length + ' questions drafted by ' + r.model + '. Please review them.'); qqRedraw();
+  });
+}
+async function saveQuiz(btn) {
+  const Q = S.qz;
+  if (!Q.ProgrammeID) return toast('Select a programme.', 'warning');
+  if (!String(Q.Title).trim()) return toast('Enter a quiz title.', 'warning');
+  await busy(btn, async () => {
+    const rec = Object.assign({}, Q, { Questions: Q.Questions.map(x => Object.assign({}, x, x.options ? { options: x.options.map(o => String(o).trim()) } : {})) });
+    const r = await call('quizSave', { record: rec, notify: !Q.QuizID && Q._notify && Q.Status === 'Active' });
+    toast('Quiz saved.'); S.qz = null; nav('quizzes');
+    return r;
+  });
+}
+async function quizResults(id) {
+  modal('Quiz results', spin(), '', 'xl');
+  try {
+    const r = await call('quizResults', { quizId: id }); S.qzr = r;
+    $('#mTitle').innerHTML = '<i class="fa-solid fa-chart-column text-primary me-2"></i>' + esc(r.quiz.title);
+    const avg = r.attempts.length ? Math.round(r.attempts.reduce((a, x) => a + x.percent, 0) / r.attempts.length) : 0;
+    $('#mBody').innerHTML = `<div class="row g-3 mb-3"><div class="col-6 col-md-3">${statCard('fa-pen-to-square', 'blue', r.attempts.length, 'Attempts')}</div><div class="col-6 col-md-3">${statCard('fa-percent', 'purple', avg + '%', 'Average score')}</div><div class="col-6 col-md-3">${statCard('fa-circle-check', 'green', r.attempts.filter(a => a.passed).length, 'Passed (≥' + r.quiz.passMark + '%)')}</div><div class="col-6 col-md-3">${statCard('fa-user-clock', 'amber', r.notAttempted.length, 'Not attempted')}</div></div>
+      ${r.attempts.length ? `<div class="tbl-wrap mb-3"><table class="tbl"><thead><tr><th>Student</th><th>Score</th><th>Result</th><th>Submitted</th></tr></thead><tbody>${r.attempts.map(a => `<tr><td><div class="fw-semibold">${esc(a.name)}</div><div class="small-muted">${esc(a.email)}</div></td><td class="fw-semibold">${a.score}/${a.total} <span class="small-muted">(${a.percent}%)</span></td><td>${a.passed ? badge('Passed') : '<span class="badge-s bs-danger">Not passed</span>'}${a.overtime ? ' <span class="badge-s bs-warning">Overtime</span>' : ''}</td><td class="small">${fdt(a.submittedAt)}</td></tr>`).join('')}</tbody></table></div>` : empty('fa-pen-to-square', 'No attempts yet', '')}
+      ${r.attempts.length ? `<h6 class="fw-bold">Question analysis</h6><div class="small-muted mb-2">Low scores show what students found hard. Worth revisiting in class.</div>${r.perQuestion.map((x, i) => `<div class="d-flex align-items-center gap-2 small mb-1"><span class="text-truncate" style="flex:1">${i + 1}. ${esc(x.q)}</span><div class="cpn-bar" style="width:140px"><i style="width:${x.correctRate || 0}%;background:${x.correctRate >= 70 ? '#16a34a' : x.correctRate >= 40 ? '#f59e0b' : '#ef4444'}"></i></div><span style="width:40px" class="text-end fw-semibold">${x.correctRate}%</span></div>`).join('')}` : ''}
+      ${r.notAttempted.length ? `<h6 class="fw-bold mt-3">Not attempted (${r.notAttempted.length})</h6><div class="small text-muted">${r.notAttempted.map(esc).join(', ')}</div>` : ''}`;
+    $('#mFoot').style.display = '';
+    $('#mFoot').innerHTML = `<button class="btn btn-light" onclick="exportCSV('quiz-results',S.qzr.attempts,[['name','Student'],['email','Email'],['score','Score'],['total','Total'],['percent','Percent'],['passed','Passed'],['overtime','Overtime'],['startedAt','Started'],['submittedAt','Submitted']])"><i class="fa-solid fa-file-csv me-1"></i>Export CSV</button>`;
+  } catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
+}
+
 async function init() {
   const p = BOOT.params || {};
   if (p.coupon && normCode(p.coupon)) { const cc = normCode(p.coupon); store.set('bpa_coupon', cc); setTimeout(() => toast('🎁 Coupon ' + cc + ' saved. It will be applied automatically when you enrol.', 'info'), 1400); }
@@ -3606,6 +4210,7 @@ async function init() {
   if (p.page === 'verify-email' && p.token) return doVerifyEmail(p.token);
   if (p.page === 'reset' && p.token) { renderPublic(); return setTimeout(() => openAuth('reset', p.token), 300); }
   if (p.page === 'cert') return renderCertVerify(p.code || '');
+  if (p.page === 'class' && p.c && p.t) return openHubLink(p);
   if (S.user) goApp(); else renderPublic();
 }
 function labelTables() {
