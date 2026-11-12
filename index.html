@@ -357,7 +357,7 @@ img,video,canvas{max-width:100%}
 .rv-banner{background:linear-gradient(90deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:14px;padding:.8rem 1rem}
 .ptn-logo{width:46px;height:46px;border-radius:10px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;flex-shrink:0;overflow:hidden;padding:4px}.ptn-logo img{max-width:100%;max-height:100%;object-fit:contain}.ptn-logo.lg{width:64px;height:64px}
 .bk-tbl td,.bk-tbl th{padding:.45rem .6rem;vertical-align:middle;font-size:.88rem}.bk-tbl thead th{position:sticky;top:0;background:#f8fafc;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-@media (max-width:575.98px){.bk-tbl th:nth-child(4),.bk-tbl td:nth-child(4){display:none}}
+@media (max-width:575.98px){.bk-tbl th:nth-child(5),.bk-tbl td:nth-child(5){display:none}}
 .form-switch{padding-left:3.25em}.form-switch .form-check-input{margin-left:-3.25em}.form-switch.ps-0 .form-check-input,.form-switch .form-check-input.m-0{margin-left:0}
 .hub-head{background:linear-gradient(135deg,#0b1b3f,#312e81 60%,#7c3aed);border-radius:18px;padding:1.1rem 1.2rem;color:#fff}
 .hub-head .date-blk{background:rgba(255,255,255,.14);color:#fff}.hub-head .date-blk .m{color:#c7d2fe}
@@ -383,6 +383,14 @@ img,video,canvas{max-width:100%}
 .qp-t{font-size:clamp(1.8rem,5vw,3.4rem);font-weight:900}.qp-s{color:#c7d2fe;font-size:clamp(1rem,2.2vw,1.4rem)}.qp-qr{background:#fff;border-radius:28px;padding:1.2rem;display:inline-block;margin:1.4rem 0}.qp-qr img{width:min(62vh,78vw);height:min(62vh,78vw);display:block;image-rendering:pixelated}
 .qp-c{font-size:clamp(1.3rem,3vw,2rem);font-weight:800;background:rgba(255,255,255,.12);border-radius:99px;padding:.5rem 1.5rem;display:inline-block}
 @media (max-width:575.98px){.hub-tab span{font-size:.72rem}.quiz-bar{top:56px}}
+.hub-top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.hub-auth{background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:1rem;text-align:center}
+.hub-or{display:flex;align-items:center;gap:.7rem;color:var(--muted);font-size:.82rem;margin:1.1rem 0 .8rem}.hub-or:before,.hub-or:after{content:'';flex:1;height:1px;background:var(--line)}
+.hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
+.att-ctl{border:2px solid #fecaca;background:#fff7f7}.att-ctl.on{border-color:#86efac;background:#f0fdf4}
+.att-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ef4444;margin-right:.5rem;vertical-align:middle}.att-ctl.on .att-dot{background:#16a34a;box-shadow:0 0 0 0 rgba(22,163,74,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+.qp-ctl{position:absolute;left:1rem;bottom:1rem;display:flex;gap:.6rem;align-items:center}.qp-state{background:rgba(239,68,68,.25);border-radius:99px;padding:.4rem .9rem;font-weight:700}.qp-state.on{background:rgba(22,163,74,.35)}
 </style>
 </head>
 <body>
@@ -1133,7 +1141,7 @@ async function doAuth(ev, mode) {
       S.token = r.token; store.set('bpa_lms_token', r.token); S.user = r.user; saveUser(); rcLoad();
       closeModal();
       toast(mode === 'register' ? 'Welcome aboard! Check your email to verify your account.' : 'Welcome back, ' + (r.user.name || '').split(' ')[0] + '!');
-      if (S.hub && S.hub.c && !S.hub._used && r.user.role === 'STUDENT') { S.hub._used = 1; return goApp('classhub'); }
+      if (S.view === 'hub' && S.hub) return renderHubPage();
       if (S.pendingEnrol && r.user.role === 'STUDENT') { const id = S.pendingEnrol; S.pendingEnrol = null; renderPublic(); return setTimeout(() => openProgramme(id), 400); }
       goApp();
     } else if (mode === 'forgot') {
@@ -1363,7 +1371,7 @@ async function doSubmit(id, btn) {
     const file = await readFile(f);
     const r = await call('submitAssignment', { assignmentId: id, file, comment: $('#subComment').value });
     closeModal(); toast(r.late ? 'Submitted (after the deadline).' : 'Assignment submitted successfully.', r.late ? 'warning' : 'success');
-    nav(S.sec, S.sec === 'course' ? S.course : S.navArg);
+    if (S.view === 'hub') hubReload(); else nav(S.sec, S.sec === 'course' ? S.course : S.navArg);
   });
 }
 function dlCertificate(id) { openCertificate(id); }
@@ -1743,8 +1751,11 @@ async function attendance(cid) {
     const r = await call('classAttendance', { classId: cid });
     $('#mTitle').innerHTML = 'Attendance · ' + esc(r.cls.Title) + ` <span class="small-muted">${fdate(r.cls.Date)}</span>`;
     const present = r.rows.filter(x => ['Present', 'Late'].includes(x.status)).length;
+    S.attOthers = r.others || [];
     $('#mBody').innerHTML = `<div class="small mb-2"><b>${present}</b> of ${r.rows.length} enrolled students attended. Students are marked automatically when they scan the attendance QR code or click "Join". The check-in time is set by the system.</div>` + (r.rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Student</th><th>Joined</th><th>Status</th></tr></thead><tbody>${r.rows.map(x => `<tr><td><div class="fw-semibold">${esc(x.name)}</div><div class="small-muted">${esc(x.studentId)} · ${esc(x.email)}</div></td><td class="small">${x.joinedAt ? fdt(x.joinedAt) : '—'}</td>
-      <td><select class="form-select form-select-sm" style="width:130px" onchange="setAtt('${esc(cid)}','${esc(x.studentId)}',this.value)">${['Not marked', 'Present', 'Late', 'Absent', 'Excused'].map(s => `<option ${s === x.status ? 'selected' : ''} ${s === 'Not marked' ? 'disabled' : ''}>${s}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table></div>` : empty('fa-users', 'No enrolled students', ''));
+      <td><select class="form-select form-select-sm" style="width:130px" onchange="setAtt('${esc(cid)}','${esc(x.studentId)}',this.value)">${['Not marked', 'Present', 'Late', 'Absent', 'Excused'].map(s => `<option ${s === x.status ? 'selected' : ''} ${s === 'Not marked' ? 'disabled' : ''}>${s}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table></div>` : empty('fa-users', 'No enrolled students', ''))
+      + (r.others && r.others.length ? `<h6 class="fw-bold mt-4 mb-1">Guests & non-enrolled (${r.others.length})</h6><div class="small-muted mb-2">Their attendance is recorded but doesn't count towards a certificate. Guests who register with the same email get it added to their record.</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Name</th><th>Type</th><th>Checked in</th><th>Status</th></tr></thead><tbody>${r.others.map(x => `<tr><td><div class="fw-semibold">${esc(x.name)}</div><div class="small-muted">${esc(x.email)}${x.phone ? ' · ' + esc(x.phone) : ''}</div></td><td><span class="badge-s ${x.type === 'Guest' ? 'bs-secondary' : 'bs-info'}">${esc(x.type)}</span></td><td class="small">${x.joinedAt ? fdt(x.joinedAt) : '—'}</td><td>${badge(x.status)}</td></tr>`).join('')}</tbody></table></div>
+        <button class="btn btn-sm btn-light mt-2" onclick="exportCSV('guest-attendance', S.attOthers, [['name','Name'],['email','Email'],['phone','Phone'],['type','Type'],['status','Status'],['joinedAt','Checked in']])"><i class="fa-solid fa-file-csv me-1"></i>Export guests</button>` : '');
   } catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
 }
 async function setAtt(cid, sid, status) { try { await call('markAttendance', { classId: cid, studentId: sid, status }); toast('Attendance updated.'); } catch (e) { toast(e.message, 'danger'); } }
@@ -3661,8 +3672,8 @@ function drawBulkList() {
   const cnt = k => B.rows.filter(x => k === 'all' ? 1 : k === 'eligible' ? !x.certificateId : k === 'completed' ? x.status === 'Completed' && !x.certificateId : !!x.certificateId).length;
   el.innerHTML = B.rows.length ? `<div class="d-flex flex-wrap gap-2 mb-2">${[['eligible', 'No certificate yet'], ['completed', 'Completed'], ['issued', 'Already issued'], ['all', 'Everyone']].map(f => `<span class="chip py-1 px-2 small ${B.filter === f[0] ? 'active' : ''}" onclick="S.bulk.filter='${f[0]}';drawBulkList()">${f[1]} <span style="opacity:.6">${cnt(f[0])}</span></span>`).join('')}</div>
     <input class="form-control form-control-sm mb-2" placeholder="Search name or email…" value="${esc(B.q)}" oninput="S.bulk.q=this.value;drawBulkList();this.focus();this.setSelectionRange(this.value.length,this.value.length)">
-    <div class="border rounded-3" style="max-height:340px;overflow:auto"><table class="table table-sm table-hover mb-0 bk-tbl"><thead><tr><th style="width:36px"><input class="form-check-input" type="checkbox" ${allOn ? 'checked' : ''} ${avail.length ? '' : 'disabled'} onchange="bulkToggleAll(this.checked)" aria-label="Select all"></th><th>Student</th><th>Status</th><th>Progress</th></tr></thead><tbody>
-    ${vis.map(x => `<tr><td><input class="form-check-input" type="checkbox" ${x.certificateId ? 'disabled' : ''} ${B.sel.has(x.studentId) ? 'checked' : ''} onchange="bulkToggle('${esc(x.studentId)}',this.checked)" aria-label="Select ${esc(x.name)}"></td><td><div class="fw-semibold small">${esc(x.name)}</div><div class="small-muted">${esc(x.email)}</div></td><td>${x.certificateId ? '<span class="badge-s bs-success"><i class="fa-solid fa-award me-1"></i>Issued</span>' : badge(x.status)}</td><td style="min-width:90px"><div class="cpn-bar"><i style="width:${Math.min(100, x.progress)}%"></i></div><div class="small-muted">${Math.round(x.progress)}%</div></td></tr>`).join('') || `<tr><td colspan="4" class="text-center small-muted py-3">Nobody in this view.</td></tr>`}</tbody></table></div>`
+    <div class="border rounded-3" style="max-height:340px;overflow:auto"><table class="table table-sm table-hover mb-0 bk-tbl"><thead><tr><th style="width:36px"><input class="form-check-input" type="checkbox" ${allOn ? 'checked' : ''} ${avail.length ? '' : 'disabled'} onchange="bulkToggleAll(this.checked)" aria-label="Select all"></th><th>Student</th><th>Status</th><th>Attendance</th><th>Progress</th></tr></thead><tbody>
+    ${vis.map(x => `<tr><td><input class="form-check-input" type="checkbox" ${x.certificateId ? 'disabled' : ''} ${B.sel.has(x.studentId) ? 'checked' : ''} onchange="bulkToggle('${esc(x.studentId)}',this.checked)" aria-label="Select ${esc(x.name)}"></td><td><div class="fw-semibold small">${esc(x.name)}</div><div class="small-muted">${esc(x.email)}</div></td><td>${x.certificateId ? '<span class="badge-s bs-success"><i class="fa-solid fa-award me-1"></i>Issued</span>' : badge(x.status)}</td><td class="small text-nowrap">${x.classes ? `<b>${x.attended}</b>/${x.classes} classes` : '—'}</td><td style="min-width:90px"><div class="cpn-bar"><i style="width:${Math.min(100, x.progress)}%"></i></div><div class="small-muted">${Math.round(x.progress)}%</div></td></tr>`).join('') || `<tr><td colspan="5" class="text-center small-muted py-3">Nobody in this view.</td></tr>`}</tbody></table></div>`
     : `<div class="card-x text-center small-muted">${empty('fa-users', 'No one has registered yet', 'Students appear here once they enrol in this programme.')}</div>`;
   bulkCount();
 }
@@ -3767,21 +3778,15 @@ async function deletePartner(id) {
 function goHub(cid, tok, tab) { S.hub = { c: cid, t: tok, a: tab || '' }; if (S.view === 'student' && S.sec === 'classhub') return nav('classhub'); goApp('classhub'); }
 function openHubLink(p) {
   S.hub = { c: p.c, t: p.t, a: p.a || '' };
-  if (S.user && S.user.role === 'STUDENT') return goApp('classhub');
-  if (S.user) { toast('This is a student class link. As staff, open Live Classes to see QR codes, attendance and feedback.', 'info'); return goApp('classes'); }
-  renderPublic();
-  setTimeout(() => { openAuth('login'); toast('Log in with your student account to continue to your class.', 'info'); }, 300);
+  renderHubPage();
 }
 const HUB_TABS = [['attend', 'Attendance', 'fa-clipboard-user'], ['feedback', 'Feedback', 'fa-comment-dots'], ['assignment', 'Assignment', 'fa-file-pen'], ['quiz', 'Quiz', 'fa-circle-question']];
 STUDENT_PAGES.classhub = async function (main) {
   if (!S.hub) return nav('classes');
-  const d = await call('classHub', { classId: S.hub.c, token: S.hub.t });
-  S.hubData = d; S.clockOffset = new Date(d.serverTime) - Date.now();
-  if (!HUB_TABS.some(t => t[0] === S.hub.a)) S.hub.a = d.checkin.open && !d.checkin.record ? 'attend' : d.feedback.open && !d.feedback.mine ? 'feedback' : 'attend';
   S.hubMain = main;
-  drawHub();
+  await loadHub();
 };
-function hubDone(k) { const d = S.hubData; return k === 'attend' ? !!d.checkin.record : k === 'feedback' ? !!d.feedback.mine : k === 'assignment' ? d.assignments.length && d.assignments.every(a => a.submission) : d.quizzes.length && d.quizzes.every(q => q.attemptsUsed > 0); }
+function hubDone(k) { const d = S.hubData; return k === 'attend' ? !!(d.checkin.record && d.checkin.record.at) : k === 'feedback' ? !!d.feedback.mine : k === 'assignment' ? d.assignments.length && d.assignments.every(a => a.submission) : d.quizzes.length && d.quizzes.every(q => q.attemptsUsed > 0); }
 function drawHub() {
   const d = S.hubData, c = d.cls, main = S.hubMain; if (!main || !document.body.contains(main)) return;
   const dt = toDate(c.date), link = safeUrl(c.meetLink);
@@ -3793,20 +3798,29 @@ function drawHub() {
   const b = $('#hubBody');
   if (S.hub.a === 'attend') b.innerHTML = hubAttend(d);
   else if (S.hub.a === 'feedback') { b.innerHTML = hubFeedback(d); }
+  else if ((S.hub.a === 'assignment' || S.hub.a === 'quiz') && d.viewer.type !== 'student') b.innerHTML = `<div class="card-x text-center py-4"><div class="big-ic ic-purple"><i class="fa-solid ${S.hub.a === 'quiz' ? 'fa-circle-question' : 'fa-file-pen'}"></i></div><h5 class="fw-bold">${S.hub.a === 'quiz' ? (d.quizCount ? d.quizCount + ' quiz' + (d.quizCount > 1 ? 'zes' : '') + ' for this class' : 'Quiz') : (d.assignmentCount ? d.assignmentCount + ' assignment' + (d.assignmentCount > 1 ? 's' : '') + ' for this class' : 'Assignment')}</h5>${d.viewer.type === 'staff' ? '<p class="text-muted mb-0">You are signed in as staff. Students sign in here to submit.</p>' : hubAuthCta(S.hub.a === 'quiz' ? 'Sign in to take the quiz' : 'Sign in to submit your assignment')}</div>`;
+  else if ((S.hub.a === 'assignment' || S.hub.a === 'quiz') && !d.viewer.enrolled) b.innerHTML = `<div class="card-x text-center py-4">${hubEnrolCta(d)}</div>`;
   else if (S.hub.a === 'assignment') b.innerHTML = d.assignments.length ? d.assignments.map(asgCard).join('') : `<div class="card-x">${empty('fa-file-pen', 'No assignment for this class', 'If your facilitator sets one, it will appear here and under Assignments.')}</div>`;
   else b.innerHTML = d.quizzes.length ? d.quizzes.map(quizCard).join('') : `<div class="card-x">${empty('fa-circle-question', 'No quiz for this class', 'If your facilitator sets one, it will appear here and under Quizzes.')}</div>`;
 }
 function serverNow() { return new Date(Date.now() + (S.clockOffset || 0)); }
 function hubAttend(d) {
-  const ck = d.checkin, rec = ck.record;
+  const ck = d.checkin, rec = ck.record, v = d.viewer;
+  const certNote = v.type === 'student' && !v.enrolled ? `<div class="alert alert-info small mt-3 text-start mb-0"><i class="fa-solid fa-award me-1"></i>You're not enrolled in ${esc(d.programme.title)} yet, so this class won't count towards its certificate. ${d.programme.canEnrol && d.programme.public ? `<a role="button" class="fw-semibold" onclick="enrol('${esc(d.programme.id)}',this)">Enrol now</a>` : ''}</div>` : '';
+  if (v.type === 'staff') return `<div class="card-x text-center py-4"><div class="big-ic ic-blue"><i class="fa-solid fa-user-tie"></i></div><h5 class="fw-bold">You're signed in as staff</h5><p class="text-muted mb-0">Start or end attendance from Live Classes → QR codes. Students check in on this page.</p></div>`;
+  if (!rec && v.type === 'guest' && S.hubGuestRec) return hubAttend(Object.assign({}, d, { checkin: Object.assign({}, ck, { record: S.hubGuestRec }) }));
+  if (rec && rec.at && v.type === 'guest') return `<div class="card-x text-center py-4"><div class="big-ic ic-green"><i class="fa-solid fa-circle-check"></i></div><h4 class="fw-bold mb-1">You're checked in${rec.name ? ', ' + esc(rec.name.split(' ')[0]) : ''}</h4><div class="mb-3">${badge(rec.status)} <span class="badge-s bs-secondary">Guest</span></div>
+    <div class="att-time"><div class="small-muted">Recorded on</div><div class="fw-bold fs-5">${esc(fmtAt(rec.at))}</div></div>
+    <div class="mt-4">${hubAuthCta('Want this to count towards a certificate?')}</div></div>`;
   if (rec && rec.at) return `<div class="card-x text-center py-4"><div class="big-ic ${rec.status === 'Late' ? 'ic-amber' : 'ic-green'}"><i class="fa-solid fa-circle-check"></i></div><h4 class="fw-bold mb-1">You're checked in</h4><div class="mb-3">${badge(rec.status)}</div>
-    <div class="att-time"><div class="small-muted">Recorded on</div><div class="fw-bold fs-5">${esc(fmtAt(rec.at))}</div></div><div class="small-muted mt-3"><i class="fa-solid fa-lock me-1"></i>The date and time were set automatically by the system and can't be changed.</div></div>`;
+    <div class="att-time"><div class="small-muted">Recorded on</div><div class="fw-bold fs-5">${esc(fmtAt(rec.at))}</div></div><div class="small-muted mt-3"><i class="fa-solid fa-lock me-1"></i>The date and time were set automatically by the system and can't be changed.</div>${certNote}</div>`;
   if (rec && !rec.at) return `<div class="card-x text-center py-4"><div class="big-ic ic-blue"><i class="fa-solid fa-clipboard-user"></i></div><h5 class="fw-bold">Your attendance: ${badge(rec.status)}</h5><div class="small-muted">Marked by ${esc(rec.method || 'your facilitator')}.</div>${ck.open ? `<button class="btn btn-grad btn-lg mt-3" onclick="doCheckIn(this)"><i class="fa-solid fa-fingerprint me-2"></i>Check me in now</button>` : ''}</div>`;
-  if (!ck.open) return `<div class="card-x text-center py-4"><div class="big-ic ic-amber"><i class="fa-solid fa-clock"></i></div><h5 class="fw-bold">Check-in isn't open</h5><p class="text-muted mb-0">${esc(ck.reason || '')}</p></div>`;
-  return `<div class="card-x text-center py-4"><div class="big-ic ic-purple"><i class="fa-solid fa-clipboard-user"></i></div><h4 class="fw-bold">Mark your attendance</h4><p class="text-muted">Tap the button to record that you're in class.</p>
+  if (!ck.open) return `<div class="card-x text-center py-4"><div class="big-ic ic-amber"><i class="fa-solid fa-clock"></i></div><h5 class="fw-bold">Attendance isn't open</h5><p class="text-muted mb-0">${esc(ck.reason || '')}</p><button class="btn btn-sm btn-light mt-3" onclick="hubReload()"><i class="fa-solid fa-rotate me-1"></i>Refresh</button></div>`;
+  return `<div class="card-x text-center py-4"><div class="big-ic ic-purple"><i class="fa-solid fa-clipboard-user"></i></div><h4 class="fw-bold">Mark your attendance</h4>
     <div class="att-time mb-3"><div class="small-muted"><i class="fa-solid fa-lock me-1"></i>Date & time (set by the system)</div><div class="fw-bold fs-5" id="hubClock">${esc(fmtNow())}</div></div>
-    <button class="btn btn-grad btn-lg px-5" onclick="doCheckIn(this)"><i class="fa-solid fa-fingerprint me-2"></i>Check me in</button>
-    <div class="small-muted mt-3">Arriving more than 15 minutes after the start is recorded as <b>Late</b>.</div></div>`;
+    ${v.type === 'student' ? `<div class="small-muted mb-2">Signed in as <b>${esc(v.name)}</b></div><button class="btn btn-grad btn-lg px-5" onclick="doCheckIn(this)"><i class="fa-solid fa-fingerprint me-2"></i>Check me in</button>${certNote}`
+      : `${hubAuthCta('Registered student? Sign in to check in')}${hubGuestForm()}`}
+    ${ck.mode === 'Auto' ? '<div class="small-muted mt-3">Arriving more than 15 minutes after the start is recorded as <b>Late</b>.</div>' : ''}</div>`;
 }
 function fmtAt(iso) { const n = new Date(iso); return isNaN(n) ? '' : n.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + n.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true }); }
 function fmtNow() { const n = serverNow(); return n.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + n.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true }); }
@@ -3831,12 +3845,13 @@ function scaleRow(k, label, lo, hi) {
 function hubFeedback(d) {
   const fs = d.feedback;
   if (!fs.open && !fs.mine) return `<div class="card-x text-center py-4"><div class="big-ic ic-amber"><i class="fa-solid fa-comment-slash"></i></div><h5 class="fw-bold">Feedback isn't open</h5><p class="text-muted mb-0">${esc(fs.reason || '')}</p></div>`;
-  if (!S.fb || S.fb._cls !== d.cls.id) {
+  if (!S.fb || S.fb._cls !== d.cls.id || S.fb._v !== d.viewer.type) {
     const m = fs.mine || {};
-    S.fb = { _cls: d.cls.id, Overall: m.Overall || '', Instructor: m.Instructor || '', Content: m.Content || '', Confidence: m.Confidence || '', Pace: m.Pace || '', NPS: m.NPS == null ? '' : m.NPS, Valuable: m.Valuable || '', Improve: m.Improve || '', NextTopics: m.NextTopics || '', TechIssues: String(m.TechIssues || '').split(',').map(x => x.trim()).filter(Boolean), Anonymous: isYes(m.Anonymous), TestimonialOK: isYes(m.TestimonialOK) };
+    S.fb = { _cls: d.cls.id, _v: d.viewer.type, Name: (S.hubGuest || {}).name || '', Email: (S.hubGuest || {}).email || '', Overall: m.Overall || '', Instructor: m.Instructor || '', Content: m.Content || '', Confidence: m.Confidence || '', Pace: m.Pace || '', NPS: m.NPS == null ? '' : m.NPS, Valuable: m.Valuable || '', Improve: m.Improve || '', NextTopics: m.NextTopics || '', TechIssues: String(m.TechIssues || '').split(',').map(x => x.trim()).filter(Boolean), Anonymous: isYes(m.Anonymous), TestimonialOK: isYes(m.TestimonialOK) };
   }
-  const f = S.fb, tech = d.techOptions;
-  return `<div class="card-x">${fs.mine ? `<div class="co-ok mb-3"><i class="fa-solid fa-circle-check me-1"></i>Thanks! We have your feedback. You can update it below.</div>` : `<p class="text-muted small mb-3">Your honest feedback helps us improve every class. It takes about 1 minute.</p>`}
+  const f = S.fb, tech = d.techOptions, guest = d.viewer.type === 'guest';
+  if (d.viewer.type === 'staff') return `<div class="card-x text-center py-4"><div class="big-ic ic-blue"><i class="fa-solid fa-user-tie"></i></div><h5 class="fw-bold">You're signed in as staff</h5><p class="text-muted mb-0">Anyone with this link can give feedback. See the results under Live Classes.</p></div>`;
+  return `<div class="card-x">${guest ? `<div class="row g-2 mb-2"><div class="col-sm-6"><label class="small fw-semibold" for="fbName">Your name <span class="small-muted">(optional)</span></label><input class="form-control mt-1" id="fbName" maxlength="120" value="${esc(f.Name || '')}" oninput="S.fb.Name=this.value"></div><div class="col-sm-6"><label class="small fw-semibold" for="fbEmail">Email <span class="small-muted">(optional)</span></label><input class="form-control mt-1" type="email" id="fbEmail" value="${esc(f.Email || '')}" oninput="S.fb.Email=this.value"></div><input type="text" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" oninput="S.fb.website=this.value"></div>` : ''}${fs.mine ? `<div class="co-ok mb-3"><i class="fa-solid fa-circle-check me-1"></i>Thanks! We have your feedback. You can update it below.</div>` : `<p class="text-muted small mb-3">Your honest feedback helps us improve every class. It takes about 1 minute.</p>`}
     ${!fs.open ? `<div class="alert alert-warning small">${esc(fs.reason)}</div>` : ''}
     ${starRow('Overall', 'Overall, how would you rate this class? *')}
     ${starRow('Instructor', 'How clear and engaging was the facilitator? *')}
@@ -3858,6 +3873,7 @@ async function sendFeedback(btn) {
   const f = S.fb, miss = [['Overall', 'overall rating'], ['Instructor', 'facilitator rating'], ['Content', 'content rating'], ['Confidence', 'confidence'], ['Pace', 'pace'], ['NPS', 'recommendation score']].filter(x => f[x[0]] === '' || f[x[0]] == null);
   if (miss.length) return toast('Please answer: ' + miss.map(x => x[1]).join(', ') + '.', 'warning');
   await busy(btn, async () => {
+    if (f.Email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.Email)) throw new Error('Enter a valid email address, or leave it empty.');
     const r = await call('submitFeedback', { classId: S.hub.c, token: S.hub.t, feedback: f });
     S.hubData.feedback.mine = Object.assign({}, f, { TechIssues: f.TechIssues.join(', '), Anonymous: f.Anonymous ? 'TRUE' : 'FALSE', TestimonialOK: f.TestimonialOK ? 'TRUE' : 'FALSE' });
     toast(r.updated ? 'Feedback updated. Thank you!' : 'Thank you for your feedback! 🙏');
@@ -3930,7 +3946,7 @@ function drawQuizResult(r) {
   const givenText = x => x.given === null || x.given === '' ? '<i>No answer</i>' : x.type === 'short' ? esc(x.given) : x.type === 'tf' ? (String(x.given) === '0' || String(x.given) === 'true' ? 'True' : 'False') : (Array.isArray(x.given) ? x.given : [x.given]).map(k => esc(x.options[Number(k)])).join(', ');
   host.innerHTML = `<div class="card-x text-center py-4 mb-3"><div class="score-ring ${r.passed ? 'pass' : 'fail'}" style="--p:${r.percent}"><span>${r.percent}%</span></div>
     <h4 class="fw-bold mt-3 mb-1">${r.passed ? 'Well done! You passed 🎉' : 'Keep going! You can do this 💪'}</h4><div class="text-muted">You scored <b>${r.score}</b> of ${r.total} points${r.passMark ? ' · pass mark ' + r.passMark + '%' : ''}</div>${r.overtime ? '<div class="small text-danger mt-1">Submitted after the time limit.</div>' : ''}
-    <button class="btn btn-light mt-3" onclick="S.qRun=null;${R.host === 'hub' ? "nav('classhub')" : "nav('quizzes')"}"><i class="fa-solid fa-arrow-left me-1"></i>Back</button></div>
+    <button class="btn btn-light mt-3" onclick="S.qRun=null;${R.host === 'hub' ? 'hubReload()' : "nav('quizzes')"}"><i class="fa-solid fa-arrow-left me-1"></i>Back</button></div>
     ${r.review ? `<h6 class="fw-bold mb-2">Review your answers</h6>${r.review.map((x, i) => `<div class="card-x mb-2 ${x.correct ? 'q-right' : 'q-wrong'}"><div class="d-flex gap-2"><i class="fa-solid ${x.correct ? 'fa-circle-check text-success' : 'fa-circle-xmark text-danger'} mt-1"></i><div class="min-w-0"><div class="fw-semibold">${i + 1}. ${nl2br(x.q)}</div>
       <div class="small mt-1">Your answer: ${givenText(x)}</div>${x.correct ? '' : `<div class="small text-success">Correct answer: ${ansText(x)}</div>`}${x.explain ? `<div class="small text-muted mt-1"><i class="fa-solid fa-lightbulb text-warning me-1"></i>${esc(x.explain)}</div>` : ''}</div></div></div>`).join('')}` : ''}`;
   window.scrollTo(0, 0);
@@ -3942,7 +3958,7 @@ STUDENT_PAGES.quizzes = async function (main) {
   main.innerHTML = pageHead('Quizzes', 'Test yourself on what you learned in class.') + (q.length ? q.map(quizCard).join('') : `<div class="card-x">${empty('fa-circle-question', 'No quizzes yet', 'Quizzes your facilitators set will appear here.')}</div>`);
 };
 
-const LINK_KINDS = [['attend', 'Attendance', 'fa-clipboard-user', 'Scan to check in', 'Students scan this in class. The system records the date and time.'], ['feedback', 'Feedback', 'fa-comment-dots', 'Scan to give feedback', 'Share at the end of class. Takes students about a minute.'], ['assignment', 'Assignment', 'fa-file-pen', 'Scan for your assignment', 'Opens the assignment(s) linked to this class.'], ['quiz', 'Quiz', 'fa-circle-question', 'Scan to take the quiz', 'Opens the quiz(zes) linked to this class.']];
+const LINK_KINDS = [['attend', 'Attendance', 'fa-clipboard-user', 'Scan to check in', 'Students sign in (or register) to check in; visitors can check in as guests. The system sets the date and time.'], ['feedback', 'Feedback', 'fa-comment-dots', 'Scan to give feedback', 'Public form: anyone with the link can respond, no login needed.'], ['assignment', 'Assignment', 'fa-file-pen', 'Scan for your assignment', 'Opens the assignment(s) linked to this class.'], ['quiz', 'Quiz', 'fa-circle-question', 'Scan to take the quiz', 'Opens the quiz(zes) linked to this class.']];
 async function classLinksDialog(cid) {
   modal('<i class="fa-solid fa-qrcode text-primary me-2"></i>Class QR codes & links', spin(), '', 'xl');
   try {
@@ -3955,13 +3971,14 @@ function drawClassLinks() {
   const modes = [['Auto', 'Automatic', 'Opens 30 min before class, closes 1 hour after it ends'], ['Open', 'Open now', 'Students can check in right now'], ['Closed', 'Closed', 'Nobody can check in']];
   $('#mTitle').innerHTML = `<i class="fa-solid fa-qrcode text-primary me-2"></i>${esc(c.title)} <span class="small-muted">· ${fdate(c.date)} ${ftime(c.start)}</span>`;
   $('#mBody').innerHTML = `<div class="row g-3 mb-3">
-      <div class="col-6 col-md-3">${statCard('fa-clipboard-user', 'green', `${r.counts.checkedIn}<span class="small-muted fw-normal"> / ${r.counts.enrolled}</span>`, 'Checked in')}</div>
-      <div class="col-6 col-md-3">${statCard('fa-clock', 'amber', r.counts.late, 'Late arrivals')}</div>
+      <div class="col-6 col-md-3">${statCard('fa-clipboard-user', 'green', `${r.counts.checkedIn - r.counts.guests}<span class="small-muted fw-normal"> / ${r.counts.enrolled}</span>`, 'Students checked in')}</div>
+      <div class="col-6 col-md-3">${statCard('fa-user-clock', 'amber', r.counts.guests, 'Guests checked in')}</div>
       <div class="col-6 col-md-3">${statCard('fa-comment-dots', 'purple', r.counts.feedback, 'Feedback responses')}</div>
-      <div class="col-6 col-md-3">${statCard(ck.open ? 'fa-door-open' : 'fa-door-closed', ck.open ? 'blue' : 'red', ck.open ? 'Open' : 'Closed', 'Check-in now')}</div></div>
-    <div class="card-x mb-3"><div class="d-flex flex-wrap align-items-center gap-2"><span class="fw-semibold small me-1"><i class="fa-solid fa-clipboard-user text-primary me-1"></i>Attendance check-in:</span>${modes.map(m => `<button class="btn btn-sm ${c.mode === m[0] ? 'btn-grad' : 'btn-light'}" title="${esc(m[2])}" onclick="setAttMode('${m[0]}',this)">${m[1]}</button>`).join('')}
-      <span class="small-muted ms-md-2">${esc(ck.open ? (ck.closesAt ? 'Closes ' + fdt(ck.closesAt) : 'Open until you close it') : ck.reason || '')}</span></div>
-      <div class="small-muted mt-2"><i class="fa-solid fa-lock me-1"></i>Check-in time always comes from the server clock and can't be typed or changed by students. Arrivals more than 15 minutes after the start are marked Late.</div></div>
+      <div class="col-6 col-md-3">${statCard('fa-clock', 'blue', r.counts.late, 'Late arrivals')}</div></div>
+    <div class="card-x mb-3 att-ctl ${ck.open ? 'on' : ''}"><div class="d-flex flex-wrap align-items-center gap-3">
+      <div class="flex-fill min-w-0"><div class="fw-bold"><span class="att-dot"></span>Attendance is ${ck.open ? 'OPEN' : 'CLOSED'}</div><div class="small-muted">${esc(c.mode === 'Auto' ? (ck.open ? 'Following the class time · closes ' + (ck.closesAt ? fdt(ck.closesAt) : 'after class') : (ck.reason || '')) : c.mode === 'Open' ? 'Started by you. Anyone with the link can check in until you end it.' : 'Ended by you. Nobody can check in.')}</div></div>
+      ${ck.open ? `<button class="btn btn-danger btn-lg" onclick="setAttMode('Closed',this)"><i class="fa-solid fa-stop me-2"></i>End attendance</button>` : `<button class="btn btn-success btn-lg" onclick="setAttMode('Open',this)"><i class="fa-solid fa-play me-2"></i>Start attendance</button>`}</div>
+      <div class="small-muted mt-2 d-flex flex-wrap gap-2 align-items-center"><span><i class="fa-solid fa-lock me-1"></i>Check-in time always comes from the server clock.</span>${c.mode !== 'Auto' ? `<a role="button" class="fw-semibold" onclick="setAttMode('Auto',this)">Switch to automatic (opens 30 min before class, closes 1 hour after)</a>` : '<span>Automatic mode: arrivals 15+ minutes after the start are marked Late.</span>'}</div></div>
     <div class="row g-3">${LINK_KINDS.map(k => { const url = r.links[k[0]], items = k[0] === 'assignment' ? r.assignments : k[0] === 'quiz' ? r.quizzes : null; return `<div class="col-md-6 col-xl-3"><div class="card-x h-100 d-flex flex-column text-center link-card">
       <div class="fw-bold mb-2"><i class="fa-solid ${k[2]} text-primary me-1"></i>${k[1]}</div>
       <img class="mx-auto kit-qr" src="${qrData(url)}" alt="QR code for ${k[1]}">
@@ -3978,8 +3995,13 @@ function classLinksText() {
   return `📚 ${c.title}\n🗓️ ${fdate(c.date)} · ${ftime(c.start)}${c.end ? ' – ' + ftime(c.end) : ''}\n\n✅ Check in: ${r.links.attend}\n💬 Feedback: ${r.links.feedback}${r.assignments.length ? '\n📝 Assignment: ' + r.links.assignment : ''}${r.quizzes.length ? '\n🧠 Quiz: ' + r.links.quiz : ''}`;
 }
 async function setAttMode(mode, btn) {
-  await busy(btn, async () => { const st = await call('setAttendanceMode', { classId: S.cl.cls.id, mode }); S.cl.cls.mode = mode; S.cl.checkin = st; drawClassLinks(); toast(mode === 'Open' ? 'Check-in is open.' : mode === 'Closed' ? 'Check-in is closed.' : 'Check-in follows the class time automatically.'); });
+  await busy(btn, async () => {
+    const st = await call('setAttendanceMode', { classId: S.cl.cls.id, mode }); S.cl.cls.mode = mode; S.cl.checkin = st;
+    if ($('#qrPresent')) drawPresentCtl(); else drawClassLinks();
+    toast(mode === 'Open' ? 'Attendance started. Students can check in now.' : mode === 'Closed' ? 'Attendance ended.' : 'Attendance now follows the class time automatically.');
+  });
 }
+function drawPresentCtl() { const el = $('#qpCtl'); if (!el) return; const on = S.cl.checkin.open; el.innerHTML = `<span class="qp-state ${on ? 'on' : ''}">${on ? 'Attendance open' : 'Attendance closed'}</span>${on ? `<button class="btn btn-danger" onclick="setAttMode('Closed',this)"><i class="fa-solid fa-stop me-1"></i>End</button>` : `<button class="btn btn-success" onclick="setAttMode('Open',this)"><i class="fa-solid fa-play me-1"></i>Start</button>`}`; }
 function posterHtml(kind, W, H) {
   ensureDesignFonts();
   const r = S.cl, c = r.cls, k = LINK_KINDS.find(x => x[0] === kind), url = r.links[kind], s = S.pub.settings;
@@ -3998,8 +4020,9 @@ function presentQr(kind) {
   ov.innerHTML = `<button class="qp-x" onclick="closePresent()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
     <div class="qp-in"><div class="qp-t">${esc(k[3])}</div><div class="qp-s">${esc(r.cls.title)} · ${esc(r.cls.programme)}</div>
     <div class="qp-qr"><img src="${qrData(r.links[kind])}" alt="QR code"></div>
-    ${kind === 'attend' ? `<div class="qp-c"><i class="fa-solid fa-user-check me-2"></i><span id="qpCount">${r.counts.checkedIn}</span> of ${r.counts.enrolled} checked in</div><div class="qp-s mt-2" id="qpClock"></div>` : `<div class="qp-s">Log in with your student account when asked.</div>`}</div>`;
-  document.body.appendChild(ov);
+    ${kind === 'attend' ? `<div class="qp-c"><i class="fa-solid fa-user-check me-2"></i><span id="qpCount">${r.counts.checkedIn}</span> checked in</div><div class="qp-s mt-2" id="qpClock"></div>` : `<div class="qp-s">No login needed.</div>`}</div>
+    ${kind === 'attend' ? '<div class="qp-ctl" id="qpCtl"></div>' : ''}`;
+  document.body.appendChild(ov); drawPresentCtl();
   try { if (ov.requestFullscreen) ov.requestFullscreen().catch(() => {}); } catch (e) {}
   if (kind === 'attend') {
     S._qpT = setInterval(async () => {
@@ -4008,7 +4031,7 @@ function presentQr(kind) {
     }, 1000);
     S._qpP = setInterval(async () => {
       if (!document.getElementById('qrPresent')) return clearInterval(S._qpP);
-      try { const x = await call('classLinks', { classId: r.cls.id }); S.cl = x; const el = document.getElementById('qpCount'); if (el) el.textContent = x.counts.checkedIn; } catch (e) {}
+      try { const x = await call('classLinks', { classId: r.cls.id }); S.cl = x; const el = document.getElementById('qpCount'); if (el) el.textContent = x.counts.checkedIn; drawPresentCtl(); } catch (e) {}
     }, 8000);
   }
 }
@@ -4170,6 +4193,52 @@ async function quizResults(id) {
     $('#mFoot').style.display = '';
     $('#mFoot').innerHTML = `<button class="btn btn-light" onclick="exportCSV('quiz-results',S.qzr.attempts,[['name','Student'],['email','Email'],['score','Score'],['total','Total'],['percent','Percent'],['passed','Passed'],['overtime','Overtime'],['startedAt','Started'],['submittedAt','Submitted']])"><i class="fa-solid fa-file-csv me-1"></i>Export CSV</button>`;
   } catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
+}
+
+function renderHubPage() {
+  S.view = 'hub';
+  const u = S.user;
+  $('#app').innerHTML = `<div style="min-height:100vh;background:var(--bg)"><div class="hub-top"><div class="container d-flex align-items-center justify-content-between gap-2 py-2" style="max-width:780px"><a class="brand" role="button" onclick="renderPublic()">${brandHtml()}</a>
+      ${u ? `<button class="btn btn-sm btn-light text-nowrap" onclick="goApp()"><i class="fa-solid fa-gauge-high me-1"></i>Dashboard</button>` : `<div class="d-flex gap-1"><button class="btn btn-sm btn-light text-nowrap" onclick="openAuth('login')">Sign in</button>${S.pub && S.pub.registrationOpen !== false ? `<button class="btn btn-sm btn-grad text-nowrap" onclick="openAuth('register')">Register</button>` : ''}</div>`}</div></div>
+    <div class="container py-3" style="max-width:780px" id="hubWrap">${spin()}</div></div>`;
+  S.hubMain = $('#hubWrap');
+  loadHub();
+}
+async function loadHub() {
+  const main = S.hubMain;
+  try {
+    const d = await call('classHub', { classId: S.hub.c, token: S.hub.t });
+    S.hubData = d; S.clockOffset = new Date(d.serverTime) - Date.now();
+    if (!HUB_TABS.some(t => t[0] === S.hub.a)) S.hub.a = d.checkin.open && !d.checkin.record ? 'attend' : d.feedback.open && !d.feedback.mine ? 'feedback' : 'attend';
+    drawHub();
+  } catch (e) { if (main) main.innerHTML = `<div class="center-card"><div class="big-ic ic-red"><i class="fa-solid fa-link-slash"></i></div><h5 class="fw-bold">We couldn't open this class</h5><p class="text-muted">${esc(e.message)}</p><button class="btn btn-light" onclick="renderPublic()">Go to website</button></div>`; }
+}
+function hubReload() { if (S.view === 'hub') return loadHub(); nav('classhub'); }
+function hubAuthCta(why) {
+  const reg = !S.pub || S.pub.registrationOpen !== false;
+  return `<div class="hub-auth"><div class="fw-semibold mb-1">${why}</div><div class="small-muted mb-3">Only registered students' attendance, assignments and quizzes count towards a certificate.</div>
+    <div class="d-grid gap-2 d-sm-flex"><button class="btn btn-grad flex-fill" onclick="openAuth('login')"><i class="fa-solid fa-right-to-bracket me-1"></i>Sign in</button>${reg ? `<button class="btn btn-soft flex-fill" onclick="openAuth('register')"><i class="fa-solid fa-user-plus me-1"></i>Register as a new student</button>` : ''}</div></div>`;
+}
+function hubEnrolCta(d) {
+  const pr = d.programme;
+  return `<div class="hub-auth"><div class="fw-semibold mb-1">You're signed in but not enrolled in ${esc(pr.title)}</div><div class="small-muted mb-3">Enrol to submit assignments, take quizzes and earn the certificate.</div>
+    ${pr.canEnrol && pr.public ? `<button class="btn btn-grad" onclick="enrol('${esc(pr.id)}',this)"><i class="fa-solid fa-graduation-cap me-1"></i>${pr.price > 0 ? 'Enrol · ' + money(pr.price, pr.currency) : 'Enrol for free'}</button>` : `<div class="small text-muted">${esc(pr.reason || 'Contact the academy to enrol.')}</div>`}</div>`;
+}
+function hubGuestForm() {
+  return `<form class="text-start mt-3" onsubmit="event.preventDefault();guestCheckIn(this)"><div class="hub-or"><span>or check in as a guest</span></div>
+    <div class="row g-2"><div class="col-12"><input class="form-control" name="name" required maxlength="120" placeholder="Full name" aria-label="Full name"></div>
+    <div class="col-sm-7"><input class="form-control" type="email" name="email" required placeholder="Email address" aria-label="Email address"></div><div class="col-sm-5"><input class="form-control" name="phone" maxlength="30" placeholder="Phone (optional)" aria-label="Phone"></div>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+    <div class="col-12 d-grid"><button class="btn btn-light btn-lg" type="submit"><i class="fa-solid fa-clipboard-user me-2"></i>Check in as guest</button></div></div>
+    <div class="small-muted mt-2"><i class="fa-solid fa-circle-info me-1"></i>Guest attendance is recorded but doesn't count towards a certificate. If you register later with the same email, it will be added to your record.</div></form>`;
+}
+async function guestCheckIn(f) {
+  const btn = $('button[type=submit]', f);
+  await busy(btn, async () => {
+    const r = await call('classCheckIn', { classId: S.hub.c, token: S.hub.t, name: f.name.value, email: f.email.value, phone: f.phone.value, website: f.website.value });
+    S.hubData.checkin.record = r.record; S.hubGuestRec = r.record; S.hubGuest = { name: f.name.value, email: f.email.value };
+    toast(r.already ? 'You were already checked in.' : 'Checked in! ✅'); drawHub();
+  });
 }
 
 async function init() {
