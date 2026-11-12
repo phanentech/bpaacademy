@@ -396,6 +396,12 @@ img,video,canvas{max-width:100%}
 .join-hero-in{position:relative;padding:2rem 1.6rem}.join-hero h1{font-size:clamp(1.6rem,4vw,2.4rem);color:#fff}
 .join-chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.25rem .7rem;font-size:.78rem;font-weight:600}
 .jp-logo{background:#fff;border-radius:10px;padding:6px 10px;display:inline-flex;align-items:center}.jp-logo img{height:34px;max-width:130px;object-fit:contain}
+.ins-card{border:1px solid var(--line);border-radius:14px;padding:.85rem;background:#fff;height:100%;display:flex;flex-direction:column;justify-content:space-between}
+.em-steps{display:flex;gap:.4rem;flex-wrap:wrap}.em-steps button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:.45rem 1rem;font-weight:600;font-size:.88rem;color:#334155}.em-steps button.on{background:var(--grad);color:#fff;border-color:transparent}
+.em-frame-wrap{background:#f1f5f9;border-radius:12px;padding:10px;display:flex;justify-content:center}
+.em-frame{width:100%;height:760px;border:0;border-radius:10px;background:#f1f5f9}.em-frame.mob{width:375px;max-width:100%}
+.aud-count{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:.7rem 1rem}
+@media (max-width:575.98px){.em-frame{height:620px}}
 </style>
 </head>
 <body>
@@ -533,8 +539,8 @@ function callHttp(action, payload) {
     catch (e) { throw new Error('The backend returned an unexpected response. Check BACKEND_URL and that the web app is deployed with access for "Anyone".'); }
   });
 }
-const READS = new Set(['publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff', 'couponList', 'partnerList', 'myQuizzes', 'quizList']);
-const NO_DIRTY = new Set(['batch', 'validateCoupon', 'getMaterialFile', 'getVideo', 'getAssignmentFile', 'getCertificateData', 'getStaffFile', 'getTransferProof', 'transferInfo', 'aiTutor', 'aiGenerate', 'aiTestModel', 'imageData', 'verifyCertificate', 'certCandidates', 'classHub', 'classLinks', 'classFeedback', 'quizResults', 'quizStart', 'markNotificationsRead', 'joinClass', 'login', 'register', 'logout', 'forgotPassword']);
+const READS = new Set(['publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff', 'couponList', 'partnerList', 'myQuizzes', 'quizList', 'emailList']);
+const NO_DIRTY = new Set(['batch', 'validateCoupon', 'getMaterialFile', 'getVideo', 'getAssignmentFile', 'getCertificateData', 'getStaffFile', 'getTransferProof', 'transferInfo', 'aiTutor', 'aiGenerate', 'aiTestModel', 'imageData', 'verifyCertificate', 'certCandidates', 'emailAudience', 'emailGet', 'emailReport', 'emailInsights', 'trackClick', 'classHub', 'classLinks', 'classFeedback', 'quizResults', 'quizStart', 'markNotificationsRead', 'joinClass', 'login', 'register', 'logout', 'forgotPassword']);
 const RC = { mem: {}, at: {}, uid: '', dirty: 0, pending: {} };
 function rcKey(a, p) { return a + '|' + JSON.stringify(p || {}); }
 function saveUser() { try { if (S.user) store.set('bpa_user', JSON.stringify(S.user)); } catch (e) {} }
@@ -627,6 +633,7 @@ function call(action, payload) {
       return r.data;
     }
     if (r && r.code === 'AUTH' && S.user) forceLogout(r.error);
+    if (r && r.error === 'Unknown action.') throw new Error('This feature needs the latest Code.gs. In Apps Script: paste the new Code.gs, then Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy. ("' + action + '" is missing on the server.)');
     throw new Error((r && r.error) || 'Something went wrong. Please try again.');
   });
 }
@@ -1210,7 +1217,7 @@ const ADMIN_MENU = [
   ['Learning'], ['programmes', 'Programmes', 'fa-book', 1], ['categories', 'Course Categories', 'fa-layer-group'], ['tutorials', 'Academic Tutorials', 'fa-graduation-cap'],
   ['enrolments', 'Enrolments', 'fa-user-check'], ['payments', 'Payments', 'fa-credit-card'], ['coupons', 'Coupons & Promos', 'fa-ticket'], ['materials', 'Learning Materials', 'fa-folder-open', 1],
   ['classes', 'Live Classes', 'fa-video', 1], ['recordings', 'Class Recordings', 'fa-circle-play', 1], ['assignments', 'Assignments', 'fa-file-pen', 1], ['quizzes', 'Quizzes', 'fa-circle-question', 1], ['certificates', 'Certificates', 'fa-award'],
-  ['Engagement'], ['flyers', 'Flyer Studio', 'fa-palette', 1], ['announcements', 'Announcements', 'fa-bullhorn', 1], ['testimonials', 'Testimonials', 'fa-quote-left'], ['website', 'Website Content', 'fa-globe'],
+  ['Engagement'], ['emails', 'Email Marketing', 'fa-envelope-open-text'], ['flyers', 'Flyer Studio', 'fa-palette', 1], ['announcements', 'Announcements', 'fa-bullhorn', 1], ['testimonials', 'Testimonials', 'fa-quote-left'], ['website', 'Website Content', 'fa-globe'],
   ['System'], ['ai', 'AI Models', 'fa-robot'], ['reports', 'Reports', 'fa-chart-column'], ['settings', 'System Settings', 'fa-sliders'], ['profile', 'My Profile', 'fa-user-gear', 1]
 ];
 function toggleUserMenu(ev) { ev.stopPropagation(); const m = $('#userMenu'); if (m) m.classList.toggle('show'); }
@@ -1264,7 +1271,7 @@ function bottomNav(kind) {
   return `<nav class="bnav" aria-label="Main">${tabs.map(t => `<a data-tab="${t[0]}" onclick="nav('${t[0]}')"><i class="fa-solid ${t[2]}"></i><span>${t[1]}</span></a>`).join('')}<a data-tab="more" onclick="toggleSb(true)"><i class="fa-solid fa-grip"></i><span>More</span></a></nav>`;
 }
 function toggleSb(open) { const sb = $('#sidebar'), bk = $('#sbBack'); if (sb) sb.classList.toggle('open', open); if (bk) bk.classList.toggle('show', open); }
-const TITLES = { classhub: 'Class', quizzes: 'Quizzes', coupons: 'Coupons & Promos', flyers: 'Flyer Studio', tutor: 'AI Study Assistant', ai: 'AI Models', overview: 'Dashboard', learning: 'My Learning', materials: 'My Learning Materials', classes: 'My Classes', recordings: 'Recorded Classes', assignments: 'Assignments', certificates: 'Certificates', history: 'Learning History', payments: 'Payments', announcements: 'Announcements', catalog: 'Browse Programmes', profile: 'My Profile', course: 'Course', dashboard: 'Dashboard', students: 'Students', programmes: 'Programmes', categories: 'Course Categories', tutorials: 'Academic Tutorials', enrolments: 'Enrolments', testimonials: 'Testimonials', website: 'Website Content', reports: 'Reports', settings: 'System Settings' };
+const TITLES = { emails: 'Email Marketing', classhub: 'Class', quizzes: 'Quizzes', coupons: 'Coupons & Promos', flyers: 'Flyer Studio', tutor: 'AI Study Assistant', ai: 'AI Models', overview: 'Dashboard', learning: 'My Learning', materials: 'My Learning Materials', classes: 'My Classes', recordings: 'Recorded Classes', assignments: 'Assignments', certificates: 'Certificates', history: 'Learning History', payments: 'Payments', announcements: 'Announcements', catalog: 'Browse Programmes', profile: 'My Profile', course: 'Course', dashboard: 'Dashboard', students: 'Students', programmes: 'Programmes', categories: 'Course Categories', tutorials: 'Academic Tutorials', enrolments: 'Enrolments', testimonials: 'Testimonials', website: 'Website Content', reports: 'Reports', settings: 'System Settings' };
 async function nav(sec, arg, silent) {
   const host = $('#main'); if (!host) return;
   if (silent && (!host.firstElementChild || S.sec !== sec)) return;
@@ -4330,6 +4337,281 @@ async function enrolPrivate(pid, code, btn) {
   enrol(pid, btn);
 }
 
+const EM_TEMPLATES = {
+  course: { name: 'New course announcement', icon: 'fa-bullhorn', desc: 'Launch a course with image, outcomes and an enrol button.' },
+  coupon: { name: 'Coupon / promo', icon: 'fa-ticket', desc: 'Big discount code, deadline and a claim button.' },
+  recommend: { name: 'Smart recommendation', icon: 'fa-wand-magic-sparkles', desc: 'Each person gets the next course that matches what they did.' },
+  reminder: { name: 'Reminder / last chance', icon: 'fa-hourglass-half', desc: 'Bring back people who almost enrolled.' },
+  event: { name: 'Webinar / class invite', icon: 'fa-calendar-check', desc: 'Date, time, speaker and a reserve-my-seat button.' },
+  welcome: { name: 'Welcome & top courses', icon: 'fa-hand-sparkles', desc: 'Greet new sign-ups and show popular courses.' },
+  newsletter: { name: 'Announcement / newsletter', icon: 'fa-newspaper', desc: 'Free-form update with image and button.' }
+};
+const AUD_TYPES = [
+  ['all_students', 'All students', 'Every active student account.'],
+  ['enrolled', 'Enrolled in…', 'Students enrolled in the programmes you pick (or any).'],
+  ['completed', 'Completed…', 'Students who finished the programmes you pick (or any).'],
+  ['not_enrolled', 'Not enrolled in…', 'Students not yet in the programmes you pick. Best for promotions.'],
+  ['never_enrolled', 'Registered, never enrolled', 'Signed up but never joined a course.'],
+  ['free_completers', 'Finished a free course', 'Completed a free course and never paid for one. Each gets a matching recommendation.'],
+  ['abandoned', 'Abandoned checkout', 'Started paying but didn\'t finish (last N days).'],
+  ['inactive', 'Inactive learners', 'Enrolled, but no activity in the last N days.'],
+  ['guests', 'Class guests (no account)', 'People who checked in or gave feedback as guests.'],
+  ['manual', 'Paste a list', 'Any emails, one per line (e.g. Ada Obi <ada@mail.com>).']
+];
+function emDefaults(tpl, o) {
+  o = o || {};
+  const P = S.pub || {}, ac = P.settings ? P.settings.ACADEMY_NAME : '';
+  const pr = o.programmeId ? findProg(o.programmeId) : null, cp = o.couponCode ? emCoupon(o.couponCode) : null;
+  const base = { greeting: true, accent: '#4f46e5', image: '', bullets: '', eyebrow: '', programmeId: o.programmeId || '', couponCode: o.couponCode || '', programmes: [], eventWhen: '', eventWhere: 'Online (Google Meet)', speaker: '', buttonUrl: '', ps: '' };
+  const D = {
+    course: { eyebrow: 'NEW COURSE', subject: pr ? 'New: ' + pr.title + ' is now open' : 'A new course just opened', preheader: pr ? (pr.short || 'Limited seats in this cohort.') : 'Seats are limited.', heading: pr ? pr.title : 'Introducing our newest course', body: (pr && pr.short ? pr.short + '\n\n' : '') + 'This is a practical, hands-on programme designed to give you skills you can use at work **from the very first week**. Seats are limited, so secure yours early.', bullets: pr ? String(pr.objectives || '').split('\n').filter(Boolean).slice(0, 5).join('\n') : '', image: pr ? pr.cover || '' : '', buttonText: 'Enrol now' },
+    coupon: { eyebrow: 'LIMITED-TIME OFFER', subject: cp ? cp.label + ' with code ' + cp.code + ' 🎁' : 'A special offer just for you 🎁', preheader: cp && cp.expiresAt ? 'Ends ' + fdate(cp.expiresAt) + '. Don\'t miss it.' : 'For a limited time only.', heading: cp ? (cp.headline || 'Save ' + cp.label.replace(/ OFF$/, '') + ' on your next course') : 'Save on your next course', body: 'We\'re giving you a special discount to help you take the next step in your career. Use the code below at checkout. **It\'s only available for a short time.**', buttonText: 'Claim my discount' },
+    recommend: { eyebrow: 'PICKED FOR YOU', subject: '{{first_name}}, your next step after {{last_course}}', preheader: 'We found a course that builds on what you just learned.', heading: 'Ready for your next step?', body: 'Congratulations on completing **{{last_course}}**! 🎉 You\'ve built a great foundation.\n\nBased on what you\'ve learned, we think **{{rec_title}}** is the perfect next step to grow your skills and stand out.', buttonText: 'View the course' },
+    reminder: { eyebrow: 'DON\'T MISS OUT', subject: pr ? pr.title + ': your seat is waiting' : '{{first_name}}, you were so close 👀', preheader: 'Complete your enrolment before seats run out.', heading: 'You\'re one step away', body: pr ? pr.title + ' starts soon and seats are filling up. Complete your enrolment today so you don\'t miss the first class.' : 'You started enrolling in **{{rec_title}}** but didn\'t finish. Your seat is still waiting, but not for long.', buttonText: 'Complete my enrolment' },
+    event: { eyebrow: 'FREE LIVE WEBINAR', subject: 'You\'re invited: free live webinar', preheader: 'Join us live. Seats are limited.', heading: 'Join our free live webinar', body: 'Spend an hour with us learning practical skills you can apply immediately. Bring your questions: there will be a live Q&A at the end.', buttonText: 'Reserve my seat' },
+    welcome: { eyebrow: 'WELCOME', subject: 'Welcome to ' + ac + ', {{first_name}} 👋', preheader: 'Here are the courses our students love most.', heading: 'Welcome to ' + ac + '!', body: 'We\'re so glad you joined. Our programmes are practical, live and taught by people who do this work every day.\n\nHere are a few of our most popular courses to get you started:', buttonText: 'Browse all courses', programmes: ((P.programmes || []).filter(x => x.featured).concat(P.programmes || [])).map(x => x.id).filter((v, i, a) => a.indexOf(v) === i).slice(0, 3) },
+    newsletter: { eyebrow: '', subject: 'News from ' + ac, preheader: 'A quick update for you.', heading: 'A quick update', body: 'Write your update here.', buttonText: 'Learn more' }
+  };
+  return Object.assign(base, D[tpl] || D.newsletter);
+}
+function emCoupon(code) {
+  if (!code) return null;
+  const c = (S.emCoupons || []).find(x => x.Code === code);
+  if (c) return { code: c.Code, label: c.Label, headline: c.Headline, expiresAt: c.ExpiresISO, programmeIds: String(c.ProgrammeIDs || '').split(',').filter(Boolean) };
+  return ((S.pub && S.pub.promos) || []).find(x => x.code === code) || null;
+}
+function emBadge(st) { const m = { Draft: 'bs-secondary', Scheduled: 'bs-info', Sending: 'bs-warning', Sent: 'bs-success', Stopped: 'bs-danger' }; return `<span class="badge-s ${m[st] || 'bs-secondary'}">${esc(st)}</span>`; }
+function emCourseLink(pid, coupon) { return appBase() + '?page=course&id=' + encodeURIComponent(pid) + (coupon ? '&coupon=' + encodeURIComponent(coupon) : ''); }
+function emText(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').split(/\n\s*\n/).map(p => `<p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:#334155">${p.replace(/\n/g, '<br>')}</p>`).join(''); }
+function emBtn(text, url, accent) { return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 6px"><tr><td style="border-radius:10px;background:${accent}"><a href="${esc(url)}" style="display:inline-block;padding:14px 30px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:10px">${esc(text)}</a></td></tr></table>`; }
+function emRow(inner, pad) { return `<tr><td style="padding:${pad || '0 32px'}">${inner}</td></tr>`; }
+function emProgCard(p, accent, merge) {
+  const t = merge ? { title: '{{rec_title}}', desc: '{{rec_desc}}', price: '{{rec_price}}', image: '{{rec_image}}', meta: '{{rec_duration}}' } : { title: p.title, desc: p.short || '', price: p.price > 0 ? money(p.price, p.currency) : 'Free', image: p.cover || '', meta: [p.duration, p.startDate ? 'Starts ' + fdate(p.startDate) : '', p.format].filter(Boolean).join(' · ') };
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin:6px 0 18px">${t.image ? `<tr><td><img src="${esc(t.image)}" width="534" style="display:block;width:100%;max-height:220px;object-fit:cover;border:0" alt=""></td></tr>` : ''}
+    <tr><td style="padding:18px 20px"><div style="font-size:19px;font-weight:bold;color:#0f172a;margin-bottom:6px">${esc(t.title)}</div>${t.desc ? `<div style="font-size:14px;line-height:1.55;color:#475569;margin-bottom:10px">${esc(t.desc)}</div>` : ''}
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="font-size:13px;color:#64748b">${esc(t.meta)}</td><td align="right" style="font-size:18px;font-weight:bold;color:${accent}">${esc(t.price)}</td></tr></table></td></tr></table>`;
+}
+function emailHtml(tpl, c, subject, preheader) {
+  const P = S.pub || {}, st = P.settings || {}, A = c.accent || '#4f46e5', logo = safeUrl(st.LOGO_URL);
+  const pr = c.programmeId ? findProg(c.programmeId) : null, cp = c.couponCode ? emCoupon(c.couponCode) : null;
+  const url = c.buttonUrl || (tpl === 'recommend' ? '{{rec_link}}' : tpl === 'reminder' && !pr ? '{{rec_link}}' : pr ? emCourseLink(pr.id, c.couponCode) : appBase() + (c.couponCode ? '?coupon=' + encodeURIComponent(c.couponCode) : ''));
+  const rows = [];
+  if (tpl === 'course' && (c.image || (pr && pr.cover))) rows.push(`<tr><td><img src="${esc(c.image || pr.cover)}" width="600" style="display:block;width:100%;max-height:300px;object-fit:cover;border:0" alt=""></td></tr>`);
+  if (tpl === 'newsletter' && c.image) rows.push(`<tr><td><img src="${esc(c.image)}" width="600" style="display:block;width:100%;border:0" alt=""></td></tr>`);
+  if (c.eyebrow) rows.push(emRow(`<div style="display:inline-block;background:${A}1a;color:${A};font-size:12px;font-weight:bold;letter-spacing:2px;padding:6px 12px;border-radius:99px">${esc(c.eyebrow)}</div>`, '28px 32px 0'));
+  rows.push(emRow(`<h1 style="margin:14px 0 12px;font-size:28px;line-height:1.25;color:#0f172a">${esc(c.heading)}</h1>`, '0 32px'));
+  if (tpl === 'coupon' && cp) rows.push(emRow(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#0b1b3f,${A});background-color:#1e1b4b;border-radius:16px;margin:4px 0 20px"><tr><td align="center" style="padding:26px 20px;color:#ffffff"><div style="font-size:42px;font-weight:bold;letter-spacing:1px">${esc(cp.label)}</div>
+    <div style="margin:14px auto 8px;display:inline-block;border:2px dashed #ffffff;border-radius:10px;padding:10px 22px;font-size:24px;font-weight:bold;letter-spacing:3px;font-family:'Courier New',monospace">${esc(cp.code)}</div>${cp.expiresAt ? `<div style="font-size:14px;color:#c7d2fe">Offer ends ${esc(fdt(cp.expiresAt))}</div>` : ''}</td></tr></table>`));
+  if (tpl === 'event') rows.push(emRow(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;margin:4px 0 18px"><tr><td style="padding:16px 20px;font-size:15px;line-height:1.8;color:#0f172a">${c.eventWhen ? `📅 <b>${esc(c.eventWhen)}</b><br>` : ''}${c.eventWhere ? `📍 ${esc(c.eventWhere)}<br>` : ''}${c.speaker ? `🎤 ${esc(c.speaker)}` : ''}</td></tr></table>`));
+  rows.push(emRow((c.greeting ? `<p style="margin:0 0 14px;font-size:16px;color:#334155">Hi {{first_name}},</p>` : '') + emText(c.body)));
+  if (c.bullets && String(c.bullets).trim()) rows.push(emRow(`<div style="font-size:15px;font-weight:bold;color:#0f172a;margin:4px 0 8px">What you'll learn</div><table role="presentation" cellpadding="0" cellspacing="0">${String(c.bullets).split('\n').map(x => x.replace(/^[-•*\s]+/, '').trim()).filter(Boolean).map(b => `<tr><td valign="top" style="padding:3px 10px 3px 0;color:${A};font-weight:bold">✓</td><td style="padding:3px 0;font-size:15px;color:#334155">${esc(b)}</td></tr>`).join('')}</table>`, '4px 32px 10px'));
+  if (tpl === 'course' && pr) rows.push(emRow(`<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0 14px"><tr>${[pr.startDate ? ['Starts', fdate(pr.startDate)] : null, pr.duration ? ['Duration', pr.duration] : null, pr.format ? ['Format', pr.format] : null, ['Fee', pr.price > 0 ? money(pr.price, pr.currency) : 'Free']].filter(Boolean).map(x => `<td style="padding:0 18px 0 0"><div style="font-size:12px;color:#64748b">${esc(x[0])}</div><div style="font-size:15px;font-weight:bold;color:#0f172a">${esc(x[1])}</div></td>`).join('')}</tr></table>`));
+  if (tpl === 'recommend' || (tpl === 'reminder' && !pr)) rows.push(emRow(emProgCard(null, A, true)));
+  if ((tpl === 'reminder' || tpl === 'coupon') && pr) rows.push(emRow(emProgCard(pr, A)));
+  if (tpl === 'reminder' && cp) rows.push(emRow(`<div style="background:#fef3c7;border:1px dashed #f59e0b;border-radius:12px;padding:12px 16px;font-size:15px;color:#92400e;margin:0 0 16px">🎁 Use code <b style="letter-spacing:1px">${esc(cp.code)}</b> for ${esc(cp.label)}${cp.expiresAt ? ' (ends ' + esc(fdate(cp.expiresAt)) + ')' : ''}.</div>`));
+  if (tpl === 'welcome') (c.programmes || []).map(findProg).filter(Boolean).forEach(p => rows.push(emRow(`<a href="${esc(emCourseLink(p.id))}" style="text-decoration:none">${emProgCard(p, A)}</a>`)));
+  rows.push(emRow(emBtn(c.buttonText || 'Learn more', url, A), '6px 32px 10px'));
+  if (c.ps) rows.push(emRow(`<p style="margin:12px 0 0;font-size:14px;color:#64748b"><b>P.S.</b> ${esc(c.ps)}</p>`));
+  rows.push(emRow(`<p style="margin:22px 0 0;font-size:15px;color:#334155">Warm regards,<br><b>The ${esc(st.ACADEMY_NAME || '')} team</b></p>`, '0 32px 30px'));
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(subject || '')}<\/title><\/head><body style="margin:0;padding:0;background:#f1f5f9">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${esc(preheader || '')}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9"><tr><td align="center" style="padding:24px 12px">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:#0f172a">
+<tr><td style="padding:20px 32px;border-bottom:1px solid #eef2f7"><table role="presentation" cellpadding="0" cellspacing="0"><tr>${logo ? `<td style="padding-right:12px"><img src="${esc(logo)}" height="40" style="display:block;height:40px;border:0" alt=""></td>` : ''}<td style="font-size:18px;font-weight:bold;color:#0f172a">${esc(st.ACADEMY_NAME || '')}</td></tr></table></td></tr>
+${rows.join('\n')}
+</table>
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%"><tr><td align="center" style="padding:18px 24px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#64748b">
+${esc(st.ACADEMY_NAME || '')}${st.CONTACT_EMAIL ? ' · ' + esc(st.CONTACT_EMAIL) : ''}${st.CONTACT_PHONE ? ' · ' + esc(st.CONTACT_PHONE) : ''}<br>You're receiving this because you signed up or attended a class with us.<br><a href="{{unsubscribe_url}}" style="color:#64748b">Unsubscribe</a></td></tr></table>
+</td></tr></table><\/body><\/html>`;
+}
+function emSample() {
+  const P = S.pub || {}, all = (P.programmes || []).concat(P.tutorials || []);
+  const rec = all.find(p => p.price > 0) || all[0] || { title: 'Power BI for Professionals', short: 'Turn data into decisions.', price: 75000, currency: 'NGN', cover: '', duration: '6 weeks', id: '' };
+  const last = all.find(p => !(p.price > 0)) || { title: 'Excel Essentials' };
+  return { first_name: 'Ada', name: 'Ada Obi', academy: (P.settings || {}).ACADEMY_NAME || '', last_course: last.title, rec_title: rec.title, rec_desc: rec.short || '', rec_price: rec.price > 0 ? money(rec.price, rec.currency) : 'Free', rec_image: rec.cover || '', rec_duration: rec.duration || '', rec_link: rec.id ? emCourseLink(rec.id) : appBase(), unsubscribe_url: '#', year: String(new Date().getFullYear()) };
+}
+function emPreviewHtml(html) { const d = emSample(); return html.replace(/\{\{\s*([a-z_]+)\s*\}\}/gi, (m, k) => esc(d[k.toLowerCase()] == null ? '' : d[k.toLowerCase()])).replace(/<img[^>]*src=""[^>]*>/g, ''); }
+
+ADMIN_PAGES.emails = async function (main, arg) {
+  S.emMain = main;
+  const res = await Promise.all([rcall('emailList'), loadLookups(), rcall('couponList').catch(() => ({ coupons: [] }))]);
+  if (!document.body.contains(main)) return;
+  S.emData = res[0]; S.emCoupons = (res[2].coupons || []).filter(c => c.State === 'Active' || c.State === 'Scheduled');
+  if (S.em && (arg === 'edit' || S.sec === 'emails' && S.em._open)) return drawEmEditor();
+  drawEmails();
+  if (!S.emInsights) { try { S.emInsights = await call('emailInsights'); } catch (e) { S.emInsights = []; } drawEmInsights(); }
+  else drawEmInsights();
+};
+function drawEmails() {
+  const d = S.emData, main = S.emMain, L = d.campaigns;
+  const sent = L.filter(c => c.Status === 'Sent'), tot = k => L.reduce((a, c) => a + Number(c[k] || 0), 0);
+  main.innerHTML = pageHead('<i class="fa-solid fa-envelope-open-text text-primary me-2"></i>Email Marketing', 'Pick a template, customise it and send it to the right people. Smart suggestions find who to email right now.', `<span class="badge-s ${d.quota > 50 ? 'bs-success' : 'bs-warning'} align-self-center" title="Emails Google lets this account send today"><i class="fa-solid fa-gauge me-1"></i>${d.quota} sends left today</span><button class="btn btn-grad" onclick="emNew('newsletter')"><i class="fa-solid fa-plus me-1"></i>New email</button>`) + `
+    <div class="row g-3 mb-4"><div class="col-6 col-lg-3">${statCard('fa-paper-plane', 'purple', sent.length, 'Campaigns sent')}</div><div class="col-6 col-lg-3">${statCard('fa-envelope', 'blue', tot('Sent'), 'Emails delivered')}</div><div class="col-6 col-lg-3">${statCard('fa-arrow-pointer', 'green', tot('Clicks'), 'People who clicked')}</div><div class="col-6 col-lg-3">${statCard('fa-user-slash', 'amber', d.unsubscribed, 'Unsubscribed')}</div></div>
+    <div class="card-x mb-4"><h6 class="ttl flex-wrap"><i class="fa-solid fa-brain text-primary"></i>Smart suggestions<span class="small-muted fw-normal">Who to email right now, with a ready-made draft.</span></h6><div id="emIns">${S.emInsights ? '' : spin()}</div></div>
+    <div class="card-x mb-4"><h6 class="ttl"><i class="fa-solid fa-swatchbook text-primary"></i>Start from a template</h6><div class="row g-2">${Object.keys(EM_TEMPLATES).map(k => `<div class="col-6 col-md-4 col-xl-3"><button type="button" class="cpn-preset" onclick="emNew('${k}')"><span class="em text-primary"><i class="fa-solid ${EM_TEMPLATES[k].icon}"></i></span><span class="min-w-0"><span class="d-block fw-bold small">${esc(EM_TEMPLATES[k].name)}</span><span class="d-block small-muted">${esc(EM_TEMPLATES[k].desc)}</span></span></button></div>`).join('')}</div></div>
+    <div class="card-x p-0"><div class="p-3 pb-0"><h6 class="fw-bold mb-0">Campaigns</h6></div>${L.length ? `<div class="tbl-wrap border-0"><table class="tbl"><thead><tr><th>Campaign</th><th>Status</th><th>Recipients</th><th>Sent</th><th>Clicks</th><th>Date</th><th></th></tr></thead><tbody>${L.map(c => `<tr><td><div class="fw-semibold">${esc(c.Name)}</div><div class="small-muted text-truncate" style="max-width:320px">${esc(c.Subject)}</div></td><td>${emBadge(c.Status)}</td><td>${Number(c.Total) || '—'}</td><td>${Number(c.Sent) || 0}${Number(c.Failed) ? ` <span class="small text-danger">(${c.Failed} failed)</span>` : ''}</td><td>${Number(c.Clicks) || 0}${Number(c.Sent) ? ` <span class="small-muted">(${Math.round(Number(c.Clicks || 0) / Number(c.Sent) * 100)}%)</span>` : ''}</td><td class="small">${c.SentAt ? fdt(c.SentAt) : c.ScheduledAt ? 'Scheduled ' + fdt(c.ScheduledAt) : fdt(c.UpdatedAt || c.CreatedAt)}</td>
+      <td><div class="act">${c.Status === 'Draft' || c.Status === 'Scheduled' ? `<button class="btn btn-grad" title="Edit" onclick="emOpen('${esc(c.CampaignID)}')"><i class="fa-solid fa-pen"></i></button>` : `<button class="btn btn-soft" title="Report" onclick="emReport('${esc(c.CampaignID)}')"><i class="fa-solid fa-chart-column"></i></button>`}${c.Status === 'Sending' ? `<button class="btn btn-success" title="Continue sending" onclick="emResume('${esc(c.CampaignID)}',this)"><i class="fa-solid fa-play"></i></button>` : ''}${c.Status === 'Sending' || c.Status === 'Scheduled' ? `<button class="btn btn-light text-danger" title="Stop" onclick="emStop('${esc(c.CampaignID)}')"><i class="fa-solid fa-stop"></i></button>` : ''}<button class="btn btn-light" title="Duplicate" onclick="emOpen('${esc(c.CampaignID)}',true)"><i class="fa-solid fa-copy"></i></button>${c.Status !== 'Sending' ? `<button class="btn btn-light text-danger" title="Archive" onclick="emArchive('${esc(c.CampaignID)}')"><i class="fa-solid fa-box-archive"></i></button>` : ''}</div></td></tr>`).join('')}</tbody></table></div>` : `<div class="p-3">${empty('fa-envelope-open-text', 'No campaigns yet', 'Start from a smart suggestion or a template above.')}</div>`}</div>`;
+}
+function drawEmInsights() {
+  const el = $('#emIns'); if (!el) return;
+  const L = S.emInsights || [];
+  el.innerHTML = L.length ? `<div class="row g-2">${L.map((x, i) => `<div class="col-md-6 col-xl-4"><div class="ins-card"><div class="d-flex gap-2 align-items-start"><span class="ic ic-${x.color} flex-shrink-0" style="width:38px;height:38px;border-radius:11px;display:grid;place-items:center"><i class="fa-solid ${x.icon}"></i></span><div class="min-w-0"><div class="fw-bold small">${esc(x.title)}</div><div class="small-muted">${esc(x.text)}</div></div></div>
+    <button class="btn btn-sm btn-grad mt-2 w-100" onclick="emFromInsight(${i})"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Prepare email (${x.count})</button></div></div>`).join('')}</div>`
+    : `<div class="small-muted">Nothing urgent right now. As students finish courses, abandon checkouts or new courses launch, suggestions appear here.</div>`;
+}
+function emNew(tpl, o) {
+  o = o || {};
+  const c = emDefaults(tpl, o);
+  S.em = { _open: 1, CampaignID: '', Name: (EM_TEMPLATES[tpl] || {}).name + ' · ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }), Template: tpl, Kind: o.kind || tpl, Subject: c.subject, Preheader: c.preheader, Content: c, Audience: Object.assign({ type: tpl === 'recommend' ? 'free_completers' : tpl === 'welcome' ? 'never_enrolled' : 'all_students', programmeIds: [], excludeProgrammeIds: [], days: 14, emails: '', couponCode: o.couponCode || '' }, o.audience || {}), step: 'design', aud: null };
+  delete S.em.Content.subject; delete S.em.Content.preheader;
+  if (S.sec === 'emails') drawEmEditor(); else nav('emails', 'edit');
+}
+function emFromInsight(i) { const x = S.emInsights[i]; emNew(x.template, { programmeId: x.programmeId, couponCode: x.couponCode, audience: x.audience, kind: x.kind }); S.em.Name = x.title; if (x.kind === 'reengage') { Object.assign(S.em.Content, { eyebrow: 'WE MISS YOU', heading: 'Your course is waiting for you', body: 'It\'s been a little while since we saw you in **{{last_course}}**. Pick up where you left off: a few minutes today keeps you on track for your **certificate**.', buttonText: 'Continue learning' }); S.em.Subject = '{{first_name}}, pick up where you left off'; drawEmEditor(); } }
+async function emOpen(id, dup) {
+  showLoader('Opening…');
+  try {
+    const c = await call('emailGet', { id }); hideLoader();
+    S.em = { _open: 1, CampaignID: dup ? '' : c.CampaignID, Name: c.Name + (dup ? ' (copy)' : ''), Template: c.Template, Kind: c.Kind, Subject: c.Subject, Preheader: c.Preheader, Content: Object.assign(emDefaults(c.Template), c.content), Audience: Object.assign({ programmeIds: [], excludeProgrammeIds: [], days: 14 }, c.audience), step: 'design', aud: null, _sched: !dup && c.Status === 'Scheduled' ? c.ScheduledAt : '' };
+    drawEmEditor();
+  } catch (e) { hideLoader(); toast(e.message, 'danger'); }
+}
+function emSetC(k, v, redraw) { S.em.Content[k] = v; if (redraw) drawEmEditor(); else emPreview(); }
+function emSet(k, v) { S.em[k] = v; emPreview(); }
+let _emT = 0;
+function emPreview() { clearTimeout(_emT); _emT = setTimeout(() => { const f = $('#emFrame'); if (!f) return; f.srcdoc = emPreviewHtml(emailHtml(S.em.Template, S.em.Content, S.em.Subject, S.em.Preheader)); const sp = $('#emSubjPrev'); if (sp) sp.innerHTML = `<b>${esc(emPreviewHtml(S.em.Subject))}</b> <span class="small-muted">${esc(emPreviewHtml(S.em.Preheader || ''))}</span>`; }, 150); }
+function emField(k, label, type, opts) {
+  const v = S.em.Content[k] == null ? '' : S.em.Content[k];
+  opts = opts || {};
+  if (type === 'textarea') return `<div class="mb-2"><div class="d-flex justify-content-between align-items-end"><label class="form-label small mb-1" for="emf_${k}">${label}</label>${opts.ai ? `<button class="btn btn-link btn-sm p-0" onclick="emAi('${opts.ai}','emf_${k}',this)"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Write with AI</button>` : ''}</div><textarea class="form-control" id="emf_${k}" rows="${opts.rows || 4}" oninput="emSetC('${k}',this.value)">${esc(v)}</textarea>${opts.help ? `<div class="form-text">${opts.help}</div>` : ''}</div>`;
+  return `<div class="mb-2 ${opts.col || ''}"><label class="form-label small mb-1" for="emf_${k}">${label}</label><input class="form-control" id="emf_${k}" type="${type || 'text'}" value="${esc(v)}" oninput="emSetC('${k}',this.value)" placeholder="${esc(opts.ph || '')}">${opts.help ? `<div class="form-text">${opts.help}</div>` : ''}</div>`;
+}
+function emSteps() { const s = S.em.step; return `<div class="em-steps mb-3">${[['design', '1. Design', 'fa-palette'], ['audience', '2. Audience', 'fa-users'], ['send', '3. Review & send', 'fa-paper-plane']].map(x => `<button class="${s === x[0] ? 'on' : ''}" onclick="emStep('${x[0]}')"><i class="fa-solid ${x[2]} me-1"></i>${x[1]}</button>`).join('')}</div>`; }
+function emStep(s) { S.em.step = s; drawEmEditor(); if (s !== 'design' && !S.em.aud) emCheckAud(); }
+function drawEmEditor() {
+  const E = S.em, main = S.emMain; if (!main || !document.body.contains(main)) return;
+  const C = E.Content, progOpts = (S.pub.programmes || []).concat(S.pub.tutorials || []);
+  const tplSel = `<select class="form-select form-select-sm" style="max-width:240px" onchange="emSwitch(this.value)" aria-label="Template">${Object.keys(EM_TEMPLATES).map(k => `<option value="${k}" ${E.Template === k ? 'selected' : ''}>${EM_TEMPLATES[k].name}</option>`).join('')}</select>`;
+  let left = '';
+  if (E.step === 'design') {
+    left = `<div class="card-x mb-3"><div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-2"><span class="fw-bold">Template</span>${tplSel}</div>
+        <label class="form-label small mb-1" for="emName">Campaign name <span class="small-muted">(only you see this)</span></label><input class="form-control mb-2" id="emName" value="${esc(E.Name)}" oninput="S.em.Name=this.value">
+        <div class="d-flex justify-content-between align-items-end"><label class="form-label small mb-1" for="emSubj">Subject line</label>${aiReady() ? `<button class="btn btn-link btn-sm p-0" onclick="emAi('Subject','emSubj',this)"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Write with AI</button>` : ''}</div><input class="form-control mb-2" id="emSubj" maxlength="250" value="${esc(E.Subject)}" oninput="emSet('Subject',this.value)">
+        <div class="d-flex justify-content-between align-items-end"><label class="form-label small mb-1" for="emPre">Preview text <span class="small-muted">(shown after the subject in the inbox)</span></label>${aiReady() ? `<button class="btn btn-link btn-sm p-0" onclick="emAi('Preheader','emPre',this)"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>AI</button>` : ''}</div><input class="form-control" id="emPre" maxlength="250" value="${esc(E.Preheader)}" oninput="emSet('Preheader',this.value)"></div>
+      <div class="card-x mb-3"><h6 class="fw-bold">Content</h6>
+        ${['course', 'coupon', 'reminder', 'event', 'newsletter'].includes(E.Template) ? `<div class="mb-2"><label class="form-label small mb-1" for="emProg">Course to feature ${E.Template === 'reminder' ? '<span class="small-muted">(blank = each person\'s own course)</span>' : ''}</label><select class="form-select" id="emProg" onchange="emPickProg(this.value)"><option value="">— None —</option>${progOpts.map(p => `<option value="${esc(p.id)}" ${C.programmeId === p.id ? 'selected' : ''}>${esc(p.title)}</option>`).join('')}</select></div>` : ''}
+        ${['coupon', 'reminder', 'course', 'recommend'].includes(E.Template) ? `<div class="mb-2"><label class="form-label small mb-1" for="emCpn">Coupon ${E.Template === 'coupon' ? '' : '<span class="small-muted">(optional: added to links)</span>'}</label><select class="form-select" id="emCpn" onchange="emPickCoupon(this.value)"><option value="">— None —</option>${(S.emCoupons || []).map(c => `<option value="${esc(c.Code)}" ${C.couponCode === c.Code ? 'selected' : ''}>${esc(c.Code)} · ${esc(c.Label)}</option>`).join('')}</select>${!(S.emCoupons || []).length ? '<div class="form-text">No active coupons. Create one under Coupons & Promos.</div>' : ''}</div>` : ''}
+        <div class="row g-2">${emField('eyebrow', 'Label above the heading', 'text', { col: 'col-sm-5', ph: 'e.g. NEW COURSE' })}<div class="col-sm-7">${emField('heading', 'Heading')}</div></div>
+        ${E.Template === 'event' ? `<div class="row g-2">${emField('eventWhen', 'Date & time', 'text', { col: 'col-sm-6', ph: 'Sat 22 Nov, 11:00 AM WAT' })}${emField('eventWhere', 'Where', 'text', { col: 'col-sm-6' })}</div>${emField('speaker', 'Speaker / host')}` : ''}
+        <div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" id="emGreet" ${C.greeting ? 'checked' : ''} onchange="emSetC('greeting',this.checked)"><label class="form-check-label small" for="emGreet">Start with "Hi {first name},"</label></div>
+        ${emField('body', 'Message', 'textarea', { rows: 6, ai: aiReady() ? 'Body' : '', help: 'Blank line = new paragraph. **Bold** with double asterisks. Personalise with {{first_name}}' + (['recommend', 'reminder'].includes(E.Template) ? ', {{last_course}}, {{rec_title}}' : '') + '.' })}
+        ${['course', 'newsletter'].includes(E.Template) ? emField('bullets', 'Bullet points (one per line, optional)', 'textarea', { rows: 3 }) : ''}
+        ${['course', 'newsletter'].includes(E.Template) ? emField('image', 'Image link (optional)', 'url', { ph: 'Course cover is used if empty' }) : ''}
+        ${E.Template === 'welcome' ? `<div class="mb-2"><label class="form-label small mb-1">Courses to show (up to 3)</label><div class="border rounded-3 px-2 py-1" style="max-height:150px;overflow:auto">${progOpts.map(p => `<label class="d-flex gap-2 align-items-center py-1 m-0"><input class="form-check-input m-0" type="checkbox" ${(C.programmes || []).includes(p.id) ? 'checked' : ''} onchange="emWelcomeProg('${esc(p.id)}',this.checked)"><span class="small">${esc(p.title)}</span></label>`).join('')}</div></div>` : ''}
+        <div class="row g-2">${emField('buttonText', 'Button text', 'text', { col: 'col-sm-5' })}${emField('buttonUrl', 'Button link (optional)', 'url', { col: 'col-sm-7', ph: 'Auto: course / coupon link' })}</div>
+        ${emField('ps', 'P.S. line (optional)', 'text', { ph: 'e.g. Only 12 seats left at this price.' })}
+        <div class="d-flex align-items-center gap-2"><label class="form-label small mb-0" for="emAcc">Brand colour</label><input type="color" class="form-control form-control-color" id="emAcc" value="${esc(C.accent || '#4f46e5')}" oninput="emSetC('accent',this.value)"></div></div>`;
+  } else if (E.step === 'audience') {
+    const A = E.Audience, needP = ['enrolled', 'completed', 'not_enrolled', 'inactive'].includes(A.type);
+    left = `<div class="card-x mb-3"><h6 class="fw-bold">Who should get this email?</h6><div class="d-grid gap-2">${AUD_TYPES.map(t => `<label class="pm-opt ${A.type === t[0] ? 'on' : ''}"><input type="radio" name="audT" ${A.type === t[0] ? 'checked' : ''} onchange="emAud('type','${t[0]}')"><span class="min-w-0"><span class="d-block fw-semibold small">${t[1]}</span><span class="d-block small-muted">${t[2]}</span></span></label>`).join('')}</div></div>
+      <div class="card-x mb-3">${needP || A.type === 'not_enrolled' ? `<label class="form-label small mb-1">Programmes ${A.type === 'not_enrolled' ? '(people NOT in these)' : '(leave empty for any)'}</label><div class="border rounded-3 px-2 py-1 mb-2" style="max-height:160px;overflow:auto">${(S.lk.programmes || []).map(p => `<label class="d-flex gap-2 align-items-center py-1 m-0"><input class="form-check-input m-0" type="checkbox" ${(A.programmeIds || []).includes(p.id) ? 'checked' : ''} onchange="emAudList('programmeIds','${esc(p.id)}',this.checked)"><span class="small">${esc(p.title)}</span></label>`).join('')}</div>` : ''}
+        ${['abandoned', 'inactive'].includes(A.type) ? `<label class="form-label small mb-1" for="emDays">Look back (days)</label><input class="form-control mb-2" type="number" min="1" max="365" id="emDays" value="${esc(A.days || 14)}" onchange="emAud('days',this.value)">` : ''}
+        ${A.type === 'manual' ? `<label class="form-label small mb-1" for="emList">Email addresses</label><textarea class="form-control mb-2" rows="6" id="emList" placeholder="Ada Obi <ada@mail.com>&#10;tunde@mail.com" onchange="emAud('emails',this.value)">${esc(A.emails || '')}</textarea>` : ''}
+        <label class="form-label small mb-1">Exclude anyone already enrolled in (optional)</label><div class="border rounded-3 px-2 py-1 mb-2" style="max-height:130px;overflow:auto">${(S.lk.programmes || []).map(p => `<label class="d-flex gap-2 align-items-center py-1 m-0"><input class="form-check-input m-0" type="checkbox" ${(A.excludeProgrammeIds || []).includes(p.id) ? 'checked' : ''} onchange="emAudList('excludeProgrammeIds','${esc(p.id)}',this.checked)"><span class="small">${esc(p.title)}</span></label>`).join('')}</div>
+        <div class="small-muted"><i class="fa-solid fa-shield-halved me-1"></i>People who unsubscribed are always left out. Students also get a personal course recommendation in {{rec_title}}.</div></div>`;
+  } else {
+    left = `<div class="card-x mb-3"><h6 class="fw-bold">Summary</h6><dl class="kv mb-0"><dt>Campaign</dt><dd>${esc(E.Name)}</dd><dt>Subject</dt><dd>${esc(E.Subject)}</dd><dt>Template</dt><dd>${esc((EM_TEMPLATES[E.Template] || {}).name)}</dd><dt>Audience</dt><dd>${esc((AUD_TYPES.find(t => t[0] === E.Audience.type) || [])[1] || '')} · <b id="emAudN">${E.aud ? E.aud.count : '…'}</b> people</dd><dt>Daily quota</dt><dd>${S.emData.quota} emails left today</dd></dl>
+        ${E.aud && S.emData.quota < E.aud.count ? `<div class="alert alert-warning small mt-2 mb-0">Google lets this account send ${S.emData.quota} more emails today. The rest go out automatically in the next days (every 15 minutes until done).</div>` : ''}</div>
+      <div class="card-x mb-3"><h6 class="fw-bold">Send a test</h6><div class="input-group"><input class="form-control" id="emTestTo" type="email" value="${esc(S.user.email || '')}" aria-label="Test email address"><button class="btn btn-soft" onclick="emTest(this)"><i class="fa-solid fa-flask me-1"></i>Send test</button></div><div class="form-text">Uses the first recipient's details so you see real personalisation.</div></div>
+      <div class="card-x mb-3"><h6 class="fw-bold">Send</h6><button class="btn btn-grad btn-lg w-100 mb-2" onclick="emSend(this)"><i class="fa-solid fa-paper-plane me-2"></i>Send now${E.aud ? ' to ' + E.aud.count : ''}</button>
+        <div class="d-flex gap-2 align-items-center"><input class="form-control" type="datetime-local" id="emWhen" value="${esc(E._sched ? localInput(new Date(E._sched)) : '')}" aria-label="Schedule time"><button class="btn btn-light text-nowrap" onclick="emSend(this,true)"><i class="fa-regular fa-clock me-1"></i>Schedule</button></div><div id="emProg2" class="mt-3"></div></div>`;
+  }
+  main.innerHTML = pageHead(`<a class="text-decoration-none" role="button" onclick="S.em=null;nav('emails')"><i class="fa-solid fa-arrow-left me-2 text-muted"></i></a>${E.CampaignID ? 'Edit email' : 'New email'}`, esc((EM_TEMPLATES[E.Template] || {}).name || ''), `<button class="btn btn-light" onclick="emSaveDraft(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save draft</button>${E.step !== 'send' ? `<button class="btn btn-grad" onclick="emStep('${E.step === 'design' ? 'audience' : 'send'}')">Next<i class="fa-solid fa-arrow-right ms-1"></i></button>` : ''}`) + emSteps() + `
+    <div class="row g-4"><div class="col-xl-5">${left}</div><div class="col-xl-7"><div class="card-x stick-xl p-2"><div class="d-flex justify-content-between align-items-center px-2 py-1"><div class="small text-truncate" id="emSubjPrev"></div><div class="btn-group btn-group-sm"><button class="btn ${S.emMob ? 'btn-light' : 'btn-soft'}" onclick="S.emMob=0;drawEmEditor()" title="Desktop"><i class="fa-solid fa-desktop"></i></button><button class="btn ${S.emMob ? 'btn-soft' : 'btn-light'}" onclick="S.emMob=1;drawEmEditor()" title="Mobile"><i class="fa-solid fa-mobile-screen"></i></button></div></div>
+      ${E.step === 'audience' ? `<div id="emAudBox" class="p-2"></div>` : ''}<div class="em-frame-wrap"><iframe id="emFrame" title="Email preview" class="em-frame ${S.emMob ? 'mob' : ''}"></iframe></div></div></div></div>`;
+  emPreview();
+  if (E.step === 'audience') drawAudBox();
+}
+function emSwitch(t) { const old = S.em.Content; const n = emDefaults(t, { programmeId: old.programmeId, couponCode: old.couponCode }); S.em.Template = t; S.em.Subject = n.subject; S.em.Preheader = n.preheader; delete n.subject; delete n.preheader; n.accent = old.accent; S.em.Content = n; drawEmEditor(); }
+function emPickProg(id) { const t = S.em.Template, n = emDefaults(t, { programmeId: id, couponCode: S.em.Content.couponCode }); Object.assign(S.em.Content, { programmeId: id, heading: n.heading, body: n.body, bullets: n.bullets, image: '' }); S.em.Subject = n.subject; S.em.Preheader = n.preheader; drawEmEditor(); }
+function emPickCoupon(code) { S.em.Content.couponCode = code; S.em.Audience.couponCode = code; if (S.em.Template === 'coupon') { const n = emDefaults('coupon', { couponCode: code, programmeId: S.em.Content.programmeId }); S.em.Content.heading = n.heading; S.em.Subject = n.subject; S.em.Preheader = n.preheader; const cp = emCoupon(code); if (cp && cp.programmeIds && cp.programmeIds.length === 1 && !S.em.Content.programmeId) S.em.Content.programmeId = cp.programmeIds[0]; } drawEmEditor(); }
+function emWelcomeProg(id, on) { const a = S.em.Content.programmes = S.em.Content.programmes || []; const i = a.indexOf(id); if (on && i < 0 && a.length < 3) a.push(id); if (!on && i >= 0) a.splice(i, 1); drawEmEditor(); }
+function emAud(k, v) { S.em.Audience[k] = v; S.em.aud = null; if (k === 'type') drawEmEditor(); emCheckAud(); }
+function emAudList(k, id, on) { const a = S.em.Audience[k] = S.em.Audience[k] || []; const i = a.indexOf(id); if (on && i < 0) a.push(id); if (!on && i >= 0) a.splice(i, 1); S.em.aud = null; emCheckAud(); }
+let _emA = 0;
+function emCheckAud() { clearTimeout(_emA); const box = $('#emAudBox'); if (box) box.innerHTML = spin(); _emA = setTimeout(async () => { try { S.em.aud = await call('emailAudience', { audience: S.em.Audience }); } catch (e) { S.em.aud = { count: 0, sample: [], error: e.message }; } drawAudBox(); const n = $('#emAudN'); if (n) n.textContent = S.em.aud.count; }, 300); }
+function drawAudBox() {
+  const box = $('#emAudBox'), a = S.em.aud; if (!box) return;
+  if (!a) { box.innerHTML = spin(); return; }
+  box.innerHTML = a.error ? `<div class="alert alert-danger small">${esc(a.error)}</div>` : `<div class="aud-count"><span class="fs-3 fw-bold">${a.count}</span> <span class="text-muted">people will get this email</span>${a.suppressed ? `<span class="small-muted"> · ${a.suppressed} left out (unsubscribed or duplicates)</span>` : ''}</div>
+    ${a.sample.length ? `<div class="small mt-2">${a.sample.map(x => `<div class="d-flex justify-content-between gap-2 border-top py-1"><span class="text-truncate"><b>${esc(x.name || x.email)}</b> <span class="small-muted">${esc(x.email)}</span></span>${x.rec ? `<span class="small text-primary text-truncate" title="Personal recommendation"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>${esc(x.rec)}</span>` : ''}</div>`).join('')}${a.count > a.sample.length ? `<div class="small-muted pt-1">…and ${a.count - a.sample.length} more</div>` : ''}</div>` : ''}`;
+}
+function emRecord() { const E = S.em; return { CampaignID: E.CampaignID, Name: E.Name, Kind: E.Kind, Template: E.Template, Subject: E.Subject, Preheader: E.Preheader, Content: E.Content, Audience: E.Audience, Html: emailHtml(E.Template, E.Content, E.Subject, E.Preheader) }; }
+async function emSaveDraft(btn, quiet) {
+  const go = async () => { const r = await call('emailSave', { record: emRecord() }); S.em.CampaignID = r.id; if (!quiet) toast('Draft saved.'); return r.id; };
+  return btn ? busy(btn, go) : go();
+}
+async function emTest(btn) { await busy(btn, async () => { const r = await call('emailTest', { subject: S.em.Subject, html: emRecord().Html, to: $('#emTestTo').value, audience: S.em.Audience }); toast('Test sent to ' + r.to + '. Check your inbox (and spam).'); }); }
+async function emAi(field, target, btn) {
+  const E = S.em, pr = E.Content.programmeId ? findProg(E.Content.programmeId) : null, cp = E.Content.couponCode ? emCoupon(E.Content.couponCode) : null;
+  await busy(btn, async () => {
+    const r = await call('aiGenerate', { entity: 'Emails', field, modelId: '', instructions: '', current: $('#' + target).value, context: { 'Email type': (EM_TEMPLATES[E.Template] || {}).name, Audience: ((AUD_TYPES.find(t => t[0] === E.Audience.type) || [])[1] || ''), Course: pr ? pr.title + (pr.short ? ': ' + pr.short : '') : '', Price: pr ? (pr.price > 0 ? money(pr.price, pr.currency) : 'Free') : '', Coupon: cp ? cp.code + ' (' + cp.label + ')' : '', Heading: E.Content.heading, Subject: E.Subject } });
+    const v = String(r.text || '').replace(/^["']|["']$/g, '').trim();
+    $('#' + target).value = v;
+    if (target === 'emSubj') S.em.Subject = v; else if (target === 'emPre') S.em.Preheader = v; else S.em.Content.body = v;
+    emPreview(); toast('Written by ' + r.model + '. Edit as you like.');
+  });
+}
+async function emSend(btn, sched) {
+  const when = sched ? $('#emWhen').value : '';
+  if (sched && !when) return toast('Pick the date and time to send.', 'warning');
+  if (!S.em.aud || !S.em.aud.count) return toast('No one matches this audience yet. Check step 2.', 'warning');
+  if (!await confirmBox(sched ? 'Schedule this email to ' + S.em.aud.count + ' people for ' + fdt(when) + '?' : 'Send this email to ' + S.em.aud.count + ' people now?', sched ? 'Schedule' : 'Send now')) return;
+  await busy(btn, async () => {
+    const id = await emSaveDraft(null, true);
+    const r = await call('emailStart', { id, scheduleAt: when });
+    if (r.scheduled) { toast('Scheduled. It will go out automatically.'); S.em = null; return nav('emails'); }
+    await emPump(id, r.total);
+  });
+}
+async function emPump(id, total) {
+  const box = $('#emProg2');
+  let sent = 0;
+  for (let i = 0; i < 400; i++) {
+    const r = await call('emailSendBatch', { id });
+    sent += r.sent + r.failed;
+    if (box) box.innerHTML = `<div class="small mb-1">Sending… ${Math.min(sent, total)} of ${total}</div><div class="cpn-bar"><i style="width:${Math.round(Math.min(sent, total) / total * 100)}%"></i></div>`;
+    if (r.done) { toast('Done! Your email went to ' + total + ' people. 🎉'); S.em = null; S.emInsights = null; return nav('emails'); }
+    if (r.quotaOut || (!r.sent && !r.failed)) { toast('Daily email limit reached. The rest will be sent automatically when the limit resets.', 'warning'); S.em = null; return nav('emails'); }
+  }
+}
+async function emResume(id, btn) { await busy(btn, async () => { modal('Sending', `<div id="emProg2">${spin()}</div>`, '', ''); await emPump(id, Number((S.emData.campaigns.find(c => c.CampaignID === id) || {}).Total || 1)); closeModal(); }); }
+async function emStop(id) { if (!await confirmBox('Stop this campaign? Emails already sent stay sent; the rest are cancelled.', 'Stop', true)) return; try { await call('emailCancel', { id }); toast('Campaign stopped.'); nav('emails'); } catch (e) { toast(e.message, 'danger'); } }
+async function emArchive(id) { if (!await confirmBox('Archive this campaign?', 'Archive', true)) return; try { await call('emailArchive', { id }); nav('emails'); } catch (e) { toast(e.message, 'danger'); } }
+async function emReport(id) {
+  modal('Campaign report', spin(), '', 'xl');
+  try {
+    const r = await call('emailReport', { id }); S.emRep = r; const s = r.stats;
+    $('#mTitle').innerHTML = '<i class="fa-solid fa-chart-column text-primary me-2"></i>' + esc(r.campaign.Name);
+    $('#mBody').innerHTML = `<div class="small-muted mb-3">${esc(r.campaign.Subject)}</div><div class="row g-3 mb-3"><div class="col-6 col-md-3">${statCard('fa-envelope', 'blue', s.sent + '<span class="small-muted fw-normal"> / ' + s.total + '</span>', 'Delivered')}</div><div class="col-6 col-md-3">${statCard('fa-arrow-pointer', 'green', s.clicks + (s.sent ? '<span class="small-muted fw-normal"> (' + Math.round(s.clicks / s.sent * 100) + '%)</span>' : ''), 'Clicked')}</div><div class="col-6 col-md-3">${statCard('fa-user-check', 'purple', s.enrolments, 'Enrolled after')}</div><div class="col-6 col-md-3">${statCard('fa-triangle-exclamation', 'red', s.failed + (s.queued ? ' · ' + s.queued + ' queued' : ''), 'Failed')}</div></div>
+      <div class="small-muted mb-2">"Enrolled after" counts recipients who enrolled in any course after this email went out.</div>
+      <div class="tbl-wrap" style="max-height:380px;overflow:auto"><table class="tbl"><thead><tr><th>Recipient</th><th>Status</th><th>Sent</th><th>Clicked</th></tr></thead><tbody>${r.rows.map(x => `<tr><td><div class="fw-semibold">${esc(x.name || '')}</div><div class="small-muted">${esc(x.email)}</div></td><td>${esc(x.status)}${x.error ? `<div class="small text-danger">${esc(x.error)}</div>` : ''}</td><td class="small">${x.sentAt ? fdt(x.sentAt) : '—'}</td><td class="small">${x.clickedAt ? '<i class="fa-solid fa-check text-success me-1"></i>' + fdt(x.clickedAt) : '—'}</td></tr>`).join('')}</tbody></table></div>`;
+    $('#mFoot').style.display = '';
+    $('#mFoot').innerHTML = `<button class="btn btn-light" onclick="exportCSV('email-report',S.emRep.rows,[['name','Name'],['email','Email'],['status','Status'],['sentAt','Sent'],['clickedAt','Clicked'],['error','Error']])"><i class="fa-solid fa-file-csv me-1"></i>Export CSV</button>`;
+  } catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
+}
+async function handleTrackedLink(p) {
+  $('#app').innerHTML = `<div class="boot"><div class="spinner-border text-primary"></div><div class="mt-3 text-muted">Opening…</div></div>`;
+  let url = appBase();
+  try { const r = await call('trackClick', { l: p.l, u: p.u }); url = r.url || url; } catch (e) {}
+  window.top.location.href = url;
+}
+async function renderUnsub(p) {
+  S.view = 'unsub';
+  $('#app').innerHTML = `<div style="min-height:100vh;background:var(--bg)" class="py-5 px-3"><div class="text-center"><a class="brand justify-content-center" onclick="renderPublic()">${brandHtml()}</a></div><div class="center-card" id="unsubBox">${spin()}</div></div>`;
+  try { const r = await call('unsubscribe', { e: p.e, t: p.t }); $('#unsubBox').innerHTML = `<div class="big-ic ic-green"><i class="fa-solid fa-envelope-circle-check"></i></div><h4 class="fw-bold">You're unsubscribed</h4><p class="text-muted">${esc(r.email)} won't receive marketing emails from ${esc(r.academy)} any more. You'll still get important messages about courses you're enrolled in.</p><button class="btn btn-light" onclick="renderPublic()">Go to website</button>`; }
+  catch (e) { $('#unsubBox').innerHTML = `<div class="big-ic ic-red"><i class="fa-solid fa-link-slash"></i></div><h5 class="fw-bold">We couldn't process this link</h5><p class="text-muted">${esc(e.message)}</p>`; }
+}
+
 async function init() {
   const p = BOOT.params || {};
   if (p.coupon && normCode(p.coupon)) { const cc = normCode(p.coupon); store.set('bpa_coupon', cc); setTimeout(() => toast('🎁 Coupon ' + cc + ' saved. It will be applied automatically when you enrol.', 'info'), 1400); }
@@ -4370,6 +4652,9 @@ async function init() {
   if (p.page === 'cert') return renderCertVerify(p.code || '');
   if (p.page === 'class' && p.c && p.t) return openHubLink(p);
   if (p.page === 'join' && p.p && p.k) return renderJoinPage(p.p, p.k);
+  if (p.page === 'r' && p.u) return handleTrackedLink(p);
+  if (p.page === 'unsub' && p.e && p.t) return renderUnsub(p);
+  if (p.page === 'course' && p.id) { renderPublic(); return setTimeout(() => { if (findProg(p.id)) openProgramme(p.id); else go('programmes'); }, 300); }
   if (S.user) goApp(); else renderPublic();
 }
 function labelTables() {
