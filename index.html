@@ -402,6 +402,8 @@ img,video,canvas{max-width:100%}
 .em-frame{width:100%;height:760px;border:0;border-radius:10px;background:#f1f5f9}.em-frame.mob{width:375px;max-width:100%}
 .aud-count{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:.7rem 1rem}
 @media (max-width:575.98px){.em-frame{height:620px}}
+.yt-frame{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden}.yt-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.rec-cover{position:relative;cursor:pointer}.rec-src{position:absolute;left:10px;bottom:10px;background:#dc2626;color:#fff;font-size:.72rem;font-weight:700;border-radius:6px;padding:.15rem .5rem}
 </style>
 </head>
 <body>
@@ -762,6 +764,11 @@ async function renderPdf(blob, el) {
   }
 }
 async function presentFile(r, mode, title) {
+  if (r.mode === 'youtube') {
+    modal(`<i class="fa-brands fa-youtube me-2 text-danger"></i>${esc(r.title || title || 'Recording')}`, `<div class="yt-frame"><iframe src="${esc(r.url)}" title="${esc(r.title || 'Video')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`,
+      `<a class="btn btn-light" href="${esc(r.watchUrl)}" target="_blank" rel="noopener"><i class="fa-brands fa-youtube me-1 text-danger"></i>Open on YouTube</a>`, 'xl');
+    return;
+  }
   if (r.mode === 'preview') {
     modal(`<i class="fa-solid fa-eye me-2 text-primary"></i>${esc(r.name || title || 'Viewer')}`,
       `${r.note ? `<div class="alert alert-info small py-2"><i class="fa-solid fa-circle-info me-1"></i>${esc(r.note)}</div>` : ''}<div class="viewer-frame"><iframe src="${esc(r.url)}" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`, '', 'xl');
@@ -1357,7 +1364,7 @@ function matRow(m) {
 }
 function groupBy(arr, fn) { return arr.reduce((a, x) => { const k = fn(x); (a[k] = a[k] || []).push(x); return a; }, {}); }
 function recCard(r) {
-  return `<div class="col-md-6 col-xl-4"><div class="l-card"><div class="l-cover" style="background:linear-gradient(135deg,#0b1b3f,#4c1d95)"><i class="fa-solid fa-circle-play"></i></div><div class="p-3 d-flex flex-column flex-fill">
+  return `<div class="col-md-6 col-xl-4"><div class="l-card"><div class="l-cover rec-cover" role="button" onclick="watch('${esc(r.id)}')" style="background:linear-gradient(135deg,#0b1b3f,#4c1d95)${r.thumb && safeUrl(r.thumb) ? `;background-image:linear-gradient(rgba(11,27,63,.35),rgba(11,27,63,.35)),url('${esc(r.thumb)}');background-size:cover;background-position:center` : ''}"><i class="fa-solid fa-circle-play"></i>${r.source === 'YouTube' ? '<span class="rec-src"><i class="fa-brands fa-youtube me-1"></i>YouTube</span>' : ''}</div><div class="p-3 d-flex flex-column flex-fill">
     <div class="small text-primary fw-semibold text-truncate">${esc(r.programme)}</div><h6 class="fw-bold">${esc(r.title)}</h6><div class="small-muted mb-3">${fdate(r.date)}${r.instructor ? ' · ' + esc(r.instructor) : ''}${r.duration ? ' · ' + esc(r.duration) : ''}</div>
     <div class="mt-auto d-flex gap-2"><button class="btn btn-grad flex-fill" onclick="watch('${esc(r.id)}')"><i class="fa-solid fa-play me-1"></i>Watch</button>${r.allowDownload ? `<button class="btn btn-light" onclick="downloadRecording('${esc(r.id)}')" title="Download"><i class="fa-solid fa-download"></i></button>` : ''}</div></div></div></div>`;
 }
@@ -1463,7 +1470,7 @@ const STUDENT_PAGES = {
   },
   async recordings(main) {
     const r = await rcall('myRecordings');
-    main.innerHTML = pageHead('Recorded Classes', 'Watch class recordings for your programmes. Sign in with the Google account linked to your registered email if prompted.') +
+    main.innerHTML = pageHead('Recorded Classes', 'Watch class recordings for your programmes. YouTube recordings play right here; for Google Drive ones, sign in with the Google account for your registered email if asked.') +
       (r.length ? `<div class="row g-3">${r.map(recCard).join('')}</div>` : `<div class="card-x">${empty('fa-circle-play', 'No recordings yet', 'Recordings appear here after each recorded class.')}</div>`);
   },
   async assignments(main) {
@@ -1629,9 +1636,10 @@ const ENT = {
   },
   Recordings: {
     title: 'Class Recordings', single: 'recording', sub: 'Link Google Meet recordings saved in Drive to programmes. Students stream them with their own Google account.', byProgramme: true,
-    cols: [['Title', 'Recording', r => `<div class="fw-semibold">${esc(r.Title)}</div><div class="small-muted">${esc(r.Programme)}</div>`], ['RecordedOn', 'Date', r => fdate(r.RecordedOn)], ['Instructor'], ['AllowDownload', 'Download', r => yesNo(r.AllowDownload)], ['Status', 'Status', r => badge(r.Status)]],
+    cols: [['Title', 'Recording', r => `<div class="fw-semibold">${esc(r.Title)}</div><div class="small-muted">${esc(r.Programme)}</div>`], ['Source', 'Source', r => r.Source === 'YouTube' ? '<span class="badge-s bs-danger"><i class="fa-brands fa-youtube me-1"></i>YouTube</span>' : '<span class="badge-s bs-info"><i class="fa-brands fa-google-drive me-1"></i>Drive</span>'], ['RecordedOn', 'Date', r => fdate(r.RecordedOn)], ['Instructor'], ['AllowDownload', 'Download', r => r.Source === 'YouTube' ? '—' : yesNo(r.AllowDownload)], ['Status', 'Status', r => badge(r.Status)]],
     fields: [{ k: 'ProgrammeID', l: 'Programme / tutorial', t: 'select', o: optProg, req: 1, col: 'col-md-6' }, { k: 'ClassID', l: 'Class (optional)', t: 'select', o: optClasses, col: 'col-md-6' }, { k: 'Title', l: 'Session title', req: 1 },
-      { k: 'DriveFileID', l: 'Recording (Google Drive link)', t: 'drive', req: 1, h: 'Open the recording in Drive (Meet Recordings folder) → Share → Copy link, and paste it here. Sharing is reset to private automatically.' },
+      { k: 'VideoURL', l: 'YouTube link', t: 'url', h: 'Upload to YouTube as UNLISTED (not Private), then paste the Share link, e.g. youtu.be/abc123XYZ00. Students watch it inside the app and only enrolled students see it. Leave empty to use Google Drive instead.' },
+      { k: 'DriveFileID', l: 'or Google Drive link', t: 'drive', h: 'Open the recording in Drive (Meet Recordings folder) → Share → Copy link, and paste it here. Sharing is reset to private automatically. Used only when the YouTube link is empty.' },
       { k: 'RecordedOn', l: 'Recording date', t: 'date', col: 'col-md-4' }, { k: 'Instructor', l: 'Instructor', col: 'col-md-4' }, { k: 'Duration', l: 'Duration (e.g. 1h 45m)', col: 'col-md-4' },
       { k: 'AllowDownload', l: 'Allow students to download', t: 'bool', col: 'col-md-6' }, { k: '_notify', l: 'Email enrolled students', t: 'bool', virtual: 1, newOnly: 1, col: 'col-md-6' }, { k: 'Status', l: 'Status', t: 'select', o: ST }],
     defaults: { AllowDownload: 'FALSE', Status: 'Active' },
