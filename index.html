@@ -391,6 +391,11 @@ img,video,canvas{max-width:100%}
 .att-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ef4444;margin-right:.5rem;vertical-align:middle}.att-ctl.on .att-dot{background:#16a34a;box-shadow:0 0 0 0 rgba(22,163,74,.6);animation:pulse 1.6s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 10px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
 .qp-ctl{position:absolute;left:1rem;bottom:1rem;display:flex;gap:.6rem;align-items:center}.qp-state{background:rgba(239,68,68,.25);border-radius:99px;padding:.4rem .9rem;font-weight:700}.qp-state.on{background:rgba(22,163,74,.35)}
+.join-hero{position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(135deg,#0b1b3f,#312e81 60%,#7c3aed);color:#fff}
+.join-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18}
+.join-hero-in{position:relative;padding:2rem 1.6rem}.join-hero h1{font-size:clamp(1.6rem,4vw,2.4rem);color:#fff}
+.join-chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.25rem .7rem;font-size:.78rem;font-weight:600}
+.jp-logo{background:#fff;border-radius:10px;padding:6px 10px;display:inline-flex;align-items:center}.jp-logo img{height:34px;max-width:130px;object-fit:contain}
 </style>
 </head>
 <body>
@@ -1063,7 +1068,7 @@ async function enrol(id, btn) {
   const prog = findProg(id);
   if (prog && prog.price > 0) return openCheckout(prog);
   await busy(btn, async () => {
-    const r = await call('initPayment', { programmeId: id, returnUrl: appBase(), couponCode: store.get('bpa_coupon') && !prog ? store.get('bpa_coupon') : '' }).catch(e => { if (/coupon/i.test(e.message)) return call('initPayment', { programmeId: id, returnUrl: appBase() }); throw e; });
+    const r = await call('initPayment', { programmeId: id, invite: inviteFor(id), returnUrl: appBase(), couponCode: store.get('bpa_coupon') && !prog ? store.get('bpa_coupon') : '' }).catch(e => { if (/coupon/i.test(e.message)) return call('initPayment', { programmeId: id, invite: inviteFor(id), returnUrl: appBase() }); throw e; });
     if (r.free) { closeModal(); toast('You are enrolled! 🎉'); return goApp('course', r.programmeId); }
     payModal(r);
   });
@@ -1142,6 +1147,7 @@ async function doAuth(ev, mode) {
       closeModal();
       toast(mode === 'register' ? 'Welcome aboard! Check your email to verify your account.' : 'Welcome back, ' + (r.user.name || '').split(' ')[0] + '!');
       if (S.view === 'hub' && S.hub) return renderHubPage();
+      if (S.view === 'join' && S.join) return renderJoinPage(S.join.p, S.join.k);
       if (S.pendingEnrol && r.user.role === 'STUDENT') { const id = S.pendingEnrol; S.pendingEnrol = null; renderPublic(); return setTimeout(() => openProgramme(id), 400); }
       goApp();
     } else if (mode === 'forgot') {
@@ -1562,7 +1568,7 @@ const ST = ['Active', 'Inactive'];
 const ENT = {
   Programmes: {
     title: 'Programmes', single: 'programme', sub: 'Create, publish and manage courses, cohorts and workshops. Tutorials are managed under Academic Tutorials.', adminOnly: true,
-    cols: [['Title', 'Programme', r => `<div class="fw-semibold">${esc(r.Title)}</div><div class="small-muted">${esc(r.ProgrammeID)} · ${esc(r.Category)}</div>`], ['Type'], ['Price', 'Price', r => money(r.Price, r.Currency)], ['Enrolled'], ['Published', 'Published', r => yesNo(r.Published)], ['EnrolmentOpen', 'Enrolment', r => isT(r.EnrolmentOpen) ? badge('Open') : badge('Closed')], ['Status', 'Status', r => badge(r.Status)]],
+    cols: [['Title', 'Programme', r => `<div class="fw-semibold">${esc(r.Title)}</div><div class="small-muted">${esc(r.ProgrammeID)} · ${esc(r.Category)}</div>`], ['Type'], ['Price', 'Price', r => money(r.Price, r.Currency)], ['Enrolled'], ['Published', 'Visibility', r => r.Visibility === 'Private' ? '<span class="badge-s bs-purple"><i class="fa-solid fa-lock me-1"></i>Private</span>' : yesNo(r.Published)], ['EnrolmentOpen', 'Enrolment', r => isT(r.EnrolmentOpen) ? badge('Open') : badge('Closed')], ['Status', 'Status', r => badge(r.Status)]],
     fields: [
       { k: 'Title', l: 'Programme title', req: 1, col: 'col-md-8' }, { k: 'Type', l: 'Type', t: 'select', o: ['Self-paced', 'Cohort', 'Workshop'], col: 'col-md-4' },
       { k: 'CategoryID', l: 'Category', t: 'select', o: () => [['', '— Select —']].concat((S.lk.categories || []).map(c => [c.id, c.name])), col: 'col-md-6' }, { k: 'Format', l: 'Learning format', t: 'select', o: ['Online Live', 'Self-paced', 'Hybrid', 'Physical'], col: 'col-md-6' },
@@ -1572,13 +1578,14 @@ const ENT = {
       { k: 'StartDate', l: 'Start date', t: 'date', col: 'col-md-6' }, { k: 'EndDate', l: 'End date', t: 'date', col: 'col-md-6' },
       { k: 'Price', l: 'Price (NGN) — 0 for free', t: 'number', col: 'col-md-6' }, { k: 'AccessDays', l: 'Access duration in days (blank = lifetime)', t: 'number', col: 'col-md-6' },
       { k: 'CoverImage', l: 'Cover image', t: 'image' },
-      { k: 'Published', l: 'Published on website', t: 'bool', col: 'col-md-6' }, { k: 'EnrolmentOpen', l: 'Enrolment open', t: 'bool', col: 'col-md-6' },
+      { k: 'Visibility', l: 'Visibility', t: 'select', o: [['Public', 'Public: listed on the website'], ['Private', 'Private: invite link only (not on the website)']], col: 'col-md-6' }, { k: 'InviteMax', l: 'Places for private invite (blank = unlimited)', t: 'number', col: 'col-md-6' },
+      { k: 'Published', l: 'Published on website (public programmes)', t: 'bool', col: 'col-md-6' }, { k: 'EnrolmentOpen', l: 'Enrolment open', t: 'bool', col: 'col-md-6' },
       { k: 'Featured', l: 'Featured', t: 'bool', col: 'col-md-6' }, { k: 'CertificateEnabled', l: 'Issue certificate on completion', t: 'bool', col: 'col-md-6' },
       { k: 'CertificateTemplate', l: 'Certificate design', t: 'select', o: () => [['', 'Academy default']].concat(Object.keys(CERT_DESIGNS).map(k => [k, CERT_DESIGNS[k].name])), col: 'col-md-6' },
       { k: 'Status', l: 'Status', t: 'select', o: ['Active', 'Inactive', 'Archived'], col: 'col-md-6' }
     ],
-    defaults: { Type: 'Self-paced', Format: 'Online Live', Published: 'TRUE', EnrolmentOpen: 'TRUE', CertificateEnabled: 'TRUE', Status: 'Active', Price: '0' },
-    actions: r => `<button class="btn btn-soft" title="Curriculum" onclick="curriculum('${esc(r.ProgrammeID)}')"><i class="fa-solid fa-list-ol"></i></button><button class="btn btn-light" title="Preview as student" onclick="previewCourse('${esc(r.ProgrammeID)}')"><i class="fa-solid fa-eye"></i></button>`
+    defaults: { Type: 'Self-paced', Format: 'Online Live', Visibility: 'Public', Published: 'TRUE', EnrolmentOpen: 'TRUE', CertificateEnabled: 'TRUE', Status: 'Active', Price: '0' },
+    actions: r => `<button class="btn ${r.Visibility === 'Private' ? 'btn-grad' : 'btn-light'}" title="Invite link (private programme)" onclick="inviteDialog('${esc(r.ProgrammeID)}')"><i class="fa-solid fa-link"></i></button><button class="btn btn-soft" title="Curriculum" onclick="curriculum('${esc(r.ProgrammeID)}')"><i class="fa-solid fa-list-ol"></i></button><button class="btn btn-light" title="Preview as student" onclick="previewCourse('${esc(r.ProgrammeID)}')"><i class="fa-solid fa-eye"></i></button>`
   },
   Categories: {
     title: 'Course Categories', single: 'category', sub: 'Categories shown on the landing page.', adminOnly: true,
@@ -3033,7 +3040,7 @@ function exportFlyer(fmt) {
 function normCode(c) { return String(c || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 30); }
 function isYes(v) { return v === true || /^(true|yes|1)$/i.test(String(v || '')); }
 function couponLink(code) { return appBase() + '?coupon=' + encodeURIComponent(code); }
-function findProg(id) { const P = S.pub || {}; return (P.programmes || []).concat(P.tutorials || []).find(x => x.id === id) || null; }
+function findProg(id) { const P = S.pub || {}; return (P.programmes || []).concat(P.tutorials || []).find(x => x.id === id) || (S.joinProg && S.joinProg.id === id ? S.joinProg : null); }
 function cdText(iso, short) {
   const ms = new Date(iso) - Date.now();
   if (!(ms > 0)) return 'Ended';
@@ -3162,7 +3169,7 @@ async function applyCoupon() {
   if (!code) { co.quote = null; msg.innerHTML = ''; drawCoSum(); return; }
   btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
   try {
-    const q = await call('validateCoupon', { programmeId: co.p.id, code: code });
+    const q = await call('validateCoupon', { programmeId: co.p.id, code: code, invite: inviteFor(co.p.id) });
     if (S.co !== co || !document.body.contains(msg)) return;
     if (q.valid) {
       co.quote = q; store.set('bpa_coupon', code);
@@ -3180,7 +3187,8 @@ async function checkoutPay(btn) {
   if (typed && typed !== code) return toast('Tap "Apply" to use this coupon, or clear the box to pay the full price.', 'warning');
   await busy(btn, async () => {
     const bank = S.co.method === 'bank';
-    const r = bank ? await call('initBankTransfer', { programmeId: p.id, couponCode: code }) : await call('initPayment', { programmeId: p.id, returnUrl: appBase(), couponCode: code });
+    const inv = inviteFor(p.id);
+    const r = bank ? await call('initBankTransfer', { programmeId: p.id, couponCode: code, invite: inv }) : await call('initPayment', { programmeId: p.id, returnUrl: appBase(), couponCode: code, invite: inv });
     if (bank && !r.free) { S.co = null; return bankModal(r); }
     if (r.free) { if (code) store.del('bpa_coupon'); S.co = null; closeModal(); toast('You are enrolled! 🎉'); return goApp('course', r.programmeId); }
     S.co = null;
@@ -3806,7 +3814,7 @@ function drawHub() {
 function serverNow() { return new Date(Date.now() + (S.clockOffset || 0)); }
 function hubAttend(d) {
   const ck = d.checkin, rec = ck.record, v = d.viewer;
-  const certNote = v.type === 'student' && !v.enrolled ? `<div class="alert alert-info small mt-3 text-start mb-0"><i class="fa-solid fa-award me-1"></i>You're not enrolled in ${esc(d.programme.title)} yet, so this class won't count towards its certificate. ${d.programme.canEnrol && d.programme.public ? `<a role="button" class="fw-semibold" onclick="enrol('${esc(d.programme.id)}',this)">Enrol now</a>` : ''}</div>` : '';
+  const certNote = v.type === 'student' && !v.enrolled ? `<div class="alert alert-info small mt-3 text-start mb-0"><i class="fa-solid fa-award me-1"></i>You're not enrolled in ${esc(d.programme.title)} yet, so this class won't count towards its certificate. ${d.programme.canEnrol && d.programme.public ? `<a role="button" class="fw-semibold" onclick="${d.programme.invite ? `enrolPrivate('${esc(d.programme.id)}','${esc(d.programme.invite)}',this)` : `enrol('${esc(d.programme.id)}',this)`}">Enrol now</a>` : ''}</div>` : '';
   if (v.type === 'staff') return `<div class="card-x text-center py-4"><div class="big-ic ic-blue"><i class="fa-solid fa-user-tie"></i></div><h5 class="fw-bold">You're signed in as staff</h5><p class="text-muted mb-0">Start or end attendance from Live Classes → QR codes. Students check in on this page.</p></div>`;
   if (!rec && v.type === 'guest' && S.hubGuestRec) return hubAttend(Object.assign({}, d, { checkin: Object.assign({}, ck, { record: S.hubGuestRec }) }));
   if (rec && rec.at && v.type === 'guest') return `<div class="card-x text-center py-4"><div class="big-ic ic-green"><i class="fa-solid fa-circle-check"></i></div><h4 class="fw-bold mb-1">You're checked in${rec.name ? ', ' + esc(rec.name.split(' ')[0]) : ''}</h4><div class="mb-3">${badge(rec.status)} <span class="badge-s bs-secondary">Guest</span></div>
@@ -4222,7 +4230,7 @@ function hubAuthCta(why) {
 function hubEnrolCta(d) {
   const pr = d.programme;
   return `<div class="hub-auth"><div class="fw-semibold mb-1">You're signed in but not enrolled in ${esc(pr.title)}</div><div class="small-muted mb-3">Enrol to submit assignments, take quizzes and earn the certificate.</div>
-    ${pr.canEnrol && pr.public ? `<button class="btn btn-grad" onclick="enrol('${esc(pr.id)}',this)"><i class="fa-solid fa-graduation-cap me-1"></i>${pr.price > 0 ? 'Enrol · ' + money(pr.price, pr.currency) : 'Enrol for free'}</button>` : `<div class="small text-muted">${esc(pr.reason || 'Contact the academy to enrol.')}</div>`}</div>`;
+    ${pr.canEnrol && pr.public ? `<button class="btn btn-grad" onclick="${pr.invite ? `enrolPrivate('${esc(pr.id)}','${esc(pr.invite)}',this)` : `enrol('${esc(pr.id)}',this)`}"><i class="fa-solid fa-graduation-cap me-1"></i>${pr.price > 0 ? 'Enrol · ' + money(pr.price, pr.currency) : 'Enrol for free'}</button>` : `<div class="small text-muted">${esc(pr.reason || 'Contact the academy to enrol.')}</div>`}</div>`;
 }
 function hubGuestForm() {
   return `<form class="text-start mt-3" onsubmit="event.preventDefault();guestCheckIn(this)"><div class="hub-or"><span>or check in as a guest</span></div>
@@ -4239,6 +4247,87 @@ async function guestCheckIn(f) {
     S.hubData.checkin.record = r.record; S.hubGuestRec = r.record; S.hubGuest = { name: f.name.value, email: f.email.value };
     toast(r.already ? 'You were already checked in.' : 'Checked in! ✅'); drawHub();
   });
+}
+
+function invites() { try { return JSON.parse(store.get('bpa_invites') || '{}'); } catch (e) { return {}; } }
+function inviteFor(pid) { return invites()[pid] || ''; }
+function rememberInvite(pid, code) { if (!pid || !code) return; const m = invites(); m[pid] = code; store.set('bpa_invites', JSON.stringify(m)); }
+async function renderJoinPage(pid, code) {
+  S.view = 'join'; S.join = { p: pid, k: code }; rememberInvite(pid, code);
+  const u = S.user;
+  $('#app').innerHTML = `<div style="min-height:100vh;background:var(--bg)"><div class="hub-top"><div class="container d-flex align-items-center justify-content-between gap-2 py-2" style="max-width:900px"><a class="brand" role="button" onclick="renderPublic()">${brandHtml()}</a>
+      ${u ? `<button class="btn btn-sm btn-light text-nowrap" onclick="goApp()"><i class="fa-solid fa-gauge-high me-1"></i>Dashboard</button>` : `<div class="d-flex gap-1"><button class="btn btn-sm btn-light text-nowrap" onclick="openAuth('login')">Sign in</button><button class="btn btn-sm btn-grad text-nowrap" onclick="openAuth('register')">Register</button></div>`}</div></div>
+    <div class="container py-3" style="max-width:900px" id="joinWrap">${spin()}</div></div>`;
+  try {
+    const p = await call('programmeDetails', { id: pid, invite: code });
+    S.joinProg = p; drawJoin();
+  } catch (e) { $('#joinWrap').innerHTML = `<div class="center-card"><div class="big-ic ic-red"><i class="fa-solid fa-link-slash"></i></div><h5 class="fw-bold">This invite link isn't working</h5><p class="text-muted">${esc(e.message)}</p><button class="btn btn-light" onclick="renderPublic()">Go to website</button></div>`; }
+}
+function drawJoin() {
+  const p = S.joinProg, u = S.user, el = $('#joinWrap'); if (!el) return;
+  const cover = safeUrl(p.cover);
+  const lines = String(p.objectives || '').split('\n').map(x => x.replace(/^[-•*\s]+/, '').trim()).filter(Boolean);
+  let cta;
+  if (p.enrolled) cta = `<div class="co-ok mb-2"><i class="fa-solid fa-circle-check me-1"></i>You're enrolled in this programme.</div><button class="btn btn-grad btn-lg w-100" onclick="goApp('course','${esc(p.id)}')"><i class="fa-solid fa-play me-2"></i>Go to my course</button>`;
+  else if (!p.canEnrol) cta = `<div class="co-bad">${esc(p.closedReason || 'Enrolment is closed.')}</div>`;
+  else if (!u) cta = `<button class="btn btn-grad btn-lg w-100 mb-2" onclick="openAuth('register')"><i class="fa-solid fa-user-plus me-2"></i>Register to join</button><button class="btn btn-light w-100" onclick="openAuth('login')">I already have an account</button><div class="small-muted mt-2 text-center">Create a free student account, then enrol with one tap.</div>`;
+  else if (u.role !== 'STUDENT') cta = `<div class="small text-muted">You're signed in as staff. Share this link with participants so they can register and enrol.</div>`;
+  else cta = `<button class="btn btn-grad btn-lg w-100" onclick="enrol('${esc(p.id)}',this)"><i class="fa-solid fa-graduation-cap me-2"></i>${p.price > 0 ? 'Enrol · ' + money(p.price, p.currency) : 'Join now: free'}</button><div class="small-muted mt-2 text-center">Signed in as ${esc(u.name || u.email)}</div>`;
+  el.innerHTML = `<div class="join-hero mb-4">${cover ? `<img src="${esc(cover)}" alt="" class="join-cover">` : ''}<div class="join-hero-in">
+      <div class="d-flex flex-wrap gap-2 mb-2"><span class="join-chip"><i class="fa-solid fa-lock me-1"></i>Private programme · by invitation</span>${p.category ? `<span class="join-chip">${esc(p.category)}</span>` : ''}</div>
+      <h1 class="fw-bold mb-2">${esc(p.title)}</h1>${p.short ? `<p class="mb-3" style="color:#e0e7ff">${esc(p.short)}</p>` : ''}
+      <div class="d-flex flex-wrap gap-3 small" style="color:#c7d2fe">${p.startDate ? `<span><i class="fa-regular fa-calendar me-1"></i>${fdate(p.startDate)}${p.endDate ? ' – ' + fdate(p.endDate) : ''}</span>` : ''}${p.duration ? `<span><i class="fa-regular fa-clock me-1"></i>${esc(p.duration)}</span>` : ''}${p.format ? `<span><i class="fa-solid fa-laptop me-1"></i>${esc(p.format)}</span>` : ''}${p.instructor ? `<span><i class="fa-solid fa-chalkboard-user me-1"></i>${esc(p.instructor)}</span>` : ''}</div>
+      ${(p.partners || []).length ? `<div class="join-partners mt-3"><span class="small" style="color:#c7d2fe">${esc(p.academy || '')} in partnership with</span><div class="d-flex flex-wrap gap-2 align-items-center mt-1">${p.partners.map(x => safeUrl(x.logo) ? `<span class="jp-logo"><img src="${esc(x.logo)}" alt="${esc(x.name)}"></span>` : `<span class="join-chip">${esc(x.name)}</span>`).join('')}</div></div>` : ''}</div></div>
+    <div class="row g-4"><div class="col-lg-8 order-2 order-lg-1">
+      ${p.description ? `<div class="card-x mb-3"><h5 class="fw-bold">About this programme</h5><div class="content-body text-muted">${nl2br(p.description)}</div></div>` : ''}
+      ${lines.length ? `<div class="card-x mb-3"><h5 class="fw-bold">What you'll learn</h5><ul class="list-unstyled mb-0">${lines.map(l => `<li class="d-flex gap-2 mb-2"><i class="fa-solid fa-circle-check text-success mt-1"></i><span>${esc(l)}</span></li>`).join('')}</ul></div>` : ''}
+      ${(p.curriculum || []).length ? `<div class="card-x mb-3"><h5 class="fw-bold">Curriculum</h5>${p.curriculum.map((m, i) => `<div class="py-2 border-top"><div class="fw-semibold">${i + 1}. ${esc(m.title)}</div>${m.lessons.length ? `<div class="small-muted">${m.lessons.map(esc).join(' · ')}</div>` : ''}</div>`).join('')}</div>` : ''}
+    </div><div class="col-lg-4 order-1 order-lg-2"><div class="card-x stick-xl"><div class="small-muted">Fee</div><div class="fs-2 fw-bold mb-1">${p.price > 0 ? money(p.price, p.currency) : 'Free'}</div>
+      ${p.seatsLeft !== null && p.seatsLeft !== undefined ? `<div class="small mb-3 ${p.seatsLeft <= 10 ? 'text-danger fw-semibold' : 'text-muted'}"><i class="fa-solid fa-users me-1"></i>${p.seatsLeft} place${p.seatsLeft === 1 ? '' : 's'} left</div>` : '<div class="mb-3"></div>'}
+      ${cta}
+      ${p.certificate ? '<div class="small-muted mt-3"><i class="fa-solid fa-award me-1"></i>Certificate on completion for registered participants.</div>' : ''}</div></div></div>`;
+}
+async function inviteDialog(pid) {
+  modal('<i class="fa-solid fa-link text-primary me-2"></i>Invite link', spin(), '', 'lg');
+  try { const [r] = await Promise.all([call('programmeInvite', { programmeId: pid }), loadLib('qr').catch(() => null)]); S.inv = r; drawInvite(); }
+  catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
+}
+function drawInvite() {
+  const r = S.inv;
+  $('#mTitle').innerHTML = `<i class="fa-solid fa-link text-primary me-2"></i>${esc(r.title)}`;
+  if (!r.private) {
+    $('#mBody').innerHTML = `<div class="text-center p-3"><div class="big-ic ic-blue"><i class="fa-solid fa-globe"></i></div><h5 class="fw-bold">This programme is public</h5><p class="text-muted">Anyone can find it on your website. Make it private to hide it from the website and share it only through an invite link, e.g. for a partner organisation or a sponsored cohort.</p>
+      <button class="btn btn-grad" onclick="invAction({makePrivate:true},this)"><i class="fa-solid fa-lock me-1"></i>Make private & create invite link</button></div>`;
+    $('#mFoot').style.display = 'none'; return;
+  }
+  const msg = `You're invited to join *${r.title}* 🎓\n\nRegister and enrol here:\n${r.link}${r.max ? `\n\nOnly ${Math.max(0, r.max - r.enrolled)} places left.` : ''}`;
+  S.invMsg = msg;
+  $('#mBody').innerHTML = `<div class="d-flex flex-wrap gap-2 mb-3"><span class="badge-s bs-purple"><i class="fa-solid fa-lock me-1"></i>Private: hidden from the website</span>${r.enrolmentOpen && r.status === 'Active' ? '<span class="badge-s bs-success">Enrolment open</span>' : '<span class="badge-s bs-danger">Enrolment closed: edit the programme to open it</span>'}<span class="badge-s bs-secondary">${r.price > 0 ? money(r.price, r.currency) : 'Free'}</span>${r.partners.length ? `<span class="badge-s bs-info">With ${esc(r.partners.join(', '))}</span>` : ''}</div>
+    <div class="row g-3 align-items-center"><div class="col-sm-4 text-center">${qrData(r.link) ? `<img class="kit-qr" src="${qrData(r.link)}" alt="Invite QR code"><div><button class="btn btn-sm btn-light mt-2" onclick="invQr()"><i class="fa-solid fa-download me-1"></i>QR code</button></div>` : ''}</div>
+    <div class="col-sm-8"><label class="form-label small fw-semibold">Share this link with the people you're training</label><div class="input-group mb-2"><input class="form-control" readonly value="${esc(r.link)}" onclick="this.select()"><button class="btn btn-grad" onclick="copyText(S.inv.link)"><i class="fa-regular fa-copy"></i></button></div>
+      <div class="d-flex flex-wrap gap-2"><a class="btn btn-sm sh-wa text-white" target="_blank" rel="noopener" href="${esc(shareUrl('wa', msg, r.link))}"><i class="fa-brands fa-whatsapp me-1"></i>WhatsApp</a><button class="btn btn-sm btn-light" onclick="copyText(S.invMsg)"><i class="fa-regular fa-copy me-1"></i>Copy invite message</button><a class="btn btn-sm btn-light" target="_blank" rel="noopener" href="${esc(r.link)}"><i class="fa-solid fa-eye me-1"></i>Preview page</a></div></div></div>
+    <hr><div class="row g-3 align-items-end"><div class="col-sm-5"><div class="small-muted">Enrolled so far</div><div class="fs-4 fw-bold">${r.enrolled}${r.max ? `<span class="fs-6 text-muted fw-normal"> / ${r.max} places</span>` : ''}</div></div>
+      <div class="col-sm-7"><label class="form-label small" for="invMax">Limit places <span class="small-muted">(0 = unlimited)</span></label><div class="input-group"><input class="form-control" type="number" min="0" id="invMax" value="${r.max}"><button class="btn btn-soft" onclick="invAction({max:$('#invMax').value},this)">Save</button></div></div></div>
+    <div class="small-muted mt-3"><i class="fa-solid fa-lightbulb text-warning me-1"></i>Sponsored training? Keep the price and give the partner a 100% coupon, or set the price to 0. Add the partner's logo under Certificates → Partners so it shows on the invite page and certificates.</div>`;
+  $('#mFoot').style.display = '';
+  $('#mFoot').innerHTML = `<button class="btn btn-light text-danger me-auto" onclick="invReset(this)"><i class="fa-solid fa-rotate me-1"></i>Reset link</button><button class="btn btn-light" onclick="invAction({},this,1)">Done</button>`;
+}
+async function invAction(extra, btn, close) {
+  if (close) return closeModal();
+  await busy(btn, async () => { S.inv = await call('programmeInvite', Object.assign({ programmeId: S.inv.programmeId }, extra)); drawInvite(); toast(extra.makePrivate ? 'Programme is now private. Share the invite link.' : 'Saved.'); if (extra.makePrivate && S.sec === 'programmes') nav('programmes'); });
+}
+async function invReset(btn) {
+  if (!confirm('Reset the invite link? The old link stops working immediately. People already enrolled keep their access.')) return;
+  await invAction({ regenerate: true }, btn); toast('New invite link created. The old one no longer works.');
+}
+function invQr() {
+  const r = S.inv; if (!window.qrcode) return;
+  try { const q = qrcode(0, 'M'); q.addData(r.link); q.make(); downloadBlob(b64ToBlob(q.createDataURL(14, 4).split(',')[1], 'image/gif'), r.title.replace(/[^\w]+/g, '-') + '-invite-qr.gif'); } catch (e) { toast('Could not create the QR code.', 'danger'); }
+}
+async function enrolPrivate(pid, code, btn) {
+  rememberInvite(pid, code);
+  await busy(btn, async () => { S.joinProg = await call('programmeDetails', { id: pid, invite: code }); });
+  enrol(pid, btn);
 }
 
 async function init() {
@@ -4280,6 +4369,7 @@ async function init() {
   if (p.page === 'reset' && p.token) { renderPublic(); return setTimeout(() => openAuth('reset', p.token), 300); }
   if (p.page === 'cert') return renderCertVerify(p.code || '');
   if (p.page === 'class' && p.c && p.t) return openHubLink(p);
+  if (p.page === 'join' && p.p && p.k) return renderJoinPage(p.p, p.k);
   if (S.user) goApp(); else renderPublic();
 }
 function labelTables() {
