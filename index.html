@@ -38,6 +38,8 @@ nav.pub .nav-link:hover{color:var(--purple);background:#f5f3ff}
 .brand{display:flex;align-items:center;gap:.6rem;font-weight:800;color:var(--navy);text-decoration:none;letter-spacing:-.02em}
 .brand-logo{width:40px;height:40px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:1.05rem;flex-shrink:0;overflow:hidden}
 .brand-logo img{width:100%;height:100%;object-fit:cover}
+.tab-prev{display:flex;align-items:center;gap:.5rem;background:#eef1f6;border-radius:10px 10px 0 0;padding:.5rem .75rem;max-width:280px;font-size:.85rem}.tab-prev img{width:16px;height:16px;object-fit:contain;border-radius:3px}.tab-prev span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-prev{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem}.g-prev .g-t{color:#1a0dab;font-size:1.05rem;line-height:1.3}
 /* hero */
 .hero{background:var(--grad-dark);color:#fff;position:relative;overflow:hidden;padding:84px 0 120px}
 .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.5}
@@ -470,6 +472,18 @@ setTimeout(function () { bootFail('The server has not responded after 60 seconds
 const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxBUKy77Ka_Cf29nbbAvYe5dYt6tgDox1alvWSyW-rP4rXoQE2a948qlP97076x4BNePg/exec';   // paste your GAS /exec URL here (leave empty when deployed in GAS)
 
 const IN_GAS = !!(window.google && google.script && google.script.run);
+// Clean, multi-page addresses: /enrolments, /class/CLS-1?t=…, /course/PRG-1 (old ?page= links keep working)
+const PUB_PAGES = { 'class': 'c', join: 'p', form: 'f', course: 'id', cert: 'code', payment: '', 'verify-email': '', reset: '', r: '', unsub: '' };
+const LANDING_SECS = { courses: 'programmes', programmes: 'programmes', tutorials: 'tutorials', about: 'about', faq: 'faq', contact: 'contact', classes: 'upcoming', testimonials: 'testimonials', categories: 'categories', how: 'how' };
+function pathParams(path) {
+  let segs = [];
+  try { segs = String(path || '').split('/').filter(Boolean).map(x => decodeURIComponent(x)); } catch (e) { segs = []; }
+  if (!segs.length || /\.html?$/i.test(segs[0])) return {};
+  const first = segs[0].toLowerCase();
+  if (Object.prototype.hasOwnProperty.call(PUB_PAGES, first)) { const o = { page: first }; if (PUB_PAGES[first] && segs[1]) o[PUB_PAGES[first]] = segs[1]; return o; }
+  if (first === 'login' || first === 'register') return { auth: first };
+  return { sec: first, arg: segs.slice(1).join('/') };
+}
 const BOOT = (function () {
   let b = null;
   try { b = JSON.parse(document.getElementById('bootData').textContent); } catch (e) { b = null; }
@@ -478,9 +492,32 @@ const BOOT = (function () {
     b.params = {};
     try { new URLSearchParams(window.location.search).forEach((v, k) => { b.params[k] = v; }); } catch (e) {}
   }
+  if (!IN_GAS) b.params = Object.assign(pathParams(window.location.pathname), b.params);
   return b;
 })();
-function appBase() { return IN_GAS && BOOT.appUrl ? BOOT.appUrl : window.location.href.split('#')[0].split('?')[0]; }
+// Public address of the site (your own domain from Settings). Used in every link people share.
+function siteBase() {
+  const f = safeUrl(S.pub && S.pub.settings && S.pub.settings.FRONTEND_URL);
+  if (f) return f.replace(/[?#].*$/, '').replace(/\/+$/, '');
+  if (IN_GAS && BOOT.appUrl) return BOOT.appUrl;
+  return window.location.origin;
+}
+// Where Paystack sends the student back: the address they are using right now.
+function returnBase() { return IN_GAS && BOOT.appUrl ? BOOT.appUrl : window.location.origin; }
+function appBase() { return siteBase(); }
+function pageUrl(page, id, q) {
+  const base = siteBase(), qs = new URLSearchParams();
+  Object.keys(q || {}).forEach(k => { if (q[k] !== undefined && q[k] !== null && q[k] !== '') qs.set(k, q[k]); });
+  const tail = qs.toString();
+  if (!/script\.google(usercontent)?\.com/i.test(base)) return base + '/' + (page || '') + (id ? '/' + encodeURIComponent(id) : '') + (tail ? '?' + tail : '');
+  return base + (page ? '?page=' + page + (id ? '&' + (PUB_PAGES[page] || 'id') + '=' + encodeURIComponent(id) : '') : '') + (tail ? (page ? '&' : '?') + tail : '');
+}
+// Updates the address bar (own domain only: Apps Script runs inside a frame).
+function setUrl(path, replace) {
+  if (IN_GAS || S.routing) return;
+  try { if (window.location.pathname + window.location.search === path) return; history[replace ? 'replaceState' : 'pushState']({ p: path }, '', path); } catch (e) {}
+}
+function secPath(sec, arg) { return '/' + sec + (typeof arg === 'string' && arg && arg.length < 90 ? '/' + encodeURIComponent(arg) : ''); }
 
 
 const store = {
@@ -813,10 +850,11 @@ function brandHtml(dark) {
   const s = S.pub.settings, logo = safeUrl(s.LOGO_URL);
   return `<span class="brand-logo">${logo ? `<img src="${esc(logo)}" alt="">` : '<i class="fa-solid fa-graduation-cap"></i>'}</span><span style="color:${dark ? '#fff' : 'var(--navy)'}">${esc(s.ACADEMY_NAME)}</span>`;
 }
-function go(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); const nc = $('#pubNav'); if (nc) nc.classList.remove('show'); }
+function go(id) { if (S.view === 'public') { const slug = Object.keys(LANDING_SECS).find(k => LANDING_SECS[k] === id && k !== 'programmes'); if (slug) setUrl('/' + slug, true); } const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); const nc = $('#pubNav'); if (nc) nc.classList.remove('show'); }
 
-function renderPublic() {
+function renderPublic(keepUrl) {
   S.view = 'public'; destroyCharts();
+  if (!keepUrl) setUrl('/'); setDocTitle(''); applyBranding();
   const P = S.pub, s = P.settings;
   const nav = `${promoBarHtml()}
   ${P.maintenance ? '<div class="maint"><i class="fa-solid fa-screwdriver-wrench me-2"></i>Student portal is undergoing maintenance. Browsing is still available.</div>' : ''}
@@ -992,7 +1030,7 @@ function renderPublic() {
           ${s.CONTACT_PHONE ? `<li><i class="fa-solid fa-phone me-2 text-primary"></i><a href="tel:${esc(s.CONTACT_PHONE)}">${esc(s.CONTACT_PHONE)}</a></li>` : ''}
           ${s.CONTACT_ADDRESS ? `<li><i class="fa-solid fa-location-dot me-2 text-primary"></i>${esc(s.CONTACT_ADDRESS)}</li>` : ''}</ul></div>
       </div>
-      <hr class="border-secondary my-4"><div class="d-flex flex-wrap justify-content-between small"><span>© ${new Date().getFullYear()} ${esc(s.ACADEMY_NAME)}. All rights reserved.</span><span>Secure payments by Paystack</span></div>
+      <hr class="border-secondary my-4"><div class="d-flex flex-wrap justify-content-between small"><span>${s.FOOTER_NOTE ? esc(s.FOOTER_NOTE) : `© ${new Date().getFullYear()} ${esc(s.ACADEMY_NAME)}. All rights reserved.`}</span><span>Secure payments by Paystack</span></div>
     </div>
   </footer>`;
 
@@ -1096,7 +1134,7 @@ async function enrol(id, btn) {
   const prog = findProg(id);
   if (prog && prog.price > 0) return openCheckout(prog);
   await busy(btn, async () => {
-    const r = await call('initPayment', { programmeId: id, invite: inviteFor(id), returnUrl: appBase(), couponCode: store.get('bpa_coupon') && !prog ? store.get('bpa_coupon') : '' }).catch(e => { if (/coupon/i.test(e.message)) return call('initPayment', { programmeId: id, invite: inviteFor(id), returnUrl: appBase() }); throw e; });
+    const r = await call('initPayment', { programmeId: id, invite: inviteFor(id), returnUrl: returnBase(), couponCode: store.get('bpa_coupon') && !prog ? store.get('bpa_coupon') : '' }).catch(e => { if (/coupon/i.test(e.message)) return call('initPayment', { programmeId: id, invite: inviteFor(id), returnUrl: appBase() }); throw e; });
     if (r.free) { closeModal(); toast('You are enrolled! 🎉'); return goApp('course', r.programmeId); }
     payModal(r);
   });
@@ -1179,6 +1217,7 @@ async function doAuth(ev, mode) {
       if (S.view === 'hub' && S.hub) return renderHubPage();
       if (S.view === 'join' && S.join) return renderJoinPage(S.join.p, S.join.k);
       if (S.pendingEnrol && r.user.role === 'STUDENT') { const id = S.pendingEnrol; S.pendingEnrol = null; renderPublic(); return setTimeout(() => openProgramme(id), 400); }
+      if (S.afterLogin) { const a = S.afterLogin; S.afterLogin = null; const pages = r.user.role === 'STUDENT' ? STUDENT_PAGES : ADMIN_PAGES; if (pages[a.sec]) return goApp(a.sec, a.arg || undefined); }
       goApp();
     } else if (mode === 'forgot') {
       const r = await call('forgotPassword', d);
@@ -1256,7 +1295,7 @@ function goApp(sec, arg) {
   nav(sec || (isStudent ? 'overview' : 'dashboard'), arg);
 }
 function buildShell(kind) {
-  S.view = kind;
+  S.view = kind; applyBranding();
   const isAdmin = S.user.role === 'ADMIN';
   const menu = (kind === 'student' ? STUDENT_MENU : ADMIN_MENU).filter(m => m.length === 1 || (kind === 'student' ? (m[0] !== 'tutor' || (S.pub && S.pub.aiTutor)) : (isAdmin || m[3])));
   const items = menu.map((m, i) => m.length === 1 ? ((menu[i + 1] && menu[i + 1].length > 1) ? `<div class="sb-label">${m[0]}</div>` : '') : `<a class="nav-i" data-sec="${m[0]}" onclick="nav('${m[0]}')"><i class="fa-solid ${m[2]}"></i><span>${m[1]}</span></a>`).join('');
@@ -1307,6 +1346,7 @@ async function nav(sec, arg, silent) {
   tabs.forEach(a => { const on = a.dataset.tab !== 'more' && hit(a.dataset.tab); a.classList.toggle('active', on); any = any || on; });
   tabs.forEach(a => { if (a.dataset.tab === 'more') a.classList.toggle('active', !any); });
   const pt = $('#pageTitle'); if (pt) pt.textContent = TITLES[sec] || '';
+  if (!silent) { setUrl(secPath(sec, arg), window.location.pathname === '/' || S.urlReplace); S.urlReplace = false; setDocTitle(TITLES[sec]); }
   toggleSb(false);
   let page;
   if (silent) page = host.firstElementChild;
@@ -1836,7 +1876,7 @@ function mkChart(id, cfg) { const el = document.getElementById(id); if (!el || !
 const ADMIN_PAGES = {
   async dashboard(main) {
     const d = await rcall('adminStats'), s = d.stats, isA = d.isAdmin;
-    main.innerHTML = `<div class="welcome mb-4"><div class="d-flex flex-wrap justify-content-between align-items-center gap-3"><div><div class="small" style="color:#c7d2fe">${new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div><h3 class="fw-bold my-1">Hello, ${esc((S.user.name || '').split(' ')[0])} 👋</h3><div style="color:#c7d2fe">Here's what's happening across your academy.</div></div>
+    main.innerHTML = siteAddressNudge() + `<div class="welcome mb-4"><div class="d-flex flex-wrap justify-content-between align-items-center gap-3"><div><div class="small" style="color:#c7d2fe">${new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div><h3 class="fw-bold my-1">Hello, ${esc((S.user.name || '').split(' ')[0])} 👋</h3><div style="color:#c7d2fe">Here's what's happening across your academy.</div></div>
       <div class="d-flex gap-2 flex-wrap">${isA ? `<button class="btn btn-light fw-semibold" onclick="quickAdd('programmes','Programmes')"><i class="fa-solid fa-plus me-1"></i>Programme</button>` : ''}<button class="btn btn-light fw-semibold" onclick="quickAdd('classes','Classes')"><i class="fa-solid fa-video me-1"></i>Schedule class</button></div></div></div>
       <div class="row g-3 mb-4">
         <div class="col-6 col-lg-3">${statCard('fa-user-graduate', 'blue', s.students, 'Registered students')}</div>
@@ -1941,20 +1981,22 @@ const ADMIN_PAGES = {
     const logs = await call('auditLogs');
     $('#auditTbl').innerHTML = logs.length ? `<table class="tbl"><tbody>${logs.map(l => `<tr><td class="small text-nowrap">${fdt(l.CreatedAt)}</td><td class="small"><b>${esc(l.Action)}</b> <span class="small-muted">${esc(l.Entity)} ${esc(l.EntityID)}</span><div class="small-muted">${esc(l.Email)}${l.Details ? ' · ' + esc(l.Details) : ''}</div></td></tr>`).join('')}</tbody></table>` : '<div class="small-muted">No actions logged yet.</div>';
   },
-  async settings(main) {
+  async settings(main, arg) {
     const st = await rcall('getSettings'); S.adm = st; const s = st.settings;
     const sw = [['REGISTRATION_OPEN', 'Student registration', 'Allow new students to create accounts.'], ['ENROLMENT_OPEN', 'Course enrolment', 'Allow enrolment in professional programmes (tutorials have their own switch).'], ['PAYMENTS_ENABLED', 'Online payments', 'Accept Paystack payments.'], ['EMAIL_NOTIFICATIONS', 'Email notifications', 'Send emails for enrolments, classes, materials, feedback, etc.'], ['REQUIRE_EMAIL_VERIFICATION', 'Require email verification', 'Students must verify their email before enrolling.'], ['MAINTENANCE_MODE', 'Maintenance mode', 'Block student portal access (website stays visible; staff can still log in).'], ['TUTORIALS_ENABLED', 'Academic tutorials', 'Show tutorials and allow tutorial registration.']];
     main.innerHTML = pageHead('System Settings', 'Configure the academy without editing code.') + `
-      <ul class="nav nav-pills mb-3 gap-1 flex-nowrap overflow-auto"><li class="nav-item"><button class="nav-link active text-nowrap" data-bs-toggle="pill" data-bs-target="#s1">General</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s2">Access & switches</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s3">Payments</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s4" onclick="loadStaff()">Staff accounts</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s5">System</button></li></ul>
+      <ul class="nav nav-pills mb-3 gap-1 flex-nowrap overflow-auto"><li class="nav-item"><button class="nav-link active text-nowrap" data-bs-toggle="pill" data-bs-target="#s1" data-tab="general">General</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s6" data-tab="site">Site & branding</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s7" data-tab="email">Email</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s2" data-tab="access">Access & switches</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s3" data-tab="payments">Payments</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s4" data-tab="staff" onclick="loadStaff()">Staff accounts</button></li><li class="nav-item"><button class="nav-link text-nowrap" data-bs-toggle="pill" data-bs-target="#s5" data-tab="system">System</button></li></ul>
       <div class="tab-content">
         <div class="tab-pane fade show active" id="s1"><div class="card-x"><form onsubmit="event.preventDefault();saveSettingsForm(this)"><div class="row g-3">
           <div class="col-md-6"><label class="form-label">Academy name</label><input class="form-control" name="ACADEMY_NAME" value="${esc(s.ACADEMY_NAME)}" required></div>
           <div class="col-md-6"><label class="form-label">Currency</label><select class="form-select" name="CURRENCY">${['NGN', 'GHS', 'KES', 'ZAR', 'USD'].map(c => `<option ${c === s.CURRENCY ? 'selected' : ''}>${c}</option>`).join('')}</select><div class="form-text">Paystack must support the currency on your account.</div></div>
           <div class="col-12"><label class="form-label">Logo</label><div class="input-group"><input class="form-control" name="LOGO_URL" value="${esc(s.LOGO_URL)}" placeholder="https:\/\/… image URL"><input type="file" accept="image/${"*"}" class="form-control" id="logoFile" style="max-width:240px"></div>${safeUrl(s.LOGO_URL) ? `<img src="${esc(s.LOGO_URL)}" class="mt-2 rounded" style="height:56px">` : ''}</div>
-          <div class="col-12"><label class="form-label">Public app URL <span class="small-muted fw-normal">(only if index.html is hosted outside Apps Script)</span></label><input class="form-control" name="FRONTEND_URL" value="${esc(s.FRONTEND_URL)}" placeholder="e.g. your Vercel or Netlify address"><div class="form-text">Used for email links, certificate verification and returning from Paystack. Leave empty when using the Apps Script link.</div></div>
+          
           <div class="col-md-6"><label class="form-label">Certificate signatory</label><input class="form-control" name="CERT_SIGNATORY" value="${esc(s.CERT_SIGNATORY)}"></div>
           <div class="col-md-6"><label class="form-label">Signatory title</label><input class="form-control" name="CERT_SIGNATORY_TITLE" value="${esc(s.CERT_SIGNATORY_TITLE)}"></div>
           <div class="col-12"><button class="btn btn-grad" type="submit">Save settings</button></div></div></form></div></div>
+        <div class="tab-pane fade" id="s6">${siteSettingsPane(s)}</div>
+        <div class="tab-pane fade" id="s7">${emailSettingsPane(s, st)}</div>
         <div class="tab-pane fade" id="s2"><div class="row g-3">${sw.map(x => `<div class="col-md-6"><div class="switch-card"><div><div class="fw-bold">${x[1]}</div><div class="small text-muted">${x[2]}</div></div><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" ${isT(s[x[0]]) ? 'checked' : ''} onchange="toggleSetting('${x[0]}',this)"></div></div></div>`).join('')}</div></div>
         <div class="tab-pane fade" id="s3"><div class="row g-4"><div class="col-lg-6"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-credit-card text-primary"></i>Paystack</h6>
           <div class="mb-3">${st.paystackConfigured ? `<span class="badge-s bs-success"><i class="fa-solid fa-circle-check me-1"></i>Connected · ${esc(st.paystackMode)} mode</span>` : '<span class="badge-s bs-warning">Not configured</span>'}</div>
@@ -1973,9 +2015,59 @@ const ADMIN_PAGES = {
         <div class="tab-pane fade" id="s5"><div class="card-x"><dl class="kv"><dt>Database</dt><dd><a href="${esc(st.databaseUrl)}" target="_blank" rel="noopener">Open Supabase dashboard <i class="fa-solid fa-arrow-up-right-from-square small"></i></a></dd><dt>Backend URL</dt><dd><code class="small">${esc(st.webhookUrl)}</code> <button class="btn btn-sm btn-light py-0" onclick="copyText('${esc(st.webhookUrl)}')"><i class="fa-solid fa-copy"></i></button></dd><dt>App opens at</dt><dd><code class="small">${esc(st.frontendUrl)}</code></dd><dt>File storage</dt><dd><a href="${esc(st.driveUrl)}" target="_blank" rel="noopener">Open Drive folder <i class="fa-solid fa-arrow-up-right-from-square small"></i></a></dd><dt>Time zone</dt><dd>${esc(st.timezone)}</dd><dt>Email quota left today</dt><dd>${st.mailQuota == null ? '—' : esc(st.mailQuota)}</dd><dt>Auto Meet links</dt><dd>${st.calendarEnabled ? badge('Active') : '<span class="badge-s bs-secondary">Off</span> <span class="small-muted">Add the Google Calendar API advanced service</span>'}</dd><dt>Silent Drive sharing</dt><dd>${st.driveApiEnabled ? badge('Active') : '<span class="badge-s bs-secondary">Off</span> <span class="small-muted">Add the Drive API advanced service</span>'}</dd></dl>
           <div class="alert alert-info small mt-3 mb-0"><i class="fa-solid fa-shield-halved me-1"></i>Backups: Supabase takes daily backups on paid plans. On the free plan, export tables regularly (Reports page CSVs or Supabase Table Editor, Export). Avoid editing IDs directly in the database.</div></div></div>
       </div>`;
+    settingsTabs(arg);
   },
   async profile(main) { profilePage(main); }
 };
+function settingsTabs(arg) {
+  $$('#main [data-tab]').forEach(b => b.addEventListener('shown.bs.tab', () => setUrl('/settings' + (b.dataset.tab === 'general' ? '' : '/' + b.dataset.tab), true)));
+  const b = arg && $(`#main [data-tab="${arg}"]`);
+  if (b) { try { bootstrap.Tab.getOrCreateInstance(b).show(); } catch (e) { b.click(); } }
+}
+function siteSettingsPane(s) {
+  const here = IN_GAS ? '' : window.location.origin, cur = safeUrl(s.FRONTEND_URL), icon = safeUrl(s.SITE_ICON_URL);
+  const mism = here && /^https:/.test(here) && cur.replace(/\/+$/, '') !== here;
+  return `<form onsubmit="event.preventDefault();saveSettingsForm(this)"><div class="row g-4"><div class="col-lg-7">
+    <div class="card-x mb-4"><h6 class="ttl"><i class="fa-solid fa-globe text-primary"></i>Website address</h6>
+      <label class="form-label" for="stUrl">Your domain</label><input class="form-control" id="stUrl" name="FRONTEND_URL" value="${esc(s.FRONTEND_URL)}" placeholder="https:\/\/academy.yourdomain.com">
+      <div class="form-text">Every link we send uses this address: emails, class QR codes, attendance, feedback, invite links, forms, certificates and payment returns.</div>
+      ${mism ? `<div class="alert alert-warning small d-flex flex-wrap align-items-center gap-2 mt-2 mb-0"><span class="flex-fill">You're on <b>${esc(here.replace(/^https:../, ''))}</b>.</span><button type="button" class="btn btn-sm btn-grad" onclick="$('#stUrl').value='${esc(here)}';this.closest('.alert').remove()">Use this address</button></div>` : ''}
+      <div class="small-muted mt-2">Links look like <code>${esc((cur || here || 'https:\/\/your-site').replace(/\/+$/, ''))}/class/CLS-00002?t=…</code> and app pages like <code>/enrolments</code>. Links already sent with the old address keep working.</div></div>
+    <div class="card-x mb-4"><h6 class="ttl"><i class="fa-solid fa-window-maximize text-primary"></i>Browser tab & search</h6>
+      <div class="row g-3"><div class="col-12"><label class="form-label">Site icon (favicon)</label><div class="input-group"><input class="form-control" name="SITE_ICON_URL" value="${esc(s.SITE_ICON_URL)}" placeholder="https:\/\/… square PNG, 512×512 works best"><input type="file" accept="image/png,image/x-icon,image/svg+xml,image/jpeg,image/webp" class="form-control" id="iconFile" style="max-width:240px" onchange="previewIcon(this)"></div>
+        <div class="form-text">Shown in the browser tab, bookmarks and on phones when the site is added to the home screen. Empty uses your logo.</div></div>
+      <div class="col-12"><label class="form-label">Site title</label><input class="form-control" name="SITE_TITLE" maxlength="120" value="${esc(s.SITE_TITLE)}" placeholder="${esc(s.ACADEMY_NAME)}" oninput="$('#tabPrevT').textContent=this.value||'${esc(s.ACADEMY_NAME)}'"><div class="form-text">Shown in the browser tab and Google results.</div></div>
+      <div class="col-12"><label class="form-label">Search description</label><textarea class="form-control" name="SITE_DESCRIPTION" rows="2" maxlength="300" placeholder="e.g. Practical data analytics, Power BI and Excel training in Lagos, online and in person.">${esc(s.SITE_DESCRIPTION)}</textarea><div class="form-text">One or two sentences shown under your link on Google.</div></div></div></div>
+    <div class="card-x mb-4"><h6 class="ttl"><i class="fa-solid fa-palette text-primary"></i>Brand colours</h6>
+      <div class="row g-3 align-items-end"><div class="col-sm-4"><label class="form-label small" for="bc1">Main colour</label><input type="color" class="form-control form-control-color w-100" id="bc1" value="${esc(s.BRAND_COLOR || '#2563eb')}" oninput="brandPreview()"></div>
+        <div class="col-sm-4"><label class="form-label small" for="bc2">Second colour</label><input type="color" class="form-control form-control-color w-100" id="bc2" value="${esc(s.BRAND_COLOR2 || '#7c3aed')}" oninput="brandPreview()"></div>
+        <div class="col-sm-4"><button type="button" class="btn btn-light w-100" onclick="$('#bc1').value='#2563eb';$('#bc2').value='#7c3aed';brandPreview(true)">Reset to default</button></div>
+        <input type="hidden" name="BRAND_COLOR" id="bcv1" value="${esc(s.BRAND_COLOR)}"><input type="hidden" name="BRAND_COLOR2" id="bcv2" value="${esc(s.BRAND_COLOR2)}">
+        <div class="col-12"><div id="bcPrev" class="rounded-4 p-3 text-white fw-bold d-flex align-items-center justify-content-between" style="background:linear-gradient(135deg,${esc(s.BRAND_COLOR || '#2563eb')},${esc(s.BRAND_COLOR2 || '#7c3aed')})"><span>Buttons, headers and highlights</span><span class="btn btn-light btn-sm">Enrol now</span></div></div></div></div>
+    <div class="card-x mb-4"><h6 class="ttl"><i class="fa-solid fa-chart-line text-primary"></i>Analytics & footer</h6>
+      <div class="row g-3"><div class="col-md-6"><label class="form-label">Google Analytics ID</label><input class="form-control" name="GA_MEASUREMENT_ID" value="${esc(s.GA_MEASUREMENT_ID)}" placeholder="G-XXXXXXXXXX"><div class="form-text">Optional. See visitors and sign-ups in Google Analytics.</div></div>
+      <div class="col-md-6"><label class="form-label">Footer line</label><input class="form-control" name="FOOTER_NOTE" maxlength="200" value="${esc(s.FOOTER_NOTE)}" placeholder="© ${new Date().getFullYear()} ${esc(s.ACADEMY_NAME)}. All rights reserved."></div></div></div>
+    <button class="btn btn-grad" type="submit"><i class="fa-solid fa-floppy-disk me-1"></i>Save site settings</button></div>
+    <div class="col-lg-5"><div class="card-x position-sticky" style="top:90px"><h6 class="ttl"><i class="fa-solid fa-eye text-primary"></i>Preview</h6>
+      <div class="small-muted mb-1">Browser tab</div><div class="tab-prev"><img id="tabPrevI" src="${esc(icon || safeUrl(s.LOGO_URL) || '')}" alt="" onerror="this.style.visibility='hidden'"><span id="tabPrevT">${esc(s.SITE_TITLE || s.ACADEMY_NAME)}</span><i class="fa-solid fa-xmark small text-muted ms-auto"></i></div>
+      <div class="small-muted mt-3 mb-1">Google result</div><div class="g-prev"><div class="small text-success text-truncate">${esc((cur || here || '').replace(/^https:../, '')) || 'your-site'}</div><div class="g-t">${esc(s.SITE_TITLE || s.ACADEMY_NAME)}</div><div class="small text-muted">${esc(s.SITE_DESCRIPTION || s.HERO_SUBTITLE || '')}</div></div></div></div>
+  </div></form>`;
+}
+function previewIcon(inp) { const f = inp.files && inp.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { const i = $('#tabPrevI'); i.src = r.result; i.style.visibility = ''; }; r.readAsDataURL(f); }
+function brandPreview(reset) {
+  const a = $('#bc1').value, b = $('#bc2').value;
+  $('#bcPrev').style.background = `linear-gradient(135deg,${a},${b})`;
+  $('#bcv1').value = reset ? '' : a; $('#bcv2').value = reset ? '' : b;
+}
+function emailSettingsPane(s, st) {
+  return `<div class="row g-4"><div class="col-lg-7"><div class="card-x"><form onsubmit="event.preventDefault();saveSettingsForm(this)"><h6 class="ttl"><i class="fa-solid fa-envelope text-primary"></i>How your emails appear</h6>
+    <div class="row g-3"><div class="col-md-6"><label class="form-label">Sender name</label><input class="form-control" name="EMAIL_SENDER_NAME" maxlength="120" value="${esc(s.EMAIL_SENDER_NAME)}" placeholder="${esc(s.ACADEMY_NAME)}"><div class="form-text">The "From" name people see in their inbox.</div></div>
+    <div class="col-md-6"><label class="form-label">Reply-to email</label><input class="form-control" type="email" name="EMAIL_REPLY_TO" value="${esc(s.EMAIL_REPLY_TO)}" placeholder="${esc(s.CONTACT_EMAIL || 'hello@yourdomain.com')}"><div class="form-text">Where replies go. Empty uses your contact email.</div></div>
+    <div class="col-12"><button class="btn btn-grad" type="submit"><i class="fa-solid fa-floppy-disk me-1"></i>Save</button></div></div></form></div></div>
+    <div class="col-lg-5"><div class="card-x"><h6 class="ttl"><i class="fa-solid fa-gauge text-primary"></i>Sending</h6><dl class="kv mb-2"><dt>Emails left today</dt><dd>${st.mailQuota == null ? '—' : esc(st.mailQuota)}</dd><dt>Sent from</dt><dd>The Google account that owns the Apps Script</dd></dl>
+      <div class="small-muted">Turn all automatic emails on or off under <a onclick="settingsTabs('access')">Access & switches</a>. Gmail accounts can send about 100 emails a day; Google Workspace about 1,500.</div></div></div></div>`;
+}
+
 function filterRows(sel, q) { q = q.toLowerCase(); $$(sel + ' tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; }); }
 function previewSite() { renderPublic(); toast('Viewing the public website. Use "My Dashboard" to return.', 'info'); }
 function drawStudents() {
@@ -2060,7 +2152,7 @@ function drawCerts() {
   const rows = (S.rows.Certificates || []).filter(c => c.Status !== 'Generating' && (!q || JSON.stringify(c).toLowerCase().includes(q)));
   $('#ceTbl').innerHTML = rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Certificate</th><th>Student</th><th>Programme</th><th>Completed</th><th>Code</th><th>Status</th><th>Fee</th><th></th></tr></thead><tbody>${rows.map(c => `<tr><td class="fw-semibold">${esc(c.CertificateID)}</td><td>${esc(c.StudentName)}<div class="small-muted">${esc(c.StudentEmail)}</div></td><td class="small">${esc(c.ProgrammeTitle)}</td><td class="small">${fdate(c.CompletionDate)}</td><td><code>${esc(c.VerificationCode)}</code></td><td>${badge(c.Status)}</td>
     <td class="small">${c.FeeStatus === 'Unpaid' ? `<span class="badge-s bs-warning"><i class="fa-solid fa-lock me-1"></i>Unpaid ${money(c.FeeAmount)}</span>` : c.FeeStatus === 'Paid' ? '<span class="badge-s bs-success">Paid</span>' : c.FeeStatus === 'Waived' ? '<span class="badge-s bs-secondary">Waived</span>' : '<span class="small-muted">—</span>'}</td>
-    <td><div class="act"><button class="btn btn-light" title="View & download" onclick="dlCertificate('${esc(c.CertificateID)}')"><i class="fa-solid fa-eye"></i></button><button class="btn btn-light" title="Copy verification link" onclick="copyText(appBase()+'?page=cert&code=${esc(c.VerificationCode)}')"><i class="fa-solid fa-link"></i></button>${c.FeeStatus === 'Unpaid' ? `<button class="btn btn-light text-success" title="Waive certificate fee" onclick="certFee('${esc(c.CertificateID)}','waive')"><i class="fa-solid fa-hand-holding-heart"></i></button>` : ''}${c.Status === 'Issued' ? `<button class="btn btn-light text-danger" title="Revoke" onclick="revokeCert('${esc(c.CertificateID)}')"><i class="fa-solid fa-ban"></i></button>` : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('fa-award', 'No certificates issued yet', '');
+    <td><div class="act"><button class="btn btn-light" title="View & download" onclick="dlCertificate('${esc(c.CertificateID)}')"><i class="fa-solid fa-eye"></i></button><button class="btn btn-light" title="Copy verification link" onclick="copyText(pageUrl('cert','${esc(c.VerificationCode)}'))"><i class="fa-solid fa-link"></i></button>${c.FeeStatus === 'Unpaid' ? `<button class="btn btn-light text-success" title="Waive certificate fee" onclick="certFee('${esc(c.CertificateID)}','waive')"><i class="fa-solid fa-hand-holding-heart"></i></button>` : ''}${c.Status === 'Issued' ? `<button class="btn btn-light text-danger" title="Revoke" onclick="revokeCert('${esc(c.CertificateID)}')"><i class="fa-solid fa-ban"></i></button>` : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('fa-award', 'No certificates issued yet', '');
 }
 function issueDialog() {
   modal('Issue certificate', `<div class="mb-3"><label class="form-label">Student</label>${studentOptions('icStu')}</div><div><label class="form-label">Programme</label><select class="form-select" id="icProg">${optProg().map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select></div><div class="form-text mt-2">A PDF with QR verification is generated and the student is notified.</div>`,
@@ -2069,7 +2161,7 @@ function issueDialog() {
 async function doIssue(btn) { const sid = pickedId($('#icStu').value), pid = $('#icProg').value; if (!sid || !pid) return toast('Select a student and programme.', 'warning'); await busy(btn, async () => { await call('issueCertificate', { studentId: sid, programmeId: pid }); closeModal(); toast('Certificate issued.'); nav('certificates'); }); }
 async function payCert(id, method, btn) {
   await busy(btn, async () => {
-    const r = await call('certPay', { certificateId: id, method, returnUrl: appBase() });
+    const r = await call('certPay', { certificateId: id, method, returnUrl: returnBase() });
     if (r.free) { toast('Certificate unlocked.'); return nav('certificates'); }
     if (method === 'bank') return bankModal(r);
     payModal(r);
@@ -2108,10 +2200,12 @@ async function saveSettingsForm(form) {
   await busy(btn, async () => {
     const d = Object.fromEntries(new FormData(form).entries());
     const payload = { settings: d };
-    const lf = $('#logoFile'); if (lf && lf.files[0]) payload._uploads = { LOGO_URL: await readFile(lf.files[0]) };
+    const lf = $('#logoFile', form), icf = $('#iconFile', form);
+    if (lf && lf.files[0]) payload._uploads = { LOGO_URL: await readFile(lf.files[0]) };
+    if (icf && icf.files[0]) payload._uploads = Object.assign(payload._uploads || {}, { SITE_ICON_URL: await readFile(icf.files[0]) });
     S.adm = await call('saveSettings', payload);
-    await refreshPublic(); toast('Saved.');
-    if (payload._uploads || d.ACADEMY_NAME) { const sec = S.sec; buildShell('admin'); nav(sec); }
+    await refreshPublic(); S._icon = null; applyBranding(); toast('Saved.');
+    if (payload._uploads || d.ACADEMY_NAME) { const sec = S.sec, tab = (window.location.pathname.split('/')[2] || ''); buildShell('admin'); nav(sec, tab || undefined); }
   });
 }
 async function savePaystack(btn) { const k = $('#psKey').value.trim(); if (!k) return toast('Paste your secret key.', 'warning'); await busy(btn, async () => { const r = await call('setPaystackKey', { key: k }); $('#psKey').value = ''; toast('Paystack connected in ' + r.mode + ' mode.'); nav('settings'); }); }
@@ -2588,7 +2682,7 @@ function certHtml(tpl, d) {
 }
 function certSampleData() {
   const s = Object.assign({}, S.pub.settings, (S.adm && S.adm.settings) || {}, S.certDraft || {});
-  return { name: 'Adaeze Okafor', programme: 'Power BI for Business Intelligence', date: new Date().toISOString().slice(0, 10), id: 'CRT-00042', code: '7KQ2M9XH4P', verifyUrl: appBase() + '?page=cert&code=7KQ2M9XH4P', duration: '6 weeks', academy: s.ACADEMY_NAME, logo: S.logoData || '', accent: s.CERT_ACCENT || '', sig1: s.CERT_SIGNATORY, sig1t: s.CERT_SIGNATORY_TITLE, sig2: s.CERT_SIGNATORY2, sig2t: s.CERT_SIGNATORY2_TITLE, partners: (S.partners || []).filter(p => (S.certPrevPartners || []).includes(p.PartnerID)).map(partnerPreviewData) };
+  return { name: 'Adaeze Okafor', programme: 'Power BI for Business Intelligence', date: new Date().toISOString().slice(0, 10), id: 'CRT-00042', code: '7KQ2M9XH4P', verifyUrl: pageUrl('cert', '7KQ2M9XH4P'), duration: '6 weeks', academy: s.ACADEMY_NAME, logo: S.logoData || '', accent: s.CERT_ACCENT || '', sig1: s.CERT_SIGNATORY, sig1t: s.CERT_SIGNATORY_TITLE, sig2: s.CERT_SIGNATORY2, sig2t: s.CERT_SIGNATORY2_TITLE, partners: (S.partners || []).filter(p => (S.certPrevPartners || []).includes(p.PartnerID)).map(partnerPreviewData) };
 }
 
 
@@ -3086,7 +3180,7 @@ function exportFlyer(fmt) {
 
 function normCode(c) { return String(c || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 30); }
 function isYes(v) { return v === true || /^(true|yes|1)$/i.test(String(v || '')); }
-function couponLink(code) { return appBase() + '?coupon=' + encodeURIComponent(code); }
+function couponLink(code) { return pageUrl('', '', { coupon: code }); }
 function findProg(id) { const P = S.pub || {}; return (P.programmes || []).concat(P.tutorials || []).find(x => x.id === id) || (S.joinProg && S.joinProg.id === id ? S.joinProg : null); }
 function cdText(iso, short) {
   const ms = new Date(iso) - Date.now();
@@ -3235,7 +3329,7 @@ async function checkoutPay(btn) {
   await busy(btn, async () => {
     const bank = S.co.method === 'bank';
     const inv = inviteFor(p.id);
-    const r = bank ? await call('initBankTransfer', { programmeId: p.id, couponCode: code, invite: inv }) : await call('initPayment', { programmeId: p.id, returnUrl: appBase(), couponCode: code, invite: inv });
+    const r = bank ? await call('initBankTransfer', { programmeId: p.id, couponCode: code, invite: inv }) : await call('initPayment', { programmeId: p.id, returnUrl: returnBase(), couponCode: code, invite: inv });
     if (bank && !r.free) { S.co = null; return bankModal(r); }
     if (r.free) { if (code) store.del('bpa_coupon'); S.co = null; closeModal(); toast('You are enrolled! 🎉'); return goApp('course', r.programmeId); }
     S.co = null;
@@ -4422,7 +4516,7 @@ function emCoupon(code) {
   return ((S.pub && S.pub.promos) || []).find(x => x.code === code) || null;
 }
 function emBadge(st) { const m = { Draft: 'bs-secondary', Scheduled: 'bs-info', Sending: 'bs-warning', Sent: 'bs-success', Stopped: 'bs-danger' }; return `<span class="badge-s ${m[st] || 'bs-secondary'}">${esc(st)}</span>`; }
-function emCourseLink(pid, coupon) { return appBase() + '?page=course&id=' + encodeURIComponent(pid) + (coupon ? '&coupon=' + encodeURIComponent(coupon) : ''); }
+function emCourseLink(pid, coupon) { return pageUrl('course', pid, { coupon: coupon || '' }); }
 function emText(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').split(/\n\s*\n/).map(p => `<p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:#334155">${p.replace(/\n/g, '<br>')}</p>`).join(''); }
 function emBtn(text, url, accent) { return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 6px"><tr><td style="border-radius:10px;background:${accent}"><a href="${esc(url)}" style="display:inline-block;padding:14px 30px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:10px">${esc(text)}</a></td></tr></table>`; }
 function emRow(inner, pad) { return `<tr><td style="padding:${pad || '0 32px'}">${inner}</td></tr>`; }
@@ -4908,16 +5002,72 @@ async function frDoDecide(btn) {
   });
 }
 
+window.addEventListener('popstate', () => {
+  if (IN_GAS) return;
+  const p = pathParams(window.location.pathname);
+  if (document.querySelector('.modal.show')) closeModal();
+  S.routing = true;
+  try {
+    if (p.page) { window.location.reload(); return; }
+    if (p.sec && S.user && !LANDING_SECS[p.sec] || (p.sec && S.user && S.view !== 'public')) { goApp(p.sec, p.arg || undefined); return; }
+    if (p.auth) { if (S.view !== 'public') renderPublic(true); openAuth(p.auth); return; }
+    renderPublic(true);
+    if (p.sec && LANDING_SECS[p.sec]) setTimeout(() => go(LANDING_SECS[p.sec]), 120);
+  } finally { setTimeout(() => { S.routing = false; }, 0); }
+});
+function setDocTitle(t) {
+  const st = (S.pub && S.pub.settings) || {}, base = st.SITE_TITLE || st.ACADEMY_NAME || BOOT.academy || document.title;
+  try { document.title = t ? t + ' · ' + (st.ACADEMY_NAME || base) : base; } catch (e) {}
+}
+function hexRgb(h) { const m = /^#?([0-9a-f]{6})$/i.exec(h || ''); if (!m) return null; const n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+// Applies Settings → Site & branding: tab icon, title, search description, brand colours, analytics.
+function applyBranding() {
+  const st = (S.pub && S.pub.settings) || {};
+  const head = document.head, link = (rel) => { let l = head.querySelector('link[rel="' + rel + '"]'); if (!l) { l = document.createElement('link'); l.rel = rel; head.appendChild(l); } return l; };
+  const icon = safeUrl(st.SITE_ICON_URL) || safeUrl(st.LOGO_URL);
+  if (icon && S._icon !== icon) { S._icon = icon; link('icon').href = icon; link('apple-touch-icon').href = icon; }
+  if (st.SITE_DESCRIPTION) { let m = head.querySelector('meta[name="description"]'); if (!m) { m = document.createElement('meta'); m.name = 'description'; head.appendChild(m); } m.content = st.SITE_DESCRIPTION; }
+  const c1 = hexRgb(st.BRAND_COLOR) ? st.BRAND_COLOR : '', c2 = hexRgb(st.BRAND_COLOR2) ? st.BRAND_COLOR2 : '';
+  const key = c1 + c2;
+  if (S._brand !== key) {
+    S._brand = key;
+    let el = document.getElementById('brandCss');
+    if (!el) { el = document.createElement('style'); el.id = 'brandCss'; head.appendChild(el); }
+    if (!key) el.textContent = '';
+    else {
+      const a = c1 || '#2563eb', b = c2 || c1 || '#7c3aed', rb = hexRgb(b);
+      el.textContent = `:root{--blue:${a};--purple:${b};--grad:linear-gradient(135deg,${a} 0%,${b} 100%)}.btn-grad{box-shadow:0 10px 22px -10px rgba(${rb.join(',')},.7)}.nav-i.active,.text-primary{color:${a}!important}`;
+    }
+    const tc = head.querySelector('meta[name="theme-color"]'); if (tc && c1) tc.content = c1;
+  }
+  const ga = /^G-[A-Z0-9]{4,15}$/.test(st.GA_MEASUREMENT_ID || '') ? st.GA_MEASUREMENT_ID : '';
+  if (ga && !S._ga && !IN_GAS) {
+    S._ga = ga; window.dataLayer = window.dataLayer || []; window.gtag = function () { window.dataLayer.push(arguments); };
+    gtag('js', new Date()); gtag('config', ga);
+    const sc = document.createElement('script'); sc.async = true; sc.src = 'https:' + '/' + '/www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(ga); head.appendChild(sc);
+  }
+}
+function siteAddressNudge() {
+  if (IN_GAS || !S.user || S.user.role !== 'ADMIN' || !S.pub) return '';
+  const here = window.location.origin, set = safeUrl(S.pub.settings.FRONTEND_URL).replace(/\/+$/, '');
+  if (!/^https:/.test(here) || /localhost|127\.0\.0\.1/.test(here) || set === here || store.get('bpa_nudge_' + here)) return '';
+  return `<div class="alert alert-warning d-flex flex-wrap align-items-center gap-2 mb-4" id="addrNudge"><i class="fa-solid fa-link"></i><div class="flex-fill small">You're using <b>${esc(here.replace(/^https:../, ''))}</b>, but links in emails, QR codes and certificates use <b>${esc((set || 'the Apps Script address').replace(/^https:../, ''))}</b>.</div><button class="btn btn-sm btn-grad" onclick="useThisAddress(this)">Use ${esc(here.replace(/^https:../, ''))} for all links</button><button class="btn btn-sm btn-light" onclick="store.set('bpa_nudge_${esc(here)}','1');$('#addrNudge').remove()">Not now</button></div>`;
+}
+async function useThisAddress(btn) {
+  await busy(btn, async () => { S.adm = await call('saveSettings', { settings: { FRONTEND_URL: window.location.origin } }); await refreshPublic(); const n = $('#addrNudge'); if (n) n.remove(); toast('Done. New links now use ' + window.location.host + '. 🎉'); if (S.sec === 'settings') nav('settings', 'site'); });
+}
+
 async function init() {
   const p = BOOT.params || {};
   if (p.coupon && normCode(p.coupon)) { const cc = normCode(p.coupon); store.set('bpa_coupon', cc); setTimeout(() => toast('🎁 Coupon ' + cc + ' saved. It will be applied automatically when you enrol.', 'info'), 1400); }
   let cached = null;
   try { cached = JSON.parse(store.get('bpa_pub') || 'null'); } catch (e) { cached = null; }
-  const plainLanding = !S.token && !p.page;
+  const plainLanding = !S.token && !p.page && !p.sec && !p.auth;
   let savedUser = null;
   try { savedUser = JSON.parse(store.get('bpa_user') || 'null'); } catch (e) { savedUser = null; }
-  if (S.token && savedUser && cached && !p.page) {
-    S.pub = cached; S.user = savedUser; rcLoad(); window.__booted = true; goApp();
+  if (cached) { S.pub = cached; applyBranding(); }
+  if (S.token && savedUser && cached && !p.page && !p.auth && !(p.sec && LANDING_SECS[p.sec] && savedUser.role === 'STUDENT' && !STUDENT_PAGES[p.sec])) {
+    S.pub = cached; S.user = savedUser; rcLoad(); window.__booted = true; S.urlReplace = true; goApp(p.sec, p.arg || undefined);
     call('me').then(u => { if (u && S.user) { Object.assign(S.user, u); saveUser(); } }).catch(() => {});
     call('publicData').then(f => { S.pub = f; try { store.set('bpa_pub', JSON.stringify(f)); } catch (e) {} }).catch(() => {});
     return;
@@ -4940,19 +5090,23 @@ async function init() {
     if (changed && S.view === 'public' && !document.querySelector('.modal.show')) { const y = window.scrollY; renderPublic(); window.scrollTo(0, y); }
     return;
   }
-  S.pub = fresh;
+  S.pub = fresh; applyBranding();
   if (S.token) { S.user = await meReq; if (!S.user) { S.token = ''; store.del('bpa_lms_token'); } else { saveUser(); rcLoad(); } }
   if (p.page === 'payment' && (p.reference || p.trxref)) return showPaymentReturn(p.reference || p.trxref);
   if (p.page === 'verify-email' && p.token) return doVerifyEmail(p.token);
-  if (p.page === 'reset' && p.token) { renderPublic(); return setTimeout(() => openAuth('reset', p.token), 300); }
+  if (p.page === 'reset' && p.token) { renderPublic(true); return setTimeout(() => openAuth('reset', p.token), 300); }
   if (p.page === 'cert') return renderCertVerify(p.code || '');
   if (p.page === 'class' && p.c && p.t) return openHubLink(p);
   if (p.page === 'join' && p.p && p.k) return renderJoinPage(p.p, p.k);
   if (p.page === 'r' && p.u) return handleTrackedLink(p);
   if (p.page === 'form' && p.f && p.k) return renderFormPage(p.f, p.k);
   if (p.page === 'unsub' && p.e && p.t) return renderUnsub(p);
-  if (p.page === 'course' && p.id) { renderPublic(); return setTimeout(() => { if (findProg(p.id)) openProgramme(p.id); else go('programmes'); }, 300); }
-  if (S.user) goApp(); else renderPublic();
+  if (p.page === 'course' && p.id) { renderPublic(true); return setTimeout(() => { if (findProg(p.id)) openProgramme(p.id); else go('programmes'); }, 300); }
+  if (p.auth) { renderPublic(true); return setTimeout(() => openAuth(S.user ? 'login' : p.auth), 300); }
+  if (S.user) { S.urlReplace = true; return goApp(p.sec, p.arg || undefined); }
+  if (p.sec && LANDING_SECS[p.sec]) { renderPublic(true); return setTimeout(() => go(LANDING_SECS[p.sec]), 350); }
+  if (p.sec) { S.afterLogin = { sec: p.sec, arg: p.arg }; renderPublic(true); return setTimeout(() => openAuth('login'), 300); }
+  renderPublic(true);
 }
 function labelTables() {
   $$('table.tbl').forEach(t => {
