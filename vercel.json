@@ -1,0 +1,17 @@
+{
+  "cleanUrls": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "bpaacademy.vercel.app" }],
+      "destination": "https://academy.bpadynamics.com.ng/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    { "source": "/((?!.*\\.[a-zA-Z0-9]{2,5}$).*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    { "source": "/(.*)", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
+  ]
+}
