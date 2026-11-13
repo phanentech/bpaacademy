@@ -5019,7 +5019,7 @@ function setDocTitle(t) {
   const st = (S.pub && S.pub.settings) || {}, base = st.SITE_TITLE || st.ACADEMY_NAME || BOOT.academy || document.title;
   try { document.title = t ? t + ' · ' + (st.ACADEMY_NAME || base) : base; } catch (e) {}
 }
-function hexRgb(h) { const m = /^#?([0-9a-f]{6})$/i.exec(h || ''); if (!m) return null; const n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+function brandRgb(h) { const m = /^#?([0-9a-f]{6})$/i.exec(h || ''); if (!m) return null; const n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
 // Applies Settings → Site & branding: tab icon, title, search description, brand colours, analytics.
 function applyBranding() {
   const st = (S.pub && S.pub.settings) || {};
@@ -5027,7 +5027,7 @@ function applyBranding() {
   const icon = safeUrl(st.SITE_ICON_URL) || safeUrl(st.LOGO_URL);
   if (icon && S._icon !== icon) { S._icon = icon; link('icon').href = icon; link('apple-touch-icon').href = icon; }
   if (st.SITE_DESCRIPTION) { let m = head.querySelector('meta[name="description"]'); if (!m) { m = document.createElement('meta'); m.name = 'description'; head.appendChild(m); } m.content = st.SITE_DESCRIPTION; }
-  const c1 = hexRgb(st.BRAND_COLOR) ? st.BRAND_COLOR : '', c2 = hexRgb(st.BRAND_COLOR2) ? st.BRAND_COLOR2 : '';
+  const c1 = brandRgb(st.BRAND_COLOR) ? st.BRAND_COLOR : '', c2 = brandRgb(st.BRAND_COLOR2) ? st.BRAND_COLOR2 : '';
   const key = c1 + c2;
   if (S._brand !== key) {
     S._brand = key;
@@ -5035,7 +5035,7 @@ function applyBranding() {
     if (!el) { el = document.createElement('style'); el.id = 'brandCss'; head.appendChild(el); }
     if (!key) el.textContent = '';
     else {
-      const a = c1 || '#2563eb', b = c2 || c1 || '#7c3aed', rb = hexRgb(b);
+      const a = c1 || '#2563eb', b = c2 || c1 || '#7c3aed', rb = brandRgb(b);
       el.textContent = `:root{--blue:${a};--purple:${b};--grad:linear-gradient(135deg,${a} 0%,${b} 100%)}.btn-grad{box-shadow:0 10px 22px -10px rgba(${rb.join(',')},.7)}.nav-i.active,.text-primary{color:${a}!important}`;
     }
     const tc = head.querySelector('meta[name="theme-color"]'); if (tc && c1) tc.content = c1;
