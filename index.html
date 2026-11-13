@@ -38,6 +38,46 @@ nav.pub .nav-link:hover{color:var(--purple);background:#f5f3ff}
 .brand{display:flex;align-items:center;gap:.6rem;font-weight:800;color:var(--navy);text-decoration:none;letter-spacing:-.02em}
 .brand-logo{width:40px;height:40px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:1.05rem;flex-shrink:0;overflow:hidden}
 .brand-logo img{width:100%;height:100%;object-fit:cover}
+.dz-ed{display:flex;flex-direction:column;height:calc(100vh - 150px);min-height:600px;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.dz-top{display:flex;align-items:center;gap:.5rem;padding:.55rem .75rem;border-bottom:1px solid var(--line);flex-wrap:wrap}.dz-title{max-width:260px;font-weight:700}
+.dz-body{flex:1;display:flex;min-height:0}
+.dz-rail{width:74px;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:.4rem .3rem;gap:.15rem;background:#f8fafc;overflow:auto}
+.dz-rb{border:0;background:none;border-radius:10px;padding:.5rem .2rem;display:flex;flex-direction:column;align-items:center;gap:.25rem;font-size:.66rem;font-weight:600;color:#475569}.dz-rb i{font-size:1.1rem}.dz-rb:hover{background:#eef2ff}.dz-rb.active{background:#e0e7ff;color:#3730a3}
+.dz-panel{width:290px;border-right:1px solid var(--line);overflow:auto;padding:.85rem}
+.dz-props{width:290px;border-left:1px solid var(--line);overflow:auto;padding:.85rem}
+.dz-ph{font-weight:800;font-size:.85rem;margin-bottom:.5rem;color:var(--navy)}
+.dz-work{flex:1;min-width:0;overflow:auto;background:#e9edf3;display:flex;flex-direction:column;align-items:center;padding:24px;position:relative}.dz-work.dz-drop{outline:3px dashed #6366f1;outline-offset:-10px}
+.dz-wrap{position:relative;flex:none;margin:auto;box-shadow:0 10px 40px -12px rgba(15,23,42,.35)}
+.dz-stage{position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;background:#fff}.dz-stage .dz-el{cursor:move}.dz-stage [contenteditable=true]{cursor:text;caret-color:#6366f1}
+.dz-over{position:absolute;inset:0;pointer-events:none}
+.dz-box{position:absolute;border:2px solid #6366f1;box-sizing:border-box;transform-origin:center center}.dz-box.lock{border-style:dashed;border-color:#f59e0b}
+.dz-h{position:absolute;width:14px;height:14px;background:#fff;border:2px solid #6366f1;border-radius:50%;pointer-events:auto;touch-action:none}
+.dz-h-nw{left:-8px;top:-8px;cursor:nwse-resize}.dz-h-ne{right:-8px;top:-8px;cursor:nesw-resize}.dz-h-se{right:-8px;bottom:-8px;cursor:nwse-resize}.dz-h-sw{left:-8px;bottom:-8px;cursor:nesw-resize}
+.dz-h-n,.dz-h-s{left:50%;margin-left:-11px;width:22px;height:9px;border-radius:5px}.dz-h-n{top:-5px;cursor:ns-resize}.dz-h-s{bottom:-5px;cursor:ns-resize}
+.dz-h-e,.dz-h-w{top:50%;margin-top:-11px;width:9px;height:22px;border-radius:5px}.dz-h-e{right:-5px;cursor:ew-resize}.dz-h-w{left:-5px;cursor:ew-resize}
+.dz-rot{left:50%;bottom:-40px;margin-left:-13px;width:26px;height:26px;display:grid;place-items:center;font-size:.7rem;color:#6366f1;cursor:grab}
+.dz-lk{position:absolute;right:-10px;top:-10px;background:#f59e0b;color:#fff;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:.6rem}
+.dz-guide{position:absolute;background:#ec4899}.dz-guide.v{top:0;bottom:0;width:1px}.dz-guide.h{left:0;right:0;height:1px}
+.dz-dim{position:absolute;background:#0b1b3f;color:#fff;font-size:.7rem;padding:.15rem .4rem;border-radius:6px;white-space:nowrap}
+.dz-hint{margin-top:10px;flex:none}
+.dz-grid2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.dz-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}.dz-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}.dz-grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:.3rem}
+.dz-tpl{border:0;background:none;padding:0;text-align:left;font-size:.72rem;font-weight:700;color:var(--navy);display:flex;flex-direction:column;gap:.15rem}.dz-tpl small{font-weight:500;color:#64748b;font-size:.66rem}.dz-tpl:hover .dz-fit{box-shadow:0 0 0 2px #6366f1!important}
+.dz-it{border:1px solid var(--line);background:#fff;border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#334155;padding:.3rem;gap:.15rem;font-size:1rem;overflow:hidden}.dz-it:hover{border-color:#6366f1;background:#f5f3ff}.dz-it.on{border-color:#6366f1;box-shadow:0 0 0 2px #c7d2fe}.dz-it small{font-size:.6rem;font-weight:600;line-height:1.1}.dz-it.tall{aspect-ratio:auto;min-height:74px}.dz-it svg{max-width:100%;max-height:56px}
+.dz-fr{width:30px;height:30px;display:block;background:repeating-linear-gradient(45deg,#cbd5e1,#cbd5e1 4px,#e2e8f0 4px,#e2e8f0 8px)}
+.dz-txb{display:block;width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:.6rem .7rem;margin-bottom:.4rem;text-align:left;color:var(--navy)}.dz-txb:hover{border-color:#6366f1;background:#f5f3ff}
+.dz-assets{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}.dz-as{position:relative;border-radius:10px;overflow:hidden;background:#f1f5f9;aspect-ratio:1;cursor:pointer;border:1px solid var(--line)}.dz-as img{width:100%;height:100%;object-fit:cover}.dz-as:hover{box-shadow:0 0 0 2px #6366f1}
+.dz-asx{position:absolute;right:4px;top:4px;border:0;background:rgba(15,23,42,.7);color:#fff;border-radius:50%;width:22px;height:22px;font-size:.65rem;display:none}.dz-as:hover .dz-asx{display:block}.dz-asl{position:absolute;left:4px;bottom:4px;background:#fff;border-radius:6px;font-size:.6rem;font-weight:700;padding:0 .3rem}
+.dz-sw{display:grid;grid-template-columns:repeat(6,1fr);gap:.35rem}.dz-sw button{aspect-ratio:1;border-radius:8px;border:1px solid var(--line)}.dz-sw button.on{box-shadow:0 0 0 2px #6366f1}
+.dz-sws{width:20px;height:20px;border-radius:6px;border:1px solid #cbd5e1;padding:0}.dz-sws.on{box-shadow:0 0 0 2px #6366f1}.dz-sws.none{background:linear-gradient(135deg,#fff 45%,#ef4444 45%,#ef4444 55%,#fff 55%)!important}
+.dz-color{width:34px;height:28px;border:1px solid var(--line);border-radius:7px;padding:1px;background:#fff}
+.dz-row{margin-bottom:.55rem}.dz-row>label{display:block;font-size:.7rem;font-weight:700;color:#64748b;margin-bottom:.2rem}.dz-row .form-range{flex:1}.dz-n{width:68px}
+.dz-tg{font-size:.8rem;margin-bottom:.4rem}
+.dz-acts{display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:.6rem}
+.dz-sec{border-top:1px solid var(--line);padding:.5rem 0}.dz-sec summary{font-weight:700;font-size:.8rem;cursor:pointer;color:var(--navy);list-style:none;display:flex;justify-content:space-between}.dz-sec summary::after{content:'\25BE';color:#94a3b8}.dz-secb{padding-top:.5rem}
+.dz-xywh{display:grid;grid-template-columns:repeat(5,1fr);gap:.25rem;margin-bottom:.5rem}.dz-xywh label{font-size:.65rem;font-weight:700;color:#64748b}.dz-xywh input{padding:.2rem .3rem;font-size:.75rem}
+.dz-layers{display:flex;flex-direction:column;gap:.2rem}.dz-ly{display:flex;align-items:center;gap:.4rem;border:1px solid var(--line);border-radius:8px;padding:.35rem .5rem;font-size:.75rem;cursor:pointer}.dz-ly span{flex:1;min-width:0}.dz-ly.on{border-color:#6366f1;background:#eef2ff}
+.dz-tips{border-top:1px solid var(--line);padding-top:.6rem;margin-top:.4rem;font-size:.72rem;line-height:1.6}
+@media (max-width:991.98px){.dz-ed{height:auto;min-height:0}.dz-body{flex-direction:column}.dz-work{order:1}.dz-rail{order:2}.dz-panel{order:3}.dz-props{order:4}.dz-rail{width:auto;flex-direction:row;border-right:0;border-bottom:1px solid var(--line);overflow-x:auto}.dz-rb{min-width:66px}.dz-panel,.dz-props{width:auto;border:0;max-height:none}.dz-panel{max-height:300px;border-bottom:1px solid var(--line)}.dz-work{min-height:62vh;padding:14px}.dz-props{border-top:1px solid var(--line)}.dz-hint{display:none}.dz-title{max-width:150px}}
 .tab-prev{display:flex;align-items:center;gap:.5rem;background:#eef1f6;border-radius:10px 10px 0 0;padding:.5rem .75rem;max-width:280px;font-size:.85rem}.tab-prev img{width:16px;height:16px;object-fit:contain;border-radius:3px}.tab-prev span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .g-prev{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem}.g-prev .g-t{color:#1a0dab;font-size:1.05rem;line-height:1.3}
 /* hero */
@@ -592,7 +632,7 @@ function callHttp(action, payload) {
     catch (e) { throw new Error('The backend returned an unexpected response. Check BACKEND_URL and that the web app is deployed with access for "Anyone".'); }
   });
 }
-const READS = new Set(['publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff', 'couponList', 'partnerList', 'myQuizzes', 'quizList', 'emailList', 'formList']);
+const READS = new Set(['designAssets', 'publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff', 'couponList', 'partnerList', 'myQuizzes', 'quizList', 'emailList', 'formList']);
 const NO_DIRTY = new Set(['batch', 'validateCoupon', 'getMaterialFile', 'getVideo', 'getAssignmentFile', 'getCertificateData', 'getStaffFile', 'getTransferProof', 'transferInfo', 'aiTutor', 'aiGenerate', 'aiTestModel', 'imageData', 'verifyCertificate', 'certCandidates', 'formPublic', 'formResponses', 'formFile', 'emailAudience', 'emailGet', 'emailReport', 'emailInsights', 'trackClick', 'classHub', 'classLinks', 'classFeedback', 'quizResults', 'quizStart', 'markNotificationsRead', 'joinClass', 'login', 'register', 'logout', 'forgotPassword']);
 const RC = { mem: {}, at: {}, uid: '', dirty: 0, pending: {} };
 function rcKey(a, p) { return a + '|' + JSON.stringify(p || {}); }
@@ -2739,6 +2779,10 @@ async function exportDesign(html, W, H, filename, fmt, a4landscape) {
       const doc = a4landscape ? new PDF({ orientation: 'landscape', unit: 'mm', format: 'a4' }) : new PDF({ orientation: W > H ? 'landscape' : 'portrait', unit: 'px', format: [W, H], hotfixes: ['px_scaling'] });
       if (a4landscape) doc.addImage(img, 'JPEG', 0, 0, 297, 210); else doc.addImage(img, 'JPEG', 0, 0, W, H);
       downloadBlob(doc.output('blob'), safe + '.pdf');
+    } else if (fmt === 'jpg') {
+      const c2 = document.createElement('canvas'); c2.width = canvas.width; c2.height = canvas.height; const g = c2.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c2.width, c2.height); g.drawImage(canvas, 0, 0);
+      const blob = await new Promise(r => c2.toBlob(r, 'image/jpeg', .9));
+      downloadBlob(blob, safe + '.jpg');
     } else {
       const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
       downloadBlob(blob, safe + '.png');
@@ -3013,6 +3057,7 @@ const FLYER_DESIGNS = {
   } }
 };
 function flyerHtml(tpl, data, size) {
+  if (tpl === 'canvas') return dzHtml(data);
   ensureDesignFonts();
   const t = FLYER_DESIGNS[tpl] || FLYER_DESIGNS.bold, sz = FLYER_SIZES[size] || FLYER_SIZES.square;
   const d = flyPrep(Object.assign({}, data, { primary: data.primary || t.primary, accent: data.accent || t.accent }), sz[0]);
@@ -3030,17 +3075,20 @@ ADMIN_PAGES.flyers = async function (main, arg) {
   S.flyMain = main;
   await Promise.all([loadLookups(), loadLogoData(), loadLib('qr').catch(() => null)]);
   if (arg === 'new' || !S.flyTab) S.flyTab = 'list';
+  if (S.flyTab === 'canvas' && S.dz) return dzShell();
   if (S.flyTab === 'edit' && S.fly) return drawFlyEditor();
   S.flyTab = 'list';
-  main.innerHTML = pageHead('<i class="fa-solid fa-palette text-primary me-2"></i>Flyer Studio', 'Design flyers for webinars, bootcamps, workshops and tutorials, then download them for WhatsApp, Instagram or print.', `<button class="btn btn-grad" onclick="newFlyer()"><i class="fa-solid fa-plus me-1"></i>New design</button>`) +
-    `<h6 class="fw-bold mb-3">Start from a template</h6><div class="row g-3 mb-4">${Object.keys(FLYER_DESIGNS).map(k => `<div class="col-6 col-md-4 col-xl-3"><div class="card-x p-2 h-100" style="cursor:pointer" onclick="newFlyer('${k}')">${fitBox(flyerHtml(k, flyDefaults(), 'square'), 1080, 1080, 'border-radius:8px')}<div class="fw-semibold small mt-2 px-1">${esc(FLYER_DESIGNS[k].name)}</div></div></div>`).join('')}</div>
+  main.innerHTML = pageHead('<i class="fa-solid fa-palette text-primary me-2"></i>Flyer Studio', 'Design flyers for webinars, bootcamps, workshops and tutorials, then download them for WhatsApp, Instagram or print.', `<button class="btn btn-grad" onclick="dzOpen(null,{panel:'templates'})"><i class="fa-solid fa-plus me-1"></i>New design</button>`) +
+    `<div class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3"><div><h6 class="fw-bold mb-1">Design editor templates</h6><div class="small-muted">Drag, resize and recolour anything. Add big photos, shapes, logos and tool tiles.</div></div><div class="d-flex gap-2 flex-wrap">${Object.keys(DZ_SIZES).map(k => `<button class="btn btn-light btn-sm" onclick="dzOpen(Object.assign(DZ_TEMPLATES.blank.build(),{w:${DZ_SIZES[k][0]},h:${DZ_SIZES[k][1]}}),{panel:'elements'})"><i class="fa-regular fa-square-plus me-1"></i>${esc(DZ_SIZES[k][2])}</button>`).join('')}</div></div>
+    <div class="row g-3 mb-4">${Object.keys(DZ_TEMPLATES).filter(k => k !== 'blank').map(k => { const d = DZ_TEMPLATES[k].build(); return `<div class="col-6 col-md-4 col-xl-3"><div class="card-x p-2 h-100" style="cursor:pointer" onclick="dzOpen(DZ_TEMPLATES['${k}'].build(),{title:DZ_TEMPLATES['${k}'].name,panel:'elements'})">${dzThumb(d, 'max-height:330px')}<div class="fw-semibold small mt-2 px-1">${esc(DZ_TEMPLATES[k].name)}</div><div class="small-muted px-1">${esc(DZ_SIZES[DZ_TEMPLATES[k].size][2])}</div></div></div>`; }).join('')}</div>
+    <h6 class="fw-bold mb-1">Quick fill-in templates</h6><div class="small-muted mb-3">Type the details and the layout arranges itself.</div><div class="row g-3 mb-4">${Object.keys(FLYER_DESIGNS).map(k => `<div class="col-6 col-md-4 col-xl-3"><div class="card-x p-2 h-100" style="cursor:pointer" onclick="newFlyer('${k}')">${fitBox(flyerHtml(k, flyDefaults(), 'square'), 1080, 1080, 'border-radius:8px')}<div class="fw-semibold small mt-2 px-1">${esc(FLYER_DESIGNS[k].name)}</div></div></div>`).join('')}</div>
     <h6 class="fw-bold mb-3">My designs</h6><div id="flyList">${spin()}</div>`;
   fitDesigns(main);
   try {
     S.flyers = await rcall('flyerList');
     const el = $('#flyList'); if (!el) return;
-    el.innerHTML = S.flyers.length ? `<div class="row g-3">${S.flyers.map(f => { const sz = FLYER_SIZES[f.size] || FLYER_SIZES.square; return `<div class="col-6 col-md-4 col-xl-3"><div class="card-x p-2 h-100 d-flex flex-column">${fitBox(flyerHtml(f.template, f.data, f.size), sz[0], sz[1], 'border-radius:8px;max-height:340px')}
-      <div class="px-1 mt-2"><div class="fw-semibold small text-truncate">${esc(f.title)}</div><div class="small-muted">${esc(FLYER_DESIGNS[f.template] ? FLYER_DESIGNS[f.template].name : '')} · ${esc(sz[2].split(' · ')[0])} · ${ago(f.updated)}</div></div>
+    el.innerHTML = S.flyers.length ? `<div class="row g-3">${S.flyers.map(f => { const cv = f.template === 'canvas', sz = cv ? [f.data.w || 1080, f.data.h || 1080, ((DZ_SIZES[f.size] || [])[2] || 'Custom') + ' · '] : (FLYER_SIZES[f.size] || FLYER_SIZES.square); return `<div class="col-6 col-md-4 col-xl-3"><div class="card-x p-2 h-100 d-flex flex-column">${fitBox(flyerHtml(f.template, f.data, f.size), sz[0], sz[1], 'border-radius:8px;max-height:340px')}
+      <div class="px-1 mt-2"><div class="fw-semibold small text-truncate">${esc(f.title)}</div><div class="small-muted">${esc(cv ? 'Editor design' : FLYER_DESIGNS[f.template] ? FLYER_DESIGNS[f.template].name : '')} · ${esc(sz[2].split(' · ')[0])} · ${ago(f.updated)}</div></div>
       <div class="d-flex gap-1 mt-auto pt-2"><button class="btn btn-sm btn-grad flex-fill" onclick="editFlyer('${esc(f.id)}')"><i class="fa-solid fa-pen me-1"></i>Edit</button><button class="btn btn-sm btn-light" title="Duplicate" onclick="editFlyer('${esc(f.id)}',true)"><i class="fa-solid fa-copy"></i></button><button class="btn btn-sm btn-light text-danger" title="Delete" onclick="deleteFlyer('${esc(f.id)}')"><i class="fa-solid fa-trash"></i></button></div></div></div>`; }).join('')}</div>`
       : empty('fa-palette', 'No saved designs yet', 'Pick a template above to create your first flyer.');
     fitDesigns(el);
@@ -3049,6 +3097,7 @@ ADMIN_PAGES.flyers = async function (main, arg) {
 function newFlyer(tpl) { S.fly = { id: '', template: tpl || 'bold', size: 'square', data: flyDefaults() }; S.flyTab = 'edit'; drawFlyEditor(); }
 function editFlyer(id, dup) {
   const f = (S.flyers || []).find(x => x.id === id); if (!f) return;
+  if (f.template === 'canvas') return dzOpen(JSON.parse(JSON.stringify(f.data)), { id: dup ? '' : f.id, title: dup ? f.title + ' (copy)' : f.title, dirty: !!dup, panel: 'elements' });
   S.fly = { id: dup ? '' : f.id, template: f.template, size: f.size, data: Object.assign(flyDefaults(), f.data, dup ? { title: f.data.title + ' (copy)' } : {}) };
   S.flyTab = 'edit'; drawFlyEditor();
 }
@@ -3177,6 +3226,783 @@ function exportFlyer(fmt) {
   exportDesign(flyerHtml(S.fly.template, S.fly.data, S.fly.size), sz[0], sz[1], (S.fly.data.title || 'flyer') + '-' + S.fly.size, fmt);
 }
 
+
+// ───────────── DESIGN EDITOR (Canva-style): free layout, layers, shapes, photos, tool tiles ─────────────
+const DZ_FONTS = ['Plus Jakarta Sans', 'Montserrat', 'Poppins', 'Bebas Neue', 'Anton', 'Oswald', 'Playfair Display', 'Space Grotesk', 'Raleway', 'Lilita One', 'Great Vibes', 'Dancing Script'];
+const DZ_SIZES = { square: [1080, 1080, 'Square post'], portrait: [1080, 1350, 'Portrait post'], story: [1080, 1920, 'Story / Status'], landscape: [1920, 1080, 'Banner / slide'], cover: [1200, 630, 'Programme image'], a4: [1240, 1754, 'A4 print'] };
+const DZ_PALETTE = ['#ffffff', '#0b1b3f', '#111827', '#1d4ed8', '#2563eb', '#0ea5e9', '#7c3aed', '#a855f7', '#db2777', '#ef4444', '#f97316', '#f59e0b', '#facc15', '#16a34a', '#10b981', '#14b8a6', '#64748b', '#e2e8f0'];
+function ensureDzFonts() {
+  ensureDesignFonts();
+  if (document.getElementById('dzFonts2')) return;
+  const l = document.createElement('link'); l.id = 'dzFonts2'; l.rel = 'stylesheet';
+  l.href = 'https:\/\/fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Anton&family=Oswald:wght@500;700&family=Raleway:wght@500;700;900&family=Lilita+One&family=Dancing+Script:wght@700&display=swap';
+  document.head.appendChild(l);
+}
+let _dzSeq = 0;
+function dzId() { return 'e' + Date.now().toString(36) + (++_dzSeq).toString(36); }
+function dzFill(a, b, ang, grad) { return grad && b ? `linear-gradient(${Number(ang) || 135}deg,${a || '#fff'},${b})` : (a || 'transparent'); }
+function dzShadow(e) { return e.shadow ? (e.t === 'text' ? 'text-shadow:0 4px 18px rgba(0,0,0,.28);' : `box-shadow:0 ${Math.round(Math.min(e.w, e.h) * .06 + 6)}px ${Math.round(Math.min(e.w, e.h) * .16 + 14)}px rgba(15,23,42,.18);`) : ''; }
+function dzBgCss(bg) {
+  bg = bg || {};
+  let c = bg.grad && bg.c2 ? `background:linear-gradient(${Number(bg.ang) || 135}deg,${bg.c1 || '#fff'},${bg.c2});` : `background:${bg.c1 || '#ffffff'};`;
+  const src = dzSrc(bg.img);
+  if (src) c += `background-image:${bg.ov ? `linear-gradient(rgba(0,0,0,${Number(bg.ov) || 0}),rgba(0,0,0,${Number(bg.ov) || 0})),` : ''}url('${esc(src)}');background-size:cover;background-position:center;`;
+  return c;
+}
+// Images are kept as Drive links; for exporting, they are swapped for embedded copies (html2canvas needs same-origin images).
+function dzSrc(u) { if (!u) return ''; if (String(u).indexOf('data:image/') === 0) return u; const s = safeUrl(u); return s ? (S.imgCache && S.imgCache[s]) || s : ''; }
+function dzSvg(e, inner, vb) { return `<svg width="100%" height="100%" viewBox="${vb || `0 0 ${e.w} ${e.h}`}" preserveAspectRatio="none" style="display:block;overflow:visible">${inner}</svg>`; }
+function dzGradDef(id, e) { return e.grad && e.fill2 ? `<defs><linearGradient id="${id}" gradientTransform="rotate(${(Number(e.ga) || 135) - 90} .5 .5)"><stop offset="0" stop-color="${e.fill}"/><stop offset="1" stop-color="${e.fill2}"/></linearGradient></defs>` : ''; }
+function dzShapeHtml(e) {
+  const w = e.w, h = e.h, gid = 'g' + e.id, fill = e.grad && e.fill2 ? `url(#${gid})` : (e.fill || 'none'), st = e.stroke && e.sw ? `stroke="${e.stroke}" stroke-width="${e.sw}"` : '', def = dzGradDef(gid, e);
+  switch (e.kind) {
+    case 'rect': case 'ellipse': case 'pill':
+      return `<div style="width:100%;height:100%;background:${dzFill(e.fill, e.fill2, e.ga, e.grad)};border-radius:${e.kind === 'ellipse' ? '50%' : e.kind === 'pill' ? '9999px' : (Number(e.radius) || 0) + 'px'};${e.stroke && e.sw ? `border:${e.sw}px ${e.dash ? 'dashed' : 'solid'} ${e.stroke};` : ''}box-sizing:border-box;${dzShadow(e)}"></div>`;
+    case 'ring': return `<div style="width:100%;height:100%;border-radius:50%;border:${Number(e.sw) || 14}px ${e.dash ? 'dashed' : 'solid'} ${e.stroke || e.fill || '#38bdf8'};box-sizing:border-box;${e.grad && e.fill2 ? `border-color:${e.fill} ${e.fill2} ${e.fill2} ${e.fill};` : ''}"></div>`;
+    case 'triangle': return dzSvg(e, def + `<polygon points="${w / 2},0 ${w},${h} 0,${h}" fill="${fill}" ${st}/>`);
+    case 'diamond': return dzSvg(e, def + `<polygon points="${w / 2},0 ${w},${h / 2} ${w / 2},${h} 0,${h / 2}" fill="${fill}" ${st}/>`);
+    case 'hexagon': return dzSvg(e, def + `<polygon points="${w * .25},0 ${w * .75},0 ${w},${h / 2} ${w * .75},${h} ${w * .25},${h} 0,${h / 2}" fill="${fill}" ${st}/>`);
+    case 'star': { const p = []; for (let i = 0; i < 10; i++) { const r = i % 2 ? .21 : .5, a = Math.PI / 5 * i - Math.PI / 2; p.push((w / 2 + Math.cos(a) * r * w).toFixed(1) + ',' + (h / 2 + Math.sin(a) * r * h * 1.05 + h * .03).toFixed(1)); } return dzSvg(e, def + `<polygon points="${p.join(' ')}" fill="${fill}" ${st}/>`); }
+    case 'arrow': { const t = Math.min(h * .55, w * .45); return dzSvg(e, def + `<polygon points="0,${h * .3} ${w - t},${h * .3} ${w - t},0 ${w},${h / 2} ${w - t},${h} ${w - t},${h * .7} 0,${h * .7}" fill="${fill}" ${st}/>`); }
+    case 'chevron': return dzSvg(e, def + `<polygon points="0,0 ${w * .7},0 ${w},${h / 2} ${w * .7},${h} 0,${h} ${w * .3},${h / 2}" fill="${fill}" ${st}/>`);
+    case 'speech': return dzSvg(e, def + `<path d="M${w * .08},0 H${w * .92} Q${w},0 ${w},${h * .1} V${h * .68} Q${w},${h * .78} ${w * .92},${h * .78} H${w * .36} L${w * .16},${h} L${w * .2},${h * .78} H${w * .08} Q0,${h * .78} 0,${h * .68} V${h * .1} Q0,0 ${w * .08},0 Z" fill="${fill}" ${st}/>`);
+    case 'blob': return dzSvg(e, def + `<path d="M${w * .52},${h * .02} C${w * .8},${h * .0} ${w * 1.0},${h * .25} ${w * .97},${h * .52} C${w * .95},${h * .8} ${w * .72},${h * 1.0} ${w * .45},${h * .97} C${w * .18},${h * .95} ${w * .0},${h * .74} ${w * .03},${h * .46} C${w * .06},${h * .2} ${w * .26},${h * .04} ${w * .52},${h * .02} Z" fill="${fill}" ${st}/>`);
+    case 'wave': return dzSvg(e, def + `<path d="M0,${h * .35} C${w * .25},${h * -.05} ${w * .5},${h * .75} ${w * .75},${h * .35} C${w * .87},${h * .15} ${w * .95},${h * .2} ${w},${h * .28} V${h} H0 Z" fill="${fill}" ${st}/>`);
+    case 'slant': return dzSvg(e, def + `<polygon points="0,${h * .25} ${w},0 ${w},${h} 0,${h}" fill="${fill}" ${st}/>`);
+    case 'line': case 'arrowline': {
+      const sw = Number(e.sw) || 6, c = e.stroke || e.fill || '#0b1b3f', y = h / 2, head = e.kind === 'arrowline' ? `<polygon points="${w},${y} ${w - sw * 3.2},${y - sw * 2} ${w - sw * 3.2},${y + sw * 2}" fill="${c}"/>` : '';
+      return dzSvg(e, `<line x1="0" y1="${y}" x2="${e.kind === 'arrowline' ? w - sw * 3 : w}" y2="${y}" stroke="${c}" stroke-width="${sw}" stroke-linecap="round" ${e.dash ? `stroke-dasharray="${sw * 2.4} ${sw * 2}"` : ''}/>${head}`);
+    }
+    case 'dots': { let d = ''; const g = Number(e.gap) || 28, r = Math.max(2, g * .14); for (let yy = r; yy < h; yy += g) for (let xx = r; xx < w; xx += g) d += `<circle cx="${xx}" cy="${yy}" r="${r}"/>`; return dzSvg(e, `<g fill="${e.fill || '#cbd5e1'}">${d}</g>`); }
+  }
+  return '';
+}
+function dzImageHtml(e) {
+  const src = dzSrc(e.src), rad = e.circle ? '50%' : (Number(e.radius) || 0) + 'px';
+  const border = e.stroke && e.sw ? `border:${e.sw}px solid ${e.stroke};` : '';
+  if (!src) return `<div style="width:100%;height:100%;border-radius:${rad};${border}background:repeating-linear-gradient(45deg,${e.ov ? '#1e293b,#1e293b 14px,#273449 14px,#273449 28px' : '#e2e8f0,#e2e8f0 14px,#f1f5f9 14px,#f1f5f9 28px'});display:flex;flex-direction:column;align-items:center;justify-content:center;color:${e.ov ? '#94a3b8' : '#64748b'};font:600 ${Math.max(14, Math.min(e.w, e.h) * .07)}px 'Plus Jakarta Sans',sans-serif;text-align:center;box-sizing:border-box;${dzShadow(e)}"><i class="fa-solid fa-image" style="font-size:2.2em;margin-bottom:.3em"></i>Your photo here</div>`;
+  const ov = Number(e.ov) || 0;
+  return `<div style="width:100%;height:100%;border-radius:${rad};${border}box-sizing:border-box;overflow:hidden;background-image:${ov ? `linear-gradient(${e.ovDir || 180}deg,rgba(0,0,0,0) 20%,rgba(${e.ovColor || '0,0,0'},${ov}) 100%),` : ''}url('${esc(src)}');background-size:${e.fit === 'contain' ? 'contain' : 'cover'};background-repeat:no-repeat;background-position:${Number(e.px == null ? 50 : e.px)}% ${Number(e.py == null ? 50 : e.py)}%;${e.flip ? 'transform:scaleX(-1);' : ''}${dzShadow(e)}"></div>`;
+}
+function dzTextHtml(e) {
+  const pad = e.bg ? (e.pad != null ? Number(e.pad) : Math.round(e.size * .35)) : 0;
+  const j = e.align === 'center' ? 'center' : e.align === 'right' ? 'flex-end' : 'flex-start';
+  const st = `font-family:'${e.font || 'Plus Jakarta Sans'}',sans-serif;font-size:${e.size}px;font-weight:${e.weight || 700};color:${e.color || '#0b1b3f'};text-align:${e.align || 'left'};line-height:${e.lh || 1.15};letter-spacing:${(Number(e.ls) || 0) / 100}em;${e.italic ? 'font-style:italic;' : ''}${e.upper ? 'text-transform:uppercase;' : ''}${e.under ? 'text-decoration:underline;' : ''}${e.stroke && e.sw ? `-webkit-text-stroke:${e.sw}px ${e.stroke};` : ''}`;
+  const box = e.bg ? `background:${dzFill(e.bg, e.bg2, e.ga, e.grad)};border-radius:${e.pill ? '9999px' : (Number(e.radius) || 0) + 'px'};padding:${pad * .45}px ${pad}px;display:flex;align-items:center;justify-content:${j};height:100%;box-sizing:border-box;${dzShadow(Object.assign({}, e, { t: 'box' }))}` : (e.shadow ? dzShadow(e) : '');
+  return `<div class="dz-txt" style="${st}${box}white-space:pre-wrap;word-break:break-word;width:100%"><span class="dz-tx" style="display:block;width:100%">${esc(e.text || '')}</span></div>`;
+}
+function dzTileHtml(e) {
+  const s = Math.min(e.w, e.h), lab = e.label != null ? e.label : '', src = dzSrc(e.src), ic = TOOL_ICONS[e.tool];
+  const art = src ? `<div style="width:100%;height:100%;background:url('${esc(src)}') center/contain no-repeat"></div>` : ic ? ic.svg : `<i class="fa-solid ${esc(e.fa || 'fa-star')}" style="font-size:${s * .45}px;color:${e.color || '#2563eb'}"></i>`;
+  return `<div style="width:100%;height:100%;background:${dzFill(e.fill || '#ffffff', e.fill2, e.ga, e.grad)};border-radius:${Number(e.radius == null ? s * .16 : e.radius)}px;${e.stroke && e.sw ? `border:${e.sw}px solid ${e.stroke};` : ''}box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:${s * .05}px;padding:${s * .1}px;${dzShadow(e)}">
+    <div style="width:${lab ? 62 : 78}%;height:${lab ? 56 : 78}%;display:flex;align-items:center;justify-content:center">${art}</div>
+    ${lab ? `<div style="font:800 ${Number(e.size) || Math.round(s * .13)}px 'Plus Jakarta Sans',sans-serif;color:${e.color || '#0b1b3f'};text-align:center;line-height:1.05;white-space:nowrap">${esc(lab)}</div>` : ''}</div>`;
+}
+function dzElHtml(e) {
+  let inner = '';
+  if (e.t === 'text') inner = dzTextHtml(e);
+  else if (e.t === 'shape') inner = dzShapeHtml(e);
+  else if (e.t === 'image') inner = dzImageHtml(e);
+  else if (e.t === 'icon') inner = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;${e.fill ? `background:${dzFill(e.fill, e.fill2, e.ga, e.grad)};border-radius:${e.circle ? '50%' : (Number(e.radius) || 0) + 'px'};` : ''}${dzShadow(e)}"><i class="fa-solid ${esc(e.fa || 'fa-star')}" style="font-size:${Math.min(e.w, e.h) * (e.fill ? .5 : .86)}px;color:${e.color || '#2563eb'};line-height:1"></i></div>`;
+  else if (e.t === 'tile') inner = dzTileHtml(e);
+  else if (e.t === 'art') inner = (DZ_ART[e.art] || DZ_ART.database).svg(e);
+  else if (e.t === 'qr') { const q = qrData(e.link || siteBase()); inner = `<div style="width:100%;height:100%;background:${e.fill || '#fff'};border-radius:${Number(e.radius) || 12}px;padding:${Math.min(e.w, e.h) * .06}px;box-sizing:border-box;${dzShadow(e)}">${q ? `<img src="${q}" style="width:100%;height:100%;display:block;image-rendering:pixelated" alt="">` : ''}</div>`; }
+  const tf = [e.rot ? `rotate(${e.rot}deg)` : '', e.t !== 'image' && e.flip ? 'scaleX(-1)' : ''].filter(Boolean).join(' ');
+  return `<div class="dz-el" data-id="${e.id}" style="position:absolute;left:${e.x}px;top:${e.y}px;width:${e.w}px;${e.t === 'text' && !e.bg ? '' : `height:${e.h}px;`}${tf ? `transform:${tf};` : ''}${e.op != null && Number(e.op) < 1 ? `opacity:${e.op};` : ''}${e.hidden ? 'visibility:hidden;' : ''}">${inner}</div>`;
+}
+function dzHtml(d) {
+  ensureDzFonts();
+  return `<div class="dz-page" style="position:relative;width:${d.w}px;height:${d.h}px;overflow:hidden;${dzBgCss(d.bg)}">${(d.els || []).map(dzElHtml).join('')}</div>`;
+}
+// Swap every Drive image in a design for an embedded copy so PNG/PDF export works.
+async function dzEmbedImages(d) {
+  S.imgCache = S.imgCache || {};
+  const urls = new Set();
+  const add = u => { const s = safeUrl(u); if (s && !S.imgCache[s]) urls.add(s); };
+  add(d.bg && d.bg.img); (d.els || []).forEach(e => { add(e.src); });
+  await Promise.all(Array.from(urls).map(async u => { try { S.imgCache[u] = (await call('imageData', { url: u })).data || ''; } catch (e) { S.imgCache[u] = ''; } }));
+}
+
+// Original tool icons (not the official logos). Upload official logos in Uploads → "Logo" and use them on any tile.
+function dzI(body, defs) { return `<svg viewBox="0 0 64 64" width="100%" height="100%" style="display:block">${defs ? `<defs>${defs}</defs>` : ''}${body}</svg>`; }
+function dzLg(id, a, b) { return `<linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>`; }
+const TOOL_ICONS = {
+  excel: { label: 'Excel', svg: dzI(`<rect x="8" y="6" width="48" height="52" rx="8" fill="url(#tiXl)"/><rect x="14" y="14" width="36" height="36" rx="3" fill="#fff" opacity=".95"/><path d="M14 26h36M14 38h36M26 14v36M38 14v36" stroke="#16a34a" stroke-width="2.2"/><rect x="14" y="14" width="36" height="12" rx="3" fill="#bbf7d0"/><text x="32" y="24" font-family="Arial" font-weight="900" font-size="9" fill="#15803d" text-anchor="middle">fx</text>`, dzLg('tiXl', '#22c55e', '#15803d')) },
+  python: { label: 'Python', svg: dzI(`<rect x="6" y="10" width="52" height="44" rx="9" fill="url(#tiPy)"/><rect x="6" y="10" width="52" height="11" rx="9" fill="#1e3a8a"/><circle cx="14" cy="15.5" r="2" fill="#fde047"/><circle cx="20" cy="15.5" r="2" fill="#93c5fd"/><path d="M15 31l8 6-8 6" fill="none" stroke="#fde047" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 44h16" stroke="#fff" stroke-width="4" stroke-linecap="round"/>`, dzLg('tiPy', '#2563eb', '#1d4ed8')) },
+  sql: { label: 'SQL', svg: dzI(`<path d="M10 14v36c0 5 10 9 22 9s22-4 22-9V14" fill="url(#tiSq)"/><ellipse cx="32" cy="14" rx="22" ry="8" fill="#60a5fa"/><path d="M10 26c0 5 10 9 22 9s22-4 22-9M10 38c0 5 10 9 22 9s22-4 22-9" fill="none" stroke="#93c5fd" stroke-width="1.6" opacity=".7"/><text x="32" y="42" font-family="Arial" font-weight="900" font-size="15" fill="#fff" text-anchor="middle">SQL</text>`, dzLg('tiSq', '#3b82f6', '#1e40af')) },
+  powerbi: { label: 'Power BI', svg: dzI(`<rect x="6" y="6" width="52" height="52" rx="12" fill="url(#tiBi)"/><rect x="14" y="36" width="8" height="14" rx="2" fill="#fff"/><rect x="26" y="28" width="8" height="22" rx="2" fill="#fff" opacity=".92"/><rect x="38" y="20" width="8" height="30" rx="2" fill="#fff" opacity=".85"/><path d="M13 30l12-9 9 5 15-12" fill="none" stroke="#7c2d12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="14" r="3.4" fill="#7c2d12"/>`, dzLg('tiBi', '#fbbf24', '#ea580c')) },
+  warehouse: { label: 'Data Warehouse', svg: dzI(`<path d="M18 30a12 12 0 0 1 23-5 9 9 0 1 1 3 18H17a8 8 0 0 1 1-13z" fill="url(#tiWh)"/><g transform="translate(23 30)"><path d="M0 4v16c0 2.5 4 4.5 9 4.5s9-2 9-4.5V4" fill="#1d4ed8"/><ellipse cx="9" cy="4" rx="9" ry="3.6" fill="#93c5fd"/><path d="M0 10c0 2.5 4 4.5 9 4.5s9-2 9-4.5M0 15.5c0 2.5 4 4.5 9 4.5s9-2 9-4.5" fill="none" stroke="#bfdbfe" stroke-width="1.4"/></g>`, dzLg('tiWh', '#38bdf8', '#2563eb')) },
+  tableau: { label: 'Visualisation', svg: dzI(`<rect x="6" y="8" width="52" height="48" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/><path d="M14 46l10-12 9 6 15-18" fill="none" stroke="#6366f1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="34" r="3.5" fill="#f97316"/><circle cx="33" cy="40" r="3.5" fill="#10b981"/><circle cx="48" cy="22" r="3.5" fill="#ec4899"/><path d="M14 50h36" stroke="#cbd5e1" stroke-width="2"/>`) },
+  stats: { label: 'Statistics', svg: dzI(`<rect x="6" y="8" width="52" height="48" rx="10" fill="url(#tiSt)"/><path d="M10 48c8 0 10-30 22-30s14 30 22 30" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M32 18v30" stroke="#fde68a" stroke-width="2" stroke-dasharray="3 3"/><path d="M10 48h44" stroke="#fff" stroke-width="2" opacity=".6"/>`, dzLg('tiSt', '#14b8a6', '#0f766e')) },
+  ai: { label: 'AI & ML', svg: dzI(`<rect x="14" y="14" width="36" height="36" rx="8" fill="url(#tiAi)"/><path d="M22 8v6M32 8v6M42 8v6M22 50v6M32 50v6M42 50v6M8 22h6M8 32h6M8 42h6M50 22h6M50 32h6M50 42h6" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/><text x="32" y="38" font-family="Arial" font-weight="900" font-size="15" fill="#fff" text-anchor="middle">AI</text>`, dzLg('tiAi', '#a855f7', '#6d28d9')) },
+  automate: { label: 'Automation', svg: dzI(`<rect x="6" y="6" width="52" height="52" rx="14" fill="url(#tiAu)"/><path d="M36 12L20 36h12l-4 16 16-24H32z" fill="#fff"/>`, dzLg('tiAu', '#0ea5e9', '#2563eb')) },
+  sheets: { label: 'Spreadsheets', svg: dzI(`<path d="M14 6h26l12 12v40a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z" fill="#10b981"/><path d="M40 6v12h12z" fill="#065f46" opacity=".5"/><rect x="18" y="28" width="28" height="22" rx="2" fill="#fff"/><path d="M18 35h28M18 42h28M30 28v22" stroke="#10b981" stroke-width="2"/>`) },
+  web: { label: 'Web / Code', svg: dzI(`<rect x="6" y="8" width="52" height="48" rx="10" fill="url(#tiWb)"/><path d="M24 22l-10 10 10 10M40 22l10 10-10 10" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M35 18l-6 28" stroke="#fde68a" stroke-width="4" stroke-linecap="round"/>`, dzLg('tiWb', '#f97316', '#db2777')) },
+  cloud: { label: 'Cloud', svg: dzI(`<path d="M17 46a11 11 0 0 1 1-22 15 15 0 0 1 28 3 10 10 0 0 1 1 19z" fill="url(#tiCl)"/><path d="M32 40V28m-6 6l6-6 6 6" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`, dzLg('tiCl', '#60a5fa', '#4f46e5')) },
+  dashboard: { label: 'Dashboards', svg: dzI(`<rect x="6" y="10" width="52" height="40" rx="6" fill="#0b1b3f"/><rect x="11" y="15" width="20" height="14" rx="2" fill="#38bdf8"/><rect x="34" y="15" width="19" height="14" rx="2" fill="#a78bfa"/><rect x="11" y="32" width="42" height="13" rx="2" fill="#1e293b"/><path d="M14 42l8-5 7 3 9-6 12 4" fill="none" stroke="#facc15" stroke-width="2.4"/><path d="M24 54h16" stroke="#0b1b3f" stroke-width="4" stroke-linecap="round"/>`) },
+  finance: { label: 'Finance', svg: dzI(`<circle cx="32" cy="32" r="26" fill="url(#tiFi)"/><text x="32" y="43" font-family="Arial" font-weight="900" font-size="30" fill="#fff" text-anchor="middle">₦</text>`, dzLg('tiFi', '#22c55e', '#0f766e')) },
+  project: { label: 'Project Mgt', svg: dzI(`<rect x="8" y="8" width="48" height="48" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="2"/><rect x="14" y="16" width="22" height="7" rx="3.5" fill="#6366f1"/><rect x="22" y="28" width="26" height="7" rx="3.5" fill="#f59e0b"/><rect x="18" y="40" width="18" height="7" rx="3.5" fill="#10b981"/>`) },
+  security: { label: 'Cybersecurity', svg: dzI(`<path d="M32 6l22 8v16c0 14-10 24-22 28C20 54 10 44 10 30V14z" fill="url(#tiSe)"/><rect x="24" y="30" width="16" height="13" rx="3" fill="#fff"/><path d="M27 30v-4a5 5 0 0 1 10 0v4" fill="none" stroke="#fff" stroke-width="3"/>`, dzLg('tiSe', '#334155', '#0f172a')) },
+  graduation: { label: 'Certificate', svg: dzI(`<path d="M32 12L4 25l28 13 28-13z" fill="#0b1b3f"/><path d="M16 31v11c0 4 7 8 16 8s16-4 16-8V31l-16 7z" fill="#1e3a8a"/><path d="M56 26v14" stroke="#f59e0b" stroke-width="3"/><circle cx="56" cy="42" r="3.4" fill="#f59e0b"/>`) }
+};
+// Original illustrations, recoloured with the element's main and second colour.
+const DZ_ART = {
+  database: { name: 'Database', w: 260, h: 300, svg: e => { const a = e.fill || '#2563eb', b = e.fill2 || '#1e3a8a', g = 'a' + e.id; return `<svg viewBox="0 0 200 240" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="display:block"><defs>${dzLg(g, a, b)}</defs>${[150, 98, 46].map(y => `<path d="M10 ${y}v40c0 14 40 24 90 24s90-10 90-24v-40" fill="url(#${g})"/><ellipse cx="100" cy="${y}" rx="90" ry="24" fill="${a}" opacity=".9"/><ellipse cx="100" cy="${y}" rx="90" ry="24" fill="#fff" opacity=".18"/>`).join('')}<circle cx="100" cy="46" r="4" fill="#fff" opacity=".7"/></svg>`; } },
+  laptop: { name: 'Laptop dashboard', w: 420, h: 300, svg: e => { const a = e.fill || '#2563eb', b = e.fill2 || '#7c3aed'; return `<svg viewBox="0 0 400 280" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="display:block"><rect x="50" y="10" width="300" height="200" rx="14" fill="#1e293b"/><rect x="62" y="22" width="276" height="176" rx="6" fill="#f8fafc"/><rect x="74" y="34" width="120" height="70" rx="6" fill="#fff" stroke="#e2e8f0"/>${[0, 1, 2, 3].map(i => `<rect x="${86 + i * 26}" y="${88 - i * 12}" width="16" height="${10 + i * 12}" rx="2" fill="${i % 2 ? b : a}"/>`).join('')}<rect x="204" y="34" width="122" height="70" rx="6" fill="#fff" stroke="#e2e8f0"/><path d="M214 92l22-18 20 10 22-24 34 8" fill="none" stroke="${a}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="74" y="114" width="90" height="74" rx="6" fill="#fff" stroke="#e2e8f0"/><circle cx="119" cy="151" r="26" fill="${a}"/><path d="M119 151V125a26 26 0 0 1 24 16z" fill="#f59e0b"/><path d="M119 151l24-10a26 26 0 0 1-6 28z" fill="#10b981"/><rect x="174" y="114" width="152" height="74" rx="6" fill="#fff" stroke="#e2e8f0"/><rect x="174" y="114" width="152" height="14" rx="6" fill="${b}"/>${[0, 1, 2].map(i => `<rect x="184" y="${136 + i * 16}" width="40" height="7" rx="3" fill="#cbd5e1"/><rect x="236" y="${136 + i * 16}" width="34" height="7" rx="3" fill="#cbd5e1"/><rect x="282" y="${136 + i * 16}" width="32" height="7" rx="3" fill="#cbd5e1"/>`).join('')}<path d="M20 214h360l-20 26H40z" fill="#334155"/><rect x="170" y="216" width="60" height="7" rx="3" fill="#94a3b8"/></svg>`; } },
+  report: { name: 'Report', w: 300, h: 320, svg: e => { const a = e.fill || '#2563eb', b = e.fill2 || '#7c3aed'; return `<svg viewBox="0 0 260 280" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="display:block"><rect x="10" y="10" width="190" height="230" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="3"/><rect x="28" y="30" width="90" height="10" rx="5" fill="#cbd5e1"/>${[0, 1, 2, 3, 4].map(i => `<rect x="${32 + i * 30}" y="${130 - [30, 44, 56, 76, 96][i]}" width="20" height="${[30, 44, 56, 76, 96][i]}" rx="3" fill="${[a, a, '#10b981', '#f59e0b', b][i]}"/>`).join('')}${[0, 1, 2].map(i => `<rect x="28" y="${156 + i * 22}" width="${[90, 70, 80][i]}" height="10" rx="5" fill="#e2e8f0"/>`).join('')}<circle cx="190" cy="200" r="58" fill="${a}"/><path d="M190 200V142a58 58 0 0 1 50 29z" fill="#f59e0b"/><path d="M190 200l50-29a58 58 0 0 1-2 56z" fill="#10b981"/><path d="M190 200l48 27a58 58 0 0 1-30 27z" fill="${b}"/></svg>`; } },
+  pixels: { name: 'Data pixels', w: 260, h: 160, svg: e => { const c = [e.fill || '#3b82f6', e.fill2 || '#8b5cf6', '#f59e0b', '#38bdf8', '#f472b6']; const sq = [[10, 60, 26], [46, 30, 30], [90, 50, 22], [120, 10, 26], [160, 40, 20], [190, 70, 28], [60, 90, 24], [100, 100, 30], [150, 110, 22], [210, 20, 18], [20, 120, 18], [230, 120, 16]]; return `<svg viewBox="0 0 260 160" width="100%" height="100%" style="display:block">${sq.map((s, i) => `<rect x="${s[0]}" y="${s[1]}" width="${s[2]}" height="${s[2]}" rx="5" fill="${c[i % 5]}" opacity="${.65 + (i % 3) * .15}"/>`).join('')}</svg>`; } },
+  cap: { name: 'Graduation', w: 300, h: 220, svg: e => { const a = e.fill || '#0b1b3f', b = e.fill2 || '#f59e0b'; return `<svg viewBox="0 0 300 220" width="100%" height="100%" style="display:block"><path d="M150 20L10 80l140 60 140-60z" fill="${a}"/><path d="M70 110v50c0 20 36 40 80 40s80-20 80-40v-50l-80 34z" fill="${a}" opacity=".85"/><path d="M276 86v70" stroke="${b}" stroke-width="7"/><circle cx="276" cy="164" r="12" fill="${b}"/></svg>`; } },
+  rocket: { name: 'Rocket', w: 220, h: 300, svg: e => { const a = e.fill || '#7c3aed', b = e.fill2 || '#f97316'; return `<svg viewBox="0 0 200 280" width="100%" height="100%" style="display:block"><path d="M100 10c40 30 52 90 40 150H60C48 100 60 40 100 10z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/><circle cx="100" cy="86" r="22" fill="${a}"/><circle cx="100" cy="86" r="12" fill="#e0e7ff"/><path d="M60 120l-34 40 6 30 32-30zM140 120l34 40-6 30-32-30z" fill="${a}"/><path d="M70 160h60l-8 24H78z" fill="#94a3b8"/><path d="M80 184c0 30 20 60 20 80 0-20 20-50 20-80z" fill="${b}"/><path d="M90 184c0 20 10 40 10 54 0-14 10-34 10-54z" fill="#fde047"/></svg>`; } },
+  certificate: { name: 'Certificate', w: 320, h: 240, svg: e => { const a = e.fill || '#1d4ed8', b = e.fill2 || '#f59e0b'; return `<svg viewBox="0 0 320 240" width="100%" height="100%" style="display:block"><rect x="10" y="10" width="300" height="200" rx="10" fill="#fff" stroke="${a}" stroke-width="6"/><rect x="24" y="24" width="272" height="172" rx="6" fill="none" stroke="${a}" stroke-width="1.5" opacity=".4"/><rect x="90" y="48" width="140" height="12" rx="6" fill="${a}"/><rect x="60" y="78" width="200" height="8" rx="4" fill="#cbd5e1"/><rect x="80" y="96" width="160" height="8" rx="4" fill="#cbd5e1"/><rect x="50" y="160" width="70" height="4" rx="2" fill="#94a3b8"/><circle cx="240" cy="160" r="30" fill="${b}"/><path d="M226 186l-8 40 22-12 22 12-8-40" fill="${b}" opacity=".8"/><circle cx="240" cy="160" r="18" fill="none" stroke="#fff" stroke-width="3"/></svg>`; } },
+  people: { name: 'Learners', w: 360, h: 220, svg: e => { const a = e.fill || '#2563eb', b = e.fill2 || '#7c3aed'; const p = (x, s, c) => `<circle cx="${x}" cy="${110 - s * 40}" r="${s * 30}" fill="#fcd9b6"/><path d="M${x - s * 60} 220c0-${s * 70} ${s * 25}-${s * 100} ${s * 60}-${s * 100}s${s * 60} ${s * 30} ${s * 60} ${s * 100}z" fill="${c}"/>`; return `<svg viewBox="0 0 360 220" width="100%" height="100%" style="display:block">${p(80, .9, b)}${p(280, .9, '#0ea5e9')}${p(180, 1.15, a)}</svg>`; } },
+  sparkles: { name: 'Sparkles', w: 200, h: 200, svg: e => { const a = e.fill || '#facc15', b = e.fill2 || '#a855f7'; const st = (x, y, r, c) => `<path d="M${x} ${y - r}C${x + r * .15} ${y - r * .15} ${x + r * .15} ${y - r * .15} ${x + r} ${y}C${x + r * .15} ${y + r * .15} ${x + r * .15} ${y + r * .15} ${x} ${y + r}C${x - r * .15} ${y + r * .15} ${x - r * .15} ${y + r * .15} ${x - r} ${y}C${x - r * .15} ${y - r * .15} ${x - r * .15} ${y - r * .15} ${x} ${y - r}z" fill="${c}"/>`; return `<svg viewBox="0 0 200 200" width="100%" height="100%" style="display:block">${st(80, 90, 60, a)}${st(160, 40, 26, b)}${st(150, 150, 20, a)}</svg>`; } },
+  calendar: { name: 'Calendar', w: 220, h: 220, svg: e => { const a = e.fill || '#ef4444', b = e.fill2 || '#0b1b3f'; return `<svg viewBox="0 0 200 200" width="100%" height="100%" style="display:block"><rect x="16" y="30" width="168" height="154" rx="18" fill="#fff" stroke="#e2e8f0" stroke-width="4"/><path d="M16 48a18 18 0 0 1 18-18h132a18 18 0 0 1 18 18v26H16z" fill="${a}"/><rect x="52" y="14" width="12" height="34" rx="6" fill="${b}"/><rect x="136" y="14" width="12" height="34" rx="6" fill="${b}"/>${[0, 1, 2, 3].map(c => [0, 1, 2].map(r => `<rect x="${36 + c * 34}" y="${90 + r * 28}" width="22" height="18" rx="4" fill="${c === 2 && r === 1 ? a : '#e2e8f0'}"/>`).join('')).join('')}</svg>`; } },
+  megaphone: { name: 'Megaphone', w: 260, h: 200, svg: e => { const a = e.fill || '#f97316', b = e.fill2 || '#0b1b3f'; return `<svg viewBox="0 0 260 200" width="100%" height="100%" style="display:block"><path d="M40 70h40l110-50v160L80 130H40a20 20 0 0 1-20-20V90a20 20 0 0 1 20-20z" fill="${a}"/><rect x="186" y="16" width="20" height="168" rx="10" fill="${b}"/><path d="M60 130l14 50h28l-10-50z" fill="${b}"/><path d="M222 70c12 10 12 50 0 60M234 52c22 20 22 76 0 96" fill="none" stroke="${a}" stroke-width="8" stroke-linecap="round"/></svg>`; } }
+};
+
+// Editable starting designs. Every piece is a separate layer you can move, recolour, replace or delete.
+function dzT(text, x, y, w, size, o) { return Object.assign({ id: dzId(), t: 'text', text, x, y, w, h: Math.round(size * 1.2), size, font: 'Plus Jakarta Sans', weight: 800, color: '#0b1b3f', align: 'left', lh: 1.1 }, o || {}); }
+function dzR(kind, x, y, w, h, o) { return Object.assign({ id: dzId(), t: 'shape', kind, x, y, w, h, fill: '#2563eb' }, o || {}); }
+function dzP(x, y, w, h, o) { return Object.assign({ id: dzId(), t: 'image', x, y, w, h, src: '', radius: 0 }, o || {}); }
+function dzTile(tool, x, y, s, o) { return Object.assign({ id: dzId(), t: 'tile', tool, label: (TOOL_ICONS[tool] || {}).label || '', x, y, w: s, h: s, fill: '#ffffff', shadow: true }, o || {}); }
+function dzA(art, x, y, w, h, o) { return Object.assign({ id: dzId(), t: 'art', art, x, y, w, h }, o || {}); }
+function dzIc(fa, x, y, s, o) { return Object.assign({ id: dzId(), t: 'icon', fa, x, y, w: s, h: s, color: '#2563eb' }, o || {}); }
+function dzQ(x, y, s, o) { return Object.assign({ id: dzId(), t: 'qr', x, y, w: s, h: s, link: siteBase() }, o || {}); }
+function dzSet() { const st = (S.pub && S.pub.settings) || {}; return { name: st.ACADEMY_NAME || 'Your Academy', web: siteBase().replace(/^https?:../, ''), phone: st.WHATSAPP || st.CONTACT_PHONE || '+234 800 000 0000' }; }
+const DZ_TEMPLATES = {
+  toolring: { name: 'Course cover: tool ring', size: 'square', build: () => ({ w: 1080, h: 1080, bg: { c1: '#eaf4ff', c2: '#f3ecff', grad: true, ang: 160 }, els: [
+    dzR('ellipse', 190, 210, 700, 700, { fill: '#ffffff', op: .6 }),
+    dzR('ring', 150, 170, 780, 780, { stroke: '#38bdf8', fill: '#38bdf8', fill2: '#f59e0b', grad: true, sw: 14, op: .75 }),
+    dzTile('python', 120, 110, 220), dzTile('sql', 430, 36, 220), dzTile('powerbi', 740, 110, 220),
+    dzTile('excel', 26, 400, 196), dzTile('warehouse', 858, 400, 196, { size: 22 }),
+    dzT('DATA', 320, 296, 440, 120, { font: 'Montserrat', weight: 900, color: '#ffffff', align: 'center', bg: '#1e3a8a', bg2: '#1d4ed8', grad: true, radius: 30, h: 158, shadow: true }),
+    dzT('ANALYTICS', 228, 466, 624, 92, { font: 'Montserrat', weight: 900, color: '#facc15', align: 'center', bg: '#172554', bg2: '#1e40af', grad: true, radius: 30, h: 150, shadow: true }),
+    dzT('FULL STACK', 300, 638, 480, 56, { font: 'Montserrat', weight: 900, color: '#ffffff', align: 'center', bg: '#7c3aed', bg2: '#a855f7', grad: true, radius: 28, h: 104, ls: 4, shadow: true }),
+    dzA('pixels', 40, 742, 230, 120), dzA('database', 50, 820, 210, 240),
+    dzR('arrow', 280, 900, 100, 64, { fill: '#38bdf8', fill2: '#2563eb', grad: true }),
+    dzA('laptop', 380, 770, 340, 250), dzR('arrow', 730, 900, 90, 64, { fill: '#2dd4bf', fill2: '#0d9488', grad: true }),
+    dzA('report', 830, 760, 220, 280)
+  ] }) },
+  coverdark: { name: 'Programme image: tools', size: 'cover', build: () => ({ w: 1200, h: 630, bg: { c1: '#0b1b3f', c2: '#312e81', grad: true, ang: 120 }, els: [
+    dzR('blob', 760, -120, 560, 520, { fill: '#7c3aed', op: .35 }), dzR('dots', 40, 470, 260, 140, { fill: '#ffffff', op: .15, gap: 26 }),
+    dzT('PROFESSIONAL CERTIFICATE', 70, 90, 470, 22, { color: '#0b1b3f', bg: '#facc15', pill: true, h: 46, ls: 8, weight: 800, align: 'center' }),
+    dzT('Data Analytics\nMasterclass', 70, 160, 600, 76, { font: 'Montserrat', weight: 900, color: '#ffffff', lh: 1.05 }),
+    dzT('Excel · SQL · Power BI · Python', 70, 350, 600, 30, { color: '#c7d2fe', weight: 600 }),
+    dzT('Enrol now  →', 70, 430, 280, 28, { color: '#ffffff', bg: '#7c3aed', bg2: '#2563eb', grad: true, pill: true, h: 70, align: 'center' }),
+    dzTile('excel', 700, 90, 150), dzTile('sql', 870, 90, 150), dzTile('powerbi', 1040, 90, 150, { size: 18 }),
+    dzTile('python', 700, 260, 150), dzTile('warehouse', 870, 260, 150, { size: 16 }), dzTile('dashboard', 1040, 260, 150, { size: 18 }),
+    dzT(dzSet().web, 700, 470, 450, 24, { color: '#a5b4fc', weight: 600, align: 'right', x: 740 })
+  ] }) },
+  photohero: { name: 'Bootcamp: big photo', size: 'portrait', build: () => ({ w: 1080, h: 1350, bg: { c1: '#0b1b3f' }, els: [
+    dzP(380, 0, 700, 1350, { ov: .55, ovDir: 270, ovColor: '11,27,63' }),
+    dzR('slant', 0, 860, 1080, 490, { fill: '#0b1b3f', op: .96 }),
+    dzT(dzSet().name.toUpperCase(), 60, 60, 600, 26, { color: '#ffffff', weight: 800, ls: 10 }),
+    dzT('4-WEEK BOOTCAMP', 60, 150, 420, 30, { color: '#0b1b3f', bg: '#facc15', pill: true, h: 66, ls: 6, align: 'center' }),
+    dzT('BECOME A\nDATA\nANALYST', 60, 250, 780, 140, { font: 'Bebas Neue', weight: 400, color: '#ffffff', lh: .92 }),
+    dzT('Hands-on training in Excel, SQL and Power BI with real business projects.', 60, 980, 620, 34, { color: '#cbd5e1', weight: 500, lh: 1.35 }),
+    dzIc('fa-calendar-days', 60, 1110, 46, { color: '#facc15' }), dzT('Starts 6 Dec · Sat & Sun', 120, 1114, 420, 32, { color: '#ffffff', weight: 700 }),
+    dzIc('fa-location-dot', 60, 1180, 46, { color: '#facc15' }), dzT('Online + Lagos hub', 120, 1184, 420, 32, { color: '#ffffff', weight: 700 }),
+    dzR('ellipse', 810, 900, 220, 220, { fill: '#facc15' }), dzT('₦45k\nonly', 810, 958, 220, 46, { align: 'center', weight: 900, color: '#0b1b3f', lh: 1 }),
+    dzQ(860, 1170, 150), dzT('Scan to register', 700, 1250, 150, 18, { color: '#cbd5e1', align: 'right', weight: 600 })
+  ] }) },
+  webinar: { name: 'Webinar: speaker circle', size: 'square', build: () => ({ w: 1080, h: 1080, bg: { c1: '#4c1d95', c2: '#1e1b4b', grad: true, ang: 140 }, els: [
+    dzR('blob', -120, 640, 600, 560, { fill: '#7c3aed', op: .45 }), dzR('dots', 820, 40, 220, 180, { fill: '#ffffff', op: .18 }),
+    dzR('ring', 590, 280, 440, 440, { stroke: '#facc15', sw: 6, dash: true }),
+    dzP(620, 310, 380, 380, { circle: true, stroke: '#ffffff', sw: 10 }),
+    dzT('FREE WEBINAR', 70, 80, 300, 26, { color: '#1e1b4b', bg: '#facc15', pill: true, h: 60, ls: 6, align: 'center' }),
+    dzT('Mastering Power BI Dashboards', 70, 190, 520, 78, { font: 'Poppins', weight: 900, color: '#ffffff', lh: 1.05 }),
+    dzT('Turn raw data into reports leaders trust.', 70, 470, 480, 30, { color: '#ddd6fe', weight: 500, lh: 1.35 }),
+    dzIc('fa-calendar-days', 70, 600, 44, { color: '#facc15' }), dzT('Saturday, 6 December', 130, 604, 420, 32, { color: '#ffffff' }),
+    dzIc('fa-clock', 70, 668, 44, { color: '#facc15' }), dzT('6:00 PM WAT · Google Meet', 130, 672, 420, 32, { color: '#ffffff' }),
+    dzT('Fanen I.', 600, 730, 430, 38, { color: '#ffffff', align: 'center', weight: 800 }), dzT('BI Developer & Lead Facilitator', 600, 780, 430, 24, { color: '#c4b5fd', align: 'center', weight: 600 }),
+    dzT('Register free →', 70, 860, 360, 32, { color: '#1e1b4b', bg: '#ffffff', pill: true, h: 84, align: 'center', weight: 800, shadow: true }),
+    dzT(dzSet().web, 70, 970, 600, 24, { color: '#c4b5fd', weight: 600 })
+  ] }) },
+  phototop: { name: 'Masterclass: photo on top', size: 'portrait', build: () => ({ w: 1080, h: 1350, bg: { c1: '#ffffff' }, els: [
+    dzP(0, 0, 1080, 780),
+    dzR('wave', 0, 600, 1080, 260, { fill: '#ffffff' }),
+    dzT('MASTERCLASS', 70, 790, 340, 26, { color: '#ffffff', bg: '#2563eb', bg2: '#7c3aed', grad: true, pill: true, h: 60, ls: 6, align: 'center' }),
+    dzT('Excel for Business Reporting', 70, 880, 940, 74, { font: 'Montserrat', weight: 900, color: '#0b1b3f', lh: 1.05 }),
+    dzR('rect', 70, 1080, 940, 2, { fill: '#e2e8f0' }),
+    dzIc('fa-calendar', 70, 1120, 40, { color: '#2563eb' }), dzT('13 Dec 2026', 124, 1124, 260, 28, { weight: 700 }),
+    dzIc('fa-clock', 380, 1120, 40, { color: '#2563eb' }), dzT('10am – 2pm', 434, 1124, 240, 28, { weight: 700 }),
+    dzIc('fa-tag', 690, 1120, 40, { color: '#2563eb' }), dzT('₦25,000', 744, 1124, 260, 28, { weight: 700 }),
+    dzT('Book your seat', 70, 1210, 380, 30, { color: '#ffffff', bg: '#0b1b3f', pill: true, h: 80, align: 'center' }),
+    dzT(dzSet().phone, 480, 1232, 530, 26, { color: '#475569', align: 'right', weight: 600 })
+  ] }) },
+  story: { name: 'Status / story promo', size: 'story', build: () => ({ w: 1080, h: 1920, bg: { c1: '#0ea5e9', c2: '#4f46e5', grad: true, ang: 160 }, els: [
+    dzR('ellipse', -200, -200, 700, 700, { fill: '#ffffff', op: .1 }), dzR('ellipse', 700, 1500, 600, 600, { fill: '#ffffff', op: .1 }),
+    dzT(dzSet().name.toUpperCase(), 90, 120, 900, 30, { color: '#ffffff', weight: 800, ls: 10, align: 'center' }),
+    dzP(140, 260, 800, 800, { radius: 60, stroke: '#ffffff', sw: 12, shadow: true }),
+    dzT('NEW COHORT', 340, 1110, 400, 34, { color: '#4f46e5', bg: '#ffffff', pill: true, h: 80, ls: 8, align: 'center' }),
+    dzT('Data Analytics\nwith Power BI', 90, 1230, 900, 100, { font: 'Montserrat', weight: 900, color: '#ffffff', align: 'center', lh: 1.05 }),
+    dzT('Starts 6 December · Limited seats', 90, 1480, 900, 40, { color: '#e0f2fe', align: 'center', weight: 600 }),
+    dzT('Tap the link to register', 240, 1640, 600, 36, { color: '#0b1b3f', bg: '#facc15', pill: true, h: 100, align: 'center', shadow: true }),
+    dzT(dzSet().web, 90, 1790, 900, 30, { color: '#ffffff', align: 'center', weight: 600 })
+  ] }) },
+  spotlight: { name: 'Tool spotlight', size: 'square', build: () => ({ w: 1080, h: 1080, bg: { c1: '#f0fdf4', c2: '#dcfce7', grad: true, ang: 135 }, els: [
+    dzR('blob', 40, 160, 520, 520, { fill: '#bbf7d0' }),
+    dzTile('excel', 110, 230, 380, { label: '', radius: 70 }),
+    dzT('EXCEL FOR', 580, 220, 460, 40, { color: '#15803d', weight: 800, ls: 6 }),
+    dzT('Business\nAnalysis', 580, 280, 460, 96, { font: 'Montserrat', weight: 900, color: '#052e16', lh: 1 }),
+    dzT('✓  Pivot tables & dashboards\n✓  XLOOKUP, IF and dynamic arrays\n✓  Power Query automation\n✓  Real company datasets', 570, 520, 490, 25, { color: '#14532d', weight: 600, lh: 1.7 }),
+    dzT('Weekend class · ₦30,000', 110, 760, 860, 34, { color: '#ffffff', bg: '#16a34a', bg2: '#15803d', grad: true, radius: 22, h: 100, align: 'center' }),
+    dzT(dzSet().web + '  ·  ' + dzSet().phone, 110, 920, 860, 26, { color: '#166534', weight: 600, align: 'center' })
+  ] }) },
+  scholarship: { name: 'Scholarship announcement', size: 'portrait', build: () => ({ w: 1080, h: 1350, bg: { c1: '#0b1b3f', c2: '#1e293b', grad: true, ang: 180 }, els: [
+    dzA('sparkles', 820, 60, 200, 200), dzA('cap', 90, 120, 300, 220, { fill: '#facc15', fill2: '#ffffff' }),
+    dzT('100% FULLY FUNDED', 90, 400, 520, 32, { color: '#0b1b3f', bg: '#facc15', pill: true, h: 76, ls: 4, align: 'center' }),
+    dzT('Scholarship\nfor 50 young\nAfricans', 90, 510, 900, 110, { font: 'Montserrat', weight: 900, color: '#ffffff', lh: 1.02 }),
+    dzT('Data Analytics Programme · in partnership with', 90, 920, 900, 30, { color: '#cbd5e1', weight: 600 }),
+    dzP(90, 975, 300, 110, { fit: 'contain', radius: 12 }),
+    dzT('Apply before 30 Nov', 90, 1160, 420, 30, { color: '#ffffff', bg: '#2563eb', pill: true, h: 80, align: 'center' }),
+    dzQ(840, 1080, 170), dzT('Scan to apply', 640, 1270, 370, 22, { color: '#94a3b8', align: 'right', weight: 600 })
+  ] }) },
+  collage: { name: 'Photo collage highlights', size: 'square', build: () => ({ w: 1080, h: 1080, bg: { c1: '#fff7ed' }, els: [
+    dzP(40, 40, 620, 620, { radius: 28 }), dzP(690, 40, 350, 300, { radius: 28 }), dzP(690, 360, 350, 300, { radius: 28 }),
+    dzR('rect', 40, 700, 1000, 340, { fill: '#f97316', fill2: '#db2777', grad: true, radius: 28 }),
+    dzT('CLASS OF 2026', 90, 750, 400, 30, { color: '#ffffff', weight: 800, ls: 8 }),
+    dzT('Bootcamp highlights 🎉', 90, 810, 920, 68, { font: 'Poppins', weight: 900, color: '#ffffff' }),
+    dzT('Thank you to every learner who showed up, built and shipped.', 90, 930, 900, 30, { color: '#ffedd5', weight: 600 })
+  ] }) },
+  tutorial: { name: 'Exam prep tutorial', size: 'square', build: () => ({ w: 1080, h: 1080, bg: { c1: '#0b1b3f' }, els: [
+    dzR('rect', 0, 0, 1080, 16, { fill: '#f59e0b' }), dzR('rect', 60, 60, 960, 960, { fill: 'transparent', stroke: '#f59e0b', sw: 3, radius: 8 }),
+    dzA('graduation' in DZ_ART ? 'graduation' : 'cap', 400, 120, 280, 200, { fill: '#f59e0b', fill2: '#ffffff' }),
+    dzT('MBA EXAM PREP', 140, 360, 800, 34, { color: '#f59e0b', align: 'center', ls: 10 }),
+    dzT('Managerial\nEconomics', 140, 430, 800, 100, { font: 'Playfair Display', weight: 800, color: '#ffffff', align: 'center', lh: 1.05 }),
+    dzT('Past questions · Solved examples · Live revision', 140, 700, 800, 30, { color: '#cbd5e1', align: 'center', weight: 600 }),
+    dzT('Join the tutorial', 340, 800, 400, 32, { color: '#0b1b3f', bg: '#f59e0b', pill: true, h: 84, align: 'center' }),
+    dzT(dzSet().web, 140, 930, 800, 24, { color: '#94a3b8', align: 'center', weight: 600 })
+  ] }) },
+  blank: { name: 'Blank', size: 'square', build: () => ({ w: 1080, h: 1080, bg: { c1: '#ffffff' }, els: [] }) }
+};
+
+const DZ_FA = ['fa-star', 'fa-heart', 'fa-check', 'fa-circle-check', 'fa-bolt', 'fa-fire', 'fa-rocket', 'fa-trophy', 'fa-medal', 'fa-crown', 'fa-gift', 'fa-tag', 'fa-percent', 'fa-calendar-days', 'fa-calendar', 'fa-clock', 'fa-location-dot', 'fa-phone', 'fa-envelope', 'fa-globe', 'fa-link', 'fa-video', 'fa-laptop', 'fa-desktop', 'fa-mobile-screen', 'fa-chart-line', 'fa-chart-pie', 'fa-chart-column', 'fa-database', 'fa-table', 'fa-code', 'fa-terminal', 'fa-robot', 'fa-brain', 'fa-lightbulb', 'fa-graduation-cap', 'fa-user-graduate', 'fa-book', 'fa-book-open', 'fa-pen', 'fa-certificate', 'fa-award', 'fa-users', 'fa-user', 'fa-chalkboard-user', 'fa-handshake', 'fa-briefcase', 'fa-building', 'fa-money-bill-wave', 'fa-wallet', 'fa-cart-shopping', 'fa-arrow-right', 'fa-arrow-trend-up', 'fa-circle-play', 'fa-microphone', 'fa-bullhorn', 'fa-comments', 'fa-shield-halved', 'fa-gear', 'fa-cloud', 'fa-wifi', 'fa-qrcode', 'fa-thumbs-up', 'fa-face-smile', 'fa-quote-left', 'fa-sun', 'fa-moon', 'fa-leaf', 'fa-earth-africa', 'fa-flag', 'fa-hourglass-half', 'fa-stopwatch', 'fa-list-check', 'fa-clipboard-check', 'fa-magnifying-glass-chart', 'fa-sitemap', 'fa-diagram-project', 'fa-layer-group', 'fa-puzzle-piece'];
+const DZ_SHAPES = [['rect', 'Square'], ['round', 'Rounded'], ['ellipse', 'Circle'], ['pill', 'Pill'], ['ring', 'Ring'], ['triangle', 'Triangle'], ['diamond', 'Diamond'], ['hexagon', 'Hexagon'], ['star', 'Star'], ['arrow', 'Arrow'], ['chevron', 'Chevron'], ['speech', 'Speech'], ['blob', 'Blob'], ['wave', 'Wave'], ['slant', 'Slant'], ['line', 'Line'], ['dashline', 'Dashed'], ['arrowline', 'Arrow line'], ['dots', 'Dots']];
+const DZ_GRADS = [['#2563eb', '#7c3aed'], ['#0ea5e9', '#4f46e5'], ['#f97316', '#db2777'], ['#facc15', '#f97316'], ['#10b981', '#0ea5e9'], ['#0b1b3f', '#312e81'], ['#4c1d95', '#1e1b4b'], ['#eaf4ff', '#f3ecff'], ['#fff7ed', '#ffe4e6'], ['#f0fdf4', '#dcfce7'], ['#111827', '#374151'], ['#be123c', '#7c2d12']];
+function dzSel() { return S.dz ? S.dz.d.els.filter(e => S.dz.sel.indexOf(e.id) >= 0) : []; }
+function dzOne() { const s = dzSel(); return s.length === 1 ? s[0] : null; }
+function dzSnap() { return JSON.stringify(S.dz.d); }
+function dzCommit() {
+  const D = S.dz, snap = dzSnap();
+  if (D.hist[D.hi] === snap) return;
+  D.hist = D.hist.slice(0, D.hi + 1); D.hist.push(snap); if (D.hist.length > 80) D.hist.shift(); D.hi = D.hist.length - 1;
+  D.dirty = true; dzTopState();
+}
+let _dzCT = 0;
+function dzCommitSoon() { clearTimeout(_dzCT); _dzCT = setTimeout(dzCommit, 450); }
+function dzUndo(step) {
+  const D = S.dz; clearTimeout(_dzCT); dzCommit();
+  const i = D.hi + step; if (i < 0 || i >= D.hist.length) return;
+  D.hi = i; D.d = JSON.parse(D.hist[i]); D.sel = D.sel.filter(id => D.d.els.some(e => e.id === id)); D.dirty = true;
+  dzDraw(); dzProps(); dzTopState(); if (D.panel === 'layers') dzPanel('layers');
+}
+function dzTopState() {
+  const D = S.dz; if (!D) return;
+  const u = $('#dzUndo'), r = $('#dzRedo'), sv = $('#dzSaveState');
+  if (u) u.disabled = D.hi <= 0; if (r) r.disabled = D.hi >= D.hist.length - 1;
+  if (sv) sv.textContent = D.dirty ? 'Unsaved changes' : (D.id ? 'All changes saved' : 'Not saved yet');
+}
+function dzOpen(design, meta) {
+  ensureDzFonts();
+  meta = meta || {};
+  const d = design || DZ_TEMPLATES.blank.build();
+  S.dz = { id: meta.id || '', title: meta.title || d.title || 'Untitled design', d: { w: d.w, h: d.h, bg: d.bg || { c1: '#ffffff' }, els: (d.els || []).map(e => Object.assign({}, e, { id: e.id || dzId() })) }, sel: [], z: 0, hist: [], hi: -1, dirty: !!meta.dirty, panel: meta.panel || 'templates' };
+  S.dz.hist = [dzSnap()]; S.dz.hi = 0;
+  S.flyTab = 'canvas';
+  dzShell();
+}
+function dzShell() {
+  const main = S.flyMain, D = S.dz;
+  const rail = [['templates', 'fa-table-cells-large', 'Templates'], ['elements', 'fa-shapes', 'Elements'], ['text', 'fa-font', 'Text'], ['tools', 'fa-toolbox', 'Tool logos'], ['uploads', 'fa-cloud-arrow-up', 'Uploads'], ['background', 'fa-fill-drip', 'Background'], ['layers', 'fa-layer-group', 'Layers']];
+  main.innerHTML = `<div class="dz-ed" id="dzEd">
+    <div class="dz-top"><button class="btn btn-light btn-sm" onclick="dzBack()" title="Back to designs"><i class="fa-solid fa-arrow-left"></i></button>
+      <input class="form-control form-control-sm dz-title" id="dzTitle" value="${esc(D.title)}" oninput="S.dz.title=this.value;S.dz.dirty=true;dzTopState()" aria-label="Design name">
+      <span class="small-muted d-none d-lg-inline" id="dzSaveState"></span>
+      <div class="ms-auto d-flex align-items-center gap-1 flex-wrap">
+        <button class="btn btn-light btn-sm" id="dzUndo" onclick="dzUndo(-1)" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button><button class="btn btn-light btn-sm" id="dzRedo" onclick="dzUndo(1)" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
+        <div class="btn-group btn-group-sm"><button class="btn btn-light" onclick="dzZoom(-1)" title="Zoom out"><i class="fa-solid fa-minus"></i></button><button class="btn btn-light" id="dzZl" onclick="dzZoom(0)" title="Fit to screen">100%</button><button class="btn btn-light" onclick="dzZoom(1)" title="Zoom in"><i class="fa-solid fa-plus"></i></button></div>
+        <button class="btn btn-soft btn-sm" onclick="dzSave(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save</button>
+        <div class="dropdown"><button class="btn btn-grad btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-download me-1"></i>Download</button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" onclick="dzExport('png')"><i class="fa-solid fa-image me-2"></i>PNG (best quality)</a></li><li><a class="dropdown-item" onclick="dzExport('jpg')"><i class="fa-solid fa-file-image me-2"></i>JPG (smaller, for WhatsApp)</a></li><li><a class="dropdown-item" onclick="dzExport('pdf')"><i class="fa-solid fa-file-pdf me-2"></i>PDF (print)</a></li><li><hr class="dropdown-divider"></li><li><a class="dropdown-item" onclick="dzToCover()"><i class="fa-solid fa-book-open me-2"></i>Use as programme image…</a></li></ul></div>
+      </div></div>
+    <div class="dz-body"><div class="dz-rail">${rail.map(r => `<button class="dz-rb" data-p="${r[0]}" onclick="dzPanel('${r[0]}')"><i class="fa-solid ${r[1]}"></i><span>${r[2]}</span></button>`).join('')}</div>
+      <div class="dz-panel" id="dzPanel"></div>
+      <div class="dz-work" id="dzWork"><div class="dz-wrap" id="dzWrap"><div class="dz-stage" id="dzStage"></div><div class="dz-over" id="dzOver"></div></div><div class="dz-hint small-muted"><i class="fa-solid fa-hand-pointer me-1"></i>Click to select · drag to move · double-click text to type · drop photos here</div></div>
+      <div class="dz-props" id="dzProps"></div></div></div>`;
+  const st = $('#dzStage');
+  st.addEventListener('pointerdown', dzDown);
+  st.addEventListener('dblclick', dzDbl);
+  $('#dzOver').addEventListener('pointerdown', dzHandleDown);
+  const wk = $('#dzWork');
+  wk.addEventListener('pointerdown', ev => { if (ev.target === wk || ev.target.classList.contains('dz-hint')) { dzEndEdit(); S.dz.sel = []; dzOverlay(); dzProps(); } });
+  wk.addEventListener('wheel', ev => { if (ev.ctrlKey || ev.metaKey) { ev.preventDefault(); dzZoom(ev.deltaY < 0 ? 1 : -1); } }, { passive: false });
+  wk.addEventListener('dragover', ev => { ev.preventDefault(); wk.classList.add('dz-drop'); });
+  wk.addEventListener('dragleave', () => wk.classList.remove('dz-drop'));
+  wk.addEventListener('drop', ev => { ev.preventDefault(); wk.classList.remove('dz-drop'); const fs = Array.from(ev.dataTransfer.files || []).filter(f => String(f.type).indexOf('image/') === 0); if (fs.length) { const one = dzOne(); dzUpload(fs, 'image', one && one.t === 'image' ? one.id : ''); } });
+  dzZoom(0); dzPanel(S.dz.panel); dzProps(); dzTopState();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (S.dz && $('#dzStage')) dzDraw(); });
+}
+function dzZoom(dir) {
+  const D = S.dz, wk = $('#dzWork'); if (!wk) return;
+  if (!dir) { const fw = (wk.clientWidth - 48) / D.d.w, fh = (wk.clientHeight - 70) / D.d.h; D.z = Math.max(.08, Math.min(1, fw, fh)); }
+  else D.z = Math.max(.08, Math.min(3, D.z * (dir > 0 ? 1.2 : 1 / 1.2)));
+  const wr = $('#dzWrap'); wr.style.width = D.d.w * D.z + 'px'; wr.style.height = D.d.h * D.z + 'px';
+  $('#dzStage').style.transform = `scale(${D.z})`; $('#dzStage').style.width = D.d.w + 'px'; $('#dzStage').style.height = D.d.h + 'px';
+  $('#dzZl').textContent = Math.round(D.z * 100) + '%';
+  dzDraw();
+}
+function dzDraw() {
+  const D = S.dz, st = $('#dzStage'); if (!st) return;
+  const editing = D.editing;
+  st.innerHTML = dzHtml(D.d);
+  D.d.els.forEach(e => { if (e.t === 'text' && !e.bg) { const el = st.querySelector(`[data-id="${e.id}"]`); if (el && el.offsetHeight) e.h = el.offsetHeight; } });
+  if (editing) D.editing = null;
+  dzOverlay();
+}
+function dzBox(e) { return { x: e.x, y: e.y, w: e.w, h: e.h }; }
+function dzOverlay(guides) {
+  const D = S.dz, ov = $('#dzOver'); if (!ov) return;
+  const z = D.z, sel = dzSel();
+  let h = '';
+  sel.forEach(e => {
+    const one = sel.length === 1 && !e.lock, hs = one ? (e.t === 'text' && !e.bg ? ['nw', 'ne', 'se', 'sw', 'e', 'w'] : ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w']) : [];
+    h += `<div class="dz-box${e.lock ? ' lock' : ''}" style="left:${e.x * z}px;top:${e.y * z}px;width:${e.w * z}px;height:${e.h * z}px;transform:rotate(${e.rot || 0}deg)">${hs.map(k => `<span class="dz-h dz-h-${k}" data-h="${k}"></span>`).join('')}${one ? '<span class="dz-h dz-rot" data-h="rot"><i class="fa-solid fa-rotate"></i></span>' : ''}${e.lock ? '<span class="dz-lk"><i class="fa-solid fa-lock"></i></span>' : ''}</div>`;
+  });
+  (guides || []).forEach(g => { h += g.v ? `<div class="dz-guide v" style="left:${g.p * z}px"></div>` : `<div class="dz-guide h" style="top:${g.p * z}px"></div>`; });
+  if (sel.length === 1 && D.drag && D.drag.mode !== 'move') { const e = sel[0]; h += `<div class="dz-dim" style="left:${(e.x + e.w) * z + 8}px;top:${(e.y + e.h) * z + 8}px">${D.drag.mode === 'rot' ? Math.round(e.rot || 0) + '°' : Math.round(e.w) + ' × ' + Math.round(e.h)}</div>`; }
+  ov.innerHTML = h;
+}
+function dzPt(ev) { const r = $('#dzWrap').getBoundingClientRect(); return { x: (ev.clientX - r.left) / S.dz.z, y: (ev.clientY - r.top) / S.dz.z }; }
+function dzDown(ev) {
+  const D = S.dz;
+  if (D.editing) { if (ev.target.closest('[contenteditable="true"]')) return; dzEndEdit(); }
+  const el = ev.target.closest('.dz-el');
+  if (!el) { D.sel = []; dzOverlay(); dzProps(); return; }
+  const id = el.dataset.id;
+  if (ev.shiftKey) D.sel = D.sel.indexOf(id) >= 0 ? D.sel.filter(x => x !== id) : D.sel.concat(id);
+  else if (D.sel.indexOf(id) < 0) D.sel = [id];
+  dzOverlay(); dzProps();
+  if (D.panel === 'layers') dzPanel('layers');
+  const movers = dzSel().filter(e => !e.lock);
+  if (!movers.length) return;
+  ev.preventDefault();
+  const p = dzPt(ev);
+  D.drag = { mode: 'move', sx: p.x, sy: p.y, orig: movers.map(e => ({ e, x: e.x, y: e.y })), moved: false };
+  dzListen();
+}
+function dzHandleDown(ev) {
+  const hd = ev.target.closest('[data-h]'); if (!hd) return;
+  ev.preventDefault(); ev.stopPropagation();
+  const e = dzOne(); if (!e) return;
+  const p = dzPt(ev);
+  S.dz.drag = { mode: hd.dataset.h === 'rot' ? 'rot' : 'resize', h: hd.dataset.h, sx: p.x, sy: p.y, o: Object.assign({}, e), e, moved: false };
+  dzListen();
+}
+function dzListen() { window.addEventListener('pointermove', dzMove); window.addEventListener('pointerup', dzUp, { once: true }); }
+function dzMove(ev) {
+  const D = S.dz, G = D && D.drag; if (!G) return;
+  const p = dzPt(ev); let dx = p.x - G.sx, dy = p.y - G.sy;
+  if (!G.moved && Math.abs(dx) + Math.abs(dy) < 3 / D.z) return;
+  G.moved = true;
+  const st = $('#dzStage');
+  if (G.mode === 'move') {
+    const xs = G.orig.map(o => o.x), ys = G.orig.map(o => o.y);
+    const bx = Math.min(...xs) + dx, by = Math.min(...ys) + dy;
+    const bw = Math.max(...G.orig.map(o => o.x + o.e.w)) - Math.min(...xs), bh = Math.max(...G.orig.map(o => o.y + o.e.h)) - Math.min(...ys);
+    const guides = [], th = 7 / D.z, ids = G.orig.map(o => o.e.id);
+    if (!ev.altKey) {
+      const vx = [0, D.d.w / 2, D.d.w], vy = [0, D.d.h / 2, D.d.h];
+      D.d.els.forEach(o => { if (ids.indexOf(o.id) < 0 && !o.hidden) { vx.push(o.x, o.x + o.w / 2, o.x + o.w); vy.push(o.y, o.y + o.h / 2, o.y + o.h); } });
+      let best = null; [bx, bx + bw / 2, bx + bw].forEach((c, i) => vx.forEach(v => { const d = v - c; if (Math.abs(d) < th && (!best || Math.abs(d) < Math.abs(best.d))) best = { d, v }; }));
+      if (best) { dx += best.d; guides.push({ v: 1, p: best.v }); }
+      best = null; [by, by + bh / 2, by + bh].forEach(c => vy.forEach(v => { const d = v - c; if (Math.abs(d) < th && (!best || Math.abs(d) < Math.abs(best.d))) best = { d, v }; }));
+      if (best) { dy += best.d; guides.push({ v: 0, p: best.v }); }
+    }
+    G.orig.forEach(o => { o.e.x = Math.round(o.x + dx); o.e.y = Math.round(o.y + dy); const el = st.querySelector(`[data-id="${o.e.id}"]`); if (el) { el.style.left = o.e.x + 'px'; el.style.top = o.e.y + 'px'; } });
+    dzOverlay(guides); return;
+  }
+  const e = G.e, o = G.o, th = (o.rot || 0) * Math.PI / 180, cos = Math.cos(th), sin = Math.sin(th);
+  const cx = o.x + o.w / 2, cy = o.y + o.h / 2;
+  if (G.mode === 'rot') {
+    let a = Math.atan2(p.y - cy, p.x - cx) * 180 / Math.PI - 90;
+    a = ((a % 360) + 360) % 360; if (a > 180) a -= 360;
+    if (ev.shiftKey) a = Math.round(a / 15) * 15; else { const n = Math.round(a / 45) * 45; if (Math.abs(n - a) < 4) a = n; }
+    e.rot = Math.round(a);
+  } else {
+    const ldx = dx * cos + dy * sin, ldy = -dx * sin + dy * cos, h = G.h;
+    const sxn = h.indexOf('e') >= 0 ? 1 : h.indexOf('w') >= 0 ? -1 : 0, syn = h.indexOf('s') >= 0 ? 1 : h.indexOf('n') >= 0 ? -1 : 0;
+    let w = o.w + sxn * ldx, hh = o.h + syn * ldy;
+    const corner = sxn && syn, keep = corner && !ev.shiftKey && e.t !== 'shape' || (corner && e.t === 'shape' && ev.shiftKey);
+    if (e.t === 'text' && !e.bg && corner) { const f = Math.max(.1, w / o.w); w = o.w * f; e.size = Math.max(6, Math.round(o.size * f)); hh = o.h * f; }
+    else if (keep) { const f = Math.max(.05, (sxn ? w / o.w : 1) * .5 + (syn ? hh / o.h : 1) * .5); w = o.w * f; hh = o.h * f; }
+    w = Math.max(12, w); hh = Math.max(e.t === 'shape' && /line/.test(e.kind) ? 4 : 12, hh);
+    if (!sxn) w = o.w; if (!syn && !(e.t === 'text' && !e.bg && corner)) hh = o.h;
+    const ax = -sxn * o.w / 2, ay = -syn * o.h / 2, wx = cx + ax * cos - ay * sin, wy = cy + ax * sin + ay * cos;
+    const nax = -sxn * w / 2, nay = -syn * hh / 2, ncx = wx - (nax * cos - nay * sin), ncy = wy - (nax * sin + nay * cos);
+    e.w = Math.round(w); e.h = Math.round(hh); e.x = Math.round(ncx - w / 2); e.y = Math.round(ncy - hh / 2);
+  }
+  const el = st.querySelector(`[data-id="${e.id}"]`);
+  if (el) { const tmp = document.createElement('div'); tmp.innerHTML = dzElHtml(e); el.replaceWith(tmp.firstElementChild); if (e.t === 'text' && !e.bg) { const n = st.querySelector(`[data-id="${e.id}"]`); if (n) e.h = n.offsetHeight; } }
+  dzOverlay();
+}
+function dzUp() {
+  window.removeEventListener('pointermove', dzMove);
+  const D = S.dz; if (!D) return;
+  const G = D.drag; D.drag = null;
+  if (G && G.moved) { dzDraw(); dzCommit(); dzProps(); } else dzOverlay();
+}
+function dzDbl(ev) {
+  const el = ev.target.closest('.dz-el'); if (!el) return;
+  const e = S.dz.d.els.find(x => x.id === el.dataset.id); if (!e) return;
+  if (e.t === 'image') return dzPickImage(e.id);
+  if (e.t !== 'text' || e.lock) return;
+  const sp = el.querySelector('.dz-tx'); if (!sp) return;
+  S.dz.editing = e.id; S.dz.sel = [e.id];
+  sp.contentEditable = 'true'; sp.style.outline = 'none'; sp.style.cursor = 'text'; sp.focus();
+  try { const r = document.createRange(); r.selectNodeContents(sp); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch (x) {}
+  sp.addEventListener('input', () => { e.text = sp.innerText.replace(/\n$/, ''); if (!e.bg) e.h = el.offsetHeight; dzOverlay(); const ta = $('#dzpText'); if (ta) ta.value = e.text; });
+  sp.addEventListener('keydown', k => { if (k.key === 'Escape') { k.preventDefault(); dzEndEdit(); } });
+  dzOverlay();
+}
+function dzEndEdit() {
+  const D = S.dz; if (!D || !D.editing) return;
+  const e = D.d.els.find(x => x.id === D.editing), sp = $(`#dzStage [data-id="${D.editing}"] .dz-tx`);
+  if (e && sp) e.text = sp.innerText.replace(/\n$/, '');
+  D.editing = null; dzDraw(); dzCommit(); dzProps();
+}
+document.addEventListener('keydown', ev => {
+  const D = S.dz; if (!D || !$('#dzEd') || document.querySelector('.modal.show')) return;
+  const t = ev.target, typing = t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+  const mod = ev.ctrlKey || ev.metaKey, k = ev.key.toLowerCase();
+  if (mod && k === 's') { ev.preventDefault(); return dzSave(); }
+  if (typing) return;
+  if (mod && k === 'z') { ev.preventDefault(); return dzUndo(ev.shiftKey ? 1 : -1); }
+  if (mod && k === 'y') { ev.preventDefault(); return dzUndo(1); }
+  if (mod && k === 'd') { ev.preventDefault(); return dzDup(); }
+  if (mod && k === 'c' && D.sel.length) { S.dzClip = JSON.stringify(dzSel()); return; }
+  if (mod && k === 'v' && S.dzClip) { ev.preventDefault(); return dzPaste(); }
+  if (mod && k === 'a') { ev.preventDefault(); D.sel = D.d.els.map(e => e.id); dzOverlay(); return dzProps(); }
+  if ((k === 'delete' || k === 'backspace') && D.sel.length) { ev.preventDefault(); return dzDel(); }
+  if (k === 'escape') { D.sel = []; dzOverlay(); return dzProps(); }
+  const mv = { arrowleft: [-1, 0], arrowright: [1, 0], arrowup: [0, -1], arrowdown: [0, 1] }[k];
+  if (mv && D.sel.length) { ev.preventDefault(); const n = ev.shiftKey ? 10 : 1; dzSel().forEach(e => { if (!e.lock) { e.x += mv[0] * n; e.y += mv[1] * n; } }); dzDraw(); dzCommitSoon(); dzProps(); }
+});
+document.addEventListener('paste', ev => {
+  if (!S.dz || !$('#dzEd')) return;
+  const t = ev.target; if (t && (t.isContentEditable || /^(INPUT|TEXTAREA)$/.test(t.tagName))) return;
+  const fs = Array.from((ev.clipboardData && ev.clipboardData.files) || []).filter(f => String(f.type).indexOf('image/') === 0);
+  if (fs.length) { ev.preventDefault(); dzUpload(fs, 'image'); }
+});
+window.addEventListener('beforeunload', ev => { if (S.dz && S.dz.dirty && $('#dzEd')) { ev.preventDefault(); ev.returnValue = ''; } });
+function dzAdd(e, keepPos) {
+  const D = S.dz;
+  if (!keepPos) { e.x = Math.round((D.d.w - e.w) / 2); e.y = Math.round((D.d.h - e.h) / 2); }
+  e.id = dzId(); D.d.els.push(e); D.sel = [e.id];
+  dzDraw(); dzCommit(); dzProps(); if (D.panel === 'layers') dzPanel('layers');
+  if (window.innerWidth < 992) { const pr = $('#dzProps'); if (pr) pr.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+}
+function dzDup() { const D = S.dz, s = dzSel(); if (!s.length) return; const c = s.map(e => Object.assign(JSON.parse(JSON.stringify(e)), { id: dzId(), x: e.x + 24, y: e.y + 24, lock: false })); D.d.els.push(...c); D.sel = c.map(e => e.id); dzDraw(); dzCommit(); dzProps(); }
+function dzPaste() { const D = S.dz; let c = []; try { c = JSON.parse(S.dzClip); } catch (e) { return; } c = c.map(e => Object.assign(e, { id: dzId(), x: e.x + 30, y: e.y + 30 })); D.d.els.push(...c); D.sel = c.map(e => e.id); S.dzClip = JSON.stringify(c); dzDraw(); dzCommit(); dzProps(); }
+function dzDel() { const D = S.dz; D.d.els = D.d.els.filter(e => D.sel.indexOf(e.id) < 0 || e.lock); D.sel = []; dzDraw(); dzCommit(); dzProps(); if (D.panel === 'layers') dzPanel('layers'); }
+function dzOrder(dir) {
+  const D = S.dz, e = dzOne(); if (!e) return;
+  const a = D.d.els, i = a.indexOf(e); a.splice(i, 1);
+  const j = dir === 'top' ? a.length : dir === 'bottom' ? 0 : Math.max(0, Math.min(a.length, i + dir));
+  a.splice(j, 0, e); dzDraw(); dzCommit(); if (D.panel === 'layers') dzPanel('layers');
+}
+function dzAlign(how) {
+  const D = S.dz, s = dzSel().filter(e => !e.lock); if (!s.length) return;
+  const page = s.length === 1, L = page ? 0 : Math.min(...s.map(e => e.x)), T = page ? 0 : Math.min(...s.map(e => e.y)), R = page ? D.d.w : Math.max(...s.map(e => e.x + e.w)), B = page ? D.d.h : Math.max(...s.map(e => e.y + e.h));
+  s.forEach(e => { if (how === 'l') e.x = L; if (how === 'c') e.x = Math.round((L + R - e.w) / 2); if (how === 'r') e.x = R - e.w; if (how === 't') e.y = T; if (how === 'm') e.y = Math.round((T + B - e.h) / 2); if (how === 'b') e.y = B - e.h; });
+  dzDraw(); dzCommit(); dzProps();
+}
+function dzSetP(k, v, num) {
+  const s = dzSel(); if (!s.length) return;
+  s.forEach(e => { e[k] = num ? Number(v) : v; });
+  dzDraw(); dzCommitSoon();
+}
+function dzSetPage(k, v) { const D = S.dz; D.d.bg = Object.assign({}, D.d.bg, { [k]: v }); dzDraw(); dzCommitSoon(); }
+function dzBack() {
+  const go = () => { S.dz = null; S.flyTab = 'list'; ADMIN_PAGES.flyers(S.flyMain); };
+  if (S.dz && S.dz.dirty) confirmBox('Leave without saving your changes?', 'Leave', true).then(ok => { if (ok) go(); }); else go();
+}
+async function dzSave(btn) {
+  const D = S.dz; if (!D) return;
+  dzEndEdit(); clearTimeout(_dzCT); dzCommit();
+  const sizeKey = Object.keys(DZ_SIZES).find(k => DZ_SIZES[k][0] === D.d.w && DZ_SIZES[k][1] === D.d.h) || 'custom';
+  const data = Object.assign({ title: D.title || 'Untitled design' }, JSON.parse(JSON.stringify(D.d)));
+  data.els.forEach(e => { if (e.src && /^data:/.test(e.src) && e.src.length > 200000) e.src = ''; });
+  const run = async () => { const r = await call('flyerSave', { record: { id: D.id, title: D.title || 'Untitled design', template: 'canvas', size: sizeKey, data } }); D.id = r.id; D.dirty = false; dzTopState(); toast('Design saved.'); };
+  try { if (btn) await busy(btn, run); else await run(); } catch (e) { toast(e.message, 'danger'); }
+}
+async function dzExport(fmt) {
+  const D = S.dz; dzEndEdit();
+  showLoader('Preparing images…');
+  try { await dzEmbedImages(D.d); } finally { hideLoader(); }
+  await exportDesign(dzHtml(D.d), D.d.w, D.d.h, D.title || 'design', fmt);
+}
+async function dzToCover() {
+  await loadLookups();
+  const D = S.dz;
+  modal('<i class="fa-solid fa-book-open text-primary me-2"></i>Use as programme image', `<p class="small-muted">Saves this design as the programme's cover image on the website and course cards.${Math.abs(D.d.w / D.d.h - 1.9) > .4 ? ' <b>Tip:</b> course cards are wide, so a <b>Programme image (1200×630)</b> design fits best; square designs are cropped at the top and bottom.' : ''}</p><label class="form-label" for="dzCovP">Programme</label><select class="form-select" id="dzCovP">${optProg().map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select>`,
+    `<button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-grad" onclick="dzDoCover(this)"><i class="fa-solid fa-check me-1"></i>Set cover image</button>`);
+}
+async function dzDoCover(btn) {
+  const pid = $('#dzCovP').value; if (!pid) return toast('Choose a programme.', 'warning');
+  const D = S.dz;
+  await busy(btn, async () => {
+    await dzEmbedImages(D.d);
+    const cv = await renderToCanvas(dzHtml(D.d), D.d.w, D.d.h, Math.min(1, 1600 / D.d.w));
+    const b64 = cv.toDataURL('image/jpeg', .9).split(',')[1];
+    const r = await call('designToCover', { programmeId: pid, file: { name: (D.title || 'cover').replace(/[^\w-]+/g, '-') + '.jpg', mime: 'image/jpeg', b64 } });
+    closeModal(); await refreshPublic(); toast('Cover image updated for ' + r.title + '. 🎉');
+  });
+}
+// ───── Uploads (photos & logos), kept in Drive and reusable in every design
+async function dzLoadAssets(force) { if (!S.dzAssets || force) { try { S.dzAssets = await rcall('designAssets'); } catch (e) { S.dzAssets = []; } } return S.dzAssets; }
+function dzReadImage(file) {
+  return new Promise((res, rej) => {
+    if (!String(file.type).indexOf('image/') === 0) return rej(new Error('"' + file.name + '" is not an image.'));
+    const r = new FileReader();
+    r.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.naturalWidth, h = img.naturalHeight, url = r.result;
+        const max = 2400, png = /png|svg|gif|webp/.test(file.type);
+        if (w > max || h > max || file.size > 3 * 1024 * 1024) {
+          const f = Math.min(1, max / Math.max(w, h)); w = Math.round(w * f); h = Math.round(h * f);
+          const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(img, 0, 0, w, h);
+          url = png ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', .88);
+          if (png && url.length > 6e6) url = c.toDataURL('image/jpeg', .88);
+        }
+        res({ url, w: w || 800, h: h || 800, mime: url.slice(5, url.indexOf(';')), name: file.name });
+      };
+      img.onerror = () => rej(new Error('Could not open "' + file.name + '".'));
+      img.src = r.result;
+    };
+    r.onerror = () => rej(new Error('Could not read the file.'));
+    r.readAsDataURL(file);
+  });
+}
+async function dzUpload(files, kind, replaceId) {
+  files = Array.from(files || []); if (!files.length) return;
+  showLoader('Uploading ' + (files.length > 1 ? files.length + ' images' : 'image') + '…');
+  try {
+    for (const f of files) {
+      const im = await dzReadImage(f);
+      const a = await call('designAssetUpload', { kind, name: im.name, w: im.w, h: im.h, file: { name: im.name, mime: im.mime, b64: im.url.split(',')[1] } });
+      S.imgCache = S.imgCache || {}; S.imgCache[a.url] = im.url;
+      S.dzAssets = [a].concat(S.dzAssets || []);
+            dzUseAsset(a, replaceId); replaceId = '';
+    }
+    if (S.dz && S.dz.panel === 'uploads') dzPanel('uploads');
+    if (S.dz && S.dz.panel === 'tools') dzPanel('tools');
+  } catch (e) { toast(e.message, 'danger'); }
+  finally { hideLoader(); }
+}
+function dzUseAsset(a, replaceId) {
+  const D = S.dz; if (!D) return;
+  if (S.dzBgPick) { S.dzBgPick = false; dzSetPage('img', a.url); dzCommit(); dzProps(); return; }
+  const tgt = replaceId ? D.d.els.find(e => e.id === replaceId) : null;
+  if (tgt && tgt.t === 'image') { tgt.src = a.url; dzDraw(); dzCommit(); dzProps(); return; }
+  if (tgt && tgt.t === 'tile') { tgt.src = a.url; dzDraw(); dzCommit(); dzProps(); return; }
+  const ar = (a.w && a.h) ? a.w / a.h : 1, maxW = D.d.w * (a.kind === 'logo' ? .3 : .6), maxH = D.d.h * (a.kind === 'logo' ? .2 : .6);
+  let w = maxW, h = w / ar; if (h > maxH) { h = maxH; w = h * ar; }
+  dzAdd({ t: 'image', src: a.url, w: Math.round(w), h: Math.round(h), fit: a.kind === 'logo' ? 'contain' : 'cover', radius: 0 });
+}
+function dzPickImage(id, kind) {
+  S.dzReplace = id || ''; S.dzBgPick = false;
+  const f = document.createElement('input'); f.type = 'file'; f.accept = 'image/png,image/jpeg,image/webp,image/gif,image/svg+xml'; f.multiple = !id;
+  f.onchange = () => dzUpload(f.files, kind || 'image', id || '');
+  f.click();
+}
+async function dzDelAsset(id, ev) {
+  ev.stopPropagation();
+  if (!await confirmBox('Remove this image from your uploads? Designs already using it keep it.', 'Remove', true)) return;
+  try { await call('designAssetDelete', { id }); S.dzAssets = (S.dzAssets || []).filter(a => a.id !== id); dzPanel('uploads'); } catch (e) { toast(e.message, 'danger'); }
+}
+
+function dzThumb(d, extra) { return fitBox(dzHtml(d), d.w, d.h, 'border-radius:10px;box-shadow:0 0 0 1px var(--line);' + (extra || '')); }
+async function dzPanel(p) {
+  const D = S.dz; D.panel = p;
+  $$('.dz-rb').forEach(b => b.classList.toggle('active', b.dataset.p === p));
+  const el = $('#dzPanel'); if (!el) return;
+  let h = '';
+  if (p === 'templates') {
+    h = `<div class="dz-ph">Templates</div><div class="small-muted mb-2">Every part is editable: click to change text, colours or photos.</div><div class="dz-grid2">${Object.keys(DZ_TEMPLATES).map(k => { const t = DZ_TEMPLATES[k]; let d; try { d = t.build(); } catch (e) { return ''; } return `<button class="dz-tpl" onclick="dzUseTpl('${k}')" title="${esc(t.name)}">${dzThumb(d)}<span>${esc(t.name)}</span><small>${esc((DZ_SIZES[t.size] || [])[2] || '')}</small></button>`; }).join('')}</div>`;
+  } else if (p === 'elements') {
+    h = `<div class="dz-ph">Shapes</div><div class="dz-grid4">${DZ_SHAPES.map(s => `<button class="dz-it" title="${s[1]}" onclick="dzAddShape('${s[0]}')">${dzShapeIcon(s[0])}</button>`).join('')}</div>
+      <div class="dz-ph mt-3">Photo frames</div><div class="dz-grid4"><button class="dz-it" onclick="dzAddFrame('rect')" title="Square frame"><span class="dz-fr"></span></button><button class="dz-it" onclick="dzAddFrame('round')" title="Rounded frame"><span class="dz-fr" style="border-radius:10px"></span></button><button class="dz-it" onclick="dzAddFrame('circle')" title="Circle frame"><span class="dz-fr" style="border-radius:50%"></span></button><button class="dz-it" onclick="dzAddFrame('wide')" title="Wide frame"><span class="dz-fr" style="width:44px;height:26px"></span></button></div>
+      <div class="dz-ph mt-3">Illustrations</div><div class="dz-grid3">${Object.keys(DZ_ART).map(k => `<button class="dz-it tall" title="${esc(DZ_ART[k].name)}" onclick="dzAddArt('${k}')">${DZ_ART[k].svg({ id: 'p' + k })}</button>`).join('')}</div>
+      <div class="dz-ph mt-3">Icons</div><input class="form-control form-control-sm mb-2" placeholder="Search icons…" oninput="dzIconFilter(this.value)"><div class="dz-grid5" id="dzIcons">${DZ_FA.map(f => `<button class="dz-it" data-n="${f}" title="${f.slice(3)}" onclick="dzAddIcon('${f}')"><i class="fa-solid ${f}"></i></button>`).join('')}</div>
+      <div class="dz-ph mt-3">QR code</div><button class="btn btn-light btn-sm w-100" onclick="dzAddQR()"><i class="fa-solid fa-qrcode me-1"></i>Add QR code</button>`;
+  } else if (p === 'text') {
+    h = `<div class="dz-ph">Text</div><button class="dz-txb" style="font:900 26px Montserrat" onclick="dzAddText('h')">Add a heading</button><button class="dz-txb" style="font:700 18px 'Plus Jakarta Sans'" onclick="dzAddText('s')">Add a subheading</button><button class="dz-txb" style="font:500 14px 'Plus Jakarta Sans'" onclick="dzAddText('b')">Add body text</button>
+      <div class="dz-ph mt-3">Text styles</div>
+      <button class="dz-txb" onclick="dzAddText('pill')"><span style="background:#facc15;color:#0b1b3f;border-radius:99px;padding:.3rem .9rem;font:800 13px 'Plus Jakarta Sans';letter-spacing:.15em">BADGE</span></button>
+      <button class="dz-txb" onclick="dzAddText('btn')"><span style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-radius:99px;padding:.5rem 1.2rem;font:800 14px 'Plus Jakarta Sans'">Register now →</span></button>
+      <button class="dz-txb" onclick="dzAddText('block')"><span style="background:#1e3a8a;color:#facc15;border-radius:10px;padding:.35rem .8rem;font:900 20px Montserrat">ANALYTICS</span></button>
+      <button class="dz-txb" onclick="dzAddText('bebas')" style="font:400 30px 'Bebas Neue';letter-spacing:.02em">BIG BOLD POSTER</button>
+      <button class="dz-txb" onclick="dzAddText('serif')" style="font:700 22px 'Playfair Display';font-style:italic">Elegant serif</button>
+      <button class="dz-txb" onclick="dzAddText('script')" style="font:400 28px 'Great Vibes'">Signature script</button>
+      <button class="dz-txb" onclick="dzAddText('list')" style="font:600 13px 'Plus Jakarta Sans';text-align:left">✓ Bullet list<br>✓ Of benefits</button>`;
+  } else if (p === 'tools') {
+    const logos = (await dzLoadAssets()).filter(a => a.kind === 'logo');
+    if (S.dz !== D || D.panel !== 'tools') return;
+    h = `<div class="dz-ph">Tool tiles</div><div class="small-muted mb-2">Rounded tiles with a picture and a label. Change the label, colour or picture after adding.</div><div class="dz-grid3">${Object.keys(TOOL_ICONS).map(k => `<button class="dz-it tall" onclick="dzAddTile('${k}')" title="${esc(TOOL_ICONS[k].label)}"><span style="width:44px;height:44px;display:block">${TOOL_ICONS[k].svg}</span><small>${esc(TOOL_ICONS[k].label)}</small></button>`).join('')}</div>
+      <div class="dz-ph mt-3">Your logos</div><div class="small-muted mb-2">These icons are generic. For the official Excel, Python, SQL or Power BI logos, download them from the brand's website and upload them here once. They are saved for every design.</div>
+      <button class="btn btn-soft btn-sm w-100 mb-2" onclick="dzPickImage('','logo')"><i class="fa-solid fa-upload me-1"></i>Upload logos (PNG with transparent background)</button>
+      <div class="dz-grid3">${logos.map(a => `<button class="dz-it tall" onclick="dzAddTileLogo('${esc(a.id)}')" title="Add as tile: ${esc(a.name)}"><span style="width:44px;height:44px;display:block;background:url('${esc(dzSrc(a.url))}') center/contain no-repeat"></span><small class="text-truncate w-100">${esc(a.name.replace(/\.[a-z]+$/i, ''))}</small></button>`).join('') || '<div class="small-muted">No logos yet.</div>'}</div>`;
+  } else if (p === 'uploads') {
+    el.innerHTML = `<div class="dz-ph">Uploads</div>${spin()}`;
+    const as = await dzLoadAssets(); if (S.dz !== D || D.panel !== 'uploads') return;
+    h = `<div class="dz-ph">Uploads</div><div class="d-grid gap-2 mb-2"><button class="btn btn-grad btn-sm" onclick="dzPickImage()"><i class="fa-solid fa-image me-1"></i>Upload photos</button><button class="btn btn-light btn-sm" onclick="dzPickImage('','logo')"><i class="fa-solid fa-shapes me-1"></i>Upload logos</button></div>
+      <div class="small-muted mb-2">Big photos up to 10 MB. You can also drag photos onto the design or paste them (Ctrl+V). Select a photo frame first to fill it.</div>
+      <div class="dz-assets">${as.map(a => `<div class="dz-as" onclick="dzUseAssetId('${esc(a.id)}')" title="${esc(a.name)}"><img src="${esc(dzSrc(a.url))}" alt="" loading="lazy"><button class="dz-asx" onclick="dzDelAsset('${esc(a.id)}',event)" title="Remove"><i class="fa-solid fa-xmark"></i></button>${a.kind === 'logo' ? '<span class="dz-asl">Logo</span>' : ''}</div>`).join('') || '<div class="small-muted">Nothing uploaded yet.</div>'}</div>`;
+  } else if (p === 'background') {
+    const b = D.d.bg || {};
+    h = `<div class="dz-ph">Background colour</div>${dzSwatches(v => `dzSetPage('grad',false);dzSetPage('c1','${v}');dzCommit();dzProps()`, b.c1)}
+      <div class="dz-ph mt-3">Gradients</div><div class="dz-grid4">${DZ_GRADS.map(g => `<button class="dz-it" style="background:linear-gradient(135deg,${g[0]},${g[1]})" onclick="S.dz.d.bg=Object.assign({},S.dz.d.bg,{c1:'${g[0]}',c2:'${g[1]}',grad:true,ang:135});dzDraw();dzCommit();dzProps()"></button>`).join('')}</div>
+      <div class="dz-ph mt-3">Background photo</div><button class="btn btn-light btn-sm w-100 mb-1" onclick="S.dzBgPick=true;dzPanel('uploads');toast('Pick or upload a photo for the background.')"><i class="fa-solid fa-image me-1"></i>Choose photo</button>${b.img ? `<button class="btn btn-light btn-sm w-100 text-danger" onclick="dzSetPage('img','');dzCommit();dzProps()">Remove background photo</button>` : ''}`;
+  } else if (p === 'layers') {
+    const rev = D.d.els.slice().reverse();
+    h = `<div class="dz-ph">Layers</div><div class="small-muted mb-2">Top of the list is in front.</div><div class="dz-layers">${rev.map(e => `<div class="dz-ly${D.sel.indexOf(e.id) >= 0 ? ' on' : ''}" onclick="S.dz.sel=['${e.id}'];dzOverlay();dzProps();dzPanel('layers')"><i class="fa-solid ${dzTypeIcon(e)} text-muted"></i><span class="text-truncate">${esc(dzName(e))}</span><button class="btn btn-sm p-0 px-1" title="${e.hidden ? 'Show' : 'Hide'}" onclick="event.stopPropagation();dzToggle('${e.id}','hidden')"><i class="fa-solid ${e.hidden ? 'fa-eye-slash' : 'fa-eye'}"></i></button><button class="btn btn-sm p-0 px-1" title="${e.lock ? 'Unlock' : 'Lock'}" onclick="event.stopPropagation();dzToggle('${e.id}','lock')"><i class="fa-solid ${e.lock ? 'fa-lock' : 'fa-lock-open'}"></i></button></div>`).join('') || '<div class="small-muted">Empty design.</div>'}</div>`;
+  }
+  el.innerHTML = h;
+  fitDesigns(el);
+}
+function dzToggle(id, k) { const e = S.dz.d.els.find(x => x.id === id); if (!e) return; e[k] = !e[k]; dzDraw(); dzCommit(); dzPanel('layers'); dzProps(); }
+function dzTypeIcon(e) { return { text: 'fa-font', shape: 'fa-shapes', image: 'fa-image', icon: 'fa-icons', tile: 'fa-toolbox', art: 'fa-palette', qr: 'fa-qrcode' }[e.t] || 'fa-square'; }
+function dzName(e) { if (e.t === 'text') return (e.text || 'Text').split('\n')[0].slice(0, 40); if (e.t === 'tile') return 'Tile: ' + (e.label || e.tool || 'logo'); if (e.t === 'shape') return 'Shape: ' + e.kind; if (e.t === 'art') return (DZ_ART[e.art] || {}).name || 'Illustration'; if (e.t === 'image') return e.src ? 'Photo' : 'Photo frame (empty)'; if (e.t === 'icon') return 'Icon: ' + String(e.fa || '').slice(3); return 'QR code'; }
+function dzShapeIcon(k) {
+  const m = { rect: '<rect x="4" y="4" width="32" height="32"/>', round: '<rect x="4" y="4" width="32" height="32" rx="8"/>', ellipse: '<circle cx="20" cy="20" r="16"/>', pill: '<rect x="2" y="12" width="36" height="16" rx="8"/>', ring: '<circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width="4"/>', triangle: '<polygon points="20,4 36,36 4,36"/>', diamond: '<polygon points="20,2 38,20 20,38 2,20"/>', hexagon: '<polygon points="11,4 29,4 38,20 29,36 11,36 2,20"/>', star: '<polygon points="20,3 25,15 38,15 28,23 32,36 20,28 8,36 12,23 2,15 15,15"/>', arrow: '<polygon points="2,14 24,14 24,6 38,20 24,34 24,26 2,26"/>', chevron: '<polygon points="4,6 26,6 38,20 26,34 4,34 16,20"/>', speech: '<path d="M6 4h28a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H16l-8 8v-8H6a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4z"/>', blob: '<path d="M21 3c11 0 17 9 16 18s-8 16-18 16S3 30 4 19 10 3 21 3z"/>', wave: '<path d="M2 18c8-10 16 10 24 0s12-4 12-4v22H2z"/>', slant: '<polygon points="2,14 38,4 38,36 2,36"/>', line: '<line x1="3" y1="20" x2="37" y2="20" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>', dashline: '<line x1="3" y1="20" x2="37" y2="20" stroke="currentColor" stroke-width="4" stroke-dasharray="6 5" stroke-linecap="round"/>', arrowline: '<line x1="3" y1="20" x2="30" y2="20" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="38,20 28,13 28,27"/>', dots: '<g>' + [8, 20, 32].map(y => [8, 20, 32].map(x => `<circle cx="${x}" cy="${y}" r="3"/>`).join('')).join('') + '</g>' };
+  return `<svg viewBox="0 0 40 40" width="34" height="34" fill="currentColor">${m[k] || ''}</svg>`;
+}
+function dzIconFilter(q) { q = String(q || '').toLowerCase().trim(); $$('#dzIcons [data-n]').forEach(b => { b.style.display = !q || b.dataset.n.indexOf(q) >= 0 ? '' : 'none'; }); }
+function dzUseTpl(k) {
+  const D = S.dz, t = DZ_TEMPLATES[k]; if (!t) return;
+  const apply = () => { const d = t.build(); D.d = { w: d.w, h: d.h, bg: d.bg, els: d.els }; D.sel = []; if (!D.id && (!D.title || D.title === 'Untitled design')) { D.title = t.name; const ti = $('#dzTitle'); if (ti) ti.value = t.name; } dzZoom(0); dzCommit(); dzProps(); };
+  if (D.d.els.length && D.hi > 0) confirmBox('Replace your current design with this template? You can undo this.', 'Use template').then(ok => { if (ok) apply(); }); else apply();
+}
+function dzAddShape(k) {
+  const D = S.dz, s = Math.round(Math.min(D.d.w, D.d.h) * .3), lines = /line$/.test(k);
+  const kind = k === 'round' ? 'rect' : k === 'dashline' ? 'line' : k;
+  const e = { t: 'shape', kind, w: lines || k === 'arrow' || k === 'pill' || k === 'wave' || k === 'slant' ? Math.round(s * 1.6) : s, h: lines ? 24 : k === 'arrow' || k === 'pill' ? Math.round(s * .5) : s, fill: k === 'dots' ? '#cbd5e1' : '#2563eb', radius: k === 'round' ? Math.round(s * .15) : 0 };
+  if (lines) Object.assign(e, { stroke: '#0b1b3f', sw: 8, dash: k === 'dashline' });
+  if (k === 'ring') Object.assign(e, { stroke: '#2563eb', sw: Math.round(s * .06) });
+  dzAdd(e);
+}
+function dzAddFrame(k) { const D = S.dz, s = Math.round(Math.min(D.d.w, D.d.h) * .5); dzAdd({ t: 'image', src: '', w: k === 'wide' ? Math.round(s * 1.5) : s, h: s, radius: k === 'round' ? 28 : 0, circle: k === 'circle' }); }
+function dzAddArt(k) { const a = DZ_ART[k], D = S.dz, f = Math.min(1, D.d.w * .4 / a.w); dzAdd({ t: 'art', art: k, w: Math.round(a.w * f * 1.2), h: Math.round(a.h * f * 1.2) }); }
+function dzAddIcon(f) { const s = Math.round(Math.min(S.dz.d.w, S.dz.d.h) * .12); dzAdd({ t: 'icon', fa: f, w: s, h: s, color: '#2563eb' }); }
+function dzAddQR() { const s = Math.round(Math.min(S.dz.d.w, S.dz.d.h) * .2); dzAdd({ t: 'qr', link: siteBase(), w: s, h: s, radius: 12 }); }
+function dzAddTile(k) { const s = Math.round(Math.min(S.dz.d.w, S.dz.d.h) * .2); dzAdd({ t: 'tile', tool: k, label: TOOL_ICONS[k].label, w: s, h: s, fill: '#ffffff', shadow: true }); }
+function dzAddTileLogo(id) { const a = (S.dzAssets || []).find(x => x.id === id); if (!a) return; const one = dzOne(); if (one && one.t === 'tile') { one.src = a.url; dzDraw(); dzCommit(); return dzProps(); } const s = Math.round(Math.min(S.dz.d.w, S.dz.d.h) * .2); dzAdd({ t: 'tile', tool: '', src: a.url, label: a.name.replace(/\.[a-z]+$/i, '').replace(/[-_]+/g, ' ').slice(0, 24), w: s, h: s, fill: '#ffffff', shadow: true }); }
+function dzUseAssetId(id) { const a = (S.dzAssets || []).find(x => x.id === id); if (!a) return; const one = dzOne(); dzUseAsset(a, one && (one.t === 'image' || (one.t === 'tile' && a.kind === 'logo')) ? one.id : ''); }
+function dzAddText(k) {
+  const D = S.dz, W = D.d.w, sc = W / 1080;
+  const P = { h: ['Add a heading', 84, { font: 'Montserrat', weight: 900 }], s: ['Add a subheading', 44, { weight: 700 }], b: ['Add a little bit of body text', 30, { weight: 500, lh: 1.4 }],
+    pill: ['NEW COHORT', 28, { bg: '#facc15', color: '#0b1b3f', pill: true, ls: 15, align: 'center', weight: 800 }], btn: ['Register now →', 32, { bg: '#2563eb', bg2: '#7c3aed', grad: true, color: '#ffffff', pill: true, align: 'center', shadow: true }],
+    block: ['ANALYTICS', 90, { font: 'Montserrat', weight: 900, bg: '#1e3a8a', color: '#facc15', radius: 26, align: 'center', shadow: true }], bebas: ['BIG BOLD POSTER', 130, { font: 'Bebas Neue', weight: 400 }],
+    serif: ['Elegant serif title', 70, { font: 'Playfair Display', weight: 700, italic: true }], script: ['Signature', 90, { font: 'Great Vibes', weight: 400 }], list: ['✓  First benefit\n✓  Second benefit\n✓  Third benefit', 32, { weight: 600, lh: 1.6 }] }[k];
+  const size = Math.round(P[1] * sc), e = Object.assign({ t: 'text', text: P[0], size, font: 'Plus Jakarta Sans', weight: 800, color: '#0b1b3f', align: 'left', lh: 1.15 }, P[2]);
+  e.w = Math.round(Math.min(W * .85, Math.max(size * P[0].split('\n').reduce((m, l) => Math.max(m, l.length), 0) * .62 + (e.bg ? size * 1.2 : 0), size * 3)));
+  e.h = e.bg ? Math.round(size * 2.1) : Math.round(size * 1.3);
+  dzAdd(e);
+}
+function dzSwatches(fn, cur) { return `<div class="dz-sw">${DZ_PALETTE.map(c => `<button class="${String(cur || '').toLowerCase() === c ? 'on' : ''}" style="background:${c}" title="${c}" onclick="${fn(c)}"></button>`).join('')}</div>`; }
+
+function dzHex(v, d) { return /^#[0-9a-f]{6}$/i.test(v || '') ? v : d; }
+function dzCol(label, k, v, opt) {
+  opt = opt || {};
+  const set = opt.page ? `dzSetPage('${k}',` : `dzSetP('${k}',`;
+  return `<div class="dz-row"><label>${label}</label><div class="d-flex align-items-center gap-1 flex-wrap"><input type="color" class="dz-color" value="${dzHex(v, opt.def || '#2563eb')}" oninput="${set}this.value)" onchange="dzCommit();dzProps()" aria-label="${esc(label)}">${DZ_PALETTE.slice(0, opt.short ? 8 : 12).map(c => `<button class="dz-sws${String(v || '').toLowerCase() === c ? ' on' : ''}" style="background:${c}" onclick="${set}'${c}');dzCommit();dzProps()" title="${c}"></button>`).join('')}${opt.none ? `<button class="dz-sws none${!v || v === 'transparent' ? ' on' : ''}" title="None" onclick="${set}'');dzCommit();dzProps()"></button>` : ''}</div></div>`;
+}
+function dzNum(label, k, v, min, max, step, unit) { return `<div class="dz-row"><label>${label}</label><div class="d-flex align-items-center gap-2"><input type="range" class="form-range" min="${min}" max="${max}" step="${step || 1}" value="${Number(v) || 0}" oninput="dzSetP('${k}',this.value,1);this.nextElementSibling.value=this.value" onchange="dzCommit()"><input type="number" class="form-control form-control-sm dz-n" value="${Number(v) || 0}" min="${min}" max="${max}" step="${step || 1}" oninput="dzSetP('${k}',this.value,1);this.previousElementSibling.value=this.value" onchange="dzCommit()">${unit ? `<span class="small-muted">${unit}</span>` : ''}</div></div>`; }
+function dzTog(label, k, v, after) { return `<div class="form-check form-switch dz-tg"><input class="form-check-input" type="checkbox" id="dzt_${k}" ${v ? 'checked' : ''} onchange="dzSetP('${k}',this.checked);dzCommit();${after || ''}"><label class="form-check-label" for="dzt_${k}">${label}</label></div>`; }
+function dzSec(title, body, open) { return `<details class="dz-sec" ${open === false ? '' : 'open'}><summary>${title}</summary><div class="dz-secb">${body}</div></details>`; }
+function dzProps() {
+  const el = $('#dzProps'), D = S.dz; if (!el || !D) return;
+  const s = dzSel(), e = s.length === 1 ? s[0] : null;
+  if (!s.length) {
+    const b = D.d.bg || {}, sk = Object.keys(DZ_SIZES).find(k => DZ_SIZES[k][0] === D.d.w && DZ_SIZES[k][1] === D.d.h) || 'custom';
+    el.innerHTML = `<div class="dz-ph">Page</div>
+      ${dzSec('Size', `<select class="form-select form-select-sm mb-2" onchange="dzResize(this.value)">${Object.keys(DZ_SIZES).map(k => `<option value="${k}" ${k === sk ? 'selected' : ''}>${DZ_SIZES[k][2]} · ${DZ_SIZES[k][0]}×${DZ_SIZES[k][1]}</option>`).join('')}<option value="custom" ${sk === 'custom' ? 'selected' : ''}>Custom size</option></select>
+        <div class="d-flex gap-2 align-items-center"><input type="number" class="form-control form-control-sm" id="dzW" value="${D.d.w}" min="200" max="4000" aria-label="Width"><span>×</span><input type="number" class="form-control form-control-sm" id="dzH" value="${D.d.h}" min="200" max="4000" aria-label="Height"><button class="btn btn-light btn-sm" onclick="dzResize('custom',$('#dzW').value,$('#dzH').value)">Apply</button></div>
+        <div class="small-muted mt-1">Resizing moves and scales everything to fit.</div>`)}
+      ${dzSec('Background', `${dzCol('Colour', 'c1', b.c1, { page: 1, def: '#ffffff' })}<div class="form-check form-switch dz-tg"><input class="form-check-input" type="checkbox" id="dzbg" ${b.grad ? 'checked' : ''} onchange="dzSetPage('grad',this.checked);if(this.checked&&!S.dz.d.bg.c2)dzSetPage('c2','#7c3aed');dzCommit();dzProps()"><label class="form-check-label" for="dzbg">Gradient</label></div>
+        ${b.grad ? dzCol('Second colour', 'c2', b.c2, { page: 1, def: '#7c3aed' }) + `<div class="dz-row"><label>Angle</label><input type="range" class="form-range" min="0" max="360" value="${Number(b.ang) || 135}" oninput="dzSetPage('ang',this.value)" onchange="dzCommit()"></div>` : ''}
+        ${b.img ? `<div class="dz-row"><label>Photo darkness</label><input type="range" class="form-range" min="0" max=".85" step=".05" value="${Number(b.ov) || 0}" oninput="dzSetPage('ov',this.value)" onchange="dzCommit()"></div><button class="btn btn-light btn-sm text-danger" onclick="dzSetPage('img','');dzCommit();dzProps()">Remove photo</button>` : `<button class="btn btn-light btn-sm w-100" onclick="S.dzBgPick=true;dzPanel('uploads')"><i class="fa-solid fa-image me-1"></i>Background photo</button>`}`)}
+      <div class="dz-tips small-muted"><b>Shortcuts</b><br>Ctrl+Z undo · Ctrl+D duplicate · Del delete · arrows nudge (Shift = 10px) · Shift+click select several · Ctrl+scroll zoom · Alt while dragging = no snapping</div>`;
+    return;
+  }
+  const head = `<div class="dz-acts">
+      <button class="btn btn-light btn-sm" onclick="dzDup()" title="Duplicate (Ctrl+D)"><i class="fa-regular fa-copy"></i></button>
+      ${e ? `<button class="btn btn-light btn-sm" onclick="dzOrder('top')" title="Bring to front"><i class="fa-solid fa-angles-up"></i></button><button class="btn btn-light btn-sm" onclick="dzOrder(1)" title="Forward"><i class="fa-solid fa-angle-up"></i></button><button class="btn btn-light btn-sm" onclick="dzOrder(-1)" title="Backward"><i class="fa-solid fa-angle-down"></i></button><button class="btn btn-light btn-sm" onclick="dzOrder('bottom')" title="Send to back"><i class="fa-solid fa-angles-down"></i></button>
+      <button class="btn btn-light btn-sm" onclick="dzSetP('lock',${!e.lock});dzCommit();dzProps()" title="${e.lock ? 'Unlock' : 'Lock'}"><i class="fa-solid ${e.lock ? 'fa-lock' : 'fa-lock-open'}"></i></button>` : ''}
+      <button class="btn btn-light btn-sm text-danger" onclick="dzDel()" title="Delete"><i class="fa-solid fa-trash"></i></button></div>
+    <div class="dz-row"><label>${e ? 'Align on page' : 'Align selected'}</label><div class="btn-group btn-group-sm w-100">${[['l', 'fa-align-left'], ['c', 'fa-align-center'], ['r', 'fa-align-right'], ['t', 'fa-arrow-up'], ['m', 'fa-grip-lines'], ['b', 'fa-arrow-down']].map(a => `<button class="btn btn-light" onclick="dzAlign('${a[0]}')" title="${{ l: 'Left', c: 'Centre', r: 'Right', t: 'Top', m: 'Middle', b: 'Bottom' }[a[0]]}"><i class="fa-solid ${a[1]}"></i></button>`).join('')}</div></div>`;
+  if (!e) { el.innerHTML = `<div class="dz-ph">${s.length} selected</div>${head}${dzNum('Transparency', 'op', s[0].op == null ? 1 : s[0].op, 0, 1, .05)}`; return; }
+  let body = '';
+  if (e.t === 'text') {
+    body = dzSec('Text', `<textarea class="form-control form-control-sm mb-2" id="dzpText" rows="3" oninput="dzSetP('text',this.value)" onchange="dzCommit()">${esc(e.text)}</textarea>
+      <div class="dz-row"><label>Font</label><select class="form-select form-select-sm" onchange="dzSetP('font',this.value);dzCommit()">${DZ_FONTS.map(f => `<option ${f === e.font ? 'selected' : ''} style="font-family:'${f}'">${f}</option>`).join('')}</select></div>
+      <div class="d-flex gap-2"><div class="dz-row flex-fill"><label>Size</label><input type="number" class="form-control form-control-sm" value="${e.size}" min="6" max="600" oninput="dzSetP('size',this.value,1)" onchange="dzCommit()"></div><div class="dz-row flex-fill"><label>Weight</label><select class="form-select form-select-sm" onchange="dzSetP('weight',this.value,1);dzCommit()">${[[400, 'Regular'], [500, 'Medium'], [600, 'Semibold'], [700, 'Bold'], [800, 'Extra bold'], [900, 'Black']].map(w => `<option value="${w[0]}" ${Number(e.weight) === w[0] ? 'selected' : ''}>${w[1]}</option>`).join('')}</select></div></div>
+      <div class="d-flex gap-1 mb-2 flex-wrap"><div class="btn-group btn-group-sm">${['left', 'center', 'right'].map(a => `<button class="btn ${e.align === a ? 'btn-primary' : 'btn-light'}" onclick="dzSetP('align','${a}');dzCommit();dzProps()" title="${a}"><i class="fa-solid fa-align-${a}"></i></button>`).join('')}</div>
+        <div class="btn-group btn-group-sm"><button class="btn ${e.italic ? 'btn-primary' : 'btn-light'}" onclick="dzSetP('italic',${!e.italic});dzCommit();dzProps()" title="Italic"><i class="fa-solid fa-italic"></i></button><button class="btn ${e.under ? 'btn-primary' : 'btn-light'}" onclick="dzSetP('under',${!e.under});dzCommit();dzProps()" title="Underline"><i class="fa-solid fa-underline"></i></button><button class="btn ${e.upper ? 'btn-primary' : 'btn-light'}" onclick="dzSetP('upper',${!e.upper});dzCommit();dzProps()" title="UPPERCASE">Aa</button></div></div>
+      ${dzCol('Colour', 'color', e.color, { def: '#0b1b3f' })}
+      ${dzNum('Letter spacing', 'ls', e.ls || 0, -10, 60)}${dzNum('Line height', 'lh', e.lh || 1.15, .7, 2.5, .05)}
+      ${dzTog('Shadow', 'shadow', e.shadow)}`) +
+      dzSec('Background box', `${dzCol('Box colour', 'bg', e.bg, { none: 1, def: '#facc15' })}${e.bg ? dzTog('Gradient', 'grad', e.grad, "if(!dzOne().bg2)dzSetP('bg2','#7c3aed');dzProps()") + (e.grad ? dzCol('Second colour', 'bg2', e.bg2, { def: '#7c3aed', short: 1 }) : '') + dzTog('Pill shape', 'pill', e.pill, 'dzProps()') + (e.pill ? '' : dzNum('Corner radius', 'radius', e.radius || 0, 0, 120)) + dzNum('Height', 'h', e.h, 20, 1200) : '<div class="small-muted">Add a colour to turn the text into a badge or button.</div>'}`, !!e.bg) +
+      dzSec('Outline', `${dzCol('Outline colour', 'stroke', e.stroke, { none: 1, def: '#ffffff', short: 1 })}${e.stroke ? dzNum('Outline width', 'sw', e.sw || 0, 0, 12, .5) : ''}`, false);
+  } else if (e.t === 'shape') {
+    const line = /line/.test(e.kind);
+    body = dzSec('Shape', `<div class="dz-row"><label>Shape</label><select class="form-select form-select-sm" onchange="dzSetP('kind',this.value);dzCommit();dzProps()">${DZ_SHAPES.filter(x => x[0] !== 'round' && x[0] !== 'dashline').map(x => `<option value="${x[0]}" ${x[0] === e.kind ? 'selected' : ''}>${x[1]}</option>`).join('')}</select></div>
+      ${line || e.kind === 'ring' ? '' : dzCol('Fill', 'fill', e.fill, { none: 1 }) + dzTog('Gradient', 'grad', e.grad, "if(!dzOne().fill2)dzSetP('fill2','#7c3aed');dzProps()") + (e.grad ? dzCol('Second colour', 'fill2', e.fill2, { def: '#7c3aed', short: 1 }) + dzNum('Gradient angle', 'ga', e.ga || 135, 0, 360) : '')}
+      ${e.kind === 'rect' ? dzNum('Corner radius', 'radius', e.radius || 0, 0, Math.round(Math.min(e.w, e.h) / 2)) : ''}
+      ${e.kind === 'dots' ? dzNum('Spacing', 'gap', e.gap || 28, 10, 120) : ''}
+      ${dzCol(line || e.kind === 'ring' ? 'Line colour' : 'Border', 'stroke', e.stroke, { none: !line && e.kind !== 'ring', def: '#0b1b3f', short: 1 })}${e.stroke || line || e.kind === 'ring' ? dzNum(line || e.kind === 'ring' ? 'Thickness' : 'Border width', 'sw', e.sw || 0, 0, 80) + dzTog('Dashed', 'dash', e.dash) : ''}
+      ${dzTog('Shadow', 'shadow', e.shadow)}`);
+  } else if (e.t === 'image') {
+    body = dzSec('Photo', `<div class="d-grid gap-1 mb-2"><button class="btn btn-grad btn-sm" onclick="dzPickImage('${e.id}')"><i class="fa-solid fa-upload me-1"></i>${e.src ? 'Replace photo' : 'Upload photo'}</button><button class="btn btn-light btn-sm" onclick="dzPanel('uploads')"><i class="fa-solid fa-images me-1"></i>Choose from uploads</button></div>
+      ${e.src ? `<div class="dz-row"><label>Fit</label><div class="btn-group btn-group-sm w-100"><button class="btn ${e.fit !== 'contain' ? 'btn-primary' : 'btn-light'}" onclick="dzSetP('fit','cover');dzCommit();dzProps()">Fill frame</button><button class="btn ${e.fit === 'contain' ? 'btn-primary' : 'btn-light'}" onclick="dzSetP('fit','contain');dzCommit();dzProps()">Show whole</button></div></div>
+        ${e.fit !== 'contain' ? dzNum('Focus left ↔ right', 'px', e.px == null ? 50 : e.px, 0, 100) + dzNum('Focus top ↕ bottom', 'py', e.py == null ? 50 : e.py, 0, 100) : ''}` : ''}
+      ${dzTog('Circle', 'circle', e.circle, 'dzProps()')}${e.circle ? '' : dzNum('Corner radius', 'radius', e.radius || 0, 0, 400)}
+      ${dzCol('Border', 'stroke', e.stroke, { none: 1, def: '#ffffff', short: 1 })}${e.stroke ? dzNum('Border width', 'sw', e.sw || 0, 0, 60) : ''}
+      ${dzNum('Dark fade', 'ov', e.ov || 0, 0, .95, .05)}${e.ov ? `<div class="dz-row"><label>Fade towards</label><select class="form-select form-select-sm" onchange="dzSetP('ovDir',this.value,1);dzCommit()">${[[180, 'Bottom'], [0, 'Top'], [90, 'Right'], [270, 'Left']].map(o => `<option value="${o[0]}" ${Number(e.ovDir || 180) === o[0] ? 'selected' : ''}>${o[1]}</option>`).join('')}</select></div>` : ''}
+      ${dzTog('Flip', 'flip', e.flip)}${dzTog('Shadow', 'shadow', e.shadow)}`);
+  } else if (e.t === 'icon') {
+    body = dzSec('Icon', `${dzCol('Colour', 'color', e.color)}${dzCol('Background', 'fill', e.fill, { none: 1, def: '#eef2ff', short: 1 })}${e.fill ? dzTog('Circle', 'circle', e.circle) : ''}
+      <div class="dz-row"><label>Change icon</label><input class="form-control form-control-sm mb-1" placeholder="Search…" oninput="$$('#dzIcP [data-n]').forEach(b=>b.style.display=!this.value||b.dataset.n.indexOf(this.value.toLowerCase())>=0?'':'none')"><div class="dz-grid5" id="dzIcP">${DZ_FA.map(f => `<button class="dz-it${f === e.fa ? ' on' : ''}" data-n="${f}" onclick="dzSetP('fa','${f}');dzCommit();dzProps()"><i class="fa-solid ${f}"></i></button>`).join('')}</div></div>`);
+  } else if (e.t === 'tile') {
+    const logos = (S.dzAssets || []).filter(a => a.kind === 'logo');
+    body = dzSec('Tool tile', `<div class="dz-row"><label>Label</label><input class="form-control form-control-sm" value="${esc(e.label || '')}" oninput="dzSetP('label',this.value)" onchange="dzCommit()" placeholder="No label"></div>
+      <div class="dz-row"><label>Picture</label><select class="form-select form-select-sm" onchange="const v=this.value;if(v.indexOf('logo:')===0){dzSetP('src',v.slice(5));}else{dzSetP('src','');dzSetP('tool',v);}dzCommit();dzProps()">${Object.keys(TOOL_ICONS).map(k => `<option value="${k}" ${!e.src && e.tool === k ? 'selected' : ''}>${esc(TOOL_ICONS[k].label)} (generic)</option>`).join('')}${logos.map(a => `<option value="logo:${esc(a.url)}" ${e.src === a.url ? 'selected' : ''}>Logo: ${esc(a.name)}</option>`).join('')}</select>
+        <button class="btn btn-link btn-sm px-0" onclick="dzPickImage('${e.id}','logo')"><i class="fa-solid fa-upload me-1"></i>Upload a logo for this tile</button></div>
+      ${dzNum('Label size', 'size', e.size || Math.round(Math.min(e.w, e.h) * .13), 8, 120)}${dzCol('Label colour', 'color', e.color, { def: '#0b1b3f', short: 1 })}
+      ${dzCol('Tile colour', 'fill', e.fill, { def: '#ffffff', none: 1 })}${dzNum('Corner radius', 'radius', e.radius == null ? Math.round(Math.min(e.w, e.h) * .16) : e.radius, 0, 300)}${dzTog('Shadow', 'shadow', e.shadow)}`);
+  } else if (e.t === 'art') {
+    body = dzSec('Illustration', `<div class="dz-row"><label>Picture</label><select class="form-select form-select-sm" onchange="dzSetP('art',this.value);dzCommit()">${Object.keys(DZ_ART).map(k => `<option value="${k}" ${k === e.art ? 'selected' : ''}>${esc(DZ_ART[k].name)}</option>`).join('')}</select></div>${dzCol('Main colour', 'fill', e.fill, { def: '#2563eb' })}${dzCol('Second colour', 'fill2', e.fill2, { def: '#7c3aed', short: 1 })}`);
+  } else if (e.t === 'qr') {
+    const ps = ((S.lk && S.lk.programmes) || []).slice(0, 60);
+    body = dzSec('QR code', `<div class="dz-row"><label>Link</label><input class="form-control form-control-sm" value="${esc(e.link || '')}" oninput="dzSetP('link',this.value)" onchange="dzCommit()"></div>
+      <div class="dz-row"><label>Quick links</label><select class="form-select form-select-sm" onchange="if(this.value){dzSetP('link',this.value);dzCommit();dzProps()}"><option value="">Choose…</option><option value="${esc(siteBase())}">Website home</option>${optProg().slice(1).map(o => `<option value="${esc(pageUrl('course', o[0]))}">${esc(o[1])}</option>`).join('')}</select></div>
+      ${dzCol('Background', 'fill', e.fill, { def: '#ffffff', short: 1 })}${dzNum('Corner radius', 'radius', e.radius || 0, 0, 80)}${dzTog('Shadow', 'shadow', e.shadow)}`);
+  }
+  const pos = dzSec('Position & size', `<div class="dz-xywh">${[['x', 'X'], ['y', 'Y'], ['w', 'W'], ['h', 'H'], ['rot', '↻']].map(f => `<label>${f[1]}<input type="number" class="form-control form-control-sm" value="${Math.round(e[f[0]] || 0)}" ${f[0] === 'h' && e.t === 'text' && !e.bg ? 'disabled title="Height follows the text"' : ''} oninput="dzSetP('${f[0]}',this.value,1)" onchange="dzCommit()"></label>`).join('')}</div>${dzNum('Transparency', 'op', e.op == null ? 1 : e.op, 0, 1, .05)}`, false);
+  el.innerHTML = `<div class="dz-ph">${esc({ text: 'Text', shape: 'Shape', image: 'Photo', icon: 'Icon', tile: 'Tool tile', art: 'Illustration', qr: 'QR code' }[e.t])}${e.lock ? ' <span class="badge-s bs-warning">Locked</span>' : ''}</div>${head}${body}${pos}`;
+}
+function dzResize(key, w, h) {
+  const D = S.dz;
+  let W = Number(w), H = Number(h);
+  if (key !== 'custom') { W = DZ_SIZES[key][0]; H = DZ_SIZES[key][1]; }
+  W = Math.max(200, Math.min(4000, Math.round(W || D.d.w))); H = Math.max(200, Math.min(4000, Math.round(H || D.d.h)));
+  if (W === D.d.w && H === D.d.h) return;
+  const f = Math.min(W / D.d.w, H / D.d.h), ox = (W - D.d.w * f) / 2, oy = (H - D.d.h * f) / 2;
+  D.d.els.forEach(e => { e.x = Math.round(e.x * f + ox); e.y = Math.round(e.y * f + oy); e.w = Math.round(e.w * f); e.h = Math.round(e.h * f); if (e.size) e.size = Math.max(6, Math.round(e.size * f)); if (e.sw) e.sw = Math.max(1, Math.round(e.sw * f)); if (e.radius) e.radius = Math.round(e.radius * f); if (e.pad) e.pad = Math.round(e.pad * f); });
+  D.d.w = W; D.d.h = H; D.sel = [];
+  dzZoom(0); dzCommit(); dzProps();
+}
 
 function normCode(c) { return String(c || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 30); }
 function isYes(v) { return v === true || /^(true|yes|1)$/i.test(String(v || '')); }
