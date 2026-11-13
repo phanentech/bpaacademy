@@ -404,6 +404,20 @@ img,video,canvas{max-width:100%}
 @media (max-width:575.98px){.em-frame{height:620px}}
 .yt-frame{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:12px;overflow:hidden}.yt-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .rec-cover{position:relative;cursor:pointer}.rec-src{position:absolute;left:10px;bottom:10px;background:#dc2626;color:#fff;font-size:.72rem;font-weight:700;border-radius:6px;padding:.15rem .5rem}
+.cert-lock{background:#fffbeb;border:1px dashed #f59e0b;border-radius:12px;padding:.7rem}
+.fm-page{min-height:100vh;background:linear-gradient(180deg,#eef2ff 0,#f8fafc 320px)}
+.fm-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 24px 50px -36px rgba(15,23,42,.5)}
+.fm-band{height:10px;background:var(--grad)}.fm-cover{width:100%;max-height:260px;object-fit:cover;display:block}
+.fm-head{padding:1.4rem 1.5rem;border-bottom:1px solid var(--line)}.fm-head h2{font-size:clamp(1.4rem,3.5vw,1.9rem)}
+.fm-q{padding:1.05rem 1.5rem;border-bottom:1px solid #f1f5f9}.fm-q:last-child{border-bottom:0}
+.fm-sec{padding-top:.4rem}.fm-sec h5{color:var(--purple)}
+.fm-opt{display:flex;gap:.6rem;align-items:center;border:1px solid var(--line);border-radius:10px;padding:.5rem .75rem;margin:0;cursor:pointer}.fm-opt:has(input:checked){border-color:#7c3aed;background:#f5f3ff}.fm-opt input{accent-color:#7c3aed;width:17px;height:17px;flex-shrink:0}
+.fm-prog{display:flex;align-items:flex-start;background:#f5f3ff;border-radius:12px;padding:.7rem .9rem}
+.fm-prev{max-height:calc(100vh - 160px);overflow:auto;border-radius:20px}
+.fq-sec{background:#faf5ff}
+.fr-tbl td,.fr-tbl th{vertical-align:middle;padding:.6rem .75rem}.fr-bar{position:sticky;top:70px;z-index:5;border-color:#c4b5fd;background:#faf5ff}
+.fr-ans{padding:.45rem 0;border-bottom:1px solid #f1f5f9}
+@media (max-width:575.98px){.fm-q{padding:.9rem 1rem}.fm-head{padding:1.1rem 1rem}}
 </style>
 </head>
 <body>
@@ -541,8 +555,8 @@ function callHttp(action, payload) {
     catch (e) { throw new Error('The backend returned an unexpected response. Check BACKEND_URL and that the web app is deployed with access for "Anyone".'); }
   });
 }
-const READS = new Set(['publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff', 'couponList', 'partnerList', 'myQuizzes', 'quizList', 'emailList']);
-const NO_DIRTY = new Set(['batch', 'validateCoupon', 'getMaterialFile', 'getVideo', 'getAssignmentFile', 'getCertificateData', 'getStaffFile', 'getTransferProof', 'transferInfo', 'aiTutor', 'aiGenerate', 'aiTestModel', 'imageData', 'verifyCertificate', 'certCandidates', 'emailAudience', 'emailGet', 'emailReport', 'emailInsights', 'trackClick', 'classHub', 'classLinks', 'classFeedback', 'quizResults', 'quizStart', 'markNotificationsRead', 'joinClass', 'login', 'register', 'logout', 'forgotPassword']);
+const READS = new Set(['publicData', 'me', 'programmeDetails', 'studentDashboard', 'myLearning', 'programmeContent', 'myMaterials', 'myClasses', 'myRecordings', 'myAssignments', 'myCertificates', 'myHistory', 'myPayments', 'myAnnouncements', 'myNotifications', 'aiStatus', 'adminStats', 'adminLookups', 'adminList', 'getSettings', 'aiConfig', 'flyerList', 'listStaff', 'couponList', 'partnerList', 'myQuizzes', 'quizList', 'emailList', 'formList']);
+const NO_DIRTY = new Set(['batch', 'validateCoupon', 'getMaterialFile', 'getVideo', 'getAssignmentFile', 'getCertificateData', 'getStaffFile', 'getTransferProof', 'transferInfo', 'aiTutor', 'aiGenerate', 'aiTestModel', 'imageData', 'verifyCertificate', 'certCandidates', 'formPublic', 'formResponses', 'formFile', 'emailAudience', 'emailGet', 'emailReport', 'emailInsights', 'trackClick', 'classHub', 'classLinks', 'classFeedback', 'quizResults', 'quizStart', 'markNotificationsRead', 'joinClass', 'login', 'register', 'logout', 'forgotPassword']);
 const RC = { mem: {}, at: {}, uid: '', dirty: 0, pending: {} };
 function rcKey(a, p) { return a + '|' + JSON.stringify(p || {}); }
 function saveUser() { try { if (S.user) store.set('bpa_user', JSON.stringify(S.user)); } catch (e) {} }
@@ -1093,7 +1107,9 @@ async function showPaymentReturn(ref) {
   render('fa-spinner fa-spin', 'ic-blue', 'Verifying your payment…', 'Please wait while we confirm your payment with Paystack. Do not close this page.', '');
   try {
     const r = await call('verifyPayment', { reference: ref });
-    if (r.status === 'Success') {
+    if (r.status === 'Success' && r.purpose === 'Certificate') {
+      render('fa-circle-check', 'ic-green', 'Certificate unlocked 🎓', `Thank you! Your certificate for <b>${esc(r.programme)}</b> is ready to download.`, S.user ? `<button class="btn btn-grad btn-lg" onclick="goApp('certificates')">Download my certificate</button>` : `<button class="btn btn-grad btn-lg" onclick="renderPublic();openAuth('login')">Log in to download</button>`);
+    } else if (r.status === 'Success') {
       render('fa-circle-check', 'ic-green', 'Payment confirmed 🎉', `You're now enrolled in <b>${esc(r.programme)}</b>. Your learning materials are ready.`,
         S.user ? `<button class="btn btn-grad btn-lg" onclick="goApp('course','${esc(r.programmeId)}')">Start learning</button><button class="btn btn-light" onclick="goApp()">Go to dashboard</button>` : `<button class="btn btn-grad btn-lg" onclick="renderPublic();openAuth('login')">Log in to start learning</button>`);
     } else if (r.status === 'Pending') {
@@ -1224,7 +1240,7 @@ const ADMIN_MENU = [
   ['Learning'], ['programmes', 'Programmes', 'fa-book', 1], ['categories', 'Course Categories', 'fa-layer-group'], ['tutorials', 'Academic Tutorials', 'fa-graduation-cap'],
   ['enrolments', 'Enrolments', 'fa-user-check'], ['payments', 'Payments', 'fa-credit-card'], ['coupons', 'Coupons & Promos', 'fa-ticket'], ['materials', 'Learning Materials', 'fa-folder-open', 1],
   ['classes', 'Live Classes', 'fa-video', 1], ['recordings', 'Class Recordings', 'fa-circle-play', 1], ['assignments', 'Assignments', 'fa-file-pen', 1], ['quizzes', 'Quizzes', 'fa-circle-question', 1], ['certificates', 'Certificates', 'fa-award'],
-  ['Engagement'], ['emails', 'Email Marketing', 'fa-envelope-open-text'], ['flyers', 'Flyer Studio', 'fa-palette', 1], ['announcements', 'Announcements', 'fa-bullhorn', 1], ['testimonials', 'Testimonials', 'fa-quote-left'], ['website', 'Website Content', 'fa-globe'],
+  ['Engagement'], ['emails', 'Email Marketing', 'fa-envelope-open-text'], ['forms', 'Forms', 'fa-clipboard-list'], ['flyers', 'Flyer Studio', 'fa-palette', 1], ['announcements', 'Announcements', 'fa-bullhorn', 1], ['testimonials', 'Testimonials', 'fa-quote-left'], ['website', 'Website Content', 'fa-globe'],
   ['System'], ['ai', 'AI Models', 'fa-robot'], ['reports', 'Reports', 'fa-chart-column'], ['settings', 'System Settings', 'fa-sliders'], ['profile', 'My Profile', 'fa-user-gear', 1]
 ];
 function toggleUserMenu(ev) { ev.stopPropagation(); const m = $('#userMenu'); if (m) m.classList.toggle('show'); }
@@ -1278,7 +1294,7 @@ function bottomNav(kind) {
   return `<nav class="bnav" aria-label="Main">${tabs.map(t => `<a data-tab="${t[0]}" onclick="nav('${t[0]}')"><i class="fa-solid ${t[2]}"></i><span>${t[1]}</span></a>`).join('')}<a data-tab="more" onclick="toggleSb(true)"><i class="fa-solid fa-grip"></i><span>More</span></a></nav>`;
 }
 function toggleSb(open) { const sb = $('#sidebar'), bk = $('#sbBack'); if (sb) sb.classList.toggle('open', open); if (bk) bk.classList.toggle('show', open); }
-const TITLES = { emails: 'Email Marketing', classhub: 'Class', quizzes: 'Quizzes', coupons: 'Coupons & Promos', flyers: 'Flyer Studio', tutor: 'AI Study Assistant', ai: 'AI Models', overview: 'Dashboard', learning: 'My Learning', materials: 'My Learning Materials', classes: 'My Classes', recordings: 'Recorded Classes', assignments: 'Assignments', certificates: 'Certificates', history: 'Learning History', payments: 'Payments', announcements: 'Announcements', catalog: 'Browse Programmes', profile: 'My Profile', course: 'Course', dashboard: 'Dashboard', students: 'Students', programmes: 'Programmes', categories: 'Course Categories', tutorials: 'Academic Tutorials', enrolments: 'Enrolments', testimonials: 'Testimonials', website: 'Website Content', reports: 'Reports', settings: 'System Settings' };
+const TITLES = { forms: 'Forms', emails: 'Email Marketing', classhub: 'Class', quizzes: 'Quizzes', coupons: 'Coupons & Promos', flyers: 'Flyer Studio', tutor: 'AI Study Assistant', ai: 'AI Models', overview: 'Dashboard', learning: 'My Learning', materials: 'My Learning Materials', classes: 'My Classes', recordings: 'Recorded Classes', assignments: 'Assignments', certificates: 'Certificates', history: 'Learning History', payments: 'Payments', announcements: 'Announcements', catalog: 'Browse Programmes', profile: 'My Profile', course: 'Course', dashboard: 'Dashboard', students: 'Students', programmes: 'Programmes', categories: 'Course Categories', tutorials: 'Academic Tutorials', enrolments: 'Enrolments', testimonials: 'Testimonials', website: 'Website Content', reports: 'Reports', settings: 'System Settings' };
 async function nav(sec, arg, silent) {
   const host = $('#main'); if (!host) return;
   if (silent && (!host.firstElementChild || S.sec !== sec)) return;
@@ -1480,8 +1496,10 @@ const STUDENT_PAGES = {
   async certificates(main) {
     const c = await rcall('myCertificates');
     main.innerHTML = pageHead('Certificates', 'Download and share your verifiable certificates.') + (c.length ? `<div class="row g-3">${c.map(x => `
-      <div class="col-md-6 col-xl-4"><div class="card-x h-100"><div class="d-flex gap-3"><div class="big-ic ic-amber m-0" style="width:56px;height:56px;font-size:1.4rem"><i class="fa-solid fa-award"></i></div><div class="min-w-0"><h6 class="fw-bold mb-1">${esc(x.programme)}</h6><div class="small-muted">Completed ${fdate(x.date)}</div><div class="small mt-1">ID <b>${esc(x.id)}</b> · Code <b>${esc(x.code)}</b></div><div class="mt-1">${badge(x.status)}</div></div></div>
-      <div class="d-flex gap-2 mt-3">${x.status === 'Issued' ? `<button class="btn btn-grad btn-sm flex-fill" onclick="dlCertificate('${esc(x.id)}')"><i class="fa-solid fa-eye me-1"></i>View & download</button><button class="btn btn-light btn-sm" title="Copy verification link" onclick="copyText('${esc(x.verifyUrl)}')"><i class="fa-solid fa-link"></i></button>` : ''}</div></div></div>`).join('')}</div>`
+      <div class="col-md-6 col-xl-4"><div class="card-x h-100"><div class="d-flex gap-3"><div class="big-ic ic-amber m-0" style="width:56px;height:56px;font-size:1.4rem"><i class="fa-solid fa-award"></i></div><div class="min-w-0"><h6 class="fw-bold mb-1">${esc(x.programme)}</h6><div class="small-muted">Completed ${fdate(x.date)}</div><div class="small mt-1">ID <b>${esc(x.id)}</b>${x.code ? ` · Code <b>${esc(x.code)}</b>` : ''}</div><div class="mt-1">${x.locked ? '<span class="badge-s bs-warning"><i class="fa-solid fa-lock me-1"></i>Locked</span>' : badge(x.status)}</div></div></div>
+      ${x.locked ? `<div class="cert-lock mt-3"><div class="small fw-semibold mb-2"><i class="fa-solid fa-lock me-1"></i>Pay the certificate fee of ${money(x.fee, x.currency)} to unlock it</div>
+        ${x.transfer ? `<button class="btn btn-sm ${x.transfer.status === 'Under Review' ? 'btn-light' : 'btn-grad'} w-100" onclick="openTransfer('${esc(x.transfer.reference)}')">${x.transfer.status === 'Under Review' ? '<i class="fa-solid fa-hourglass-half me-1"></i>Transfer being confirmed' : x.transfer.status === 'Rejected' ? '<i class="fa-solid fa-upload me-1"></i>Upload a new receipt' : '<i class="fa-solid fa-building-columns me-1"></i>Complete bank transfer'}</button>` : `<div class="d-flex gap-2"><button class="btn btn-sm btn-grad flex-fill" onclick="payCert('${esc(x.id)}','online',this)"><i class="fa-solid fa-credit-card me-1"></i>Pay online</button>${S.pub && S.pub.bankTransfer ? `<button class="btn btn-sm btn-light flex-fill" onclick="payCert('${esc(x.id)}','bank',this)"><i class="fa-solid fa-building-columns me-1"></i>Bank transfer</button>` : ''}</div>`}</div>` : ''}
+      <div class="d-flex gap-2 mt-3">${x.status === 'Issued' && !x.locked ? `<button class="btn btn-grad btn-sm flex-fill" onclick="dlCertificate('${esc(x.id)}')"><i class="fa-solid fa-eye me-1"></i>View & download</button><button class="btn btn-light btn-sm" title="Copy verification link" onclick="copyText('${esc(x.verifyUrl)}')"><i class="fa-solid fa-link"></i></button>` : ''}</div></div></div>`).join('')}</div>`
       : `<div class="card-x">${empty('fa-award', 'No certificates yet', 'Complete all lessons and assignments in a certificate programme to earn one.')}</div>`);
   },
   async history(main) {
@@ -1595,6 +1613,7 @@ const ENT = {
       { k: 'Visibility', l: 'Visibility', t: 'select', o: [['Public', 'Public: listed on the website'], ['Private', 'Private: invite link only (not on the website)']], col: 'col-md-6' }, { k: 'InviteMax', l: 'Places for private invite (blank = unlimited)', t: 'number', col: 'col-md-6' },
       { k: 'Published', l: 'Published on website (public programmes)', t: 'bool', col: 'col-md-6' }, { k: 'EnrolmentOpen', l: 'Enrolment open', t: 'bool', col: 'col-md-6' },
       { k: 'Featured', l: 'Featured', t: 'bool', col: 'col-md-6' }, { k: 'CertificateEnabled', l: 'Issue certificate on completion', t: 'bool', col: 'col-md-6' },
+      { k: 'CertificateFee', l: 'Certificate fee (0 = free)', t: 'number', col: 'col-md-6', h: 'Charged to unlock the certificate after completion, e.g. for scholarship students. Admins can waive it per certificate.' },
       { k: 'CertificateTemplate', l: 'Certificate design', t: 'select', o: () => [['', 'Academy default']].concat(Object.keys(CERT_DESIGNS).map(k => [k, CERT_DESIGNS[k].name])), col: 'col-md-6' },
       { k: 'Status', l: 'Status', t: 'select', o: ['Active', 'Inactive', 'Archived'], col: 'col-md-6' }
     ],
@@ -1977,7 +1996,7 @@ async function studentView(sid) {
     $('#mBody').innerHTML = `<div class="row g-4"><div class="col-lg-4"><div class="card-x mb-3"><dl class="kv mb-0"><dt>Email</dt><dd>${esc(s.Email)}</dd><dt>Phone</dt><dd>${esc(s.Phone)}</dd><dt>Category</dt><dd>${esc(s.Category)}</dd><dt>Verified</dt><dd>${yesNo(s.EmailVerified)}</dd><dt>Account</dt><dd>${badge(s.AccountStatus)}</dd><dt>Last login</dt><dd>${fdt(s.LastLogin)}</dd><dt>Joined</dt><dd>${fdate(s.CreatedAt)}</dd></dl></div>
       <div class="card-x"><h6 class="fw-bold small">Grant access to a programme</h6><select class="form-select mb-2" id="gProg">${optProg().map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select><input class="form-control mb-2" id="gNote" placeholder="Note (e.g. scholarship)"><button class="btn btn-grad btn-sm w-100" onclick="doGrant('${esc(sid)}',$('#gProg').value,$('#gNote').value,this,()=>studentView('${esc(sid)}'))">Grant complimentary enrolment</button></div></div>
       <div class="col-lg-8"><h6 class="fw-bold">Enrolments</h6>${d.enrolments.length ? `<div class="tbl-wrap mb-4"><table class="tbl"><tbody>${d.enrolments.map(e => `<tr><td><div class="fw-semibold">${esc(e.title)}</div><div class="small-muted">Enrolled ${fdate(e.enrolledAt)}${e.expiresAt ? ' · expires ' + fdate(e.expiresAt) : ''}</div></td><td style="width:120px"><div class="prog"><i style="width:${e.progress}%"></i></div><div class="small-muted">${e.progress}%</div></td><td>${enrolStatusSelect(e.enrolmentId, e.status, () => studentView(sid))}</td></tr>`).join('')}</tbody></table></div>` : '<p class="small-muted">No enrolments.</p>'}
-      <h6 class="fw-bold">Payments</h6>${d.payments.length ? `<div class="tbl-wrap mb-4"><table class="tbl"><tbody>${d.payments.map(p => `<tr><td class="small">${fdate(p.PaidAt || p.CreatedAt)}</td><td>${esc(p.Programme)}</td><td class="fw-semibold">${money(p.Amount, p.Currency)}${p.CouponCode ? `<div class="small text-success fw-normal text-nowrap"><i class="fa-solid fa-ticket me-1"></i>${esc(p.CouponCode)}${Number(p.Discount) > 0 ? ' −' + money(p.Discount, p.Currency) : ''}</div>` : ''}</td><td><code class="small">${esc(p.Reference)}</code></td><td>${badge(p.Status)}</td></tr>`).join('')}</tbody></table></div>` : '<p class="small-muted">No payments.</p>'}
+      <h6 class="fw-bold">Payments</h6>${d.payments.length ? `<div class="tbl-wrap mb-4"><table class="tbl"><tbody>${d.payments.map(p => `<tr><td class="small">${fdate(p.PaidAt || p.CreatedAt)}</td><td>${esc(p.Programme)}</td><td class="fw-semibold">${money(p.Amount, p.Currency)}${p.Purpose === 'Certificate' ? '<div><span class="badge-s bs-purple"><i class="fa-solid fa-award me-1"></i>Certificate fee</span></div>' : ''}${p.CouponCode ? `<div class="small text-success fw-normal text-nowrap"><i class="fa-solid fa-ticket me-1"></i>${esc(p.CouponCode)}${Number(p.Discount) > 0 ? ' −' + money(p.Discount, p.Currency) : ''}</div>` : ''}</td><td><code class="small">${esc(p.Reference)}</code></td><td>${badge(p.Status)}</td></tr>`).join('')}</tbody></table></div>` : '<p class="small-muted">No payments.</p>'}
       <h6 class="fw-bold">Learning history</h6><div class="tl" style="max-height:340px;overflow:auto">${d.timeline.map(t => `<div class="tl-i"><div class="dot"><i class="fa-solid ${esc(t.icon)}"></i></div><div class="fw-semibold small">${esc(t.title)}</div><div class="small-muted">${fdt(t.date)}${t.detail ? ' · ' + esc(t.detail) : ''}</div></div>`).join('') || '<div class="small-muted">No activity.</div>'}</div></div></div>`;
   } catch (e) { $('#mBody').innerHTML = `<div class="alert alert-danger">${esc(e.message)}</div>`; }
 }
@@ -2039,14 +2058,27 @@ async function exportEntity(ent) {
 function drawCerts() {
   const q = (S.filt.cq || '').toLowerCase();
   const rows = (S.rows.Certificates || []).filter(c => c.Status !== 'Generating' && (!q || JSON.stringify(c).toLowerCase().includes(q)));
-  $('#ceTbl').innerHTML = rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Certificate</th><th>Student</th><th>Programme</th><th>Completed</th><th>Code</th><th>Status</th><th></th></tr></thead><tbody>${rows.map(c => `<tr><td class="fw-semibold">${esc(c.CertificateID)}</td><td>${esc(c.StudentName)}<div class="small-muted">${esc(c.StudentEmail)}</div></td><td class="small">${esc(c.ProgrammeTitle)}</td><td class="small">${fdate(c.CompletionDate)}</td><td><code>${esc(c.VerificationCode)}</code></td><td>${badge(c.Status)}</td>
-    <td><div class="act"><button class="btn btn-light" title="View & download" onclick="dlCertificate('${esc(c.CertificateID)}')"><i class="fa-solid fa-eye"></i></button><button class="btn btn-light" title="Copy verification link" onclick="copyText(appBase()+'?page=cert&code=${esc(c.VerificationCode)}')"><i class="fa-solid fa-link"></i></button>${c.Status === 'Issued' ? `<button class="btn btn-light text-danger" title="Revoke" onclick="revokeCert('${esc(c.CertificateID)}')"><i class="fa-solid fa-ban"></i></button>` : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('fa-award', 'No certificates issued yet', '');
+  $('#ceTbl').innerHTML = rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Certificate</th><th>Student</th><th>Programme</th><th>Completed</th><th>Code</th><th>Status</th><th>Fee</th><th></th></tr></thead><tbody>${rows.map(c => `<tr><td class="fw-semibold">${esc(c.CertificateID)}</td><td>${esc(c.StudentName)}<div class="small-muted">${esc(c.StudentEmail)}</div></td><td class="small">${esc(c.ProgrammeTitle)}</td><td class="small">${fdate(c.CompletionDate)}</td><td><code>${esc(c.VerificationCode)}</code></td><td>${badge(c.Status)}</td>
+    <td class="small">${c.FeeStatus === 'Unpaid' ? `<span class="badge-s bs-warning"><i class="fa-solid fa-lock me-1"></i>Unpaid ${money(c.FeeAmount)}</span>` : c.FeeStatus === 'Paid' ? '<span class="badge-s bs-success">Paid</span>' : c.FeeStatus === 'Waived' ? '<span class="badge-s bs-secondary">Waived</span>' : '<span class="small-muted">—</span>'}</td>
+    <td><div class="act"><button class="btn btn-light" title="View & download" onclick="dlCertificate('${esc(c.CertificateID)}')"><i class="fa-solid fa-eye"></i></button><button class="btn btn-light" title="Copy verification link" onclick="copyText(appBase()+'?page=cert&code=${esc(c.VerificationCode)}')"><i class="fa-solid fa-link"></i></button>${c.FeeStatus === 'Unpaid' ? `<button class="btn btn-light text-success" title="Waive certificate fee" onclick="certFee('${esc(c.CertificateID)}','waive')"><i class="fa-solid fa-hand-holding-heart"></i></button>` : ''}${c.Status === 'Issued' ? `<button class="btn btn-light text-danger" title="Revoke" onclick="revokeCert('${esc(c.CertificateID)}')"><i class="fa-solid fa-ban"></i></button>` : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('fa-award', 'No certificates issued yet', '');
 }
 function issueDialog() {
   modal('Issue certificate', `<div class="mb-3"><label class="form-label">Student</label>${studentOptions('icStu')}</div><div><label class="form-label">Programme</label><select class="form-select" id="icProg">${optProg().map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select></div><div class="form-text mt-2">A PDF with QR verification is generated and the student is notified.</div>`,
     `<button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-grad" onclick="doIssue(this)">Generate certificate</button>`);
 }
 async function doIssue(btn) { const sid = pickedId($('#icStu').value), pid = $('#icProg').value; if (!sid || !pid) return toast('Select a student and programme.', 'warning'); await busy(btn, async () => { await call('issueCertificate', { studentId: sid, programmeId: pid }); closeModal(); toast('Certificate issued.'); nav('certificates'); }); }
+async function payCert(id, method, btn) {
+  await busy(btn, async () => {
+    const r = await call('certPay', { certificateId: id, method, returnUrl: appBase() });
+    if (r.free) { toast('Certificate unlocked.'); return nav('certificates'); }
+    if (method === 'bank') return bankModal(r);
+    payModal(r);
+  });
+}
+async function certFee(id, action) {
+  if (action === 'waive' && !await confirmBox('Waive the certificate fee? The student can download the certificate straight away.', 'Waive fee')) return;
+  try { await call('certFeeAction', { certificateId: id, action }); toast(action === 'waive' ? 'Fee waived. The student has been notified.' : 'Fee required.'); nav('certificates'); } catch (e) { toast(e.message, 'danger'); }
+}
 async function revokeCert(id) { if (!await confirmBox('Revoke this certificate? Verification will show it as revoked.', 'Revoke', true)) return; try { await call('revokeCertificate', { certificateId: id }); toast('Certificate revoked.'); nav('certificates'); } catch (e) { toast(e.message, 'danger'); } }
 function annDialog() {
   S._aiEntity = 'Announcements';
@@ -3709,6 +3741,7 @@ function drawBulkOpts() {
   el.innerHTML = `<div class="card-x bg-light">
     <div class="row g-2"><div class="col-sm-6"><label class="form-label small" for="bkDate">Completion date</label><input class="form-control form-control-sm" type="date" id="bkDate" value="${esc(B.date)}" onchange="S.bulk.date=this.value;drawBulkPreview()"></div>
     <div class="col-sm-6 d-grid gap-1 align-content-end"><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="bkDone" ${B.complete ? 'checked' : ''} onchange="S.bulk.complete=this.checked"><label class="form-check-label small" for="bkDone">Mark as completed</label></div><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="bkMail" ${B.email ? 'checked' : ''} onchange="S.bulk.email=this.checked"><label class="form-check-label small" for="bkMail">Email students</label></div></div></div>
+    ${B.programme && B.programme.certificateFee > 0 ? `<div class="alert alert-warning small mt-3 mb-0 py-2"><i class="fa-solid fa-lock me-1"></i>This programme has a certificate fee of <b>${money(B.programme.certificateFee, B.programme.currency)}</b>. Students pay it to unlock their certificate.<div class="form-check form-switch mt-1 mb-0"><input class="form-check-input" type="checkbox" id="bkWaive" ${B.waive ? 'checked' : ''} onchange="S.bulk.waive=this.checked"><label class="form-check-label" for="bkWaive">Waive the fee for this batch</label></div></div>` : ''}
     <div class="d-flex justify-content-between align-items-center mt-3 mb-1"><span class="small fw-semibold"><i class="fa-solid fa-handshake text-primary me-1"></i>Partners on these certificates</span><a class="small" role="button" onclick="closeModal();nav('certificates','templates')">Manage</a></div>
     ${ps.length ? ps.map(p => `<label class="d-flex align-items-center gap-2 py-1 m-0" style="cursor:pointer"><input class="form-check-input m-0" type="checkbox" ${B.partners.includes(p.PartnerID) ? 'checked' : ''} onchange="bulkPartner('${esc(p.PartnerID)}',this.checked)">${safeUrl(p.LogoURL) ? `<img src="${esc(p.LogoURL)}" style="height:22px;max-width:60px;object-fit:contain">` : ''}<span class="small">${esc(p.Name)}</span></label>`).join('') : `<div class="small-muted">No partners yet. Add sponsors (e.g. a scholarship partner) under <b>Templates & design</b> to show their logo and signature.</div>`}
     <div class="small fw-semibold mt-3 mb-1">Preview</div><div id="bkPrev"></div></div>`;
@@ -3731,7 +3764,7 @@ async function bulkIssue(btn) {
   try {
     for (let i = 0; i < ids.length; i += size) {
       btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Issuing ${Math.min(i + size, ids.length)} of ${ids.length}…`;
-      const r = await call('bulkIssueCertificates', { programmeId: B.pid, studentIds: ids.slice(i, i + size), partnerIds: (S.partners || []).some(p => p.Status === 'Active') ? B.partners : undefined, date: B.date, markCompleted: B.complete, sendEmail: B.email });
+      const r = await call('bulkIssueCertificates', { programmeId: B.pid, studentIds: ids.slice(i, i + size), partnerIds: (S.partners || []).some(p => p.Status === 'Active') ? B.partners : undefined, date: B.date, markCompleted: B.complete, sendEmail: B.email, waiveFee: !!B.waive });
       tot.issued += r.issued; tot.skipped += r.skipped; tot.failed = tot.failed.concat(r.failed);
     }
     const name = id => (B.rows.find(x => x.studentId === id) || {}).name || id;
@@ -4620,6 +4653,225 @@ async function renderUnsub(p) {
   catch (e) { $('#unsubBox').innerHTML = `<div class="big-ic ic-red"><i class="fa-solid fa-link-slash"></i></div><h5 class="fw-bold">We couldn't process this link</h5><p class="text-muted">${esc(e.message)}</p>`; }
 }
 
+const FQ_TYPES = { name: 'Full name', email: 'Email', phone: 'Phone', text: 'Short answer', textarea: 'Paragraph', number: 'Number', date: 'Date', select: 'Dropdown', radio: 'Multiple choice', checkbox: 'Checkboxes', yesno: 'Yes / No', file: 'File upload', section: 'Section heading' };
+function fq(type, label, required, extra) { return Object.assign({ type, label, required: !!required, help: '' }, extra || {}); }
+const FORM_TPLS = {
+  scholarship: { name: 'Scholarship application', icon: 'fa-graduation-cap', kind: 'Scholarship', desc: 'Screen applicants for a sponsored or full-tuition cohort.', title: 'Scholarship Application', description: 'Apply for a fully funded place on our next cohort. Places are limited and selection is merit-based. Please answer every question honestly.', success: 'Thank you for applying! We review every application carefully and will email shortlisted applicants within 7 days.',
+    fields: () => [fq('name', 'Full name', 1), fq('email', 'Email address', 1), fq('phone', 'Phone number (WhatsApp)', 1), fq('radio', 'Gender', 0, { options: ['Female', 'Male', 'Prefer not to say'] }), fq('text', 'State / city of residence', 1), fq('select', 'Highest level of education', 1, { options: ['SSCE', 'OND / NCE', 'HND', 'BSc / BA', 'Master\'s', 'PhD', 'Other'] }), fq('radio', 'Current status', 1, { options: ['Student', 'Employed', 'Self-employed', 'Unemployed / job seeking'] }), fq('section', 'Tell us about you'), fq('textarea', 'Why do you want this scholarship?', 1, { help: 'What do you hope to achieve? (150–300 words)' }), fq('textarea', 'How will you use these skills in the next 6 months?', 1), fq('yesno', 'Can you commit to attend all live classes and complete the assignments?', 1), fq('yesno', 'Do you have a laptop and reliable internet access?', 1), fq('select', 'How did you hear about this scholarship?', 0, { options: ['WhatsApp', 'Instagram', 'LinkedIn', 'X (Twitter)', 'Facebook', 'Friend / colleague', 'Partner organisation', 'Other'] }), fq('file', 'CV / résumé (optional)', 0, { help: 'PDF or Word, max 5 MB' })] },
+  registration: { name: 'Course registration / interest', icon: 'fa-user-plus', kind: 'Registration', desc: 'Collect sign-ups and questions before a course opens.', title: 'Register Your Interest', description: 'Leave your details and we\'ll send you the dates, fees and early-bird offers as soon as registration opens.', success: 'Thanks! You\'re on the list. We\'ll be in touch with dates and early-bird pricing.',
+    fields: () => [fq('name', 'Full name', 1), fq('email', 'Email address', 1), fq('phone', 'Phone number (WhatsApp)', 1), fq('text', 'Organisation / company', 0), fq('text', 'Job title', 0), fq('checkbox', 'Which courses interest you?', 1, { options: ((S.pub && S.pub.programmes) || []).map(p => p.title).slice(0, 12).concat(['Other']) }), fq('radio', 'Preferred schedule', 1, { options: ['Weekdays', 'Weekday evenings', 'Weekends'] }), fq('textarea', 'Any questions for us?', 0)] },
+  rsvp: { name: 'Event / webinar RSVP', icon: 'fa-calendar-check', kind: 'Event', desc: 'Register attendees for a webinar, bootcamp or open day.', title: 'Reserve Your Seat', description: 'Join us live. Register below and we\'ll send you the link and a reminder.', success: 'You\'re registered! 🎉 Check your email for the details.',
+    fields: () => [fq('name', 'Full name', 1), fq('email', 'Email address', 1), fq('phone', 'Phone number (WhatsApp)', 0), fq('text', 'Organisation', 0), fq('select', 'How did you hear about this event?', 0, { options: ['WhatsApp', 'Instagram', 'LinkedIn', 'Email', 'Friend / colleague', 'Other'] }), fq('textarea', 'What would you like us to cover?', 0)] },
+  partner: { name: 'Partner / corporate enquiry', icon: 'fa-handshake', kind: 'Partnership', desc: 'Organisations requesting training for their staff or beneficiaries.', title: 'Train Your Team With Us', description: 'Tell us about your organisation and training needs. We\'ll send a tailored proposal within 3 working days.', success: 'Thank you! Our team will contact you within 3 working days.',
+    fields: () => [fq('name', 'Contact person', 1), fq('email', 'Work email', 1), fq('phone', 'Phone number', 1), fq('text', 'Organisation', 1), fq('text', 'Your role', 0), fq('number', 'Number of people to train', 1), fq('checkbox', 'Areas of interest', 1, { options: ['Data analytics', 'Power BI / dashboards', 'Excel', 'Automation', 'Monitoring & evaluation', 'Other'] }), fq('select', 'Budget range', 0, { options: ['Sponsored / grant-funded', 'Under ₦500k', '₦500k – ₦2m', 'Above ₦2m', 'Not sure yet'] }), fq('textarea', 'Describe your training needs', 1)] },
+  blank: { name: 'Blank form', icon: 'fa-file-circle-plus', kind: 'General', desc: 'Start from scratch with name and email.', title: 'Untitled form', description: '', success: 'Thank you! Your response has been received.', fields: () => [fq('name', 'Full name', 1), fq('email', 'Email address', 1)] }
+};
+ADMIN_PAGES.forms = async function (main, arg) {
+  S.fmMain = main;
+  await loadLookups();
+  if (S.fm) return drawFormBuilder();
+  if (String(arg || '').indexOf('resp:') === 0) return loadFormResponses(String(arg).slice(5));
+  const L = await rcall('formList'); S.fmList = L;
+  main.innerHTML = pageHead('<i class="fa-solid fa-clipboard-list text-primary me-2"></i>Forms', 'Shareable public forms: scholarship applications, registrations, RSVPs and enquiries. Anyone with the link can respond, no login needed.', `<button class="btn btn-grad" onclick="newForm('scholarship')"><i class="fa-solid fa-plus me-1"></i>New form</button>`) + `
+    <div class="card-x mb-4"><h6 class="ttl"><i class="fa-solid fa-swatchbook text-primary"></i>Start from a template</h6><div class="row g-2">${Object.keys(FORM_TPLS).map(k => `<div class="col-6 col-md-4 col-xl"><button type="button" class="cpn-preset" onclick="newForm('${k}')"><span class="em text-primary"><i class="fa-solid ${FORM_TPLS[k].icon}"></i></span><span class="min-w-0"><span class="d-block fw-bold small">${esc(FORM_TPLS[k].name)}</span><span class="d-block small-muted">${esc(FORM_TPLS[k].desc)}</span></span></button></div>`).join('')}</div></div>
+    ${L.length ? `<div class="card-x p-0"><div class="tbl-wrap border-0"><table class="tbl"><thead><tr><th>Form</th><th>Responses</th><th>Status</th><th>Deadline</th><th></th></tr></thead><tbody>${L.map(f => `<tr><td><div class="fw-semibold">${esc(f.Title)}</div><div class="small-muted">${esc(f.Kind)}${f.Programme ? ' · ' + esc(f.Programme) : ''}</div></td><td><b>${f.Responses}</b>${f.New ? ` <span class="badge-s bs-info">${f.New} new</span>` : ''}${f.Awarded ? ` <span class="badge-s bs-success">${f.Awarded} awarded</span>` : ''}</td><td>${f.Status === 'Open' ? '<span class="badge-s bs-success">Open</span>' : '<span class="badge-s bs-secondary">Closed</span>'}</td><td class="small">${f.Deadline ? fdate(f.Deadline) : '—'}</td>
+      <td><div class="act"><button class="btn btn-grad" title="Responses" onclick="nav('forms','resp:${esc(f.FormID)}')"><i class="fa-solid fa-inbox"></i></button><button class="btn btn-soft" title="Share link & QR" onclick="shareForm('${esc(f.FormID)}')"><i class="fa-solid fa-share-nodes"></i></button><button class="btn btn-light" title="Edit" onclick="editForm('${esc(f.FormID)}')"><i class="fa-solid fa-pen"></i></button><button class="btn btn-light" title="Duplicate" onclick="editForm('${esc(f.FormID)}',true)"><i class="fa-solid fa-copy"></i></button><button class="btn btn-light text-danger" title="Archive" onclick="archiveForm('${esc(f.FormID)}')"><i class="fa-solid fa-box-archive"></i></button></div></td></tr>`).join('')}</tbody></table></div></div>`
+      : `<div class="card-x">${empty('fa-clipboard-list', 'No forms yet', 'Pick a template above. A scholarship form takes about a minute to set up.')}</div>`}`;
+};
+function newForm(k, pre) {
+  const T = FORM_TPLS[k] || FORM_TPLS.blank;
+  S.fm = Object.assign({ FormID: '', Title: T.title, Description: T.description, Kind: T.kind, ProgrammeID: '', CoverImage: '', SuccessMessage: T.success, Deadline: '', MaxResponses: '', Status: 'Open', fields: T.fields() }, pre || {});
+  if (S.sec === 'forms') drawFormBuilder(); else nav('forms');
+}
+function editForm(id, dup) {
+  const f = (S.fmList || []).find(x => x.FormID === id); if (!f) return;
+  S.fm = { FormID: dup ? '' : f.FormID, Title: f.Title + (dup ? ' (copy)' : ''), Description: f.Description, Kind: f.Kind, ProgrammeID: f.ProgrammeID, CoverImage: f.CoverImage, SuccessMessage: f.SuccessMessage, Deadline: f.Deadline, MaxResponses: Number(f.MaxResponses) || '', Status: dup ? 'Open' : f.Status, fields: JSON.parse(JSON.stringify(f.fields)) };
+  if (dup) S.fm.fields.forEach(x => delete x.id);
+  drawFormBuilder();
+}
+async function archiveForm(id) { if (!await confirmBox('Archive this form? The link stops working. Responses are kept.', 'Archive', true)) return; try { await call('formArchive', { id }); nav('forms'); } catch (e) { toast(e.message, 'danger'); } }
+function fmSet(k, v) { S.fm[k] = v; fmPreview(); }
+function fqSet(i, k, v) { S.fm.fields[i][k] = v; fmPreview(); }
+function fqRedraw() { const y = window.scrollY; drawFormBuilder(); window.scrollTo(0, y); }
+function fqType(i, t) { const q = S.fm.fields[i]; q.type = t; if (['select', 'radio', 'checkbox'].includes(t) && !(q.options || []).length) q.options = ['Option 1', 'Option 2']; fqRedraw(); }
+function fqMove(i, d) { const F = S.fm.fields, j = i + d; if (j < 0 || j >= F.length) return; [F[i], F[j]] = [F[j], F[i]]; fqRedraw(); }
+function fqDel(i) { S.fm.fields.splice(i, 1); fqRedraw(); }
+function fqDup(i) { const c = JSON.parse(JSON.stringify(S.fm.fields[i])); delete c.id; S.fm.fields.splice(i + 1, 0, c); fqRedraw(); }
+function fqAdd(t) { S.fm.fields.push(fq(t, t === 'section' ? 'New section' : '', t !== 'section', ['select', 'radio', 'checkbox'].includes(t) ? { options: ['Option 1', 'Option 2'] } : {})); fqRedraw(); }
+let _fmT = 0;
+function fmPreview() { clearTimeout(_fmT); _fmT = setTimeout(() => { const el = $('#fmPrev'); if (el) el.innerHTML = formBody({ title: S.fm.Title, description: S.fm.Description, cover: S.fm.CoverImage, deadline: S.fm.Deadline, fields: S.fm.fields, programme: S.fm.ProgrammeID ? (p => p ? { title: p.title, short: p.short, start: p.startDate, duration: p.duration, format: p.format } : { title: progTitle(S.fm.ProgrammeID) })(findProg(S.fm.ProgrammeID)) : null, state: { open: true } }, true); }, 150); }
+function drawFormBuilder() {
+  const F = S.fm, main = S.fmMain; if (!main || !document.body.contains(main)) return;
+  main.innerHTML = pageHead(`<a class="text-decoration-none" role="button" onclick="S.fm=null;nav('forms')"><i class="fa-solid fa-arrow-left me-2 text-muted"></i></a>${F.FormID ? 'Edit form' : 'New form'}`, `${F.fields.filter(q => q.type !== 'section').length} questions`, `<button class="btn btn-light" onclick="S.fm=null;nav('forms')">Cancel</button><button class="btn btn-grad" onclick="saveForm(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save & get link</button>`) + `
+  <div class="row g-4"><div class="col-xl-6">
+    <div class="card-x mb-3"><h6 class="fw-bold">Form details</h6>
+      <label class="form-label small mb-1" for="fmTitle">Title</label><input class="form-control mb-2" id="fmTitle" maxlength="200" value="${esc(F.Title)}" oninput="fmSet('Title',this.value)">
+      <label class="form-label small mb-1" for="fmDesc">Introduction</label><textarea class="form-control mb-2" id="fmDesc" rows="3" oninput="fmSet('Description',this.value)">${esc(F.Description)}</textarea>
+      <div class="row g-2"><div class="col-sm-6"><label class="form-label small mb-1" for="fmKind">Type</label><select class="form-select" id="fmKind" onchange="fmSet('Kind',this.value)">${['Scholarship', 'Registration', 'Event', 'Partnership', 'Survey', 'General'].map(k => `<option ${F.Kind === k ? 'selected' : ''}>${k}</option>`).join('')}</select></div>
+        <div class="col-sm-6"><label class="form-label small mb-1" for="fmProg">Programme <span class="small-muted">(optional)</span></label><select class="form-select" id="fmProg" onchange="fmSet('ProgrammeID',this.value)"><option value="">— None —</option>${optProg().slice(1).map(o => `<option value="${esc(o[0])}" ${F.ProgrammeID === o[0] ? 'selected' : ''}>${esc(o[1])}</option>`).join('')}</select></div>
+        <div class="col-sm-6"><label class="form-label small mb-1" for="fmDl">Deadline <span class="small-muted">(optional)</span></label><input class="form-control" type="date" id="fmDl" value="${esc(F.Deadline)}" onchange="fmSet('Deadline',this.value)"></div>
+        <div class="col-sm-6"><label class="form-label small mb-1" for="fmMax">Max responses <span class="small-muted">(blank = no limit)</span></label><input class="form-control" type="number" min="0" id="fmMax" value="${esc(F.MaxResponses)}" oninput="fmSet('MaxResponses',this.value)"></div>
+        <div class="col-12"><label class="form-label small mb-1" for="fmCover">Cover image link <span class="small-muted">(optional)</span></label><input class="form-control" id="fmCover" value="${esc(F.CoverImage)}" oninput="fmSet('CoverImage',this.value)" placeholder="https:&#47;&#47;…"></div>
+        <div class="col-12"><label class="form-label small mb-1" for="fmOk">Thank-you message</label><textarea class="form-control" id="fmOk" rows="2" oninput="fmSet('SuccessMessage',this.value)">${esc(F.SuccessMessage)}</textarea></div>
+        <div class="col-12"><div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="fmOpen" ${F.Status === 'Open' ? 'checked' : ''} onchange="fmSet('Status',this.checked?'Open':'Closed')"><label class="form-check-label small" for="fmOpen">Accepting responses</label></div></div></div></div>
+    <h6 class="fw-bold mb-2">Questions</h6>
+    ${F.fields.map((q, i) => `<div class="card-x mb-2 q-edit ${q.type === 'section' ? 'fq-sec' : ''}"><div class="d-flex flex-wrap gap-2 align-items-center mb-2"><span class="q-num">${i + 1}</span><select class="form-select form-select-sm" style="max-width:190px" onchange="fqType(${i},this.value)" aria-label="Question type">${Object.keys(FQ_TYPES).map(t => `<option value="${t}" ${q.type === t ? 'selected' : ''}>${FQ_TYPES[t]}</option>`).join('')}</select>
+        ${q.type !== 'section' ? `<div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="fqr${i}" ${q.required ? 'checked' : ''} onchange="fqSet(${i},'required',this.checked)"><label class="form-check-label small" for="fqr${i}">Required</label></div>` : ''}
+        <div class="ms-auto d-flex gap-1"><button class="btn btn-sm btn-light" title="Move up" onclick="fqMove(${i},-1)"><i class="fa-solid fa-arrow-up"></i></button><button class="btn btn-sm btn-light" title="Move down" onclick="fqMove(${i},1)"><i class="fa-solid fa-arrow-down"></i></button><button class="btn btn-sm btn-light" title="Duplicate" onclick="fqDup(${i})"><i class="fa-solid fa-copy"></i></button><button class="btn btn-sm btn-light text-danger" title="Delete" onclick="fqDel(${i})"><i class="fa-solid fa-trash"></i></button></div></div>
+      <input class="form-control mb-1" value="${esc(q.label)}" placeholder="${q.type === 'section' ? 'Section title' : 'Question'}" oninput="fqSet(${i},'label',this.value)" aria-label="Question ${i + 1}">
+      <input class="form-control form-control-sm" value="${esc(q.help || '')}" placeholder="Help text (optional)" oninput="fqSet(${i},'help',this.value)" aria-label="Help text">
+      ${['select', 'radio', 'checkbox'].includes(q.type) ? `<textarea class="form-control form-control-sm mt-1" rows="${Math.min(8, (q.options || []).length + 1)}" placeholder="One option per line" oninput="fqSet(${i},'options',this.value.split('\\n'))" aria-label="Options">${esc((q.options || []).join('\n'))}</textarea>` : ''}</div>`).join('')}
+    <div class="d-flex flex-wrap gap-1 mb-4"><span class="small fw-semibold align-self-center me-1">Add:</span>${Object.keys(FQ_TYPES).map(t => `<button class="btn btn-sm btn-soft" onclick="fqAdd('${t}')">${FQ_TYPES[t]}</button>`).join('')}</div>
+  </div><div class="col-xl-6"><div class="stick-xl"><div class="small fw-semibold text-muted mb-2"><i class="fa-solid fa-eye me-1"></i>Live preview</div><div class="fm-prev" id="fmPrev"></div></div></div></div>`;
+  fmPreview();
+}
+async function saveForm(btn) {
+  const F = S.fm;
+  if (!String(F.Title).trim()) return toast('Enter a form title.', 'warning');
+  await busy(btn, async () => {
+    const r = await call('formSave', { record: Object.assign({}, F, { fields: F.fields.map(q => Object.assign({}, q, q.options ? { options: q.options.map(o => String(o).trim()).filter(Boolean) } : {})) }) });
+    S.fm = null; toast('Form saved.');
+    await nav('forms');
+    shareForm(r.id);
+  });
+}
+async function shareForm(id) {
+  let f = (S.fmList || []).find(x => x.FormID === id);
+  if (!f) { S.fmList = await call('formList'); f = S.fmList.find(x => x.FormID === id); }
+  if (!f) return;
+  await loadLib('qr').catch(() => null);
+  const msg = `📝 *${f.Title}*\n\n${String(f.Description || '').slice(0, 220)}${f.Description && f.Description.length > 220 ? '…' : ''}\n\n${f.Deadline ? '⏰ Deadline: ' + fdate(f.Deadline) + '\n' : ''}Apply here 👉 ${f.link}`;
+  S.fmMsg = msg; S.fmLink = f.link;
+  modal('<i class="fa-solid fa-share-nodes text-primary me-2"></i>Share form', `<div class="row g-3 align-items-center"><div class="col-sm-4 text-center">${qrData(f.link) ? `<img class="kit-qr" src="${qrData(f.link)}" alt="Form QR code">` : ''}</div>
+    <div class="col-sm-8"><div class="fw-bold mb-1">${esc(f.Title)}</div><div class="input-group mb-2"><input class="form-control" readonly value="${esc(f.link)}" onclick="this.select()"><button class="btn btn-grad" onclick="copyText(S.fmLink)"><i class="fa-regular fa-copy"></i></button></div>
+    <div class="d-flex flex-wrap gap-2"><a class="btn btn-sm sh-wa text-white" target="_blank" rel="noopener" href="${esc(shareUrl('wa', msg, f.link))}"><i class="fa-brands fa-whatsapp me-1"></i>WhatsApp</a><a class="btn btn-sm sh-x text-white" target="_blank" rel="noopener" href="${esc(shareUrl('x', msg, f.link))}"><i class="fa-brands fa-x-twitter me-1"></i>X</a><a class="btn btn-sm sh-in text-white" target="_blank" rel="noopener" href="${esc(shareUrl('in', msg, f.link))}"><i class="fa-brands fa-linkedin-in me-1"></i>LinkedIn</a><button class="btn btn-sm btn-light" onclick="copyText(S.fmMsg)"><i class="fa-regular fa-copy me-1"></i>Copy message</button><a class="btn btn-sm btn-light" target="_blank" rel="noopener" href="${esc(f.link)}"><i class="fa-solid fa-eye me-1"></i>Open form</a></div>
+    <div class="small-muted mt-2">Anyone with this link can respond. No login needed.</div></div></div>`, `<button class="btn btn-light" data-bs-dismiss="modal">Done</button>`, 'lg');
+}
+function fieldInput(q, ro) {
+  const id = 'fq_' + q.id, req = q.required ? 'required' : '', dis = ro ? 'disabled' : '';
+  const nm = `name="${esc(q.id || '')}"`;
+  switch (q.type) {
+    case 'section': return `<div class="fm-sec"><h5 class="fw-bold mb-0">${esc(q.label)}</h5>${q.help ? `<div class="small-muted">${esc(q.help)}</div>` : ''}</div>`;
+    case 'textarea': return `<textarea class="form-control" id="${id}" ${nm} rows="4" maxlength="5000" ${req} ${dis}></textarea>`;
+    case 'select': return `<select class="form-select" id="${id}" ${nm} ${req} ${dis}><option value="">Choose…</option>${(q.options || []).map(o => `<option>${esc(o)}</option>`).join('')}</select>`;
+    case 'radio': case 'yesno': return `<div class="d-grid gap-1">${(q.type === 'yesno' ? ['Yes', 'No'] : q.options || []).map((o, k) => `<label class="fm-opt"><input type="radio" ${nm} value="${esc(o)}" ${req} ${dis}><span>${esc(o)}</span></label>`).join('')}</div>`;
+    case 'checkbox': return `<div class="d-grid gap-1">${(q.options || []).map(o => `<label class="fm-opt"><input type="checkbox" ${nm} value="${esc(o)}" ${dis}><span>${esc(o)}</span></label>`).join('')}</div>`;
+    case 'file': return `<input class="form-control" type="file" id="${id}" ${nm} accept=".pdf,.doc,.docx,image/png,image/jpeg,image/webp" ${req} ${dis}>`;
+    default: return `<input class="form-control" id="${id}" ${nm} type="${({ email: 'email', phone: 'tel', number: 'number', date: 'date' })[q.type] || 'text'}" ${q.type === 'name' ? 'autocomplete="name"' : q.type === 'email' ? 'autocomplete="email"' : q.type === 'phone' ? 'autocomplete="tel"' : ''} maxlength="${q.type === 'text' || q.type === 'name' ? 500 : 200}" ${req} ${dis}>`;
+  }
+}
+function formBody(d, ro) {
+  const cover = safeUrl(d.cover);
+  return `<div class="fm-card">${cover ? `<img class="fm-cover" src="${esc(cover)}" alt="">` : '<div class="fm-band"></div>'}
+    <div class="fm-head"><h2 class="fw-bold mb-2">${esc(d.title || 'Untitled form')}</h2>${d.description ? `<div class="text-muted content-body">${nl2br(d.description)}</div>` : ''}
+      ${d.programme ? `<div class="fm-prog mt-3"><i class="fa-solid fa-graduation-cap text-primary me-2"></i><div><b>${esc(d.programme.title)}</b>${[d.programme.start ? 'Starts ' + fdate(d.programme.start) : '', d.programme.duration, d.programme.format].filter(Boolean).length ? `<div class="small-muted">${esc([d.programme.start ? 'Starts ' + fdate(d.programme.start) : '', d.programme.duration, d.programme.format].filter(Boolean).join(' · '))}</div>` : ''}</div></div>` : ''}
+      ${d.deadline ? `<div class="small mt-2 text-danger fw-semibold"><i class="fa-regular fa-clock me-1"></i>Deadline: ${fdate(d.deadline)}</div>` : ''}</div>
+    ${d.state && !d.state.open ? `<div class="fm-q"><div class="co-bad">${esc(d.state.reason)}</div></div>` : `<form id="pubForm" onsubmit="event.preventDefault();submitPublicForm(this)" novalidate>
+      ${(d.fields || []).map(q => q.type === 'section' ? `<div class="fm-q">${fieldInput(q, ro)}</div>` : `<div class="fm-q"><label class="fw-semibold d-block mb-1" for="fq_${esc(q.id || '')}">${esc(q.label || 'Untitled question')}${q.required ? ' <span class="text-danger">*</span>' : ''}</label>${q.help ? `<div class="small-muted mb-2">${esc(q.help)}</div>` : ''}${fieldInput(q, ro)}</div>`).join('')}
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="fm-q"><button class="btn btn-grad btn-lg w-100" type="submit" ${ro ? 'disabled' : ''}><i class="fa-solid fa-paper-plane me-2"></i>Submit</button><div class="small-muted text-center mt-2">Never share passwords or bank details in forms.</div></div></form>`}</div>`;
+}
+async function renderFormPage(f, k) {
+  S.view = 'form'; S.pf = { f, k };
+  $('#app').innerHTML = `<div class="fm-page"><div class="container py-3" style="max-width:720px"><div class="text-center mb-3"><a class="brand justify-content-center" role="button" onclick="renderPublic()">${brandHtml()}</a></div><div id="pfWrap">${spin()}</div></div></div>`;
+  try { const d = await call('formPublic', { f, k }); S.pfData = d; $('#pfWrap').innerHTML = formBody(d); }
+  catch (e) { $('#pfWrap').innerHTML = `<div class="center-card"><div class="big-ic ic-red"><i class="fa-solid fa-link-slash"></i></div><h5 class="fw-bold">This form isn't available</h5><p class="text-muted">${esc(e.message)}</p></div>`; }
+}
+async function submitPublicForm(form) {
+  const d = S.pfData, ans = {};
+  for (const q of d.fields) {
+    if (q.type === 'section') continue;
+    const els = form.querySelectorAll(`[name="${CSS.escape(q.id)}"]`);
+    let v;
+    if (q.type === 'checkbox') v = Array.from(els).filter(e => e.checked).map(e => e.value);
+    else if (q.type === 'radio' || q.type === 'yesno') { const c = Array.from(els).find(e => e.checked); v = c ? c.value : ''; }
+    else if (q.type === 'file') { const fl = els[0] && els[0].files[0]; if (fl) { if (fl.size > 5 * 1048576) return toast('"' + q.label + '": the file is larger than 5 MB.', 'warning'); v = await readFile(fl); } else v = ''; }
+    else v = els[0] ? els[0].value.trim() : '';
+    if (q.required && (v === '' || (Array.isArray(v) && !v.length))) { toast('Please answer: ' + q.label, 'warning'); const el = els[0]; if (el) el.closest('.fm-q').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    if (q.type === 'email' && v && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) return toast('Enter a valid email address.', 'warning');
+    if (v !== '' && !(Array.isArray(v) && !v.length)) ans[q.id] = v;
+  }
+  const btn = $('button[type=submit]', form);
+  await busy(btn, async () => {
+    const r = await call('formSubmit', { f: S.pf.f, k: S.pf.k, answers: ans, website: form.website.value });
+    $('#pfWrap').innerHTML = `<div class="fm-card"><div class="fm-band"></div><div class="p-4 text-center"><div class="big-ic ic-green"><i class="fa-solid fa-circle-check"></i></div><h3 class="fw-bold">Response received</h3><p class="text-muted">${nl2br(r.message)}</p><div class="small-muted">Reference: <b>${esc(r.id)}</b> · a confirmation has been sent to your email.</div>
+      <div class="d-flex gap-2 justify-content-center mt-4 flex-wrap"><button class="btn btn-light" onclick="renderPublic()">Visit our website</button>${S.user ? '' : `<button class="btn btn-soft" onclick="renderPublic();openAuth('register')">Create a student account</button>`}</div></div></div>`;
+    window.scrollTo(0, 0);
+  });
+}
+async function loadFormResponses(id) {
+  const r = await call('formResponses', { formId: id });
+  S.fr = r; S.frSel = new Set(); S.frF = S.frF || 'All'; S.frQ = '';
+  drawFormResponses();
+}
+function frAnswer(q, v) {
+  if (v == null || v === '') return '';
+  if (q.type === 'file') return v.fileId ? `<a role="button" class="small" onclick="event.stopPropagation();openFormFile(S.frCur||'','${esc(q.id)}')"><i class="fa-solid fa-paperclip me-1"></i>${esc(v.name || 'File')}</a>` : '';
+  return esc(Array.isArray(v) ? v.join(', ') : v);
+}
+function drawFormResponses() {
+  const R = S.fr, f = R.form, main = S.fmMain, Q = f.fields.filter(q => !['section', 'name', 'email', 'phone', 'file', 'textarea'].includes(q.type)).slice(0, 2);
+  const counts = { All: R.responses.length };
+  R.responses.forEach(x => { counts[x.status] = (counts[x.status] || 0) + 1; });
+  const q = (S.frQ || '').toLowerCase();
+  const rows = R.responses.filter(x => (S.frF === 'All' || x.status === S.frF) && (!q || JSON.stringify(x).toLowerCase().includes(q)));
+  const allOn = rows.length && rows.every(x => S.frSel.has(x.id));
+  main.innerHTML = pageHead(`<a class="text-decoration-none" role="button" onclick="nav('forms')"><i class="fa-solid fa-arrow-left me-2 text-muted"></i></a>${esc(f.Title)}`, `${R.responses.length} response${R.responses.length === 1 ? '' : 's'}${f.Deadline ? ' · deadline ' + fdate(f.Deadline) : ''}`, `<button class="btn btn-light" onclick="shareForm('${esc(f.FormID)}')"><i class="fa-solid fa-share-nodes me-1"></i>Share</button><button class="btn btn-light" onclick="frExport()"><i class="fa-solid fa-file-csv me-1"></i>Export</button>`) + `
+    <div class="d-flex flex-wrap gap-2 mb-3">${['All', 'New', 'Shortlisted', 'Approved', 'Awarded', 'Rejected'].map(s => `<span class="chip ${S.frF === s ? 'active' : ''}" onclick="S.frF='${s}';drawFormResponses()">${s} <span style="opacity:.6">${counts[s] || 0}</span></span>`).join('')}<input class="form-control form-control-sm ms-auto" style="max-width:240px" placeholder="Search…" value="${esc(S.frQ || '')}" oninput="S.frQ=this.value;drawFormResponses();this.focus();this.setSelectionRange(this.value.length,this.value.length)"></div>
+    <div class="fr-bar card-x mb-3 ${S.frSel.size ? '' : 'd-none'}"><div class="d-flex flex-wrap gap-2 align-items-center"><b class="me-2">${S.frSel.size} selected</b>
+      <button class="btn btn-sm btn-soft" onclick="frStatus('Shortlisted',this)"><i class="fa-solid fa-star me-1"></i>Shortlist</button><button class="btn btn-sm btn-soft" onclick="frStatus('Approved',this)"><i class="fa-solid fa-check me-1"></i>Approve</button><button class="btn btn-sm btn-light text-danger" onclick="frStatus('Rejected',this)"><i class="fa-solid fa-xmark me-1"></i>Reject</button>
+      <button class="btn btn-sm btn-grad" onclick="frAwardDialog()"><i class="fa-solid fa-gift me-1"></i>Award scholarship</button><button class="btn btn-sm btn-light" onclick="frEmail()"><i class="fa-solid fa-envelope me-1"></i>Email selected</button></div></div>
+    <div class="card-x p-0">${rows.length ? `<div class="tbl-wrap border-0"><table class="table table-hover mb-0 fr-tbl"><thead><tr><th style="width:36px"><input class="form-check-input" type="checkbox" ${allOn ? 'checked' : ''} onchange="frAll(this.checked)" aria-label="Select all"></th><th>Applicant</th>${Q.map(x => `<th>${esc(x.label.length > 28 ? x.label.slice(0, 26) + '…' : x.label)}</th>`).join('')}<th>Status</th><th>Received</th></tr></thead><tbody>
+      ${rows.map(x => `<tr role="button" onclick="frOpen('${esc(x.id)}')"><td onclick="event.stopPropagation()"><input class="form-check-input" type="checkbox" ${S.frSel.has(x.id) ? 'checked' : ''} onchange="frToggle('${esc(x.id)}',this.checked)" aria-label="Select"></td><td><div class="fw-semibold">${esc(x.name || '—')}${x.studentId ? ' <span class="badge-s bs-info">Student</span>' : ''}</div><div class="small-muted">${esc(x.email)}${x.phone ? ' · ' + esc(x.phone) : ''}</div></td>${Q.map(qq => `<td class="small">${frAnswer(qq, x.answers[qq.id])}</td>`).join('')}<td>${frBadge(x.status)}${x.award ? `<div class="small text-success"><code>${esc(x.award)}</code></div>` : ''}</td><td class="small">${fdt(x.date)}</td></tr>`).join('')}</tbody></table></div>`
+      : `<div class="p-3">${empty('fa-inbox', R.responses.length ? 'Nothing in this view' : 'No responses yet', R.responses.length ? '' : 'Share the form link to start receiving responses.', R.responses.length ? '' : `<button class="btn btn-grad" onclick="shareForm('${esc(f.FormID)}')">Share form</button>`)}</div>`}</div>`;
+}
+function frBadge(s) { const m = { New: 'bs-info', Shortlisted: 'bs-purple', Approved: 'bs-success', Awarded: 'bs-success', Rejected: 'bs-danger' }; return `<span class="badge-s ${m[s] || 'bs-secondary'}">${s === 'Awarded' ? '<i class="fa-solid fa-gift me-1"></i>' : ''}${esc(s)}</span>`; }
+function frToggle(id, on) { if (on) S.frSel.add(id); else S.frSel.delete(id); drawFormResponses(); }
+function frAll(on) { const q = (S.frQ || '').toLowerCase(); S.fr.responses.filter(x => (S.frF === 'All' || x.status === S.frF) && (!q || JSON.stringify(x).toLowerCase().includes(q))).forEach(x => on ? S.frSel.add(x.id) : S.frSel.delete(x.id)); drawFormResponses(); }
+async function frStatus(st, btn, ids) {
+  ids = ids || Array.from(S.frSel);
+  await busy(btn, async () => { await call('formResponseUpdate', { ids, status: st }); S.fr.responses.forEach(x => { if (ids.includes(x.id)) x.status = st; }); S.frSel = new Set(); toast(ids.length + ' marked ' + st.toLowerCase() + '.'); drawFormResponses(); });
+}
+function frOpen(id) {
+  const x = S.fr.responses.find(r => r.id === id), f = S.fr.form; if (!x) return;
+  S.frCur = id;
+  modal(`<i class="fa-solid fa-user text-primary me-2"></i>${esc(x.name || x.email)}`, `<div class="d-flex flex-wrap gap-2 mb-3">${frBadge(x.status)}${x.award ? `<span class="badge-s bs-success">Code ${esc(x.award)}</span>` : ''}<span class="small-muted">Received ${fdt(x.date)} · ${esc(x.id)}</span></div>
+    ${f.fields.map(q => q.type === 'section' ? `<h6 class="fw-bold mt-3 mb-1 text-primary">${esc(q.label)}</h6>` : `<div class="fr-ans"><div class="small-muted">${esc(q.label)}</div><div class="fw-semibold" style="white-space:pre-wrap">${frAnswer(q, x.answers[q.id]) || '<span class="text-muted fw-normal">—</span>'}</div></div>`).join('')}
+    <label class="form-label small mt-3" for="frNote">Private notes</label><textarea class="form-control" id="frNote" rows="2">${esc(x.notes || '')}</textarea>`,
+    `<button class="btn btn-light text-danger me-auto" onclick="frStatus('Rejected',this,['${esc(id)}']).then(closeModal)">Reject</button><button class="btn btn-light" onclick="frSaveNote('${esc(id)}',this)">Save note</button><button class="btn btn-soft" onclick="frStatus('Shortlisted',this,['${esc(id)}']).then(closeModal)">Shortlist</button><button class="btn btn-grad" onclick="frStatus('Approved',this,['${esc(id)}']).then(closeModal)">Approve</button>`, 'lg');
+}
+async function frSaveNote(id, btn) { await busy(btn, async () => { const n = $('#frNote').value; await call('formResponseUpdate', { ids: [id], notes: n }); S.fr.responses.find(x => x.id === id).notes = n; toast('Note saved.'); }); }
+async function openFormFile(rid, fid) { showLoader('Opening file…'); try { const r = await call('formFile', { responseId: rid, fieldId: fid, mode: 'view' }); hideLoader(); presentFile(r, 'view'); } catch (e) { hideLoader(); toast(e.message, 'danger'); } }
+function frAwardDialog() {
+  const n = S.frSel.size, f = S.fr.form, pid = f.ProgrammeID, pr = pid ? findProg(pid) : null;
+  modal('<i class="fa-solid fa-gift text-primary me-2"></i>Award scholarship', `<p>Each of the <b>${n}</b> selected applicant${n === 1 ? '' : 's'} gets a personal one-time code for the programme and an email with a "Claim my scholarship" link. The code is applied automatically when they enrol.</p>
+    <label class="form-label small" for="awProg">Programme</label><select class="form-select mb-2" id="awProg">${optProg().map(o => `<option value="${esc(o[0])}" ${o[0] === pid ? 'selected' : ''}>${esc(o[1])}</option>`).join('')}</select>
+    <div class="row g-2"><div class="col-sm-6"><label class="form-label small" for="awType">Scholarship</label><select class="form-select" id="awType" onchange="$('#awValW').style.display=this.value==='percent'?'':'none'"><option value="free">Full tuition (100%)</option><option value="percent">Partial (% off)</option></select></div><div class="col-sm-6" id="awValW" style="display:none"><label class="form-label small" for="awVal">% off</label><input class="form-control" type="number" min="1" max="99" id="awVal" value="50"></div>
+    <div class="col-sm-6"><label class="form-label small" for="awDays">Code valid for (days)</label><input class="form-control" type="number" min="1" max="365" id="awDays" value="14"></div></div>
+    <div class="form-check form-switch mt-3"><input class="form-check-input" type="checkbox" id="awMail" checked><label class="form-check-label" for="awMail">Email each applicant their code</label></div>
+    <div class="small-muted mt-2"><i class="fa-solid fa-lightbulb text-warning me-1"></i>Want a token fee for the certificate? Set <b>Certificate fee</b> on the programme. The award email mentions it automatically.</div>`,
+    `<button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-grad" onclick="frAward(this)"><i class="fa-solid fa-gift me-1"></i>Award to ${n}</button>`);
+}
+async function frAward(btn) {
+  const ids = Array.from(S.frSel);
+  if (!$('#awProg').value) return toast('Choose the programme the scholarship is for.', 'warning');
+  await busy(btn, async () => {
+    const r = await call('formAward', { formId: S.fr.form.FormID, ids, programmeId: $('#awProg').value, type: $('#awType').value, value: $('#awVal').value, days: $('#awDays').value, sendEmail: $('#awMail').checked });
+    closeModal(); toast(`${r.awarded} scholarship${r.awarded === 1 ? '' : 's'} awarded${r.emailed ? ', ' + r.emailed + ' emailed' : ''}${r.skipped ? ' (' + r.skipped + ' already had one)' : ''}. 🎉`);
+    await loadFormResponses(S.fr.form.FormID);
+  });
+}
+function frEmail() {
+  const list = S.fr.responses.filter(x => S.frSel.has(x.id)).map(x => (x.name ? x.name + ' <' + x.email + '>' : x.email)).join('\n');
+  emNew('newsletter', { audience: { type: 'manual', emails: list } });
+  S.em.Name = S.fr.form.Title + ' · ' + S.frSel.size + ' selected';
+}
+function frExport() {
+  const f = S.fr.form, qs = f.fields.filter(q => q.type !== 'section');
+  const rows = S.fr.responses.map(x => { const o = { id: x.id, date: x.date, status: x.status, award: x.award || '', notes: x.notes || '' }; qs.forEach(q => { const v = x.answers[q.id]; o[q.id] = v == null ? '' : q.type === 'file' ? (v.name || '') : Array.isArray(v) ? v.join('; ') : v; }); return o; });
+  exportCSV(f.Title.replace(/[^\w]+/g, '-') + '-responses', rows, [['id', 'Reference'], ['date', 'Received']].concat(qs.map(q => [q.id, q.label])).concat([['status', 'Status'], ['award', 'Scholarship code'], ['notes', 'Notes']]));
+}
+
 async function init() {
   const p = BOOT.params || {};
   if (p.coupon && normCode(p.coupon)) { const cc = normCode(p.coupon); store.set('bpa_coupon', cc); setTimeout(() => toast('🎁 Coupon ' + cc + ' saved. It will be applied automatically when you enrol.', 'info'), 1400); }
@@ -4661,6 +4913,7 @@ async function init() {
   if (p.page === 'class' && p.c && p.t) return openHubLink(p);
   if (p.page === 'join' && p.p && p.k) return renderJoinPage(p.p, p.k);
   if (p.page === 'r' && p.u) return handleTrackedLink(p);
+  if (p.page === 'form' && p.f && p.k) return renderFormPage(p.f, p.k);
   if (p.page === 'unsub' && p.e && p.t) return renderUnsub(p);
   if (p.page === 'course' && p.id) { renderPublic(); return setTimeout(() => { if (findProg(p.id)) openProgramme(p.id); else go('programmes'); }, 300); }
   if (S.user) goApp(); else renderPublic();
