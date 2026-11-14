@@ -1354,7 +1354,7 @@ const ADMIN_MENU = [
   ['Learning'], ['programmes', 'Programmes', 'fa-book', 1], ['categories', 'Course Categories', 'fa-layer-group'], ['tutorials', 'Academic Tutorials', 'fa-graduation-cap'],
   ['enrolments', 'Enrolments', 'fa-user-check'], ['payments', 'Payments', 'fa-credit-card'], ['coupons', 'Coupons & Promos', 'fa-ticket'], ['materials', 'Learning Materials', 'fa-folder-open', 1],
   ['classes', 'Live Classes', 'fa-video', 1], ['recordings', 'Class Recordings', 'fa-circle-play', 1], ['assignments', 'Assignments', 'fa-file-pen', 1], ['quizzes', 'Quizzes', 'fa-circle-question', 1], ['certificates', 'Certificates', 'fa-award'],
-  ['Engagement'], ['emails', 'Email Marketing', 'fa-envelope-open-text'], ['forms', 'Forms', 'fa-clipboard-list'], ['flyers', 'Flyer Studio', 'fa-palette', 1], ['jobs', 'Job Connect', 'fa-briefcase', 1], ['community', 'Community', 'fa-people-group', 1], ['announcements', 'Announcements', 'fa-bullhorn', 1], ['testimonials', 'Testimonials', 'fa-quote-left'], ['website', 'Website Content', 'fa-globe'],
+  ['Engagement'], ['emails', 'Email Marketing', 'fa-envelope-open-text'], ['forms', 'Forms', 'fa-clipboard-list'], ['flyers', 'Flyer Studio', 'fa-palette', 1], ['jobs', 'Job Connect', 'fa-briefcase', 1], ['community', 'Community', 'fa-people-group', 1], ['cv', 'CV Builder', 'fa-file-lines', 1], ['announcements', 'Announcements', 'fa-bullhorn', 1], ['testimonials', 'Testimonials', 'fa-quote-left'], ['website', 'Website Content', 'fa-globe'],
   ['System'], ['ai', 'AI Models', 'fa-robot'], ['access', 'Student Access', 'fa-user-lock'], ['reports', 'Reports', 'fa-chart-column'], ['settings', 'System Settings', 'fa-sliders'], ['profile', 'My Profile', 'fa-user-gear', 1]
 ];
 function careerMenu(k) { const c = (S.pub && S.pub.career) || { jobs: true, community: true, cv: true }; return k === 'jobs' ? c.jobs !== false : k === 'community' ? c.community !== false : k === 'cv' ? c.cv !== false : true; }
@@ -1731,7 +1731,7 @@ const ENT = {
       { k: 'Published', l: 'Published on website (public programmes)', t: 'bool', col: 'col-md-6' }, { k: 'EnrolmentOpen', l: 'Enrolment open', t: 'bool', col: 'col-md-6' },
       { k: 'Featured', l: 'Featured', t: 'bool', col: 'col-md-6' }, { k: 'CertificateEnabled', l: 'Issue certificate on completion', t: 'bool', col: 'col-md-6' },
       { k: 'CertificateFee', l: 'Certificate fee (0 = free)', t: 'number', col: 'col-md-6', h: 'Charged to unlock the certificate after completion, e.g. for scholarship students. Admins can waive it per certificate.' },
-      { k: 'CertificateTemplate', l: 'Certificate design', t: 'select', o: () => [['', 'Academy default']].concat(Object.keys(CERT_DESIGNS).map(k => [k, CERT_DESIGNS[k].name])), col: 'col-md-6' },
+      { k: 'CertificateTemplate', l: 'Certificate design', t: 'select', o: () => [['', 'Academy default']].concat(Object.keys(CERT_DESIGNS).map(k => [k, CERT_DESIGNS[k].name])).concat(((S.pub && S.pub.certDesigns) || []).map(x => [x.id, x.name + ' (your design)'])), col: 'col-md-6' },
       { k: 'Status', l: 'Status', t: 'select', o: ['Active', 'Inactive', 'Archived'], col: 'col-md-6' }
     ],
     defaults: { Type: 'Self-paced', Format: 'Online Live', Visibility: 'Public', Published: 'TRUE', EnrolmentOpen: 'TRUE', CertificateEnabled: 'TRUE', Status: 'Active', Price: '0' },
@@ -2221,13 +2221,14 @@ function drawCerts() {
   const rows = (S.rows.Certificates || []).filter(c => c.Status !== 'Generating' && (!q || JSON.stringify(c).toLowerCase().includes(q)));
   $('#ceTbl').innerHTML = rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Certificate</th><th>Student</th><th>Programme</th><th>Completed</th><th>Code</th><th>Status</th><th>Fee</th><th></th></tr></thead><tbody>${rows.map(c => `<tr><td class="fw-semibold">${esc(c.CertificateID)}</td><td>${esc(c.StudentName)}<div class="small-muted">${esc(c.StudentEmail)}</div></td><td class="small">${esc(c.ProgrammeTitle)}</td><td class="small">${fdate(c.CompletionDate)}</td><td><code>${esc(c.VerificationCode)}</code></td><td>${badge(c.Status)}</td>
     <td class="small">${c.FeeStatus === 'Unpaid' ? `<span class="badge-s bs-warning"><i class="fa-solid fa-lock me-1"></i>Unpaid ${money(c.FeeAmount)}</span>` : c.FeeStatus === 'Paid' ? '<span class="badge-s bs-success">Paid</span>' : c.FeeStatus === 'Waived' ? '<span class="badge-s bs-secondary">Waived</span>' : '<span class="small-muted">—</span>'}</td>
-    <td><div class="act"><button class="btn btn-light" title="View & download" onclick="dlCertificate('${esc(c.CertificateID)}')"><i class="fa-solid fa-eye"></i></button><button class="btn btn-light" title="Copy verification link" onclick="copyText(pageUrl('cert','${esc(c.VerificationCode)}'))"><i class="fa-solid fa-link"></i></button>${c.FeeStatus === 'Unpaid' ? `<button class="btn btn-light text-success" title="Waive certificate fee" onclick="certFee('${esc(c.CertificateID)}','waive')"><i class="fa-solid fa-hand-holding-heart"></i></button>` : ''}${c.Status === 'Issued' ? `<button class="btn btn-light text-danger" title="Revoke" onclick="revokeCert('${esc(c.CertificateID)}')"><i class="fa-solid fa-ban"></i></button>` : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('fa-award', 'No certificates issued yet', '');
+    <td><div class="act"><button class="btn btn-light" title="View & download" onclick="dlCertificate('${esc(c.CertificateID)}')"><i class="fa-solid fa-eye"></i></button><button class="btn btn-light" title="Copy verification link" onclick="copyText(pageUrl('cert','${esc(c.VerificationCode)}'))"><i class="fa-solid fa-link"></i></button><button class="btn btn-light" title="Edit name, date & extra details" onclick="certEditDialog('${esc(c.CertificateID)}')"><i class="fa-solid fa-pen"></i></button>${c.FeeStatus === 'Unpaid' ? `<button class="btn btn-light text-success" title="Waive certificate fee" onclick="certFee('${esc(c.CertificateID)}','waive')"><i class="fa-solid fa-hand-holding-heart"></i></button>` : ''}${c.Status === 'Issued' ? `<button class="btn btn-light text-danger" title="Revoke" onclick="revokeCert('${esc(c.CertificateID)}')"><i class="fa-solid fa-ban"></i></button>` : ''}</div></td></tr>`).join('')}</tbody></table></div>` : empty('fa-award', 'No certificates issued yet', '');
 }
 function issueDialog() {
-  modal('Issue certificate', `<div class="mb-3"><label class="form-label">Student</label>${studentOptions('icStu')}</div><div><label class="form-label">Programme</label><select class="form-select" id="icProg">${optProg().map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select></div><div class="form-text mt-2">A PDF with QR verification is generated and the student is notified.</div>`,
+  modal('Issue certificate', `<div class="mb-3"><label class="form-label">Student</label>${studentOptions('icStu')}</div><div><label class="form-label">Programme</label><select class="form-select" id="icProg">${optProg().map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select></div><div class="mt-3"><label class="form-label">Extra details (optional)</label>${exEditor('issue', [])}</div><div class="form-text mt-2">A PDF with QR verification is generated and the student is notified.</div>`,
     `<button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-grad" onclick="doIssue(this)">Generate certificate</button>`);
+  drawEx('issue');
 }
-async function doIssue(btn) { const sid = pickedId($('#icStu').value), pid = $('#icProg').value; if (!sid || !pid) return toast('Select a student and programme.', 'warning'); await busy(btn, async () => { await call('issueCertificate', { studentId: sid, programmeId: pid }); closeModal(); toast('Certificate issued.'); nav('certificates'); }); }
+async function doIssue(btn) { const sid = pickedId($('#icStu').value), pid = $('#icProg').value; if (!sid || !pid) return toast('Select a student and programme.', 'warning'); await busy(btn, async () => { await call('issueCertificate', { studentId: sid, programmeId: pid, extra: exValue('issue') }); closeModal(); toast('Certificate issued.'); nav('certificates'); }); }
 async function payCert(id, method, btn) {
   await busy(btn, async () => {
     const r = await call('certPay', { certificateId: id, method, returnUrl: returnBase() });
@@ -2303,7 +2304,7 @@ const TUT_FIELDS = [
   { k: 'Price', l: 'Tutorial fee (NGN)', t: 'number', col: 'col-md-6' }, { k: 'AccessDays', l: 'Access days (blank = lifetime)', t: 'number', col: 'col-md-6' },
   { k: 'CoverImage', l: 'Cover image', t: 'image' },
   { k: 'Published', l: 'Published', t: 'bool', col: 'col-md-4' }, { k: 'EnrolmentOpen', l: 'Registration open', t: 'bool', col: 'col-md-4' }, { k: 'CertificateEnabled', l: 'Certificate', t: 'bool', col: 'col-md-4' },
-  { k: 'CertificateTemplate', l: 'Certificate design', t: 'select', o: () => [['', 'Academy default']].concat(Object.keys(CERT_DESIGNS).map(k => [k, CERT_DESIGNS[k].name])) },
+  { k: 'CertificateTemplate', l: 'Certificate design', t: 'select', o: () => [['', 'Academy default']].concat(Object.keys(CERT_DESIGNS).map(k => [k, CERT_DESIGNS[k].name])).concat(((S.pub && S.pub.certDesigns) || []).map(x => [x.id, x.name + ' (your design)'])) },
   { k: 'Status', l: 'Batch status', t: 'select', o: ['Active', 'Suspended', 'Completed', 'Archived'], h: 'Suspended/Completed/Archived batches are hidden and closed for registration — enrolled students keep access.' }
 ];
 function drawTutorials() {
@@ -2620,7 +2621,7 @@ const CERT_DESIGNS = {
         <div style="font-family:${FONT.script};font-size:70px;line-height:1.2;margin-top:2px">${esc(d.name)}</div>
         <div style="width:440px;height:1.5px;background:${d.accent};margin:0 auto 14px"></div>
         <div style="font-family:${FONT.sans};font-size:16px;color:#475569">has successfully completed the programme</div>
-        <div style="font-family:${FONT.serif};font-size:28px;font-weight:700;margin-top:8px">${esc(d.programme)}</div>
+        <div style="font-family:${FONT.serif};font-size:28px;font-weight:700;margin-top:8px">${esc(d.programme)}</div>${certExtra(d)}
         <div style="font-family:${FONT.sans};font-size:14px;color:#64748b;margin-top:8px">Awarded on ${esc(d.dateText)}${d.duration ? ' · Duration: ' + esc(d.duration) : ''}</div>
       </div>
       <div style="position:absolute;left:96px;right:96px;bottom:78px;display:flex;align-items:flex-end;justify-content:space-between">
@@ -2646,7 +2647,7 @@ const CERT_DESIGNS = {
         <div style="font-family:${FONT.wide};font-size:56px;font-weight:800;color:#0f172a;line-height:1.1;margin-top:8px">${esc(d.name)}</div>
         <div style="width:96px;height:7px;border-radius:7px;background:linear-gradient(90deg,#2563eb,${d.accent});margin:24px 0"></div>
         <div style="font-family:${FONT.sans};font-size:17px;color:#475569">for successfully completing</div>
-        <div style="font-family:${FONT.wide};font-size:30px;font-weight:700;color:#0b1b3f;margin-top:6px;line-height:1.25">${esc(d.programme)}</div>
+        <div style="font-family:${FONT.wide};font-size:30px;font-weight:700;color:#0b1b3f;margin-top:6px;line-height:1.25">${esc(d.programme)}</div>${certExtra(d)}
         <div style="display:flex;gap:44px;margin-top:26px;font-family:${FONT.sans}">
           <div><div style="font-size:11px;letter-spacing:.14em;color:#94a3b8;font-weight:700">DATE</div><div style="font-size:16px;font-weight:700;color:#0f172a;margin-top:3px">${esc(d.dateText)}</div></div>
           ${d.duration ? `<div><div style="font-size:11px;letter-spacing:.14em;color:#94a3b8;font-weight:700">DURATION</div><div style="font-size:16px;font-weight:700;color:#0f172a;margin-top:3px">${esc(d.duration)}</div></div>` : ''}
@@ -2671,7 +2672,7 @@ const CERT_DESIGNS = {
         <div style="font-family:${FONT.serif};font-size:50px;font-weight:700;margin-top:4px;color:#2a2114">${esc(d.name)}</div>
         <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin:10px 0 12px"><div style="width:150px;height:1px;background:${d.accent}"></div><div style="width:10px;height:10px;background:${d.accent};transform:rotate(45deg)"></div><div style="width:150px;height:1px;background:${d.accent}"></div></div>
         <div style="font-family:${FONT.serif};font-size:16px;font-style:italic;color:#6b5b45">for outstanding completion of</div>
-        <div style="font-family:${FONT.serif};font-size:27px;font-weight:700;margin-top:6px">${esc(d.programme)}</div>
+        <div style="font-family:${FONT.serif};font-size:27px;font-weight:700;margin-top:6px">${esc(d.programme)}</div>${certExtra(d)}
         <div style="font-family:${FONT.serif};font-size:14px;color:#6b5b45;margin-top:8px">${esc(d.dateText)}${d.duration ? ' · ' + esc(d.duration) : ''}</div>
       </div>
       <div style="position:absolute;left:96px;right:96px;bottom:66px;display:flex;align-items:flex-end;justify-content:space-between">
@@ -2691,7 +2692,7 @@ const CERT_DESIGNS = {
       <div style="margin-top:56px;font-size:14px;font-weight:800;letter-spacing:.34em;color:${d.accent}">CERTIFICATE</div>
       <div style="font-size:66px;font-weight:800;line-height:1.05;margin-top:16px;letter-spacing:-.02em">${esc(d.name)}</div>
       <div style="font-size:19px;color:#64748b;margin-top:22px">has successfully completed</div>
-      <div style="font-size:32px;font-weight:700;margin-top:6px;line-height:1.25">${esc(d.programme)}</div>
+      <div style="font-size:32px;font-weight:700;margin-top:6px;line-height:1.25">${esc(d.programme)}</div>${certExtra(d)}
       <div style="margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between">
         <div style="display:flex;gap:40px;align-items:flex-end">
           <div><div style="font-size:11px;letter-spacing:.14em;color:#94a3b8;font-weight:700">AWARDED</div><div style="font-size:16px;font-weight:700;margin-top:3px">${esc(d.dateText)}</div></div>
@@ -2711,7 +2712,7 @@ const CERT_DESIGNS = {
         <div style="font-family:${FONT.bebas};font-size:84px;line-height:.9;letter-spacing:.02em;color:#0b1b3f">CERTIFICATE <span style="color:${shade(d.accent, -.15)}">OF COMPLETION</span></div>
         <div style="font-size:17px;color:#64748b;margin-top:26px">This certifies that</div>
         <div style="font-family:${FONT.wide};font-size:52px;font-weight:800;margin-top:6px;line-height:1.1">${esc(d.name)}</div>
-        <div style="font-size:17px;color:#64748b;margin-top:18px">has successfully completed <b style="color:#0b1b3f">${esc(d.programme)}</b>${d.duration ? ' (' + esc(d.duration) + ')' : ''} on ${esc(d.dateText)}.</div>
+        <div style="font-size:17px;color:#64748b;margin-top:18px">has successfully completed <b style="color:#0b1b3f">${esc(d.programme)}</b>${d.duration ? ' (' + esc(d.duration) + ')' : ''} on ${esc(d.dateText)}.</div>${certExtra(d)}
       </div>
       <div style="position:absolute;left:70px;right:70px;bottom:62px;display:flex;align-items:flex-end;justify-content:space-between">
         ${certSigs(d, '#0b1b3f', '#0b1b3f', 210, 30)}
@@ -2730,7 +2731,7 @@ const CERT_DESIGNS = {
         <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px"><div style="width:120px;height:1px;background:${d.accent}"></div><div style="font-family:${FONT.serif};font-size:14px;letter-spacing:.3em;color:#6b7280">CERTIFICATE OF COMPLETION</div><div style="width:120px;height:1px;background:${d.accent}"></div></div>
         <div style="font-family:${FONT.serif};font-size:18px;font-style:italic;color:#4b5563;margin-top:28px;line-height:1.7">This is to certify that</div>
         <div style="font-family:${FONT.serif};font-size:48px;font-weight:700;color:#111827;margin:2px 0">${esc(d.name)}</div>
-        <div style="font-family:${FONT.serif};font-size:18px;font-style:italic;color:#4b5563;line-height:1.7;max-width:760px;margin:0 auto">having satisfactorily fulfilled all the requirements of the programme<br><b style="font-style:normal;color:#111827;font-size:22px">${esc(d.programme)}</b><br>is hereby awarded this certificate on ${esc(d.dateText)}.</div>
+        <div style="font-family:${FONT.serif};font-size:18px;font-style:italic;color:#4b5563;line-height:1.7;max-width:760px;margin:0 auto">having satisfactorily fulfilled all the requirements of the programme<br><b style="font-style:normal;color:#111827;font-size:22px">${esc(d.programme)}</b><br>is hereby awarded this certificate on ${esc(d.dateText)}.</div>${certExtra(d)}
       </div>
       <div style="position:absolute;left:100px;right:100px;bottom:70px;display:flex;align-items:flex-end;justify-content:space-between">
         ${certSigList(d.sigL, '#111827', d.accent, 220, 20) || '<div style="width:220px"></div>'}
@@ -2747,11 +2748,12 @@ function certHtml(tpl, d) {
     .concat((d.partners || []).filter(p => p.sigName).map(p => ({ name: p.sigName, title: p.sigTitle, img: p.sigImg }))).slice(0, 4);
   const half = Math.ceil(signers.length / 2);
   const dd = Object.assign({}, d, { accent: d.accent || t.accent, qr: qrData(d.verifyUrl), dateText: longDate(d.date), signers: signers, sigL: signers.slice(0, half), sigR: signers.slice(half) });
-  return `<div style="position:relative;width:${CERT_W}px;height:${CERT_H}px">${t.render(dd)}${d.revoked ? `<div style="position:absolute;left:0;top:0;width:${CERT_W}px;height:${CERT_H}px;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(-24deg);border:8px solid #dc2626;color:#dc2626;font-family:${FONT.wide};font-weight:900;font-size:110px;padding:6px 40px;opacity:.75">REVOKED</div></div>` : ''}</div>`;
+  const design = String(tpl || '').indexOf('design:') === 0 ? (d.design || (S.certDesignData && S.certDesignData[tpl])) : null;
+  return `<div style="position:relative;width:${CERT_W}px;height:${CERT_H}px">${design ? certDesignHtml(design, dd) : t.render(dd)}${d.revoked ? `<div style="position:absolute;left:0;top:0;width:${CERT_W}px;height:${CERT_H}px;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(-24deg);border:8px solid #dc2626;color:#dc2626;font-family:${FONT.wide};font-weight:900;font-size:110px;padding:6px 40px;opacity:.75">REVOKED</div></div>` : ''}</div>`;
 }
 function certSampleData() {
   const s = Object.assign({}, S.pub.settings, (S.adm && S.adm.settings) || {}, S.certDraft || {});
-  return { name: 'Adaeze Okafor', programme: 'Power BI for Business Intelligence', date: new Date().toISOString().slice(0, 10), id: 'CRT-00042', code: '7KQ2M9XH4P', verifyUrl: pageUrl('cert', '7KQ2M9XH4P'), duration: '6 weeks', academy: s.ACADEMY_NAME, logo: S.logoData || '', accent: s.CERT_ACCENT || '', sig1: s.CERT_SIGNATORY, sig1t: s.CERT_SIGNATORY_TITLE, sig2: s.CERT_SIGNATORY2, sig2t: s.CERT_SIGNATORY2_TITLE, partners: (S.partners || []).filter(p => (S.certPrevPartners || []).includes(p.PartnerID)).map(partnerPreviewData) };
+  return { name: 'Adaeze Okafor', programme: 'Power BI for Business Intelligence', date: new Date().toISOString().slice(0, 10), id: 'CRT-00042', code: '7KQ2M9XH4P', verifyUrl: pageUrl('cert', '7KQ2M9XH4P'), duration: '6 weeks', note: s.CERT_NOTE || '', extra: S.certSampleExtra === false ? [] : [{ label: 'Grade', value: 'Distinction' }, { label: 'Hours', value: '40' }], academy: s.ACADEMY_NAME, logo: S.logoData || '', accent: s.CERT_ACCENT || '', sig1: s.CERT_SIGNATORY, sig1t: s.CERT_SIGNATORY_TITLE, sig2: s.CERT_SIGNATORY2, sig2t: s.CERT_SIGNATORY2_TITLE, partners: (S.partners || []).filter(p => (S.certPrevPartners || []).includes(p.PartnerID)).map(partnerPreviewData) };
 }
 
 
@@ -2838,15 +2840,15 @@ async function certTemplatesTab(box) {
   box.innerHTML = spin();
   const [st] = await Promise.all([rcall('getSettings'), loadLib('qr').catch(() => null), loadPartners(), loadLookups()]);
   S.adm = st;
-  await loadLogoData();
-  S.certDraft = { CERT_ACCENT: st.settings.CERT_ACCENT, CERT_SIGNATORY: st.settings.CERT_SIGNATORY, CERT_SIGNATORY_TITLE: st.settings.CERT_SIGNATORY_TITLE, CERT_SIGNATORY2: st.settings.CERT_SIGNATORY2, CERT_SIGNATORY2_TITLE: st.settings.CERT_SIGNATORY2_TITLE };
+  await Promise.all([loadLogoData(), loadCertCustom(true).catch(() => [])]);
+  S.certDraft = { CERT_NOTE: st.settings.CERT_NOTE || '', CERT_ACCENT: st.settings.CERT_ACCENT, CERT_SIGNATORY: st.settings.CERT_SIGNATORY, CERT_SIGNATORY_TITLE: st.settings.CERT_SIGNATORY_TITLE, CERT_SIGNATORY2: st.settings.CERT_SIGNATORY2, CERT_SIGNATORY2_TITLE: st.settings.CERT_SIGNATORY2_TITLE };
   S.certBox = box;
   drawCertTemplates();
 }
 function drawCertTemplates() {
   const box = S.certBox; if (!box || !document.body.contains(box)) return;
   const cur = S.adm.settings.CERT_TEMPLATE || 'classic', dr = S.certDraft, sample = certSampleData();
-  box.innerHTML = `<div class="row g-4"><div class="col-xl-8"><div class="row g-3">${Object.keys(CERT_DESIGNS).map(k => `
+  box.innerHTML = `<div class="row g-4"><div class="col-xl-8">${certCustomHtml(cur, sample)}<h6 class="fw-bold mb-3">Ready-made designs</h6><div class="row g-3">${Object.keys(CERT_DESIGNS).map(k => `
       <div class="col-md-6"><div class="card-x p-2 h-100 ${k === cur ? 'border-primary' : ''}" style="${k === cur ? 'border:2px solid #7c3aed' : ''}">
         ${fitBox(certHtml(k, sample), CERT_W, CERT_H, 'border-radius:8px;cursor:zoom-in')}
         <div class="d-flex align-items-start gap-2 mt-2 px-1"><div class="flex-fill"><div class="fw-bold">${esc(CERT_DESIGNS[k].name)} ${k === cur ? '<span class="badge-s bs-success ms-1">Default</span>' : ''}</div><div class="small-muted">${esc(CERT_DESIGNS[k].desc)}</div></div></div>
@@ -2858,6 +2860,9 @@ function drawCertTemplates() {
         <div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="ownCol" ${dr.CERT_ACCENT ? '' : 'checked'} onchange="S.certDraft.CERT_ACCENT=this.checked?'':'#7c3aed';drawCertTemplates()"><label class="form-check-label small" for="ownCol">Use each design's own colour</label></div></div>
       <div class="form-text mb-3">Tip: use your brand colour for a consistent look.</div>
       ${[['CERT_SIGNATORY', 'Signatory 1 name'], ['CERT_SIGNATORY_TITLE', 'Signatory 1 title'], ['CERT_SIGNATORY2', 'Signatory 2 name (optional)'], ['CERT_SIGNATORY2_TITLE', 'Signatory 2 title']].map(f => `<div class="mb-2"><label class="form-label">${f[1]}</label><input class="form-control" value="${esc(dr[f[0]] || '')}" onchange="S.certDraft['${f[0]}']=this.value;drawCertTemplates()"></div>`).join('')}
+      <label class="form-label mt-1" for="cNote">Additional text on every certificate</label><textarea class="form-control mb-1" id="cNote" rows="2" maxlength="400" placeholder="e.g. This {{duration}} programme included 40 hours of hands-on projects." oninput="S.certDraft.CERT_NOTE=this.value;clearTimeout(S._cn);S._cn=setTimeout(drawCertTemplates,600)">${esc(dr.CERT_NOTE || '')}</textarea>
+      <div class="form-text mb-2">Optional. You can use {{student_name}}, {{programme}}, {{duration}}, {{date}}. Extra details (grade, hours…) are added when you issue each certificate.</div>
+      <div class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" id="cSmpEx" ${S.certSampleExtra === false ? '' : 'checked'} onchange="S.certSampleExtra=this.checked;drawCertTemplates()"><label class="form-check-label small" for="cSmpEx">Show sample extra details in previews</label></div>
       <div class="small-muted mb-3">Your logo comes from System Settings. A QR code linking to the verification page is added automatically.</div>
       <button class="btn btn-grad w-100" onclick="saveCertSettings(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save design settings</button>
       <div class="small-muted mt-3">Each programme can use a different design: edit the programme and choose <b>Certificate design</b>.</div>
@@ -3104,7 +3109,7 @@ ADMIN_PAGES.flyers = async function (main, arg) {
   S.flyMain = main;
   await Promise.all([loadLookups(), loadLogoData(), loadLib('qr').catch(() => null)]);
   if (arg === 'new' || !S.flyTab) S.flyTab = 'list';
-  if (S.flyTab === 'canvas' && S.dz) return dzShell();
+  if (S.flyTab === 'canvas' && S.dz && S.dz.kind !== 'certificate') return dzShell();
   if (S.flyTab === 'edit' && S.fly) return drawFlyEditor();
   S.flyTab = 'list';
   main.innerHTML = pageHead('<i class="fa-solid fa-palette text-primary me-2"></i>Flyer Studio', 'Design flyers for webinars, bootcamps, workshops and tutorials, then download them for WhatsApp, Instagram or print.', `<button class="btn btn-grad" onclick="dzOpen(null,{panel:'templates'})"><i class="fa-solid fa-plus me-1"></i>New design</button>`) +
@@ -3114,7 +3119,7 @@ ADMIN_PAGES.flyers = async function (main, arg) {
     <h6 class="fw-bold mb-3">My designs</h6><div id="flyList">${spin()}</div>`;
   fitDesigns(main);
   try {
-    S.flyers = await rcall('flyerList');
+    S.flyers = (await rcall('flyerList')).filter(f => f.template !== 'certificate');
     const el = $('#flyList'); if (!el) return;
     el.innerHTML = S.flyers.length ? `<div class="row g-3">${S.flyers.map(f => { const cv = f.template === 'canvas', sz = cv ? [f.data.w || 1080, f.data.h || 1080, ((DZ_SIZES[f.size] || [])[2] || 'Custom') + ' · '] : (FLYER_SIZES[f.size] || FLYER_SIZES.square); return `<div class="col-6 col-md-4 col-xl-3"><div class="card-x p-2 h-100 d-flex flex-column">${fitBox(flyerHtml(f.template, f.data, f.size), sz[0], sz[1], 'border-radius:8px;max-height:340px')}
       <div class="px-1 mt-2"><div class="fw-semibold small text-truncate">${esc(f.title)}</div><div class="small-muted">${esc(cv ? 'Editor design' : FLYER_DESIGNS[f.template] ? FLYER_DESIGNS[f.template].name : '')} · ${esc(sz[2].split(' · ')[0])} · ${ago(f.updated)}</div></div>
@@ -3309,7 +3314,7 @@ function dzShapeHtml(e) {
 function dzImageHtml(e) {
   const src = dzSrc(e.src), rad = e.circle ? '50%' : (Number(e.radius) || 0) + 'px';
   const border = e.stroke && e.sw ? `border:${e.sw}px solid ${e.stroke};` : '';
-  if (!src) return `<div style="width:100%;height:100%;border-radius:${rad};${border}background:repeating-linear-gradient(45deg,${e.ov ? '#1e293b,#1e293b 14px,#273449 14px,#273449 28px' : '#e2e8f0,#e2e8f0 14px,#f1f5f9 14px,#f1f5f9 28px'});display:flex;flex-direction:column;align-items:center;justify-content:center;color:${e.ov ? '#94a3b8' : '#64748b'};font:600 ${Math.max(14, Math.min(e.w, e.h) * .07)}px 'Plus Jakarta Sans',sans-serif;text-align:center;box-sizing:border-box;${dzShadow(e)}"><i class="fa-solid fa-image" style="font-size:2.2em;margin-bottom:.3em"></i>Your photo here</div>`;
+  if (!src) return `<div style="width:100%;height:100%;border-radius:${rad};${border}background:repeating-linear-gradient(45deg,${e.ov ? '#1e293b,#1e293b 14px,#273449 14px,#273449 28px' : '#e2e8f0,#e2e8f0 14px,#f1f5f9 14px,#f1f5f9 28px'});display:flex;flex-direction:column;align-items:center;justify-content:center;color:${e.ov ? '#94a3b8' : '#64748b'};font:600 ${Math.max(11, Math.min(e.w * .09, e.h * .14, 22))}px 'Plus Jakarta Sans',sans-serif;text-align:center;box-sizing:border-box;${dzShadow(e)}"><i class="fa-solid ${/^\{\{/.test(e.src || '') ? 'fa-award' : 'fa-image'}" style="font-size:1.8em;margin-bottom:.25em"></i>${/^\{\{/.test(e.src || '') ? esc(e.src.replace(/[{}]/g, '').replace(/_/g, ' ')) : 'Your photo here'}</div>`;
   const ov = Number(e.ov) || 0;
   return `<div style="width:100%;height:100%;border-radius:${rad};${border}box-sizing:border-box;overflow:hidden;background-image:${ov ? `linear-gradient(${e.ovDir || 180}deg,rgba(0,0,0,0) 20%,rgba(${e.ovColor || '0,0,0'},${ov}) 100%),` : ''}url('${esc(src)}');background-size:${e.fit === 'contain' ? 'contain' : 'cover'};background-repeat:no-repeat;background-position:${Number(e.px == null ? 50 : e.px)}% ${Number(e.py == null ? 50 : e.py)}%;${e.flip ? 'transform:scaleX(-1);' : ''}${dzShadow(e)}"></div>`;
 }
@@ -3536,14 +3541,14 @@ function dzOpen(design, meta) {
   ensureDzFonts();
   meta = meta || {};
   const d = design || DZ_TEMPLATES.blank.build();
-  S.dz = { id: meta.id || '', title: meta.title || d.title || 'Untitled design', d: { w: d.w, h: d.h, bg: d.bg || { c1: '#ffffff' }, els: (d.els || []).map(e => Object.assign({}, e, { id: e.id || dzId() })) }, sel: [], z: 0, hist: [], hi: -1, dirty: !!meta.dirty, panel: meta.panel || 'templates' };
+  S.dz = { kind: meta.kind || 'design', id: meta.id || '', title: meta.title || d.title || 'Untitled design', d: { w: d.w, h: d.h, bg: d.bg || { c1: '#ffffff' }, els: (d.els || []).map(e => Object.assign({}, e, { id: e.id || dzId() })) }, sel: [], z: 0, hist: [], hi: -1, dirty: !!meta.dirty, panel: meta.panel || 'templates' };
   S.dz.hist = [dzSnap()]; S.dz.hi = 0;
   S.flyTab = 'canvas';
   dzShell();
 }
 function dzShell() {
   const main = S.flyMain, D = S.dz;
-  const rail = [['templates', 'fa-table-cells-large', 'Templates'], ['elements', 'fa-shapes', 'Elements'], ['text', 'fa-font', 'Text'], ['tools', 'fa-toolbox', 'Tool logos'], ['uploads', 'fa-cloud-arrow-up', 'Uploads'], ['background', 'fa-fill-drip', 'Background'], ['layers', 'fa-layer-group', 'Layers']];
+  const rail = (D.kind === 'certificate' ? [['fields', 'fa-award', 'Certificate']] : []).concat([['templates', 'fa-table-cells-large', 'Templates'], ['elements', 'fa-shapes', 'Elements'], ['text', 'fa-font', 'Text'], ['tools', 'fa-toolbox', 'Tool logos'], ['uploads', 'fa-cloud-arrow-up', 'Uploads'], ['background', 'fa-fill-drip', 'Background'], ['layers', 'fa-layer-group', 'Layers']]);
   main.innerHTML = `<div class="dz-ed" id="dzEd">
     <div class="dz-top"><button class="btn btn-light btn-sm" onclick="dzBack()" title="Back to designs"><i class="fa-solid fa-arrow-left"></i></button>
       <input class="form-control form-control-sm dz-title" id="dzTitle" value="${esc(D.title)}" oninput="S.dz.title=this.value;S.dz.dirty=true;dzTopState()" aria-label="Design name">
@@ -3552,7 +3557,7 @@ function dzShell() {
         <button class="btn btn-light btn-sm" id="dzUndo" onclick="dzUndo(-1)" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button><button class="btn btn-light btn-sm" id="dzRedo" onclick="dzUndo(1)" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
         <div class="btn-group btn-group-sm"><button class="btn btn-light" onclick="dzZoom(-1)" title="Zoom out"><i class="fa-solid fa-minus"></i></button><button class="btn btn-light" id="dzZl" onclick="dzZoom(0)" title="Fit to screen">100%</button><button class="btn btn-light" onclick="dzZoom(1)" title="Zoom in"><i class="fa-solid fa-plus"></i></button></div>
         <button class="btn btn-soft btn-sm" onclick="dzSave(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save</button>
-        <div class="dropdown"><button class="btn btn-grad btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-download me-1"></i>Download</button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" onclick="dzExport('png')"><i class="fa-solid fa-image me-2"></i>PNG (best quality)</a></li><li><a class="dropdown-item" onclick="dzExport('jpg')"><i class="fa-solid fa-file-image me-2"></i>JPG (smaller, for WhatsApp)</a></li><li><a class="dropdown-item" onclick="dzExport('pdf')"><i class="fa-solid fa-file-pdf me-2"></i>PDF (print)</a></li><li><hr class="dropdown-divider"></li><li><a class="dropdown-item" onclick="dzToCover()"><i class="fa-solid fa-book-open me-2"></i>Use as programme image…</a></li></ul></div>
+        ${D.kind === 'certificate' ? `<button class="btn btn-grad btn-sm" onclick="dzCertPreview()"><i class="fa-solid fa-eye me-1"></i>Preview</button>` : ''}<div class="dropdown ${D.kind === 'certificate' ? 'd-none' : ''}"><button class="btn btn-grad btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-download me-1"></i>Download</button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" onclick="dzExport('png')"><i class="fa-solid fa-image me-2"></i>PNG (best quality)</a></li><li><a class="dropdown-item" onclick="dzExport('jpg')"><i class="fa-solid fa-file-image me-2"></i>JPG (smaller, for WhatsApp)</a></li><li><a class="dropdown-item" onclick="dzExport('pdf')"><i class="fa-solid fa-file-pdf me-2"></i>PDF (print)</a></li><li><hr class="dropdown-divider"></li><li><a class="dropdown-item" onclick="dzToCover()"><i class="fa-solid fa-book-open me-2"></i>Use as programme image…</a></li></ul></div>
       </div></div>
     <div class="dz-body"><div class="dz-rail">${rail.map(r => `<button class="dz-rb" data-p="${r[0]}" onclick="dzPanel('${r[0]}')"><i class="fa-solid ${r[1]}"></i><span>${r[2]}</span></button>`).join('')}</div>
       <div class="dz-panel" id="dzPanel"></div>
@@ -3752,7 +3757,8 @@ function dzSetP(k, v, num) {
 }
 function dzSetPage(k, v) { const D = S.dz; D.d.bg = Object.assign({}, D.d.bg, { [k]: v }); dzDraw(); dzCommitSoon(); }
 function dzBack() {
-  const go = () => { S.dz = null; S.flyTab = 'list'; ADMIN_PAGES.flyers(S.flyMain); };
+  const cert = S.dz && S.dz.kind === 'certificate';
+  const go = () => { S.dz = null; S.flyTab = 'list'; if (cert) return nav('certificates', 'templates'); ADMIN_PAGES.flyers(S.flyMain); };
   if (S.dz && S.dz.dirty) confirmBox('Leave without saving your changes?', 'Leave', true).then(ok => { if (ok) go(); }); else go();
 }
 async function dzSave(btn) {
@@ -3761,7 +3767,8 @@ async function dzSave(btn) {
   const sizeKey = Object.keys(DZ_SIZES).find(k => DZ_SIZES[k][0] === D.d.w && DZ_SIZES[k][1] === D.d.h) || 'custom';
   const data = Object.assign({ title: D.title || 'Untitled design' }, JSON.parse(JSON.stringify(D.d)));
   data.els.forEach(e => { if (e.src && /^data:/.test(e.src) && e.src.length > 200000) e.src = ''; });
-  const run = async () => { const r = await call('flyerSave', { record: { id: D.id, title: D.title || 'Untitled design', template: 'canvas', size: sizeKey, data } }); D.id = r.id; D.dirty = false; dzTopState(); toast('Design saved.'); };
+  const cert = D.kind === 'certificate';
+  const run = async () => { const r = await call('flyerSave', { record: { id: D.id, title: D.title || 'Untitled design', template: cert ? 'certificate' : 'canvas', size: cert ? 'custom' : sizeKey, data } }); if (cert) { S.certCustom = null; refreshPublic(); } D.id = r.id; D.dirty = false; dzTopState(); toast('Design saved.'); };
   try { if (btn) await busy(btn, run); else await run(); } catch (e) { toast(e.message, 'danger'); }
 }
 async function dzExport(fmt) {
@@ -3857,7 +3864,10 @@ async function dzPanel(p) {
   $$('.dz-rb').forEach(b => b.classList.toggle('active', b.dataset.p === p));
   const el = $('#dzPanel'); if (!el) return;
   let h = '';
-  if (p === 'templates') {
+  if (p === 'fields') h = dzCertFieldsPanel();
+  else if (p === 'templates' && D.kind === 'certificate') {
+    h = `<div class="dz-ph">Certificate starters</div><div class="small-muted mb-2">Pick one to start from. Fields fill in for each student.</div><div class="dz-grid2">${Object.keys(DZ_CERT_TEMPLATES).map(k => `<button class="dz-tpl" onclick="dzUseCertTpl('${k}')">${dzThumb(DZ_CERT_TEMPLATES[k].build())}<span>${esc(DZ_CERT_TEMPLATES[k].name)}</span></button>`).join('')}</div>`;
+  } else if (p === 'templates') {
     h = `<div class="dz-ph">Templates</div><div class="small-muted mb-2">Every part is editable: click to change text, colours or photos.</div><div class="dz-grid2">${Object.keys(DZ_TEMPLATES).map(k => { const t = DZ_TEMPLATES[k]; let d; try { d = t.build(); } catch (e) { return ''; } return `<button class="dz-tpl" onclick="dzUseTpl('${k}')" title="${esc(t.name)}">${dzThumb(d)}<span>${esc(t.name)}</span><small>${esc((DZ_SIZES[t.size] || [])[2] || '')}</small></button>`; }).join('')}</div>`;
   } else if (p === 'elements') {
     h = `<div class="dz-ph">Shapes</div><div class="dz-grid4">${DZ_SHAPES.map(s => `<button class="dz-it" title="${s[1]}" onclick="dzAddShape('${s[0]}')">${dzShapeIcon(s[0])}</button>`).join('')}</div>
@@ -3908,6 +3918,7 @@ function dzShapeIcon(k) {
   return `<svg viewBox="0 0 40 40" width="34" height="34" fill="currentColor">${m[k] || ''}</svg>`;
 }
 function dzIconFilter(q) { q = String(q || '').toLowerCase().trim(); $$('#dzIcons [data-n]').forEach(b => { b.style.display = !q || b.dataset.n.indexOf(q) >= 0 ? '' : 'none'; }); }
+function dzUseCertTpl(k) { const D = S.dz, apply = () => { const d = DZ_CERT_TEMPLATES[k].build(); D.d = { w: d.w, h: d.h, bg: d.bg, els: d.els }; D.sel = []; dzZoom(0); dzCommit(); dzProps(); }; if (D.d.els.length) confirmBox('Replace your current design with this starter? You can undo this.', 'Use starter').then(ok => { if (ok) apply(); }); else apply(); }
 function dzUseTpl(k) {
   const D = S.dz, t = DZ_TEMPLATES[k]; if (!t) return;
   const apply = () => { const d = t.build(); D.d = { w: d.w, h: d.h, bg: d.bg, els: d.els }; D.sel = []; if (!D.id && (!D.title || D.title === 'Untitled design')) { D.title = t.name; const ti = $('#dzTitle'); if (ti) ti.value = t.name; } dzZoom(0); dzCommit(); dzProps(); };
@@ -3956,7 +3967,7 @@ function dzProps() {
   if (!s.length) {
     const b = D.d.bg || {}, sk = Object.keys(DZ_SIZES).find(k => DZ_SIZES[k][0] === D.d.w && DZ_SIZES[k][1] === D.d.h) || 'custom';
     el.innerHTML = `<div class="dz-ph">Page</div>
-      ${dzSec('Size', `<select class="form-select form-select-sm mb-2" onchange="dzResize(this.value)">${Object.keys(DZ_SIZES).map(k => `<option value="${k}" ${k === sk ? 'selected' : ''}>${DZ_SIZES[k][2]} · ${DZ_SIZES[k][0]}×${DZ_SIZES[k][1]}</option>`).join('')}<option value="custom" ${sk === 'custom' ? 'selected' : ''}>Custom size</option></select>
+      ${D.kind === 'certificate' ? dzSec('Size', '<div class="small-muted">A4 landscape · ' + D.d.w + ' × ' + D.d.h + '. Same size as all certificates.</div>') : dzSec('Size', `<select class="form-select form-select-sm mb-2" onchange="dzResize(this.value)">${Object.keys(DZ_SIZES).map(k => `<option value="${k}" ${k === sk ? 'selected' : ''}>${DZ_SIZES[k][2]} · ${DZ_SIZES[k][0]}×${DZ_SIZES[k][1]}</option>`).join('')}<option value="custom" ${sk === 'custom' ? 'selected' : ''}>Custom size</option></select>
         <div class="d-flex gap-2 align-items-center"><input type="number" class="form-control form-control-sm" id="dzW" value="${D.d.w}" min="200" max="4000" aria-label="Width"><span>×</span><input type="number" class="form-control form-control-sm" id="dzH" value="${D.d.h}" min="200" max="4000" aria-label="Height"><button class="btn btn-light btn-sm" onclick="dzResize('custom',$('#dzW').value,$('#dzH').value)">Apply</button></div>
         <div class="small-muted mt-1">Resizing moves and scales everything to fit.</div>`)}
       ${dzSec('Background', `${dzCol('Colour', 'c1', b.c1, { page: 1, def: '#ffffff' })}<div class="form-check form-switch dz-tg"><input class="form-check-input" type="checkbox" id="dzbg" ${b.grad ? 'checked' : ''} onchange="dzSetPage('grad',this.checked);if(this.checked&&!S.dz.d.bg.c2)dzSetPage('c2','#7c3aed');dzCommit();dzProps()"><label class="form-check-label" for="dzbg">Gradient</label></div>
@@ -4031,6 +4042,201 @@ function dzResize(key, w, h) {
   D.d.els.forEach(e => { e.x = Math.round(e.x * f + ox); e.y = Math.round(e.y * f + oy); e.w = Math.round(e.w * f); e.h = Math.round(e.h * f); if (e.size) e.size = Math.max(6, Math.round(e.size * f)); if (e.sw) e.sw = Math.max(1, Math.round(e.sw * f)); if (e.radius) e.radius = Math.round(e.radius * f); if (e.pad) e.pad = Math.round(e.pad * f); });
   D.d.w = W; D.d.h = H; D.sel = [];
   dzZoom(0); dzCommit(); dzProps();
+}
+
+
+// ───────────── CUSTOM CERTIFICATES: placeholders, extra details, editor starters
+const CERT_FIELDS = [['student_name', 'Student name'], ['programme', 'Programme'], ['date', 'Completion date'], ['duration', 'Duration'], ['academy', 'Academy name'], ['certificate_id', 'Certificate ID'], ['code', 'Verification code'], ['verify_url', 'Verification link'], ['extra', 'Extra details (all)'], ['note', 'Additional text'], ['signatory_1', 'Signatory 1 name'], ['signatory_1_title', 'Signatory 1 title'], ['signatory_2', 'Signatory 2 name'], ['signatory_2_title', 'Signatory 2 title']];
+const CERT_EXTRA_SUGGEST = ['Grade', 'Score', 'Hours', 'Credits', 'Cohort', 'Facilitator', 'Location', 'Distinction', 'Specialisation'];
+function slugKey(s) { return String(s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, ''); }
+function certVals(d) {
+  const sg = d.signers || [], v = { student_name: d.name, name: d.name, programme: d.programme, date: d.dateText || longDate(d.date), duration: d.duration || '', academy: d.academy || '', certificate_id: d.id || '', code: d.code || '', verify_url: d.verifyUrl || '',
+    signatory_1: (sg[0] || {}).name || '', signatory_1_title: (sg[0] || {}).title || '', signatory_2: (sg[1] || {}).name || '', signatory_2_title: (sg[1] || {}).title || '', signatory_3: (sg[2] || {}).name || '', signatory_3_title: (sg[2] || {}).title || '' };
+  const ex = (d.extra || []).filter(x => x.label && x.value);
+  ex.forEach(x => { v[slugKey(x.label)] = x.value; });
+  v.extra = ex.map(x => x.label + ': ' + x.value).join('   ·   ');
+  v.note = certMerge(d.note || '', Object.assign({}, d, { note: '' }), v);
+  return v;
+}
+function certMerge(t, d, vals) { const v = vals || certVals(d); return String(t || '').replace(/\{\{\s*([a-z0-9_]+)\s*\}\}/gi, (m, k) => (v[k.toLowerCase()] != null ? v[k.toLowerCase()] : '')); }
+function certImgFor(src, d) {
+  const m = /^\{\{\s*([a-z_]+?)(?:_(\d))?\s*\}\}$/i.exec(src || ''); if (!m) return src;
+  const k = m[1].toLowerCase(), n = Number(m[2] || 1) - 1, ps = (d.partners || []).filter(p => p.logo), sigs = (d.signers || []).filter(s => s.img);
+  if (k === 'logo') return d.logo || '';
+  if (k === 'partner_logo') return (ps[n] || {}).logo || '';
+  if (k === 'signature') return (sigs[n] || {}).img || '';
+  return '';
+}
+function certDesignHtml(design, d) {
+  const x = JSON.parse(JSON.stringify(design)), v = certVals(d);
+  x.els.forEach(e => {
+    if (e.showIf && !v[e.showIf]) e.hidden = true;
+    if (e.t === 'text') { const had = /\{\{/.test(e.text || ''); e.text = certMerge(e.text, d, v); if (had && !e.text.trim()) e.hidden = true; }
+    if (e.t === 'tile' && e.label) e.label = certMerge(e.label, d, v);
+    if (e.t === 'qr') e.link = !e.link || /\{\{/.test(e.link) ? d.verifyUrl : e.link;
+    if ((e.t === 'image' || e.t === 'tile') && /^\{\{/.test(e.src || '')) { e.src = certImgFor(e.src, d); if (!e.src) e.hidden = true; }
+  });
+  return dzHtml(x);
+}
+function certExtra(d, size) {
+  const v = certVals(d), note = v.note, ex = (d.extra || []).filter(x => x.label && x.value);
+  if (!note && !ex.length) return '';
+  return `<div style="margin-top:12px;font-size:${size || 15}px;opacity:.82;line-height:1.5">${note ? `<div>${esc(note)}</div>` : ''}${ex.length ? `<div style="margin-top:${note ? 4 : 0}px">${ex.map(x => `${esc(x.label)}: <b>${esc(x.value)}</b>`).join('&nbsp;&nbsp;·&nbsp;&nbsp;')}</div>` : ''}</div>`;
+}
+// Extra details editor (used when issuing and when editing a certificate)
+S.ex = S.ex || {};
+function exEditor(key, list, onchange) { S.ex[key] = (list || []).map(x => ({ label: x.label, value: x.value })); S['exCb_' + key] = onchange || ''; return `<div id="ex_${key}"></div>`; }
+function drawEx(key) {
+  const el = $('#ex_' + key); if (!el) return;
+  const a = S.ex[key], cb = S['exCb_' + key];
+  el.innerHTML = `<datalist id="exSug">${CERT_EXTRA_SUGGEST.map(x => `<option value="${x}">`).join('')}</datalist>${a.map((x, i) => `<div class="d-flex gap-2 mb-2"><input class="form-control form-control-sm" style="max-width:150px" list="exSug" placeholder="e.g. Grade" maxlength="40" value="${esc(x.label)}" oninput="S.ex['${key}'][${i}].label=this.value;${cb}"><input class="form-control form-control-sm" placeholder="e.g. Distinction" maxlength="160" value="${esc(x.value)}" oninput="S.ex['${key}'][${i}].value=this.value;${cb}"><button class="btn btn-sm btn-light text-danger" onclick="S.ex['${key}'].splice(${i},1);drawEx('${key}');${cb}" title="Remove"><i class="fa-solid fa-xmark"></i></button></div>`).join('')}
+    ${a.length < 8 ? `<button type="button" class="btn btn-sm btn-link px-0" onclick="S.ex['${key}'].push({label:'',value:''});drawEx('${key}')"><i class="fa-solid fa-plus me-1"></i>Add a detail (grade, hours, cohort…)</button>` : ''}`;
+}
+function exValue(key) { return (S.ex[key] || []).filter(x => String(x.label).trim() && String(x.value).trim()); }
+function certEditDialog(id) {
+  const c = (S.rows.Certificates || []).find(x => x.CertificateID === id); if (!c) return;
+  let ex = []; try { ex = JSON.parse(c.Extra || '[]'); } catch (e) { ex = []; }
+  modal('<i class="fa-solid fa-pen me-2 text-primary"></i>Edit certificate ' + esc(id), `<div class="row g-3"><div class="col-md-6"><label class="form-label" for="ceN">Name on certificate</label><input class="form-control" id="ceN" value="${esc(c.StudentName)}" maxlength="120"></div><div class="col-md-6"><label class="form-label" for="ceD">Completion date</label><input class="form-control" type="date" id="ceD" value="${esc(String(c.CompletionDate || '').slice(0, 10))}"></div>
+    <div class="col-12"><label class="form-label" for="ceP">Programme title on certificate</label><input class="form-control" id="ceP" value="${esc(c.ProgrammeTitle)}" maxlength="200"></div>
+    <div class="col-12"><label class="form-label">Extra details</label>${exEditor('edit', ex)}<div class="form-text">Printed on the certificate, e.g. Grade: Distinction · Hours: 40. Custom designs can place each one with {{grade}}, {{hours}}…</div></div></div>`,
+    `<button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-grad" onclick="saveCertEdit('${esc(id)}',this)">Save</button>`);
+  drawEx('edit');
+}
+async function saveCertEdit(id, btn) {
+  await busy(btn, async () => { await call('certUpdate', { id, studentName: $('#ceN').value, programmeTitle: $('#ceP').value, date: $('#ceD').value, extra: exValue('edit') }); closeModal(); toast('Certificate updated. The verification link stays the same.'); nav('certificates'); });
+}
+// Custom designs on the Certificate designs tab
+async function loadCertCustom(force) {
+  if (!S.certCustom || force) { const all = await rcall('flyerList'); S.certCustom = (all || []).filter(f => f.template === 'certificate'); }
+  S.certDesignData = {}; S.certCustom.forEach(f => { S.certDesignData['design:' + f.id] = f.data; });
+  return S.certCustom;
+}
+function certCustomHtml(cur, sample) {
+  const list = S.certCustom || [];
+  return `<div class="card-x mb-4"><h6 class="ttl"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i>Your own designs<button class="btn btn-sm btn-grad ms-auto" onclick="certNewDesign()"><i class="fa-solid fa-plus me-1"></i>Design a certificate</button></h6>
+    <div class="small-muted mb-3">Design every detail yourself: layout, fonts, colours, shapes, logos, signatures, photos and any extra information. Fields like {{student_name}} and {{grade}} fill in automatically for each student.</div>
+    ${list.length ? `<div class="row g-3">${list.map(f => { const id = 'design:' + f.id; return `<div class="col-md-6"><div class="card-x p-2 h-100" style="${id === cur ? 'border:2px solid #7c3aed' : ''}">${fitBox(certHtml(id, Object.assign({}, sample, { design: f.data })), CERT_W, CERT_H, 'border-radius:8px')}
+      <div class="d-flex align-items-center gap-2 mt-2 px-1 flex-wrap"><div class="fw-bold flex-fill">${esc(f.title)} ${id === cur ? '<span class="badge-s bs-success ms-1">Default</span>' : ''}</div><button class="btn btn-sm btn-light" onclick="certEditDesign('${esc(f.id)}')"><i class="fa-solid fa-pen me-1"></i>Edit</button><button class="btn btn-sm btn-light" onclick="certEditDesign('${esc(f.id)}',1)" title="Duplicate"><i class="fa-regular fa-copy"></i></button>${id === cur ? '' : `<button class="btn btn-sm btn-soft" onclick="setDefaultCert('${esc(id)}',this)">Use as default</button>`}<button class="btn btn-sm btn-light text-danger" onclick="certDelDesign('${esc(f.id)}')" title="Delete"><i class="fa-solid fa-trash"></i></button></div></div></div>`; }).join('')}</div>`
+      : `<div class="d-flex flex-wrap gap-3">${Object.keys(DZ_CERT_TEMPLATES).map(k => { const d = DZ_CERT_TEMPLATES[k].build(); return `<div style="width:260px;cursor:pointer" onclick="certNewDesign('${k}')">${fitBox(certHtml('design:x', Object.assign({}, sample, { design: d })), CERT_W, CERT_H, 'border-radius:8px;box-shadow:0 0 0 1px var(--line)')}<div class="small fw-semibold mt-1">Start from: ${esc(DZ_CERT_TEMPLATES[k].name)}</div></div>`; }).join('')}</div>`}</div>`;
+}
+async function setDefaultCert(id, btn) { await busy(btn, async () => { S.adm = await call('saveSettings', { settings: { CERT_TEMPLATE: id } }); await refreshPublic(); toast('Default certificate design updated.'); drawCertTemplates(); }); }
+function certNewDesign(k) { S.flyMain = $('#main').firstElementChild || $('#main'); const t = DZ_CERT_TEMPLATES[k || 'elegant']; dzOpen(t.build(), { kind: 'certificate', title: 'My certificate design', panel: 'fields', dirty: true }); setUrl('/certificates/design', true); }
+function certEditDesign(id, dup) { const f = (S.certCustom || []).find(x => x.id === id); if (!f) return; S.flyMain = $('#main').firstElementChild || $('#main'); dzOpen(JSON.parse(JSON.stringify(f.data)), { kind: 'certificate', id: dup ? '' : f.id, title: dup ? f.title + ' (copy)' : f.title, panel: 'fields', dirty: !!dup }); }
+async function certDelDesign(id) {
+  const used = ((S.pub && S.pub.settings.CERT_TEMPLATE) === 'design:' + id);
+  if (!await confirmBox(used ? 'This is your default design. Delete it? Certificates will fall back to the Classic design.' : 'Delete this design? Programmes using it fall back to the default design.', 'Delete', true)) return;
+  try { await call('flyerDelete', { id }); if (used) await call('saveSettings', { settings: { CERT_TEMPLATE: 'classic' } }); await refreshPublic(); await loadCertCustom(true); toast('Deleted.'); drawCertTemplates(); } catch (e) { toast(e.message, 'danger'); }
+}
+// Starter certificate layouts for the editor (A4 landscape)
+function dzSig(n, x, y, w, color) { return [dzR('line', x, y, w, 10, { stroke: color || '#334155', sw: 2, showIf: 'signatory_' + n }), dzT(`{{signatory_${n}}}`, x, y + 14, w, 20, { align: 'center', weight: 700, color: color || '#111827' }), dzT(`{{signatory_${n}_title}}`, x, y + 42, w, 15, { align: 'center', weight: 500, color: '#64748b' })]; }
+const DZ_CERT_TEMPLATES = {
+  elegant: { name: 'Elegant border', build: () => ({ w: CERT_W, h: CERT_H, bg: { c1: '#fffdf7' }, els: [
+    dzR('rect', 26, 26, CERT_W - 52, CERT_H - 52, { fill: 'transparent', stroke: '#b45309', sw: 3 }), dzR('rect', 40, 40, CERT_W - 80, CERT_H - 80, { fill: 'transparent', stroke: '#b45309', sw: 1, dash: true }),
+    dzP(CERT_W / 2 - 45, 66, 90, 90, { src: '{{logo}}', fit: 'contain' }),
+    dzT('{{academy}}', 160, 166, CERT_W - 320, 20, { align: 'center', weight: 800, ls: 20, upper: true, color: '#78350f' }),
+    dzT('Certificate of Completion', 160, 204, CERT_W - 320, 46, { align: 'center', font: 'Playfair Display', weight: 700, color: '#111827' }),
+    dzT('This is to certify that', 160, 276, CERT_W - 320, 18, { align: 'center', weight: 500, color: '#6b7280', italic: true }),
+    dzT('{{student_name}}', 120, 304, CERT_W - 240, 72, { align: 'center', font: 'Great Vibes', weight: 400, color: '#78350f' }),
+    dzT('has successfully completed', 160, 404, CERT_W - 320, 18, { align: 'center', weight: 500, color: '#6b7280', italic: true }),
+    dzT('{{programme}}', 140, 432, CERT_W - 280, 30, { align: 'center', weight: 800, color: '#111827' }),
+    dzT('{{extra}}', 160, 486, CERT_W - 320, 16, { align: 'center', weight: 600, color: '#374151' }),
+    dzT('{{note}}', 160, 512, CERT_W - 320, 14, { align: 'center', weight: 500, color: '#6b7280' }),
+    ...dzSig(1, 120, 620, 250, '#111827'), ...dzSig(2, CERT_W - 370, 620, 250, '#111827'),
+    dzR('star', CERT_W / 2 - 55, 585, 110, 110, { fill: '#b45309', fill2: '#f59e0b', grad: true }),
+    dzT('Awarded {{date}}', CERT_W / 2 - 150, 704, 300, 14, { align: 'center', weight: 600, color: '#6b7280' }),
+    dzQ(CERT_W - 150, 66, 84), dzT('ID {{certificate_id}} · {{code}}', 70, 72, 300, 11, { weight: 600, color: '#9ca3af' })
+  ] }) },
+  band: { name: 'Modern side band', build: () => ({ w: CERT_W, h: CERT_H, bg: { c1: '#ffffff' }, els: [
+    dzR('rect', 0, 0, 330, CERT_H, { fill: '#1d4ed8', fill2: '#7c3aed', grad: true, ga: 160 }),
+    dzR('ellipse', -120, 520, 380, 380, { fill: '#ffffff', op: .08 }), dzP(95, 80, 140, 140, { src: '{{logo}}', fit: 'contain', radius: 20 }),
+    dzT('{{academy}}', 40, 240, 250, 22, { align: 'center', weight: 800, color: '#ffffff' }),
+    dzQ(105, 560, 120, { radius: 14 }), dzT('Scan to verify', 40, 690, 250, 13, { align: 'center', weight: 600, color: '#e0e7ff' }),
+    dzT('CERTIFICATE', 390, 90, 650, 20, { weight: 800, ls: 40, color: '#1d4ed8' }),
+    dzT('of Achievement', 390, 120, 650, 52, { font: 'Montserrat', weight: 900, color: '#0b1b3f' }),
+    dzT('Presented to', 390, 230, 650, 18, { weight: 500, color: '#64748b' }),
+    dzT('{{student_name}}', 390, 256, 680, 58, { font: 'Montserrat', weight: 900, color: '#0b1b3f' }),
+    dzR('rect', 390, 340, 90, 6, { fill: '#7c3aed', radius: 3 }),
+    dzT('for successfully completing {{programme}} ({{duration}}) on {{date}}.', 390, 370, 660, 19, { weight: 500, color: '#334155', lh: 1.5 }),
+    dzT('{{extra}}', 390, 440, 660, 16, { weight: 700, color: '#1d4ed8' }), dzT('{{note}}', 390, 470, 660, 14, { weight: 500, color: '#64748b' }),
+    ...dzSig(1, 390, 640, 240), ...dzSig(2, 700, 640, 240),
+    dzT('Certificate ID {{certificate_id}} · Verification code {{code}}', 390, 740, 660, 11, { weight: 600, color: '#94a3b8' })
+  ] }) },
+  partners: { name: 'Partner co-branded', build: () => ({ w: CERT_W, h: CERT_H, bg: { c1: '#f8fafc', c2: '#eef2ff', grad: true, ang: 135 }, els: [
+    dzR('rect', 0, 0, CERT_W, 14, { fill: '#0b1b3f' }), dzR('rect', 0, CERT_H - 14, CERT_W, 14, { fill: '#f59e0b' }),
+    dzP(110, 60, 150, 80, { src: '{{logo}}', fit: 'contain' }), dzP(CERT_W / 2 - 75, 60, 150, 80, { src: '{{partner_logo_1}}', fit: 'contain' }), dzP(CERT_W - 260, 60, 150, 80, { src: '{{partner_logo_2}}', fit: 'contain' }),
+    dzT('CERTIFICATE OF COMPLETION', 110, 190, CERT_W - 220, 34, { align: 'center', font: 'Montserrat', weight: 900, ls: 8, color: '#0b1b3f' }),
+    dzT('awarded to', 110, 250, CERT_W - 220, 18, { align: 'center', weight: 500, color: '#64748b' }),
+    dzT('{{student_name}}', 110, 280, CERT_W - 220, 60, { align: 'center', font: 'Playfair Display', weight: 700, color: '#1e3a8a' }),
+    dzT('for completing {{programme}}', 110, 372, CERT_W - 220, 24, { align: 'center', weight: 700, color: '#0f172a' }),
+    dzT('delivered by {{academy}} in partnership with our sponsors', 110, 410, CERT_W - 220, 16, { align: 'center', weight: 500, color: '#64748b' }),
+    dzT('{{extra}}', 110, 448, CERT_W - 220, 16, { align: 'center', weight: 700, color: '#b45309' }),
+    ...dzSig(1, 110, 600, 240), ...dzSig(2, CERT_W / 2 - 120, 600, 240), ...dzSig(3, CERT_W - 350, 600, 240),
+    dzQ(CERT_W / 2 - 38, 690, 70, { radius: 6 }), dzT('{{date}} · ID {{certificate_id}}', 110, 712, 300, 12, { weight: 600, color: '#94a3b8' })
+  ] }) }
+};
+// Editor panel: certificate fields
+function dzCertFieldsPanel() {
+  const D = S.dz, W = D.d.w;
+  const txt = (k, l) => `<button class="dz-txb small" onclick="dzAddField('${k}')"><code>{{${k}}}</code><span class="d-block small-muted">${esc(l)}</span></button>`;
+  const exNames = Array.from(new Set(((S.rows && S.rows.Certificates) || []).map(c => { try { return JSON.parse(c.Extra || '[]').map(x => x.label); } catch (e) { return []; } }).flat().filter(Boolean))).slice(0, 8);
+  return `<div class="dz-ph">Certificate fields</div><div class="small-muted mb-2">Click to add. They fill in for each student. Style them like any text.</div>
+    <div class="dz-grid2">${CERT_FIELDS.map(f => txt(f[0], f[1])).join('')}</div>
+    <div class="dz-ph mt-3">Your own field</div><div class="small-muted mb-1">Matches an extra detail with the same name when you issue a certificate.</div>
+    <div class="input-group input-group-sm mb-1"><input class="form-control" id="dzCF" placeholder="e.g. Grade" list="dzCFs"><button class="btn btn-soft" onclick="const v=slugKey($('#dzCF').value);if(!v)return toast('Type a name first.','warning');dzAddField(v,$('#dzCF').value)">Add</button></div><datalist id="dzCFs">${CERT_EXTRA_SUGGEST.concat(exNames).map(x => `<option value="${esc(x)}">`).join('')}</datalist>
+    <div class="dz-ph mt-3">Logos & signatures</div><div class="dz-grid2">
+      <button class="dz-txb small" onclick="dzAddImgField('{{logo}}',180,110)"><i class="fa-solid fa-image me-1"></i>Academy logo</button>${[1, 2, 3].map(n => `<button class="dz-txb small" onclick="dzAddImgField('{{partner_logo_${n}}}',170,90)"><i class="fa-solid fa-handshake me-1"></i>Partner logo ${n}</button>`).join('')}
+      ${[1, 2].map(n => `<button class="dz-txb small" onclick="dzAddImgField('{{signature_${n}}}',200,70)"><i class="fa-solid fa-signature me-1"></i>Signature image ${n}</button>`).join('')}
+      ${[1, 2, 3].map(n => `<button class="dz-txb small" onclick="dzAddSigBlock(${n})"><i class="fa-solid fa-pen-nib me-1"></i>Signatory ${n} block</button>`).join('')}
+      <button class="dz-txb small" onclick="dzAddQR();Object.assign(dzOne(),{link:'{{verify_url}}'});dzCommit()"><i class="fa-solid fa-qrcode me-1"></i>Verification QR</button></div>
+    <div class="small-muted mt-2">Signatories and partner logos come from <b>Certificate designs → Design settings</b> and <b>Partners</b>. Anything empty for a student is left out.</div>
+    <button class="btn btn-light btn-sm w-100 mt-3" onclick="dzCertPreview()"><i class="fa-solid fa-eye me-1"></i>Preview with sample student</button>`;
+}
+function dzAddField(k, label) {
+  const big = k === 'student_name', size = big ? 60 : k === 'programme' ? 30 : ['certificate_id', 'code', 'verify_url'].indexOf(k) >= 0 ? 13 : 20;
+  dzAdd({ t: 'text', text: '{{' + k + '}}', size, font: big ? 'Playfair Display' : 'Plus Jakarta Sans', weight: big ? 700 : 600, color: '#111827', align: 'center', lh: 1.2, w: Math.round(S.dz.d.w * (big ? .7 : .5)), h: Math.round(size * 1.3) });
+  if (label) $('#dzCF').value = '';
+}
+function dzAddImgField(src, w, h) { dzAdd({ t: 'image', src, w, h, fit: 'contain', radius: 0 }); }
+function dzAddSigBlock(n) { const D = S.dz, x = Math.round(D.d.w / 2 - 130), y = Math.round(D.d.h * .75); const els = dzSig(n, x, y, 260); D.d.els.push(...els); D.sel = els.map(e => e.id); dzDraw(); dzCommit(); dzProps(); }
+async function dzCertPreview() {
+  await loadLib('qr').catch(() => null); await loadLogoData(); await loadPartners().catch(() => []);
+  const d = Object.assign(certSampleData(), { design: S.dz.d });
+  if (!d.partners.length) d.partners = (S.partners || []).filter(p => p.Status === 'Active').slice(0, 3).map(partnerPreviewData);
+  const html = certHtml('design:preview', d);
+  S._cert = { html, id: 'preview' };
+  modal('Preview <span class="small-muted">· sample student</span>', fitBox(html, CERT_W, CERT_H, 'border-radius:10px;box-shadow:0 10px 30px -12px rgba(15,23,42,.35)'), `<button class="btn btn-light" onclick="exportDesign(S._cert.html,CERT_W,CERT_H,'Certificate-preview','pdf',true)"><i class="fa-solid fa-file-pdf me-1"></i>Sample PDF</button><button class="btn btn-grad" data-bs-dismiss="modal">Back to editing</button>`, 'lg');
+  setTimeout(() => fitDesigns($('#mBody')), 60); setTimeout(() => fitDesigns($('#mBody')), 400);
+}
+// ───────────── ADMIN: CV BUILDER
+ADMIN_PAGES.cv = async function (main, arg) {
+  ensureDzFonts();
+  if (arg) S.cvTab = arg;
+  if (S.cvEd && S.cvEd.d) return cvEditor(main);
+  const tab = S.cvTab === 'mine' ? 'mine' : 'students';
+  const tabs = `<ul class="nav nav-pills gap-2 mb-3"><li class="nav-item"><button class="nav-link ${tab === 'students' ? 'active' : ''}" onclick="nav('cv','students')"><i class="fa-solid fa-users me-1"></i>Student CVs</button></li><li class="nav-item"><button class="nav-link ${tab === 'mine' ? 'active' : ''}" onclick="nav('cv','mine')"><i class="fa-solid fa-file-pen me-1"></i>My CVs & builder</button></li></ul>`;
+  if (tab === 'mine') { await STUDENT_PAGES.cv(main); main.insertAdjacentHTML('afterbegin', tabs); return; }
+  const list = S.cvAdm = await rcall('cvAdminList');
+  S.cvQ = S.cvQ || '';
+  main.innerHTML = pageHead('CV Builder', 'See the CVs students share with the career team, ready for job referrals. You can also build your own CV.', `<button class="btn btn-light" onclick="nav('jobs')"><i class="fa-solid fa-briefcase me-1"></i>Job Connect</button>`) + tabs +
+    `<div class="card-x"><div class="tools mb-3"><input class="form-control" placeholder="Search name, job title or skill (e.g. Power BI)…" value="${esc(S.cvQ)}" oninput="S.cvQ=this.value;clearTimeout(S._cq);S._cq=setTimeout(drawCvAdm,250)"></div><div id="cvAdmT"></div>
+    <div class="small-muted mt-3"><i class="fa-solid fa-shield-halved me-1"></i>Only CVs students chose to share are listed (they can turn sharing off on each CV). Each time you open one, it is recorded in the audit log.</div></div>`;
+  drawCvAdm();
+};
+function drawCvAdm() {
+  const q = String(S.cvQ || '').toLowerCase(), el = $('#cvAdmT'); if (!el) return;
+  const list = (S.cvAdm || []).filter(c => !q || (c.student + ' ' + c.email + ' ' + c.headline + ' ' + c.skills + ' ' + c.title).toLowerCase().indexOf(q) >= 0);
+  el.innerHTML = list.length ? `<div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Student</th><th>CV</th><th>Skills</th><th>Updated</th><th></th></tr></thead><tbody>${list.map(c => `<tr><td><div class="fw-semibold">${esc(c.student)}</div><div class="small-muted">${esc(c.email)}</div></td><td>${esc(c.title)}<div class="small-muted">${esc(c.headline)}</div></td><td class="small text-muted" style="max-width:320px">${esc(c.skills.slice(0, 140))}${c.skills.length > 140 ? '…' : ''}</td><td class="small">${ago(c.updated)}</td><td class="text-end text-nowrap"><button class="btn btn-sm btn-soft" onclick="viewStudentCv('${esc(c.id)}',this)"><i class="fa-regular fa-eye me-1"></i>View</button></td></tr>`).join('')}</tbody></table></div>`
+    : empty('fa-file-lines', S.cvAdm && S.cvAdm.length ? 'No CVs match your search' : 'No shared CVs yet', 'When students build a CV and share it with the career team, it appears here.');
+}
+async function viewStudentCv(id, btn) {
+  await busy(btn, async () => {
+    const r = await call('cvAdminGet', { id });
+    S.cvView = r.data;
+    modal(`<i class="fa-solid fa-file-lines text-primary me-2"></i>${esc(r.title)}`, `<div id="cvVW" style="background:#e9edf3;padding:10px;border-radius:10px"><div id="cvVB" style="background:#fff;margin:0 auto;overflow:hidden;box-shadow:0 6px 20px -10px rgba(15,23,42,.4)"><div id="cvVD" style="width:${CV_W}px;transform-origin:0 0">${cvHtml(r.data)}</div></div></div>`,
+      `<button class="btn btn-light" onclick="cvWord(S.cvView)"><i class="fa-solid fa-file-word me-1"></i>Word</button><button class="btn btn-grad" onclick="cvPdf(S.cvView)"><i class="fa-solid fa-file-pdf me-1"></i>Download PDF</button>`, 'lg');
+    const fit = () => { const w = $('#cvVW'), d = $('#cvVD'), b = $('#cvVB'); if (!w || !d) return; const z = Math.min(1, (w.clientWidth - 20) / CV_W); d.style.transform = `scale(${z})`; b.style.width = CV_W * z + 'px'; b.style.height = d.offsetHeight * z + 'px'; };
+    setTimeout(fit, 80); setTimeout(fit, 400);
+  });
 }
 
 function normCode(c) { return String(c || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 30); }
@@ -4693,15 +4899,16 @@ function drawBulkOpts() {
     ${B.programme && B.programme.certificateFee > 0 ? `<div class="alert alert-warning small mt-3 mb-0 py-2"><i class="fa-solid fa-lock me-1"></i>This programme has a certificate fee of <b>${money(B.programme.certificateFee, B.programme.currency)}</b>. Students pay it to unlock their certificate.<div class="form-check form-switch mt-1 mb-0"><input class="form-check-input" type="checkbox" id="bkWaive" ${B.waive ? 'checked' : ''} onchange="S.bulk.waive=this.checked"><label class="form-check-label" for="bkWaive">Waive the fee for this batch</label></div></div>` : ''}
     <div class="d-flex justify-content-between align-items-center mt-3 mb-1"><span class="small fw-semibold"><i class="fa-solid fa-handshake text-primary me-1"></i>Partners on these certificates</span><a class="small" role="button" onclick="closeModal();nav('certificates','templates')">Manage</a></div>
     ${ps.length ? ps.map(p => `<label class="d-flex align-items-center gap-2 py-1 m-0" style="cursor:pointer"><input class="form-check-input m-0" type="checkbox" ${B.partners.includes(p.PartnerID) ? 'checked' : ''} onchange="bulkPartner('${esc(p.PartnerID)}',this.checked)">${safeUrl(p.LogoURL) ? `<img src="${esc(p.LogoURL)}" style="height:22px;max-width:60px;object-fit:contain">` : ''}<span class="small">${esc(p.Name)}</span></label>`).join('') : `<div class="small-muted">No partners yet. Add sponsors (e.g. a scholarship partner) under <b>Templates & design</b> to show their logo and signature.</div>`}
+    <div class="small fw-semibold mt-3 mb-1"><i class="fa-solid fa-list-ul text-primary me-1"></i>Extra details on these certificates (optional)</div>${exEditor('bulk', S.ex.bulk || [], 'clearTimeout(S._bx);S._bx=setTimeout(drawBulkPreview,400)')}
     <div class="small fw-semibold mt-3 mb-1">Preview</div><div id="bkPrev"></div></div>`;
-  drawBulkPreview();
+  drawEx('bulk'); drawBulkPreview();
 }
 function bulkPartner(id, on) { const P = S.bulk.partners; const i = P.indexOf(id); if (on && i < 0) P.push(id); if (!on && i >= 0) P.splice(i, 1); drawBulkPreview(); }
 function drawBulkPreview() {
   const B = S.bulk, el = $('#bkPrev'); if (!el) return;
   if (!B.pid || !B.programme) { el.innerHTML = '<div class="small-muted">Pick a programme to preview.</div>'; return; }
   const first = B.rows.find(x => B.sel.has(x.studentId)) || { name: 'Student Name' };
-  const d = Object.assign(certSampleData(), { name: first.name, programme: B.programme.title, date: B.date, partners: (S.partners || []).filter(p => B.partners.includes(p.PartnerID)).map(partnerPreviewData) });
+  const d = Object.assign(certSampleData(), { design: B.programme.design, extra: exValue('bulk'), name: first.name, programme: B.programme.title, date: B.date, partners: (S.partners || []).filter(p => B.partners.includes(p.PartnerID)).map(partnerPreviewData) });
   el.innerHTML = fitBox(certHtml(B.programme.template, d), CERT_W, CERT_H, 'border-radius:8px;box-shadow:0 8px 24px -14px rgba(15,23,42,.5)');
   fitDesigns(el); setTimeout(() => fitDesigns(el), 300);
 }
@@ -4713,7 +4920,7 @@ async function bulkIssue(btn) {
   try {
     for (let i = 0; i < ids.length; i += size) {
       btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Issuing ${Math.min(i + size, ids.length)} of ${ids.length}…`;
-      const r = await call('bulkIssueCertificates', { programmeId: B.pid, studentIds: ids.slice(i, i + size), partnerIds: (S.partners || []).some(p => p.Status === 'Active') ? B.partners : undefined, date: B.date, markCompleted: B.complete, sendEmail: B.email, waiveFee: !!B.waive });
+      const r = await call('bulkIssueCertificates', { extra: exValue('bulk'), programmeId: B.pid, studentIds: ids.slice(i, i + size), partnerIds: (S.partners || []).some(p => p.Status === 'Active') ? B.partners : undefined, date: B.date, markCompleted: B.complete, sendEmail: B.email, waiveFee: !!B.waive });
       tot.issued += r.issued; tot.skipped += r.skipped; tot.failed = tot.failed.concat(r.failed);
     }
     const name = id => (B.rows.find(x => x.studentId === id) || {}).name || id;
@@ -6304,7 +6511,7 @@ async function cvNew(t) {
 }
 function cvOpen(id, dup) {
   const c = (S.cvList || []).find(x => x.id === id); if (!c) return;
-  S.cvEd = { id: dup ? '' : c.id, title: dup ? c.title + ' (copy)' : c.title, d: cvFix(JSON.parse(JSON.stringify(c.data))), tab: 'content', dirty: !!dup, open: 'personal' };
+  S.cvEd = { shared: c.shared !== false, id: dup ? '' : c.id, title: dup ? c.title + ' (copy)' : c.title, d: cvFix(JSON.parse(JSON.stringify(c.data))), tab: 'content', dirty: !!dup, open: 'personal' };
   nav('cv');
 }
 async function cvDel(id) { if (!await confirmBox('Delete this CV?', 'Delete', true)) return; try { await call('cvDelete', { id }); toast('Deleted.'); nav('cv'); } catch (e) { toast(e.message, 'danger'); } }
@@ -6314,7 +6521,7 @@ function cvClose() {
 }
 function cvEditor(main) {
   const E = S.cvEd;
-  main.innerHTML = `<div class="cv-ed"><div class="cv-top"><button class="btn btn-light btn-sm" onclick="cvClose()" title="Back to my CVs"><i class="fa-solid fa-arrow-left"></i></button><input class="form-control form-control-sm" style="max-width:240px;font-weight:700" value="${esc(E.title)}" oninput="S.cvEd.title=this.value;cvDirty()" aria-label="CV name"><span class="small-muted d-none d-md-inline" id="cvState"></span>
+  main.innerHTML = `<div class="cv-ed"><div class="cv-top"><button class="btn btn-light btn-sm" onclick="cvClose()" title="Back to my CVs"><i class="fa-solid fa-arrow-left"></i></button><input class="form-control form-control-sm" style="max-width:240px;font-weight:700" value="${esc(E.title)}" oninput="S.cvEd.title=this.value;cvDirty()" aria-label="CV name"><span class="small-muted d-none d-md-inline" id="cvState"></span>${S.user.role === 'STUDENT' ? `<div class="form-check form-switch m-0 small" title="Our career team can see shared CVs and use them to refer you for jobs."><input class="form-check-input" type="checkbox" id="cvShare" ${E.shared !== false ? 'checked' : ''} onchange="S.cvEd.shared=this.checked;cvDirty()"><label class="form-check-label" for="cvShare">Share with career team</label></div>` : ''}
       <div class="ms-auto d-flex gap-1 flex-wrap"><button class="btn btn-soft btn-sm" onclick="cvSave(this)"><i class="fa-solid fa-floppy-disk me-1"></i>Save</button><div class="dropdown"><button class="btn btn-grad btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-download me-1"></i>Download</button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" onclick="cvPdf()"><i class="fa-solid fa-file-pdf me-2 text-danger"></i>PDF</a></li><li><a class="dropdown-item" onclick="cvPrint()"><i class="fa-solid fa-print me-2"></i>Print / save as PDF (text you can select, best for job portals)</a></li><li><a class="dropdown-item" onclick="cvWord()"><i class="fa-solid fa-file-word me-2 text-primary"></i>Word (.doc, simple layout)</a></li></ul></div></div></div>
     <div class="cv-body"><div class="cv-form"><ul class="nav nav-pills nav-fill gap-1 mb-3"><li class="nav-item"><button class="nav-link ${E.tab === 'content' ? 'active' : ''}" onclick="S.cvEd.tab='content';cvForm()"><i class="fa-solid fa-pen me-1"></i>Content</button></li><li class="nav-item"><button class="nav-link ${E.tab === 'design' ? 'active' : ''}" onclick="S.cvEd.tab='design';cvForm()"><i class="fa-solid fa-palette me-1"></i>Design</button></li><li class="nav-item"><button class="nav-link ${E.tab === 'check' ? 'active' : ''}" onclick="S.cvEd.tab='check';cvForm()"><i class="fa-solid fa-gauge-high me-1"></i>Check</button></li></ul><div id="cvForm"></div></div>
       <div class="cv-prev" id="cvPrevWrap"><div class="cv-pages small-muted" id="cvPages"></div><div class="cv-paper" id="cvPaper"></div></div></div></div>`;
@@ -6448,17 +6655,18 @@ async function cvAi(what, idx, btn) {
 }
 async function cvSave(btn, quiet) {
   const E = S.cvEd; if (!E) return;
-  const run = async () => { const r = await call('cvSave', { id: E.id, title: E.title || 'My CV', template: E.d.style.template, data: E.d }); E.id = r.id; E.dirty = false; cvState(); if (!quiet) toast('CV saved.'); };
+  const run = async () => { const r = await call('cvSave', { id: E.id, title: E.title || 'My CV', template: E.d.style.template, data: E.d, shared: E.shared !== false }); E.id = r.id; E.dirty = false; cvState(); if (!quiet) toast('CV saved.'); };
   try { if (btn) await busy(btn, run); else await run(); } catch (e) { if (!quiet) toast(e.message, 'danger'); }
 }
-function cvFileName() { return (String(S.cvEd.d.name || 'CV').trim().replace(/[^\w\- ]+/g, '').replace(/\s+/g, '-') || 'CV') + '-CV'; }
-async function cvPdf() {
+function cvFileName(d) { return (String((d || S.cvEd.d).name || 'CV').trim().replace(/[^\w\- ]+/g, '').replace(/\s+/g, '-') || 'CV') + '-CV'; }
+async function cvPdf(cvd) {
+  cvd = cvd || S.cvEd.d;
   showLoader('Creating your PDF…');
   try {
     await loadLib('h2c'); await loadLib('pdf');
     const host = document.createElement('div');
     host.style.cssText = 'position:fixed;left:0;top:0;width:' + CV_W + 'px;z-index:-9999;pointer-events:none;background:#fff';
-    host.innerHTML = cvHtml(S.cvEd.d); document.body.appendChild(host);
+    host.innerHTML = cvHtml(cvd); document.body.appendChild(host);
     try {
       if (document.fonts && document.fonts.ready) await document.fonts.ready;
       const doc = host.firstElementChild, H = doc.offsetHeight, top0 = doc.getBoundingClientRect().top;
@@ -6483,7 +6691,7 @@ async function cvPdf() {
         if (i) pdf.addPage([CV_W, CV_H], 'portrait');
         pdf.addImage(pc.toDataURL('image/jpeg', .93), 'JPEG', 0, 0, CV_W, CV_H);
       });
-      downloadBlob(pdf.output('blob'), cvFileName() + '.pdf');
+      downloadBlob(pdf.output('blob'), cvFileName(cvd) + '.pdf');
       toast('PDF downloaded. 🎉');
     } finally { host.remove(); }
   } catch (e) { toast(e.message, 'danger'); } finally { hideLoader(); }
@@ -6495,8 +6703,8 @@ function cvPrint() {
   w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${esc(cvFileName())}</title>${fonts}<style>@page{size:A4;margin:0}html,body{margin:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}.cv-k{break-inside:avoid}.cv-h{break-after:avoid}</style></head><body>${cvHtml(S.cvEd.d)}<script>window.onload=function(){setTimeout(function(){window.focus();window.print();},700)}<\/script></body></html>`);
   w.document.close();
 }
-function cvWord() {
-  const d = cvFix(S.cvEd.d), c = d.style.color;
+function cvWord(cvd) {
+  const d = cvFix(cvd || S.cvEd.d), c = d.style.color;
   const h = (t) => `<h2 style="font-size:13pt;color:${c};border-bottom:1px solid ${c};margin:14pt 0 6pt;text-transform:uppercase">${esc(t)}</h2>`;
   let body = `<h1 style="font-size:22pt;margin:0">${esc(d.name)}</h1><p style="margin:2pt 0;color:${c};font-size:12pt"><b>${esc(d.headline)}</b></p><p style="margin:2pt 0 8pt">${esc([d.email, d.phone, d.location].concat(d.links.filter(l => l.url).map(l => l.url)).filter(Boolean).join('  |  '))}</p>`;
   d.order.filter(k => cvHas(d, k)).forEach(k => {
@@ -6511,7 +6719,7 @@ function cvWord() {
     else if (k === 'custom') d.custom.forEach(x => { body += `<p style="margin:4pt 0">${x.title ? `<b>${esc(x.title)}</b><br>` : ''}${esc(x.body).replace(/\n/g, '<br>')}</p>`; });
   });
   const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>CV</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#222}ul{margin:2pt 0 6pt}li{margin-bottom:2pt}@page{size:21cm 29.7cm;margin:1.8cm}</style></head><body>${body}</body></html>`;
-  downloadBlob(new Blob(['﻿' + html], { type: 'application/msword' }), cvFileName() + '.doc');
+  downloadBlob(new Blob(['﻿' + html], { type: 'application/msword' }), cvFileName(d) + '.doc');
   toast('Word file downloaded. Open it in Word or Google Docs to edit.');
 }
 
