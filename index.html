@@ -112,6 +112,9 @@ nav.pub .nav-link:hover{color:var(--purple);background:#f5f3ff}
 .mc-now{display:flex;gap:.7rem;align-items:center;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;border-radius:12px;padding:.65rem .9rem;font-size:.9rem}.mc-now i{font-size:1.2rem}
 .mc-panel{border-top:1px solid var(--line);padding-top:1rem}.mc-steps{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:.7rem 1rem;font-size:.86rem}.mc-steps summary{font-weight:700;cursor:pointer}.mc-steps ol{margin:.6rem 0 .4rem;padding-left:1.2rem}.mc-steps li{margin-bottom:.4rem}
 .acc-tbl th{vertical-align:top;background:#f8fafc}.acc-ck{width:1.3em;height:1.3em;cursor:pointer}.acc-col{width:26px;height:26px;border:0;padding:0;background:none;flex:none;cursor:pointer}.acc-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:.35rem}.acc-bulk{background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;padding:.55rem .8rem;font-size:.88rem}
+.ji-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#6366f1,#0ea5e9);color:#fff;font-size:1.2rem;flex:none}
+.ji-kind{border:1px solid var(--line);border-radius:14px;padding:1rem;background:#fff}.ji-src{width:36px;height:36px;border-radius:10px;background:#eef2ff;color:#4f46e5;display:grid;place-items:center;flex:none}
+.ji-test{border:1px solid #bbf7d0;background:#f0fdf4;border-radius:12px;padding:.8rem 1rem}
 .tab-prev{display:flex;align-items:center;gap:.5rem;background:#eef1f6;border-radius:10px 10px 0 0;padding:.5rem .75rem;max-width:280px;font-size:.85rem}.tab-prev img{width:16px;height:16px;object-fit:contain;border-radius:3px}.tab-prev span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .g-prev{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem}.g-prev .g-t{color:#1a0dab;font-size:1.05rem;line-height:1.3}
 /* hero */
@@ -6141,7 +6144,7 @@ function jobCard(j, track) {
       <button class="btn btn-sm btn-light job-save" title="${track ? 'Tracked' : 'Save job'}" onclick="event.stopPropagation();trackJob('${esc(j.id)}','${track ? 'remove' : 'Saved'}',this)"><i class="fa-${track ? 'solid' : 'regular'} fa-bookmark ${track ? 'text-primary' : ''}"></i></button></div>
     <div class="d-flex flex-wrap gap-1 mt-3"><span class="chip"><i class="fa-solid ${JOB_ICONS[j.mode] || 'fa-building'} me-1"></i>${esc(j.mode)}</span><span class="chip">${esc(j.type)}</span>${j.level && j.level !== 'Any level' ? `<span class="chip">${esc(j.level)}</span>` : ''}${j.salary ? `<span class="chip chip-g"><i class="fa-solid fa-money-bill-wave me-1"></i>${esc(j.salary)}</span>` : ''}</div>
     ${j.skills.length ? `<div class="small text-muted mt-2 text-truncate"><i class="fa-solid fa-screwdriver-wrench me-1"></i>${esc(j.skills.slice(0, 5).join(' · '))}</div>` : ''}
-    <div class="d-flex align-items-center gap-2 mt-3 pt-2 border-top small flex-wrap">${j.verified ? '<span class="text-success fw-semibold"><i class="fa-solid fa-circle-check me-1"></i>Verified</span>' : ''}${j.source === 'Community' ? `<span class="text-muted">Shared by ${esc(String(j.poster || '').split(' ')[0])}</span>` : ''}
+    <div class="d-flex align-items-center gap-2 mt-3 pt-2 border-top small flex-wrap">${j.verified ? '<span class="text-success fw-semibold"><i class="fa-solid fa-circle-check me-1"></i>Verified</span>' : ''}${j.source === 'Community' ? `<span class="text-muted">Shared by ${esc(String(j.poster || '').split(' ')[0])}</span>` : j.importedFrom ? `<span class="text-muted">${/jooble/i.test(j.importedFrom) ? 'via Jooble' : 'From company careers page'}</span>` : ''}
       <span class="ms-auto text-muted">${dl && dl !== 'Apply by ' ? `<span class="${/today|tomorrow|in [1-3] days/.test(dl) ? 'text-danger fw-semibold' : ''}">${esc(dl)}</span> · ` : ''}${ago(j.date)}</span>${track ? trackPill(track.status) : ''}</div>
   </div></div>`;
 }
@@ -6190,8 +6193,8 @@ async function openJob(id) {
     const st = j.track ? j.track.status : '', statuses = (S.jb && S.jb.statuses) || ['Saved', 'Applied', 'Interview', 'Offer', 'Hired', 'Not selected'];
     $('#mBody').innerHTML = `<div class="d-flex gap-3 align-items-start mb-3">${coLogo(j, 60)}<div class="flex-fill"><h4 class="fw-bold mb-1">${esc(j.title)}</h4><div class="text-muted">${esc(j.company)}${j.location ? ' · ' + esc(j.location) : ''}</div>
         <div class="d-flex flex-wrap gap-1 mt-2"><span class="chip"><i class="fa-solid ${JOB_ICONS[j.mode] || 'fa-building'} me-1"></i>${esc(j.mode)}</span><span class="chip">${esc(j.type)}</span><span class="chip">${esc(j.category)}</span>${j.level ? `<span class="chip">${esc(j.level)}</span>` : ''}${j.salary ? `<span class="chip chip-g">${esc(j.salary)}</span>` : ''}</div></div></div>
-      <div class="jc-verify mb-3">${j.verified ? `<i class="fa-solid fa-circle-check text-success me-2"></i><div><b>Verified by ${esc((S.pub && S.pub.settings.ACADEMY_NAME) || 'our team')}</b> on ${fdate(j.verifiedAt)}. We checked the company and application link. Never pay anyone to get a job; report anything suspicious.</div>` : `<i class="fa-solid fa-hourglass-half text-warning me-2"></i><div><b>${esc(j.status === 'Pending' ? 'Waiting for verification' : j.status)}</b>${j.note ? ': ' + esc(j.note) : ''}</div>`}</div>
-      ${j.source === 'Community' ? `<div class="small-muted mb-3"><i class="fa-solid fa-share-nodes me-1"></i>Shared by ${esc(j.poster)} ${memberBadge(j.posterBadge)}</div>` : ''}
+      <div class="jc-verify mb-3">${j.verified && j.importedFrom && !/jooble/i.test(j.importedFrom) ? `<i class="fa-solid fa-circle-check text-success me-2"></i><div><b>Straight from ${esc(j.company)}'s official careers page</b> (${esc(j.importedFrom)}). Checked automatically and removed when the company closes it. You apply directly with the employer. Never pay anyone to get a job.</div>` : j.verified ? `<i class="fa-solid fa-circle-check text-success me-2"></i><div><b>Verified by ${esc((S.pub && S.pub.settings.ACADEMY_NAME) || 'our team')}</b> on ${fdate(j.verifiedAt)}. We checked the company and application link. Never pay anyone to get a job; report anything suspicious.</div>` : `<i class="fa-solid fa-hourglass-half text-warning me-2"></i><div><b>${esc(j.status === 'Pending' ? 'Waiting for verification' : j.status)}</b>${j.note ? ': ' + esc(j.note) : ''}</div>`}</div>
+      ${j.importedFrom && /jooble/i.test(j.importedFrom) ? `<div class="small-muted mb-3"><i class="fa-solid fa-magnifying-glass me-1"></i>Found via ${esc(j.poster)}</div>` : ''}${j.source === 'Community' ? `<div class="small-muted mb-3"><i class="fa-solid fa-share-nodes me-1"></i>Shared by ${esc(j.poster)} ${memberBadge(j.posterBadge)}</div>` : ''}
       ${j.deadline ? `<div class="small mb-3"><i class="fa-regular fa-calendar me-1"></i><b>${esc(daysLeft(j.deadline))}</b>${/^Apply by/.test(daysLeft(j.deadline)) ? '' : ' (' + fdate(j.deadline) + ')'}</div>` : ''}
       <h6 class="fw-bold">About the role</h6><div class="job-desc mb-3">${linkify(j.description)}</div>
       ${j.requirements ? `<h6 class="fw-bold">Requirements</h6><div class="job-desc mb-3">${linkify(j.requirements)}</div>` : ''}
@@ -6251,7 +6254,7 @@ ADMIN_PAGES.jobs = async function (main, arg) {
   const a = S.ja = await rcall('jobsAdmin'), c = a.counts, sw = a.switches;
   const isAdmin = S.user.role === 'ADMIN' || S.user.isSuper;
   const swc = (k, ic, t, d) => `<div class="col-md-6 col-xl-3"><div class="switch-card"><div><div class="fw-bold small"><i class="fa-solid ${ic} text-primary me-2"></i>${t}</div><div class="small text-muted">${d}</div></div><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" ${isT(sw[k]) ? 'checked' : ''} ${isAdmin ? '' : 'disabled'} onchange="toggleSetting('${k}',this)"></div></div></div>`;
-  const tabs = [['pending', 'Waiting for verification', c.pending], ['live', 'Live', c.live], ['closed', 'Closed & expired'], ['rejected', 'Rejected'], ['placements', 'Placements', c.hired]];
+  const tabs = [['pending', 'Waiting for verification', c.pending], ['live', 'Live', c.live], ['closed', 'Closed & expired'], ['rejected', 'Rejected'], ['placements', 'Placements', c.hired], ['import', 'Auto import']];
   main.innerHTML = pageHead('Job Connect', 'Post verified jobs, check jobs shared by learners, and track who gets hired.', `<button class="btn btn-light" onclick="nav('community')"><i class="fa-solid fa-people-group me-1"></i>Community</button><button class="btn btn-grad" onclick="jobForm(null,1)"><i class="fa-solid fa-plus me-1"></i>Post a job</button>`) +
     `<div class="row g-3 mb-4">${swc('JOBS_ENABLED', 'fa-briefcase', 'Job Connect', 'Job board for students')}${swc('COMMUNITY_ENABLED', 'fa-people-group', 'Community', 'Alumni posts & comments')}${swc('COMMUNITY_REVIEW', 'fa-user-check', 'Review posts first', 'Approve posts before they show')}${swc('CV_BUILDER_ENABLED', 'fa-file-lines', 'CV builder', 'Students build & download CVs')}</div>
     <div class="row g-3 mb-4"><div class="col-6 col-lg"><a onclick="S.jaTab='pending';drawJA()">${statCard('fa-hourglass-half', 'amber', c.pending, 'Waiting for verification')}</a></div><div class="col-6 col-lg">${statCard('fa-briefcase', 'blue', c.live, 'Live jobs')}</div><div class="col-6 col-lg">${statCard('fa-arrow-pointer', 'purple', c.clicks, 'Apply clicks')}</div><div class="col-6 col-lg">${statCard('fa-paper-plane', 'cyan', c.applied, 'Applications tracked')}</div><div class="col-6 col-lg">${statCard('fa-trophy', 'green', c.hired, 'Hired')}</div></div>
@@ -6261,15 +6264,17 @@ ADMIN_PAGES.jobs = async function (main, arg) {
 function drawJA() {
   const a = S.ja, el = $('#jaBody'); if (!el) return;
   $$('[data-ja]').forEach(b => b.classList.toggle('active', b.dataset.ja === S.jaTab));
+  if (S.jaTab === 'import') return drawJobImport(el);
   if (S.jaTab === 'placements') {
     el.innerHTML = `<div class="card-x"><h6 class="ttl"><i class="fa-solid fa-trophy text-warning"></i>Learners hired through Job Connect<button class="btn btn-sm btn-light ms-auto" onclick="exportCSV('placements',S.ja.placements.map(p=>({Student:p.student,Email:p.email,Job:p.job,Company:p.company,Status:p.status,Date:p.date})))"><i class="fa-solid fa-download me-1"></i>CSV</button></h6>${a.placements.length ? `<div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Student</th><th>Role</th><th>Status</th><th>Date</th></tr></thead><tbody>${a.placements.map(p => `<tr><td><div class="fw-semibold">${esc(p.student)}</div><div class="small-muted">${esc(p.email)}</div></td><td>${esc(p.job)}<div class="small-muted">${esc(p.company)}</div></td><td>${trackPill(p.status)}</td><td class="small">${fdate(p.date)}</td></tr>`).join('')}</tbody></table></div><div class="small-muted mt-2">Great for testimonials and marketing: ask hired learners to share their story.</div>` : '<div class="small-muted">When students mark a job as Offer or Hired, they appear here.</div>'}</div>`;
     return;
   }
   const today = new Date().toISOString().slice(0, 10);
   const list = a.jobs.filter(j => S.jaTab === 'pending' ? j.status === 'Pending' : S.jaTab === 'live' ? j.status === 'Published' && j.open : S.jaTab === 'rejected' ? j.status === 'Rejected' : (j.status === 'Closed' || (j.status === 'Published' && !j.open)));
-  el.innerHTML = `<div class="card-x">${list.length ? `<div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Job</th><th>Source</th><th>Status</th><th class="text-center" title="Views · apply clicks · tracked applications · hired">Activity</th><th>Closes</th><th></th></tr></thead><tbody>${list.map(j => `<tr>
+  const impPend = S.jaTab === 'pending' ? list.filter(j => j.source === 'Imported').length : 0;
+  el.innerHTML = (impPend ? `<div class="alert alert-info d-flex flex-wrap align-items-center gap-2"><i class="fa-solid fa-robot"></i><div class="flex-fill small"><b>${impPend}</b> imported job${impPend === 1 ? '' : 's'} from Jooble or sources set to review first. Open the links to check them, then approve.</div><button class="btn btn-sm btn-grad" onclick="approveImported(this)"><i class="fa-solid fa-check-double me-1"></i>Approve all imported</button></div>` : '') + `<div class="card-x">${list.length ? `<div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Job</th><th>Source</th><th>Status</th><th class="text-center" title="Views · apply clicks · tracked applications · hired">Activity</th><th>Closes</th><th></th></tr></thead><tbody>${list.map(j => `<tr>
       <td><div class="d-flex gap-2 align-items-center">${coLogo(j, 36)}<div><div class="fw-semibold">${esc(j.title)}${j.featured ? ' <i class="fa-solid fa-star text-warning" title="Featured"></i>' : ''}</div><div class="small-muted">${esc(j.company)} · ${esc(j.category)}</div></div></div></td>
-      <td class="small">${j.source === 'Community' ? `${esc(j.poster)}<div>${memberBadge(j.posterBadge)}</div>` : '<span class="badge-s bs-info">Academy</span>'}</td>
+      <td class="small">${j.source === 'Community' ? `${esc(j.poster)}<div>${memberBadge(j.posterBadge)}</div>` : j.source === 'Imported' ? `<span class="badge-s bs-purple"><i class="fa-solid fa-robot me-1"></i>Imported</span><div class="small-muted">${esc(j.poster)}</div>` : '<span class="badge-s bs-info">Academy</span>'}</td>
       <td>${badge(j.status === 'Published' ? (j.open ? 'Live' : 'Expired') : j.status)}${j.verifiedBy ? `<div class="small-muted">by ${esc(j.verifiedBy)}</div>` : ''}</td>
       <td class="text-center small text-nowrap"><i class="fa-regular fa-eye"></i> ${j.views} · <i class="fa-solid fa-arrow-pointer"></i> ${j.clicks} · <i class="fa-solid fa-paper-plane"></i> ${j.stats.applied}${j.stats.hired ? ` · <span class="text-success fw-bold"><i class="fa-solid fa-trophy"></i> ${j.stats.hired}</span>` : ''}</td>
       <td class="small">${j.deadline ? fdate(j.deadline) : '—'}</td>
@@ -6854,6 +6859,107 @@ function drawAccStudents() {
 async function accAssign(ids, group, btn, notify) {
   const run = async () => { const r = await call('accessAssign', { studentIds: ids, group, notify }); S.acc = await call('accessConfig'); S.accSel = new Set(); drawAccLevels(); drawAccStudents(); toast(r.changed ? r.changed + ' student' + (r.changed === 1 ? '' : 's') + ' updated.' : 'No change needed.'); };
   try { if (btn) await busy(btn, run); else await run(); } catch (e) { toast(e.message, 'danger'); }
+}
+
+// ───── Admin: Job Connect → Auto import
+const JI_LOCS = 'Nigeria, Lagos, Abuja, Remote, Africa, EMEA, Worldwide, Anywhere';
+const JI_ICON = { greenhouse: 'fa-seedling', lever: 'fa-sliders', ashby: 'fa-a', workable: 'fa-w', smartrecruiters: 'fa-s', jooble: 'fa-magnifying-glass' };
+async function drawJobImport(el) {
+  el.innerHTML = spin();
+  const d = S.ji = await rcall('jobSources'), isAdmin = S.user.role === 'ADMIN' || S.user.isSuper;
+  el.innerHTML = `<div class="card-x mb-4"><div class="d-flex flex-wrap align-items-center gap-3"><div class="ji-ic"><i class="fa-solid fa-robot"></i></div><div class="flex-fill" style="min-width:240px"><div class="fw-bold">Automatic job import</div><div class="small text-muted">Pulls new data and tech jobs from the sources below ${d.enabled ? `every <b>${d.hours} hours</b>` : 'when switched on'}. Last run: ${d.lastRun ? ago(new Date(d.lastRun).toISOString()) : 'never'}.</div></div>
+      <div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="jiOn" ${d.enabled ? 'checked' : ''} ${isAdmin ? '' : 'disabled'} onchange="jiSet({JOB_IMPORT_ENABLED:this.checked})"><label class="form-check-label small fw-semibold" for="jiOn">Run automatically</label></div>
+      <select class="form-select form-select-sm" style="width:auto" ${isAdmin ? '' : 'disabled'} onchange="jiSet({JOB_IMPORT_HOURS:this.value})" aria-label="How often">${[6, 12, 24, 48].map(h => `<option value="${h}" ${d.hours === h ? 'selected' : ''}>Every ${h} hours</option>`).join('')}</select>
+      <div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="jiNot" ${d.notify ? 'checked' : ''} ${isAdmin ? '' : 'disabled'} onchange="jiSet({JOB_IMPORT_NOTIFY:this.checked})"><label class="form-check-label small" for="jiNot">Tell students about new jobs</label></div>
+      ${isAdmin ? `<button class="btn btn-soft btn-sm" onclick="jiRunAll(this)" ${d.sources.length ? '' : 'disabled'}><i class="fa-solid fa-play me-1"></i>Run now</button><button class="btn btn-grad btn-sm" onclick="jiForm()"><i class="fa-solid fa-plus me-1"></i>Add source</button>` : ''}</div></div>
+    <div class="row g-3 mb-4"><div class="col-lg-6"><div class="ji-kind h-100"><div class="fw-bold mb-1"><i class="fa-solid fa-building-circle-check text-success me-2"></i>Company careers pages <span class="badge-s bs-success ms-1">Verified automatically</span></div><div class="small text-muted">Many companies post jobs through Greenhouse, Lever, Ashby, Workable or SmartRecruiters. Paste a link to their careers page and every matching job is imported straight from the employer, goes live as verified, and closes by itself when the company takes it down.</div></div></div>
+      <div class="col-lg-6"><div class="ji-kind h-100"><div class="fw-bold mb-1"><i class="fa-solid fa-magnifying-glass text-primary me-2"></i>Jooble job search <span class="badge-s bs-warning ms-1">You review first</span></div><div class="small text-muted mb-2">Searches jobs across many sites in Nigeria and beyond. Because these come from many websites, they wait for your approval under <b>Waiting for verification</b>. Get a free API key at jooble.org/api/about.</div>
+        ${isAdmin ? `<div class="input-group input-group-sm"><input class="form-control" id="jiKey" type="password" autocomplete="off" placeholder="${d.joobleKey ? 'Key saved. Paste a new one to replace it' : 'Jooble API key'}"><button class="btn btn-light" onclick="jiSaveKey(this)">${d.joobleKey ? 'Replace key' : 'Save key'}</button></div>` : ''}</div></div></div>
+    <div class="card-x"><h6 class="ttl"><i class="fa-solid fa-plug text-primary"></i>Sources</h6>${d.sources.length ? `<div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Source</th><th>Looks for</th><th>Last run</th><th class="text-center">Live jobs</th><th></th></tr></thead><tbody>${d.sources.map(x => `<tr class="${x.status === 'Paused' ? 'opacity-50' : ''}">
+      <td><div class="d-flex gap-2 align-items-center"><div class="ji-src"><i class="fa-solid ${JI_ICON[x.type] || 'fa-plug'}"></i></div><div><div class="fw-semibold">${esc(x.name)}</div><div class="small-muted">${esc(x.typeName)} · ${esc(x.board)} ${x.official ? (x.autoPublish ? '<span class="badge-s bs-success">auto-publish</span>' : '<span class="badge-s bs-secondary">review first</span>') : '<span class="badge-s bs-warning">review first</span>'}${x.status === 'Paused' ? ' <span class="badge-s bs-secondary">paused</span>' : ''}</div></div></div></td>
+      <td class="small text-muted" style="max-width:260px">${esc(x.keywords || 'All jobs')}${x.locations ? `<div><i class="fa-solid fa-location-dot me-1"></i>${esc(x.locations)}</div>` : ''}</td>
+      <td class="small">${x.lastRun ? `${ago(x.lastRun)}<div class="small-muted">${x.lastFound} found · ${x.lastAdded} new</div>` : '<span class="small-muted">Not run yet</span>'}${x.lastError ? `<div class="text-danger small"><i class="fa-solid fa-triangle-exclamation me-1"></i>${esc(x.lastError)}</div>` : ''}</td>
+      <td class="text-center fw-bold">${x.live}</td>
+      <td class="text-end text-nowrap">${isAdmin ? `<button class="btn btn-sm btn-light" onclick="jiAct('${esc(x.id)}','run',this)" title="Run now"><i class="fa-solid fa-play"></i></button><div class="dropdown d-inline-block"><button class="btn btn-sm btn-light" data-bs-toggle="dropdown" aria-label="More"><i class="fa-solid fa-ellipsis"></i></button><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" onclick="jiForm('${esc(x.id)}')"><i class="fa-solid fa-pen me-2"></i>Edit filters</a></li><li><a class="dropdown-item" onclick="jiAct('${esc(x.id)}','${x.status === 'Paused' ? 'resume' : 'pause'}')"><i class="fa-solid ${x.status === 'Paused' ? 'fa-play' : 'fa-pause'} me-2"></i>${x.status === 'Paused' ? 'Resume' : 'Pause'}</a></li><li><a class="dropdown-item text-danger" onclick="jiDel('${esc(x.id)}')"><i class="fa-solid fa-trash me-2"></i>Remove</a></li></ul></div>` : ''}</td></tr>`).join('')}</tbody></table></div>`
+      : `<div class="text-center py-4"><div class="small text-muted mb-3">No sources yet. Add the careers page of companies that hire data and tech talent, or a Jooble search for Nigeria.</div>${isAdmin ? '<button class="btn btn-grad" onclick="jiForm()"><i class="fa-solid fa-plus me-1"></i>Add your first source</button>' : ''}</div>`}
+      <div class="small-muted mt-3"><i class="fa-solid fa-shield-halved me-1"></i>Every imported job is filtered by your keywords and locations, and anything that asks for fees or payment is dropped. Students always apply on the employer's own page.</div></div>`;
+}
+async function jiSet(o) { try { await call('saveSettings', { settings: o }); toast('Saved.'); drawJobImport($('#jaBody')); } catch (e) { toast(e.message, 'danger'); } }
+async function jiSaveKey(btn) { const k = $('#jiKey').value.trim(); if (!k) return toast('Paste your Jooble API key.', 'warning'); await busy(btn, async () => { await call('setJoobleKey', { key: k }); toast('Jooble key saved.'); drawJobImport($('#jaBody')); }); }
+function jiSummary(r) { return r.error ? `${esc(r.source)}: ${esc(r.error)}` : `${esc(r.source)}: ${r.found} found, ${r.matched} matched, <b>${r.added} new</b>${r.published ? ` (${r.published} live)` : r.added ? ' (waiting for review)' : ''}${r.closed ? `, ${r.closed} closed` : ''}`; }
+async function jiRunAll(btn) {
+  await busy(btn, async () => { const r = await call('jobImportRunAll', {}); S.ja = null; modal('<i class="fa-solid fa-robot text-primary me-2"></i>Import finished', `<ul class="mb-0">${r.results.map(x => `<li class="mb-1 ${x.error ? 'text-danger' : ''}">${jiSummary(x)}</li>`).join('')}</ul>`, '<button class="btn btn-grad" data-bs-dismiss="modal">Done</button>'); nav('jobs', 'import'); });
+}
+async function jiAct(id, action, btn) {
+  const run = async () => { const r = await call('jobSourceAction', { id, action }); if (action === 'run' && r.result) toast(jiSummary(r.result).replace(/<[^>]+>/g, ''), r.result.error ? 'danger' : 'success'); else toast('Done.'); nav('jobs', 'import'); };
+  try { if (btn) await busy(btn, run); else await run(); } catch (e) { toast(e.message, 'danger'); }
+}
+async function jiDel(id) {
+  const x = S.ji.sources.find(s => s.id === id);
+  modal('Remove source', `<p>Stop importing from <b>${esc(x.name)}</b>?</p><div class="form-check"><input class="form-check-input" type="checkbox" id="jiClose"><label class="form-check-label" for="jiClose">Also close the ${x.live} live job${x.live === 1 ? '' : 's'} it imported</label></div>`, `<button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" onclick="jiDoDel('${esc(id)}',this)">Remove</button>`);
+}
+async function jiDoDel(id, btn) { await busy(btn, async () => { await call('jobSourceAction', { id, action: 'delete', closeJobs: $('#jiClose').checked }); closeModal(); toast('Source removed.'); nav('jobs', 'import'); }); }
+function jiForm(id) {
+  const x = id ? S.ji.sources.find(s => s.id === id) : null, cats = (S.ja && S.ja.categories) || [];
+  S.jiType = x ? (x.type === 'jooble' ? 'jooble' : 'page') : 'page';
+  modal(`<i class="fa-solid fa-plug text-primary me-2"></i>${x ? 'Edit source' : 'Add a job source'}`, `<form id="jiF" onsubmit="event.preventDefault()"><input type="hidden" name="id" value="${esc(x ? x.id : '')}">
+    ${x ? '' : `<div class="btn-group w-100 mb-3"><button type="button" class="btn ${S.jiType === 'page' ? 'btn-primary' : 'btn-light'}" onclick="S.jiType='page';jiTypeUI()" id="jiTP"><i class="fa-solid fa-building me-1"></i>Company careers page</button><button type="button" class="btn ${S.jiType === 'jooble' ? 'btn-primary' : 'btn-light'}" onclick="S.jiType='jooble';jiTypeUI()" id="jiTJ"><i class="fa-solid fa-magnifying-glass me-1"></i>Jooble search</button></div>`}
+    <div id="jiPage" class="${S.jiType === 'page' ? '' : 'd-none'}">${x ? `<div class="small mb-3"><b>${esc(x.typeName)}</b> board: <code>${esc(x.board)}</code></div><input type="hidden" name="type" value="${esc(x.type)}"><input type="hidden" name="board" value="${esc(x.board)}">` : `<label class="form-label" for="jiUrl">Careers page link</label><input class="form-control" id="jiUrl" name="url" placeholder="e.g. https:\/\/boards.greenhouse.io/companyname or https:\/\/jobs.lever.co/companyname">
+      <div class="form-text mb-3">Open the company's careers page, click any job, and copy the link. It works when the link contains <b>greenhouse.io</b>, <b>lever.co</b>, <b>ashbyhq.com</b>, <b>workable.com</b> or <b>smartrecruiters.com</b>.</div>`}</div>
+    <div id="jiJoob" class="${S.jiType === 'jooble' ? '' : 'd-none'}"><label class="form-label" for="jiLoc">Search location</label><input class="form-control mb-1" id="jiLoc" name="${x && x.type === 'jooble' ? 'board' : 'jlocation'}" value="${esc(x && x.type === 'jooble' ? x.board : 'Nigeria')}" placeholder="Nigeria, Lagos, Abuja…"><div class="form-text mb-3">Jooble searches up to 4 of your keywords below in this location. Jobs wait for your review.</div></div>
+    <div class="row g-3"><div class="col-md-6"><label class="form-label">Company / source name</label><input class="form-control" name="name" maxlength="120" value="${esc(x ? x.name : '')}" placeholder="e.g. Acme Africa"></div>
+      <div class="col-md-6"><label class="form-label">Category</label><select class="form-select" name="category"><option value="">Work it out from the job title</option>${cats.map(c => `<option ${x && x.category === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div>
+      <div class="col-12"><label class="form-label">Only import jobs whose title includes</label><input class="form-control" name="keywords" value="${esc(x ? x.keywords : S.ji.keywords)}"><div class="form-text">Comma separated. Leave empty to import every job.</div></div>
+      <div class="col-md-6"><label class="form-label">Skip titles that include</label><input class="form-control" name="exclude" value="${esc(x ? x.exclude : 'director, vice president, head of, principal')}"></div>
+      <div class="col-md-6"><label class="form-label">Locations</label><input class="form-control" name="locations" value="${esc(x ? x.locations : JI_LOCS)}"><div class="form-text">Keeps jobs whose location mentions one of these. "Remote" matches remote roles.</div></div>
+      <div class="col-md-6"><label class="form-label">Company logo link (optional)</label><input class="form-control" name="logo" value="${esc(x ? x.logo || '' : '')}" placeholder="https:\/\/…/logo.png"></div>
+      <div class="col-md-3"><label class="form-label">Max new per run</label><input class="form-control" type="number" min="1" max="100" name="maxPerRun" value="${x ? x.maxPerRun : 30}"></div>
+      <div class="col-md-3 d-flex align-items-end"><div class="form-check form-switch" id="jiAutoW"><input class="form-check-input" type="checkbox" id="jiAuto" name="autoPublish" ${!x || x.autoPublish ? 'checked' : ''}><label class="form-check-label small" for="jiAuto">Publish automatically</label></div></div></div>
+    <div id="jiTest" class="mt-3"></div></form>`,
+    `<button class="btn btn-light me-auto" onclick="jiTestRun(this)"><i class="fa-solid fa-vial me-1"></i>Test</button><button class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-grad" onclick="jiSave(this)"><i class="fa-solid fa-floppy-disk me-1"></i>${x ? 'Save' : 'Add source'}</button>`, 'lg');
+  jiTypeUI();
+}
+function jiTypeUI() {
+  const j = S.jiType === 'jooble';
+  ['jiPage', 'jiJoob'].forEach((id, i) => { const el = $('#' + id); if (el) el.classList.toggle('d-none', i === 0 ? j : !j); });
+  const a = $('#jiTP'), b = $('#jiTJ'); if (a) { a.className = 'btn ' + (j ? 'btn-light' : 'btn-primary'); b.className = 'btn ' + (j ? 'btn-primary' : 'btn-light'); }
+  const w = $('#jiAutoW'); if (w) w.style.display = j ? 'none' : '';
+  if (j) { const k = $('#jiF [name=keywords]'); if (k && k.value === S.ji.keywords) k.value = 'data analyst, business intelligence, power bi, sql'; }
+}
+function jiRecord() {
+  const f = $('#jiF'), d = Object.fromEntries(new FormData(f).entries());
+  d.autoPublish = !!$('#jiAuto').checked;
+  if (!d.id && S.jiType === 'jooble') { d.type = 'jooble'; d.board = d.jlocation; delete d.url; }
+  delete d.jlocation;
+  return d;
+}
+async function jiTestRun(btn) {
+  const box = $('#jiTest');
+  await busy(btn, async () => {
+    try {
+      const r = await call('jobSourceTest', { record: jiRecord() });
+      box.innerHTML = `<div class="ji-test"><div class="fw-bold mb-2"><i class="fa-solid fa-circle-check text-success me-1"></i>${esc(r.name)} (${esc(r.type)}: ${esc(r.board)}) has <b>${r.found}</b> open job${r.found === 1 ? '' : 's'}. <b>${r.matched}</b> match your filters.</div>
+        ${r.sample.length ? `<ul class="small mb-2">${r.sample.map(j => `<li><b>${esc(j.title)}</b> · ${esc(j.company)}${j.location ? ' · ' + esc(j.location) : ''}</li>`).join('')}</ul>` : '<div class="small text-warning mb-2">Nothing matches right now. Try fewer keywords or add "Remote" to locations.</div>'}
+        ${r.others.length ? `<div class="small-muted">Skipped, for example: ${r.others.map(esc).join(' · ')}</div>` : ''}</div>`;
+      const n = $('#jiF [name=name]'); if (n && !n.value && r.type !== 'jooble') n.value = r.name;
+    } catch (e) { box.innerHTML = `<div class="alert alert-danger small mb-0">${esc(e.message)}</div>`; }
+  });
+}
+async function jiSave(btn) {
+  const rec = jiRecord();
+  await busy(btn, async () => {
+    const x = await call('jobSourceSave', { record: rec });
+    closeModal();
+    if (!rec.id) { toast(x.name + ' added. Importing now…'); try { const r = await call('jobSourceAction', { id: x.id, action: 'run' }); toast(jiSummary(r.result).replace(/<[^>]+>/g, ''), r.result.error ? 'danger' : 'success'); } catch (e) { toast(e.message, 'danger'); } }
+    else toast('Saved.');
+    nav('jobs', 'import');
+  });
+}
+async function approveImported(btn) {
+  const ids = S.ja.jobs.filter(j => j.status === 'Pending' && j.source === 'Imported').map(j => j.id);
+  if (!ids.length) return;
+  if (!await confirmBox(`Approve all ${ids.length} imported job${ids.length === 1 ? '' : 's'} waiting for review? Skim the list first: each one links to the original posting.`, 'Approve all')) return;
+  try { const r = await call('jobBulkReview', { ids }); toast(r.updated + ' jobs approved and live. ✅'); nav('jobs', 'pending'); } catch (e) { toast(e.message, 'danger'); }
 }
 
 async function init() {
